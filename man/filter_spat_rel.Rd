@@ -8,7 +8,7 @@ filter_spat_rel(
   df,
   distCol = "maxDist",
   dist = relDist,
-  visit = c("lat", "long", "dataName", "date"),
+  visit = visitCols,
   dfRel = luRel
 )
 }
