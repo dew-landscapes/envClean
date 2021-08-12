@@ -380,7 +380,7 @@
       tibble::as_tibble()
 
     # Add in lifespan
-    if(isTRUE(!is.null(lifespan))) {
+    if(isTRUE(!is.null(lifespanCol))) {
 
       sppLS <- df %>%
         dplyr::filter(!is.na(lifespan)) %>%
@@ -620,21 +620,60 @@
   }
 
 
-  filter_annuals <- function(df, sppCol = "Taxa") {
+#' Filter a column annual taxa
+#'
+#' @param df Dataframe with column to filter.
+#' @param filtCol Character. Name of column to filter.
+#' @param filtText Character. Text(s) to filter from df.
+#' @param dfJoin Optional dataframe. Joined to df before filter. No names from
+#' dfJoin are returned.
+#'
+#' @return Filtered dataframe with same names as df
+#' @export
+#'
+#' @examples
+  filter_text_col <- function(df
+                         , filtCol = "lifespan"
+                         , filtText = "A"
+                         , dfJoin = NULL
+                         ) {
 
-    df %>%
-      dplyr::left_join(taxaTaxonomy) %>%
-      dplyr::filter(lifespan != "A") %>%
+    joined <- if(isTRUE(!is.null(dfJoin))) {
+
+      df %>%
+        dplyr::left_join(dfJoin)
+
+    } else df
+
+    keepLevels <- joined %>%
+      dplyr::distinct(!!ensym(filtCol)) %>%
+      dplyr::filter(!grepl(paste0(filtText,collapse = "|"),!!ensym(filtCol)))
+
+    joined %>%
+      dplyr::inner_join(keepLevels) %>%
       dplyr::select(names(df))
 
   }
 
-  filter_singletons <- function(df,visit = visitCols) {
+
+
+#' Filter any context with less instances than a threshold value
+#'
+#' @param df Dataframe with column names defining context.
+#' @param context Character. Columns defining context within which to count
+#' instances.
+#' @param thresh Numeric. Threshold (inclusive of thresh) below which to filter.
+#'
+#' @return Filtered dataframe with same names as df
+#' @export
+#'
+#' @examples
+  filter_counts <- function(df, context, thresh = 1) {
 
     df %>%
-      dplyr::add_count(across(all_of(visitCols))) %>%
-      dplyr::filter(n > 1) %>%
-      dplyr::select(-n)
+      dplyr::add_count(across(all_of(context))) %>%
+      dplyr::filter(n > thresh) %>%
+      dplyr::select(names(df))
 
   }
 
