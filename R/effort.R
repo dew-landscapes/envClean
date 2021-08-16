@@ -3,8 +3,8 @@
 
 #' Principal components analysis and various outputs from environmental data
 #'
-#' @param envdf Dataframe containing 'cell' and environmental data
-#' @param axes Numeric. Number of axes to return
+#' @param envdf Dataframe containing 'cell' and environmental data.
+#' @param axes Numeric. Number of axes to return.
 #' @param cuts Numeric. Number of cuts along PC1. PCn gets cuts/n cuts.
 #' @param intstyle Character. Method passed to classInt::classIntervals.
 #'
@@ -16,62 +16,66 @@
 
     # assumes each row has a unique 'cell' id (cell number from raster)
 
-    pcaEnv <- envdf %>%
-      janitor::remove_constant()
+    envpca <- list()
 
-    pca <- stats::prcomp(pcaEnv[,-1]
+    envpca$pcaData <- envdf %>%
+      janitor::remove_constant() %>%
+      na.omit()
+
+    envpca$pcaPCA <- stats::prcomp(envpca$pcaData[,-1]
                    , center = TRUE
                    , scale. = TRUE
                    )
 
-    pcaEnvDf <- tibble::tibble(cell = pcaEnv %>%
-                       dplyr::pull(cell)
-                       ) %>%
-      dplyr::bind_cols(factoextra::get_pca_ind(pca)$coord[,1:axes] %>%
+    envpca$pcaResCell <- envpca$pcaData %>%
+      dplyr::select(cell) %>%
+      dplyr::bind_cols(factoextra::get_pca_ind(envpca$pcaPCA)$coord[,1:axes] %>%
                          tibble::as_tibble() %>%
                          stats::setNames(paste0("PC",1:ncol(.)))
                        )
 
-    pcaVarDf <- factoextra::get_pca_var(pca)$coord[,1:axes] %>%
+    envpca$pcaResVar <- factoextra::get_pca_var(envpca$pcaPCA)$coord[,1:axes] %>%
       tibble::as_tibble(rownames = "name") %>%
       stats::setNames(gsub("Dim.","PC",names(.)))
 
-    pcaEnvDfLong <- pcaEnvDf %>%
+    envpca$pcaResCellLong <- envpca$pcaResCell %>%
       tidyr::pivot_longer(contains("PC"),names_to = "PC", values_to = "value")
 
     # breakpoints for classes in first x PCs
-    pcabrks <- pcaEnvDfLong %>%
+    envpca$pcabrks <- envpca$pcaResCellLong %>%
       tidyr::nest(data = -PC) %>%
-      dplyr::mutate(id = row_number()
+      dplyr::mutate(id = dplyr::row_number()
                     , brks = purrr::map2(data
                                          ,id
                                          ,~unique(c(-Inf
                                                     ,classInt::classIntervals(.x$value, cuts/.y, style = intstyle)$brks
                                                     ,Inf
+                                                    )
+                                                  )
                                          )
-                                         )
-                    )
                     , brks = purrr::map(brks,~tibble::enframe(.,name = NULL, value = "brks"))
                     , brks = purrr::map(brks,. %>% dplyr::distinct(brks))
                     , mids = purrr::map(brks,. %>% dplyr::mutate(mid = (brks+lead(brks))/2))
                     , mids = purrr::map(mids,. %>%
-                                          dplyr::mutate(mid = if_else(mid == -Inf
-                                                                      ,min(.$brks[is.finite(.$brks)])+min(.$mid[is.finite(.$mid)])
-                                                                      ,mid
-                                          )
-                                          , mid = if_else(mid == Inf
-                                                          ,max(.$brks[is.finite(.$brks)])+max(.$mid[is.finite(.$mid)])
-                                                          , mid
-                                          )
+                                          dplyr::mutate(mid = dplyr::if_else(mid == -Inf
+                                                                             , min(.$brks[is.finite(.$brks)])+min(.$mid[is.finite(.$mid)])
+                                                                             , mid
+                                                                             )
+                                          , mid = dplyr::if_else(mid == Inf
+                                                                 , max(.$brks[is.finite(.$brks)])+max(.$mid[is.finite(.$mid)])
+                                                                 , mid
+                                                          )
                                           ) %>%
                                           dplyr::filter(!is.na(mid) & mid != Inf & mid!= -Inf) %>%
                                           dplyr::pull(mid)
+                                        )
                     )
-      )
+
+    print(envpca$pcabrks)
 
     # Put breaks back into pcaEnvRes
-    pcaEnvRes <- pcaEnvDfLong %>%
-      dplyr::left_join(pcabrks[,c("PC","brks")]) %>%
+    envpca$pcaResCellCut <- envpca$pcaResCellLong %>%
+      dplyr::left_join(envpca$pcabrks[,c("PC","brks")]) %>%
       dplyr::mutate(cutPC = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
       dplyr::select(-brks) %>%
       tidyr::pivot_wider(names_from = "PC", values_from = c(value,"cutPC")) %>%
@@ -79,8 +83,8 @@
       tidyr::unnest(cols = contains("PC"))
 
     # Generate colours for PCAs
-    pcaCellDf <- pcaEnvDf %>%
-      dplyr::left_join(pcaEnvRes) %>%
+    envpca$pcaResCellCutCol <- envpca$pcaResCellCut %>%
+      dplyr::left_join(envpca$pcaResCell) %>%
       dplyr::mutate(across(where(is.factor),factor)) %>%
       dplyr::mutate(across(where(is.factor)
                            , ~as.numeric(.)/length(levels(.))
@@ -92,52 +96,63 @@
                     , pcGroup = paste0(cutPC1,cutPC2,cutPC3)
                     )
 
-    pcaPalette <- pcaCellDf %>%
+    envpca$pcaPalette <- envpca$pcaResCellCutCol %>%
       dplyr::distinct(pcGroup,colour) %>%
       dplyr::pull(colour,name = pcGroup)
 
-    endResult <- lapply(ls(pattern = "pca"), get)
-
-    names(endResult) <- ls(pattern = "pca")
-
-    return(endResult)
+    invisible(envpca)
 
   }
 
+#' Model the effect of principal components axes on taxa richness.
+#'
+#' @param df Dataframe. Cleaned data specifying context.
+#' @param envprcomp Output from env_pca.
+#' @param context Character. Column names that define context, usually a 'visit'
+#' to a 'cell'.
+#' @param doIter Numeric specifying the number of iterations to run for each
+#' chain in rstan analysis.
+#' @param doChains Numeric specifying the number of chains to run in rstan
+#' analysis
+#' @param threshold Numeric between 0 and 1 specifying the two-tailed threshold
+#' above/below which richness is excessively above or below 'normal' for
+#'
+#' @return
+#' @export
+#'
+#' @examples
   effort_model <- function(df
                            , envprcomp
-                           , visit = "cell"
+                           , context = "cell"
                            , doIter = 1000
                            , doChains = 3
                            , threshold = 0.05
                            ) {
 
+    effortmod <- list()
+
     modY <- "sr"
 
-    modExp <- df %>%
+    effortmod$modExp <- df %>%
       dplyr::filter(!is.na(qsize)
                     , qsize >= 3*3
                     ) %>%
-      dplyr::distinct(Taxa,across(all_of(visit))) %>%
-      dplyr::count(across(all_of(visit)),name = "sr") %>%
-      dplyr::inner_join(envprcomp$pcaEnvDf) %>%
-      dplyr::mutate(adjSR = sr - 1
-                    #, sinMonth = sin(2*pi*month/length(month.name))
-                    #, cosMonth = cos(2*pi*month/length(month.name))
-                    ) %>%
+      dplyr::distinct(Taxa,across(all_of(context))) %>%
+      dplyr::count(across(all_of(context)),name = "sr") %>%
+      dplyr::inner_join(envprcomp$pcaResCell) %>%
       dplyr::select(!!ensym(modY),everything()) %>%
       tidyr::pivot_longer(contains("PC"),names_to = "PC") %>%
       dplyr::left_join(envprcomp$pcabrks[,c("PC","brks")]) %>%
       dplyr::mutate(cutPC = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
       dplyr::select(-brks) %>%
       tidyr::pivot_wider(names_from = "PC", values_from = c(value,"cutPC")) %>%
-      setNames(gsub("value_|PC_","",names(.))) %>%
+      stats::setNames(gsub("value_|PC_","",names(.))) %>%
       tidyr::unnest(cols = 1:ncol(.))  %>%
       tidyr::unnest(cols = grep("cutPC",names(.),value = TRUE))
 
     #--------model-------
 
-    mod <- rstanarm::stan_glm(data = modExp
+    effortmod$mod <- rstanarm::stan_glm(data = effortmod$modExp
 
                   , formula = as.formula(paste0(modY, " ~ PC1 + PC2 + PC3"))
 
@@ -149,7 +164,7 @@
                   , chains = doChains
                   )
 
-    preds <- envprcomp$pcabrks %>%
+    effortmod$preds <- envprcomp$pcabrks %>%
       dplyr::pull(mids, name = PC) %>%
       purrr::cross_df() %>%
       tidyr::pivot_longer(1:ncol(.),names_to = "PC") %>%
@@ -157,16 +172,16 @@
       dplyr::mutate(cutPC = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
       dplyr::select(-brks) %>%
       tidyr::pivot_wider(names_from = "PC", values_from = c(value,"cutPC")) %>%
-      setNames(gsub("value_|PC_","",names(.))) %>%
+      stats::setNames(gsub("value_|PC_","",names(.))) %>%
       tidyr::unnest(cols = 1:ncol(.))  %>%
       tidyr::unnest(cols = grep("cutPC",names(.),value = TRUE)) %>%
-      dplyr::inner_join(modExp %>%
+      dplyr::inner_join(effortmod$modExp %>%
                           dplyr::distinct(across(grep("cut|Month",names(.),value = TRUE)))
                         )
 
-    modPred <- preds %>%
+    effortmod$modPred <- effortmod$preds %>%
       dplyr::mutate(col = row.names(.)) %>%
-      dplyr::left_join(as_tibble(posterior_predict(mod
+      dplyr::left_join(as_tibble(posterior_predict(effortmod$mod
                                                    , newdata = .
                                                    , re.form = NA
                                                    )
@@ -179,23 +194,23 @@
 
      #------residuals--------
 
-    modResid <- tibble::tibble(fitted = fitted(mod)
-                               , residual = residuals(mod)
+    effortmod$modResid <- tibble::tibble(fitted = fitted(effortmod$mod)
+                               , residual = residuals(effortmod$mod)
                                ) %>%
       dplyr::mutate(standResid = residual/sd(.$residual)) %>%
-      dplyr::bind_cols(modExp)
+      dplyr::bind_cols(effortmod$modExp)
 
-    modResidPlot <- ggplot(modResid,aes(fitted,standResid)) +
+    effortmod$modResidPlot <- ggplot(effortmod$modResid,aes(fitted,standResid)) +
       geom_point() +
       geom_smooth()
 
 
     #--------result---------
 
-    modRes <- modPred %>%
+    effortmod$modRes <- effortmod$modPred %>%
       dplyr::group_by(across(contains("PC"))) %>%
       dplyr::summarise(runs = n()
-                       , nCheck = nrow(as_tibble(mod))
+                       , nCheck = nrow(as_tibble(effortmod$mod))
                        , modMed = quantile(sr,0.5,na.rm=TRUE)
                        , modMean = mean(sr,na.rm=TRUE)
                        , modci90lo = quantile(sr, 0.05,na.rm=TRUE)
@@ -211,13 +226,13 @@
 
     #--------explore---------
 
-    modMedPlot <- ggplot(modRes,aes(cutPC1,modMed,colour = cutPC3)) +
+    effortmod$modMedPlot <- ggplot(effortmod$modRes,aes(cutPC1,modMed,colour = cutPC3)) +
       geom_point() +
       facet_wrap(~cutPC2, scales = "free_y") +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
       scale_colour_viridis_d()
 
-    modMeanPlot <- ggplot(modRes,aes(cutPC1,modMean,colour = cutPC3)) +
+    effortmod$modMeanPlot <- ggplot(effortmod$modRes,aes(cutPC1,modMean,colour = cutPC3)) +
       geom_point() +
       facet_wrap(~cutPC2, scales = "free_y") +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
@@ -226,16 +241,16 @@
 
     #-------cell results-------
 
-    modCellQSize <- df %>%
-      dplyr::inner_join(modExp) %>%
+    effortmod$modCellQSize <- df %>%
+      dplyr::inner_join(effortmod$modExp) %>%
       dplyr::distinct(cell,year,month,qsize)
 
-    modCellResult <- df %>%
+    effortmod$modCellResult <- df %>%
       dplyr::count(cell,qsize,name = "sr") %>%
-      dplyr::inner_join(envprcomp$pcaCellDf %>%
+      dplyr::inner_join(envprcomp$pcaResCellCutCol %>%
                           dplyr::select(cell,pcGroup,colour)
                         ) %>%
-      dplyr::inner_join(modRes) %>%
+      dplyr::inner_join(effortmod$modRes) %>%
       dplyr::mutate(keepHi = sr < extremeSRhi
                     , keepLo = sr > extremeSRlo
                     , keepqSize = !(qsize == 0 | is.na(qsize))
@@ -244,39 +259,47 @@
                     ) %>%
       dplyr::mutate(colour = if_else(keep,"black",colour))
 
-    modCellPlot <- ggplot(modCellResult,aes(cutPC1,sr,colour=colour)) +
+    effortmod$modCellPlot <- ggplot(effortmod$modCellResult,aes(cutPC1,sr,colour=colour)) +
       geom_jitter() +
       facet_grid(cutPC2~cutPC3) +
-      coord_cartesian(y = c(0,max(modCellResult$sr[modCellResult$keepHi == TRUE]))) +
+      coord_cartesian(y = c(0,max(effortmod$modCellResult$sr[effortmod$modCellResult$keepHi == TRUE]))) +
       scale_colour_identity() +
       theme_dark() +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
-    modCellTab <- modCellResult %>%
+    effortmod$modCellTab <- effortmod$modCellResult %>%
       dplyr::count(keepHi,keepLo,keepqSize,keep)
 
-    endResult <- lapply(ls(pattern = "mod"), get)
-
-    names(endResult) <- ls(pattern = "mod")
-
-    return(endResult)
+    invisible(effortmod)
 
   }
 
 
-  effort_filter <- function(argsenv
+#' Run all functions required to complete effort filter
+#'
+#' @param argscreateenv Named list of arguments passed to create_env.
+#' @param argsenvpca Named list of arguments passed to env_pca. The envdf
+#' argument is generated within effort_filter so is not needed.
+#' @param argseffortmodel Named list of arguments passed to effort_model. The
+#' df argument is generated within effort_filter so is not needed.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+  filter_effort <- function(argscreateenv
                             , argsenvpca
                             , argseffortmodel
                             ) {
 
-    florEnv <- do.call(create_env,args = argsenv) %>%
+    florEnv <- do.call(create_env,args = argscreateenv) %>%
       na.omit()
 
     argsenvpca <- c(list(envdf = florEnv),argsenvpca)
 
     envpca <- do.call(env_pca,args = argsenvpca)
 
-    argseffortmodel <- c(list(df = argsenv$df, envprcomp = envpca),argseffortmodel)
+    argseffortmodel <- c(list(df = argscreateenv$df, envprcomp = envpca),argseffortmodel)
 
     effortmod <- do.call(effort_model,args = argseffortmodel)
 
@@ -284,11 +307,11 @@
 
     walk(toAssign,~assign(.,get(.),envir = globalenv()))
 
-    argsenv$df %>%
+    argscreateenv$df %>%
       dplyr::inner_join(effortmod$modCellResult %>%
                           dplyr::filter(keep)
                         ) %>%
-      dplyr::select(names(argsenv$df),grep("cutPC",names(.),value = TRUE)) %>%
+      dplyr::select(names(argscreateenv$df),grep("cutPC",names(.),value = TRUE)) %>%
       dplyr::distinct()
 
   }
