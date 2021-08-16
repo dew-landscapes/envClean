@@ -677,33 +677,58 @@
 
   }
 
-  # UP TO HERE....
 
-  filter_prop <- function(df, visit = visitCols) {
 
-    dontDropDf <- df %>%
-      dplyr::mutate(visits = n_distinct(across(all_of(visit)))) %>%
-      dplyr::filter(Taxa %in% dontDrop) %>%
-      dplyr::count(Taxa,visits,name = "records") %>%
-      dplyr::filter(records > 5) %>%
-      dplyr::mutate(per = round(100*records/visits,2))
 
-    visitsPerFilter <- dontDropDf %>%
-      dplyr::filter(visits > minAbsSites/2) %>%
-      dplyr::pull(per) %>%
-      min()
+#' Filter taxa recorded at less than x percent of visits
+#'
+#' @param df Dataframe with Taxa and context
+#' @param context Character. Column names that define context, usually a 'visit'
+#' to a 'cell'.
+#' @param minSites Absolute minimum sites at which a taxa should be recorded.
+#' @param keepTaxa Character. Taxa that should not be dropped. Used to set x
+#' percent of sites.
+#' @param defaultPer If keepTaxa is NULL, what is the minimum percent of sites
+#' at which a taxa should be recorded.
+#'
+#' @return df filtered to exclude taxa recorded at less than x percent of
+#' visits.
+#' @export
+#'
+#' @examples
+  filter_prop <- function(df
+                          , context = "cell"
+                          , minSites = 15
+                          , keepTaxa = NULL
+                          , defaultPer = 1
+                          ) {
 
-    dropTaxa <- florAllAOIRelTaxOutAnnSR %>%
-      dplyr::mutate(nVisits = dplyr::n_distinct(across(all_of(alwaysGroup)))) %>%
+    visitsPerFilter <- if(isTRUE(!is.null(keepTaxa))) {
+
+      dontDropDf <- df %>%
+        dplyr::mutate(visits = n_distinct(across(all_of(context)))) %>%
+        dplyr::filter(Taxa %in% keepTaxa) %>%
+        dplyr::count(Taxa,visits,name = "records") %>%
+        dplyr::filter(records > 5) %>%
+        dplyr::mutate(per = round(100*records/visits,2))
+
+      dontDropDf %>%
+        dplyr::filter(visits > minAbsSites/2) %>%
+        dplyr::pull(per) %>%
+        min()
+
+    } else defaultPer
+
+    dropTaxa <- df %>%
+      dplyr::mutate(nVisits = dplyr::n_distinct(across(all_of(context)))) %>%
       dplyr::group_by(Taxa,nVisits) %>%
       dplyr::summarise(nRecords = n()) %>%
       dplyr::ungroup() %>%
       dplyr::mutate(per = 100*nRecords/nVisits) %>%
       dplyr::filter(per < visitsPerFilter) %>%
-      dplyr::count(Taxa) %>%
-      dplyr::select(Taxa)
+      dplyr::distinct(Taxa)
 
-    florAllAOIRelTaxOutAnnSRProp <- florAllAOIRelTaxOutAnnSR %>%
+    df %>%
       dplyr::anti_join(dropTaxa)
 
   }
