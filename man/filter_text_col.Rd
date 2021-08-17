@@ -4,12 +4,12 @@
 \alias{filter_text_col}
 \title{Filter a column annual taxa}
 \usage{
-filter_text_col(df, filtCol = "lifespan", filtText = "A", dfJoin = NULL)
+filter_text_col(df, filtcol = "lifespan", filtText = "A", dfJoin = NULL)
 }
 \arguments{
 \item{df}{Dataframe with column to filter.}
 
-\item{filtCol}{Character. Name of column to filter.}
+\item{filtcol}{Character. Name of column to filter.}
 
 \item{filtText}{Character. Text(s) to filter from df.}
 

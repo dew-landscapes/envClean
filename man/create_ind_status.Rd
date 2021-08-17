@@ -4,15 +4,15 @@
 \alias{create_ind_status}
 \title{Create indigenous status lookup}
 \usage{
-create_ind_status(df, sppCol = "Taxa", indCol = "ind")
+create_ind_status(df, sppcol = "Taxa", indcol = "ind")
 }
 \arguments{
 \item{df}{Dataframe with species column and column indicating indigenous
 status.}
 
-\item{sppCol}{Character. Name of column with species.}
+\item{sppcol}{Character. Name of column with species.}
 
-\item{indCol}{Character. Name of column with indigenous status}
+\item{indcol}{Character. Name of column with indigenous status}
 }
 \value{
 Dataframe with unique species and their indigenous status.

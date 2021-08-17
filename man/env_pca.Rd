@@ -7,9 +7,9 @@
 env_pca(envdf, axes = 3, cuts = 20, intstyle = "quantile")
 }
 \arguments{
-\item{envdf}{Dataframe containing 'cell' and environmental data}
+\item{envdf}{Dataframe containing 'cell' and environmental data.}
 
-\item{axes}{Numeric. Number of axes to return}
+\item{axes}{Numeric. Number of axes to return.}
 
 \item{cuts}{Numeric. Number of cuts along PC1. PCn gets cuts/n cuts.}
 

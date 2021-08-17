@@ -6,8 +6,9 @@
 \usage{
 taxa_taxonomy(
   df,
-  sppCol = "SPECIES",
-  lifespanCol = NULL,
+  sppcol = "SPECIES",
+  lifespancol = NULL,
+  indcol = NULL,
   poorTaxFilt = speciesFilter,
   luTaxFile = "out/luGBIF.feather",
   king = "Plantae"
@@ -16,7 +17,7 @@ taxa_taxonomy(
 \arguments{
 \item{df}{Dataframe with species column.}
 
-\item{sppCol}{Name of column with species.}
+\item{sppcol}{Name of column with species.}
 
 \item{poorTaxFilt}{Character. Any text to grep out of the species column.
 (e.g. c("dead", "unknown")).}
@@ -32,7 +33,7 @@ Backbone}
 Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
 two dataframes are returned to the global environment. One, named
 taxaTaxonomy, with unique taxa and associated taxonomicinformation and two,
-named luTaxa, a lookup from unique values in sppCol to matched taxonomy from
+named luTaxa, a lookup from unique values in sppcol to matched taxonomy from
 GBIF backbone.
 }
 \description{

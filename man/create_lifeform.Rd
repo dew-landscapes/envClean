@@ -6,8 +6,8 @@
 \usage{
 create_lifeform(
   df,
-  sppCol = "Taxa",
-  lfCol = "lifeform",
+  sppcol = "Taxa",
+  lfcol = "lifeform",
   context = NULL,
   luLifeformObj = luLifeform
 )
@@ -15,9 +15,9 @@ create_lifeform(
 \arguments{
 \item{df}{Dataframe with species column.}
 
-\item{sppCol}{Character. Name of species column.}
+\item{sppcol}{Character. Name of species column.}
 
-\item{lfCol}{Character. Name of lifeform (id) column.}
+\item{lfcol}{Character. Name of lifeform (id) column.}
 
 \item{context}{Charcter or NULL. Set of columns that define a context within
 which to generate lifeform.}
@@ -28,7 +28,7 @@ two lifeforms with the same number of instances, say, SA and SB, information
 in luLifeformObj helps to choose the tallest option.}
 }
 \value{
-Dataframe with columns sppCol, visit col(s), lifeform
+Dataframe with columns sppcol, visit col(s), lifeform
 }
 \description{
 There are two tasks here:

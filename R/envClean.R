@@ -6,7 +6,7 @@
 #' with a column of taxonomic names
 #'
 #' @param df Dataframe with column of species names to resolve
-#' @param sppCol Character. Name of column with species names
+#' @param sppcol Character. Name of column with species names
 #' @param outFile Character. Path to save results to. Saving is iterative as
 #' retrieving names can take some time.
 #' @param kingType Character. Kingdom type (i.e. Plantae, Animalia etc.)
@@ -23,7 +23,7 @@
 #'
 #'
   gbif_tax <- function(df
-                       , sppCol = 1
+                       , sppcol = 1
                        , outFile = tempfile()
                        , kingType = "Plantae"
                        , getCommon = FALSE
@@ -48,7 +48,7 @@
     alreadyDone <- c(get0("alreadyDone01"),get0("alreadyDone02"))
 
     toCheck <- df %>%
-      dplyr::select(all_of(sppCol)) %>%
+      dplyr::select(all_of(sppcol)) %>%
       dplyr::distinct() %>%
       dplyr::pull()
 
@@ -254,51 +254,51 @@
 #' Includes running of taxa_taxonomy()
 #'
 #' @param df Dataframe to reduce.
-#' @param sppCol Character. Name of column with species.
+#' @param sppcol Character. Name of column with species.
 #' @param visit Character. Name of columns defining a visit.
-#' @param extraCols Character. Name of any extra columns to keep.
+#' @param extracols Character. Name of any extra columns to keep.
 #'
-#' @return Dataframe with columns Taxa, visit column(s) and, if used, extraCols.
+#' @return Dataframe with columns Taxa, visit column(s) and, if used, extracols.
 #' @export
 #'
 #' @examples
   filter_taxa <- function(df
-                          , sppCol = "SPECIES"
-                          , visit = visitCols
-                          , extraCols = NULL
+                          , sppcol = "SPECIES"
+                          , visit = visitcols
+                          , extracols = NULL
                           , targetRank = "Species"
                           , doCover = FALSE
                           , doLifeform = FALSE
                           ) {
 
     # run taxa_taxonomy
-    if(!exists("luTaxa")) taxa_taxonomy(df, lifespanCol = "lifespan")
+    if(!exists("luTaxa")) taxa_taxonomy(df, lifespancol = "lifespan")
 
     # Use dfTaxa as base df from here
     florTaxa <- df %>%
-      dplyr::distinct(!!ensym(sppCol)) %>%
+      dplyr::distinct(!!ensym(sppcol)) %>%
       dplyr::left_join(luTaxa %>%
-                          dplyr::rename(!!ensym(sppCol) := originalName)
+                          dplyr::rename(!!ensym(sppcol) := originalName)
                         ) %>%
       dplyr::filter(Rank >= "Species") %>%
       dplyr::left_join(df) %>%
-      dplyr::select(all_of(visit),Taxa,all_of(extraCols)) %>%
+      dplyr::select(all_of(visit),Taxa,all_of(extracols)) %>%
       dplyr::distinct()
 
     florTaxaCov <- if(doCover) {
 
-      create_cover(florTaxa, visit = visitCols)
+      create_cover(florTaxa, visit = visitcols)
 
       } else florTaxa
 
     florTaxaLife <- if(doLifeform) {
 
-      create_lifeform(florTaxa, context = visitCols)
+      create_lifeform(florTaxa, context = visitcols)
 
     } else florTaxa
 
     florTaxa <- florTaxa %>%
-      dplyr::distinct(across(all_of(visitCols)),Taxa) %>%
+      dplyr::distinct(across(all_of(visitcols)),Taxa) %>%
       {if(doCover) (.) %>% dplyr::left_join(florTaxaCov) else (.)} %>%
       {if(doLifeform) (.) %>% dplyr::left_join(florTaxaLife) else (.)}
 
@@ -310,7 +310,7 @@
 #' Create taxonomy lookups
 #'
 #' @param df Dataframe with species column.
-#' @param sppCol Name of column with species.
+#' @param sppcol Name of column with species.
 #' @param poorTaxFilt Character. Any text to grep out of the species column.
 #' (e.g. c("dead", "unknown")).
 #' @param luTaxFile Character. Path to file containing desired taxonomy to use.
@@ -322,7 +322,7 @@
 #' @return Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
 #' two dataframes are returned to the global environment. One, named
 #' taxaTaxonomy, with unique taxa and associated taxonomicinformation and two,
-#' named luTaxa, a lookup from unique values in sppCol to matched taxonomy from
+#' named luTaxa, a lookup from unique values in sppcol to matched taxonomy from
 #' GBIF backbone.
 #'
 #' @export
@@ -330,8 +330,9 @@
 #' @examples
 #'
   taxa_taxonomy <- function(df
-                            , sppCol = "SPECIES"
-                            , lifespanCol = NULL
+                            , sppcol = "SPECIES"
+                            , lifespancol = NULL
+                            , indcol = NULL
                             , poorTaxFilt = speciesFilter
                             , luTaxFile = "out/luGBIF.feather"
                             , king = "Plantae"
@@ -339,8 +340,8 @@
 
     # Remove dodgy taxonomy
     taxas <- df %>%
-      dplyr::distinct(dplyr::across(!!ensym(sppCol))) %>%
-      dplyr::filter(!grepl(paste0(speciesFilter,collapse = "|"),!!ensym(sppCol),ignore.case = TRUE))
+      dplyr::distinct(dplyr::across(!!ensym(sppcol))) %>%
+      dplyr::filter(!grepl(paste0(speciesFilter,collapse = "|"),!!ensym(sppcol),ignore.case = TRUE))
 
     # GBIF taxonomy
     zero <- taxas %>%
@@ -374,17 +375,16 @@
       dplyr::anti_join(dups) %>%
       dplyr::bind_rows(keepDups)
 
-
     two <- zero %>%
       dplyr::distinct(originalName,Taxa,Rank) %>%
       tibble::as_tibble()
 
     # Add in lifespan
-    if(isTRUE(!is.null(lifespanCol))) {
+    if(isTRUE(!is.null(lifespancol))) {
 
       sppLS <- df %>%
         dplyr::filter(!is.na(lifespan)) %>%
-        dplyr::rename(originalName = !!ensym(sppCol)) %>%
+        dplyr::rename(originalName = !!ensym(sppcol)) %>%
         dplyr::left_join(two) %>%
         dplyr::count(Taxa,lifespan) %>%
         dplyr::group_by(Taxa) %>%
@@ -397,7 +397,7 @@
 
       genLS <- df %>%
         dplyr::filter(!is.na(lifespan)) %>%
-        dplyr::rename(originalName = !!ensym(sppCol)) %>%
+        dplyr::rename(originalName = !!ensym(sppcol)) %>%
         dplyr::left_join(two) %>%
         dplyr::left_join(one) %>%
         dplyr::count(Genus,lifespan) %>%
@@ -411,7 +411,7 @@
 
       famLS <- df %>%
         dplyr::filter(!is.na(lifespan)) %>%
-        dplyr::rename(originalName = !!ensym(sppCol)) %>%
+        dplyr::rename(originalName = !!ensym(sppcol)) %>%
         dplyr::left_join(two) %>%
         dplyr::left_join(one) %>%
         dplyr::count(Family,lifespan) %>%
@@ -441,6 +441,22 @@
 
     }
 
+    if(isTRUE(!is.null(indcol))) {
+
+      inddf <- df %>%
+        dplyr::rename(originalName = SPECIES) %>%
+        dplyr::left_join(two) %>%
+        create_ind_status(sppcol = "Taxa") %>%
+        dplyr::add_count(Taxa) %>%
+        dplyr::mutate(ind = if_else(n > 1,"U",ind)) %>%
+        dplyr::select(-n) %>%
+        dplyr::distinct()
+
+      one <- one %>%
+        dplyr::inner_join(inddf)
+
+    }
+
     assign("taxaTaxonomy",one,envir = globalenv())
     assign("luTaxa",two,envir = globalenv())
 
@@ -450,27 +466,27 @@
 #'
 #' @param df Dataframe with species column and column indicating indigenous
 #' status.
-#' @param sppCol Character. Name of column with species.
-#' @param indCol Character. Name of column with indigenous status
+#' @param sppcol Character. Name of column with species.
+#' @param indcol Character. Name of column with indigenous status
 #'
 #' @return Dataframe with unique species and their indigenous status.
 #' @export
 #'
 #' @examples
-  create_ind_status <- function(df, sppCol = "Taxa", indCol = "ind") {
+  create_ind_status <- function(df, sppcol = "Taxa", indcol = "ind") {
 
     df %>%
-      dplyr::count(dplyr::across(!!ensym(sppCol)),dplyr::across(!!ensym(indCol))) %>%
-      dplyr::filter(!is.na(!!ensym(indCol))) %>%
-      dplyr::group_by(!!ensym(sppCol)) %>%
+      dplyr::count(dplyr::across(!!ensym(sppcol)),dplyr::across(!!ensym(indcol))) %>%
+      dplyr::filter(!is.na(!!ensym(indcol))) %>%
+      dplyr::group_by(!!ensym(sppcol)) %>%
       dplyr::filter(n == max(n, na.rm = TRUE)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(grep("^n$",names(.),invert = TRUE, value = TRUE)) %>%
+      dplyr::select(!!ensym(sppcol),!!ensym(indcol)) %>%
       dplyr::right_join(df %>%
-                          dplyr::distinct(!!ensym(sppCol))
+                          dplyr::distinct(!!ensym(sppcol))
                         ) %>%
-      dplyr::mutate(!!ensym(indCol) := dplyr::if_else(grepl("\\?",!!ensym(indCol)),"U",!!ensym(indCol))
-                    , !!ensym(indCol) := dplyr::if_else(is.na(!!ensym(indCol)),"U",!!ensym(indCol))
+      dplyr::mutate(!!ensym(indcol) := dplyr::if_else(grepl("\\?",!!ensym(indcol)),"U",!!ensym(indcol))
+                    , !!ensym(indcol) := dplyr::if_else(is.na(!!ensym(indcol)),"U",!!ensym(indcol))
                     )
 
   }
@@ -486,8 +502,8 @@
 #' * ensure there are no duplicates across the relevant context
 #'
 #' @param df Dataframe with species column.
-#' @param sppCol Character. Name of species column.
-#' @param lfCol Character. Name of lifeform (id) column.
+#' @param sppcol Character. Name of species column.
+#' @param lfcol Character. Name of lifeform (id) column.
 #' @param context Charcter or NULL. Set of columns that define a context within
 #' which to generate lifeform.
 #' @param luLifeformObj Dataframe. Name of dataframe object containing columns
@@ -495,36 +511,36 @@
 #' two lifeforms with the same number of instances, say, SA and SB, information
 #' in luLifeformObj helps to choose the tallest option.
 #'
-#' @return Dataframe with columns sppCol, visit col(s), lifeform
+#' @return Dataframe with columns sppcol, visit col(s), lifeform
 #' @export
 #'
 #' @examples
-  create_lifeform <- function(df, sppCol = "Taxa", lfCol = "lifeform", context = NULL, luLifeformObj = luLifeform) {
+  create_lifeform <- function(df, sppcol = "Taxa", lfcol = "lifeform", context = NULL, luLifeformObj = luLifeform) {
 
     df %>%
-      dplyr::filter(!is.na(!!ensym(lfCol))) %>%
-      dplyr::count(across(!!ensym(sppCol)),across(!!ensym(lfCol)),across(all_of(context)), name = "lifeformRecords") %>%
-      dplyr::group_by(across(!!ensym(sppCol)),across(all_of(context))) %>%
+      dplyr::filter(!is.na(!!ensym(lfcol))) %>%
+      dplyr::count(across(!!ensym(sppcol)),across(!!ensym(lfcol)),across(all_of(context)), name = "lifeformRecords") %>%
+      dplyr::group_by(across(!!ensym(sppcol)),across(all_of(context))) %>%
       dplyr::mutate(taxaRecords = sum(lifeformRecords,na.rm = TRUE)
                     , per = 100*lifeformRecords/taxaRecords
                     ) %>%
       dplyr::ungroup() %>%
       dplyr::filter(per > 5) %>%
-      dplyr::left_join(luLifeformObj, by = stats::setNames("LifeForm_Code",lfCol)) %>%
+      dplyr::left_join(luLifeformObj, by = stats::setNames("LifeForm_Code",lfcol)) %>%
       dplyr::mutate(HeightTest = dplyr::if_else(lifeform == "J",Height + 0.01, Height)) %>%
-      dplyr::group_by(across(!!ensym(sppCol)),across(all_of(context))) %>%
+      dplyr::group_by(across(!!ensym(sppcol)),across(all_of(context))) %>%
       dplyr::slice(which(HeightTest == max(HeightTest, na.rm=TRUE))) %>%
       dplyr::slice(which(lifeformRecords == max(lifeformRecords, na.rm=TRUE))) %>%
       dplyr::slice(which(LF_Class_Num == max(LF_Class_Num, na.rm=TRUE))) %>%
       dplyr::ungroup() %>%
-      dplyr::select(all_of(context),!!ensym(sppCol),lifeform) %>%
-      dplyr::filter(!is.na(!!ensym(sppCol))) %>%
+      dplyr::select(all_of(context),!!ensym(sppcol),lifeform) %>%
+      dplyr::filter(!is.na(!!ensym(sppcol))) %>%
       dplyr::distinct()
 
   }
 
 
-  create_cover <- function(df, sppCol = "Taxa", visit = NULL, luCoverObj = luCover) {
+  create_cover <- function(df, sppcol = "Taxa", visit = NULL, luCoverObj = luCover) {
 
     # Assumes numeric (percentage) cover column called 'cover' and character
     # column called 'covCode' that is the modified Braun-Blanquet cover value
@@ -541,7 +557,7 @@
       dplyr::left_join(luCoverObj) %>%
       dplyr::mutate(useCover = if_else(!is.na(cover),cover,!!ensym(covType))) %>%
       dplyr::group_by(dplyr::across(all_of(visit))
-                      , dplyr::across(!!ensym(sppCol))
+                      , dplyr::across(!!ensym(sppcol))
                       ) %>%
       dplyr::summarise(useCover = max(useCover,na.rm = TRUE)) %>%
       dplyr::ungroup()
@@ -552,9 +568,9 @@
 #' Filter data frame to specified spatial reliability
 #'
 #' @param df Dataframe.
-#' @param distCol Character. Name of the column containing the spatial reliability.
+#' @param distcol Character. Name of the column containing the spatial reliability.
 #' @param dist Numeric. In units of the maxDist column.
-#' @param visit Character. Column names defining a 'visit'.
+#' @param visit Character. column names defining a 'visit'.
 #' @param dfRel Dataframe. Lookup from reliability id to reliability distance.
 #'
 #' @return Dataframe with records of greater than dist filtered. Filtering is done
@@ -563,18 +579,18 @@
 #'
 #' @examples
   filter_spat_rel <- function(df
-                              , distCol = "maxDist"
+                              , distcol = "maxDist"
                               , dist = relDist
-                              , visit = visitCols
+                              , visit = visitcols
                               , dfRel = luRel
                               ){
 
     visRel <- df %>%
       dplyr::left_join(dfRel) %>%
-      dplyr::mutate(distCol := dplyr::if_else(is.na(!!ensym(distCol)),relDist,!!ensym(distCol))) %>%
-      dplyr::distinct(dplyr::across(any_of(visit)),!!ensym(distCol)) %>%
-      dplyr::filter(!!ensym(distCol) <= dist) %>%
-      dplyr::select(-!!ensym(distCol))
+      dplyr::mutate(distcol := dplyr::if_else(is.na(!!ensym(distcol)),relDist,!!ensym(distcol))) %>%
+      dplyr::distinct(dplyr::across(any_of(visit)),!!ensym(distcol)) %>%
+      dplyr::filter(!!ensym(distcol) <= dist) %>%
+      dplyr::select(-!!ensym(distcol))
 
     df %>%
       dplyr::inner_join(visRel) %>%
@@ -623,7 +639,7 @@
 #' Filter a column annual taxa
 #'
 #' @param df Dataframe with column to filter.
-#' @param filtCol Character. Name of column to filter.
+#' @param filtcol Character. Name of column to filter.
 #' @param filtText Character. Text(s) to filter from df.
 #' @param dfJoin Optional dataframe. Joined to df before filter. No names from
 #' dfJoin are returned.
@@ -633,7 +649,7 @@
 #'
 #' @examples
   filter_text_col <- function(df
-                         , filtCol = "lifespan"
+                         , filtcol = "lifespan"
                          , filtText = "A"
                          , dfJoin = NULL
                          ) {
@@ -646,8 +662,8 @@
     } else df
 
     keepLevels <- joined %>%
-      dplyr::distinct(!!ensym(filtCol)) %>%
-      dplyr::filter(!grepl(paste0(filtText,collapse = "|"),!!ensym(filtCol)))
+      dplyr::distinct(!!ensym(filtcol)) %>%
+      dplyr::filter(!grepl(paste0(filtText,collapse = "|"),!!ensym(filtcol)))
 
     joined %>%
       dplyr::inner_join(keepLevels) %>%
@@ -660,7 +676,7 @@
 #' Filter any context with less instances than a threshold value
 #'
 #' @param df Dataframe with column names defining context.
-#' @param context Character. Columns defining context within which to count
+#' @param context Character. columns defining context within which to count
 #' instances.
 #' @param thresh Numeric. Threshold (inclusive of thresh) below which to filter.
 #'
