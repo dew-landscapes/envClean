@@ -6,9 +6,9 @@
 \usage{
 filter_taxa(
   df,
-  sppCol = "SPECIES",
-  visit = visitCols,
-  extraCols = NULL,
+  sppcol = "SPECIES",
+  visit = visitcols,
+  extracols = NULL,
   targetRank = "Species",
   doCover = FALSE,
   doLifeform = FALSE
@@ -17,14 +17,14 @@ filter_taxa(
 \arguments{
 \item{df}{Dataframe to reduce.}
 
-\item{sppCol}{Character. Name of column with species.}
+\item{sppcol}{Character. Name of column with species.}
 
 \item{visit}{Character. Name of columns defining a visit.}
 
-\item{extraCols}{Character. Name of any extra columns to keep.}
+\item{extracols}{Character. Name of any extra columns to keep.}
 }
 \value{
-Dataframe with columns Taxa, visit column(s) and, if used, extraCols.
+Dataframe with columns Taxa, visit column(s) and, if used, extracols.
 }
 \description{
 Includes running of taxa_taxonomy()

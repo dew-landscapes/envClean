@@ -6,20 +6,20 @@
 \usage{
 filter_spat_rel(
   df,
-  distCol = "maxDist",
+  distcol = "maxDist",
   dist = relDist,
-  visit = visitCols,
+  visit = visitcols,
   dfRel = luRel
 )
 }
 \arguments{
 \item{df}{Dataframe.}
 
-\item{distCol}{Character. Name of the column containing the spatial reliability.}
+\item{distcol}{Character. Name of the column containing the spatial reliability.}
 
 \item{dist}{Numeric. In units of the maxDist column.}
 
-\item{visit}{Character. Column names defining a 'visit'.}
+\item{visit}{Character. column names defining a 'visit'.}
 
 \item{dfRel}{Dataframe. Lookup from reliability id to reliability distance.}
 }

@@ -6,7 +6,7 @@
 \usage{
 gbif_tax(
   df,
-  sppCol = 1,
+  sppcol = 1,
   outFile = tempfile(),
   kingType = "Plantae",
   getCommon = FALSE,
@@ -16,7 +16,7 @@ gbif_tax(
 \arguments{
 \item{df}{Dataframe with column of species names to resolve}
 
-\item{sppCol}{Character. Name of column with species names}
+\item{sppcol}{Character. Name of column with species names}
 
 \item{outFile}{Character. Path to save results to. Saving is iterative as
 retrieving names can take some time.}

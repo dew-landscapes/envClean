@@ -9,7 +9,7 @@ filter_counts(df, context, thresh = 1)
 \arguments{
 \item{df}{Dataframe with column names defining context.}
 
-\item{context}{Character. Columns defining context within which to count
+\item{context}{Character. columns defining context within which to count
 instances.}
 
 \item{thresh}{Numeric. Threshold (inclusive of thresh) below which to filter.}

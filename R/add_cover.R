@@ -48,7 +48,7 @@
                                    )
                     , useCover = if_else(is.na(useCover),smallcov,useCover)
                     ) %>%
-      dplyr::select(names(df)) %>%
+      dplyr::select(all_of(names(df))) %>%
       # remove sites where all cover values had to be assigned as a small value
       dplyr::group_by(across(all_of(context))) %>%
       dplyr::mutate(covMean = mean(useCover)) %>%
