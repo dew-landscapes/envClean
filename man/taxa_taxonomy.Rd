@@ -9,8 +9,8 @@ taxa_taxonomy(
   sppcol = "SPECIES",
   lifespancol = NULL,
   indcol = NULL,
-  poorTaxFilt = speciesFilter,
-  luTaxFile = "out/luGBIF.feather",
+  poorfilt = c("dead", "unverified"),
+  savefile = tempfile(),
   king = "Plantae"
 )
 }
@@ -19,12 +19,18 @@ taxa_taxonomy(
 
 \item{sppcol}{Name of column with species.}
 
-\item{poorTaxFilt}{Character. Any text to grep out of the species column.
-(e.g. c("dead", "unknown")).}
+\item{lifespancol}{Character. Optional name of column containing lifespan
+information.}
 
-\item{luTaxFile}{Character. Path to file containing desired taxonomy to use.
+\item{indcol}{Character. Optional name of columns containing indigenous
+status of taxa in sppcol.}
+
+\item{poorfilt}{Character. Any taxa names to grep out of the species column.
+(e.g. c("annual form", "unverified")).}
+
+\item{savefile}{Character. Path to file containing desired taxonomy to use.
 This is usually the output from gfbif_tax(). If this does not exist it will
-be created by gbif_tax().}
+be created (as tempfile) by gbif_tax().}
 
 \item{king}{Character. Kingdom to search preferentially in GBIF Taxonomy
 Backbone}
@@ -33,7 +39,7 @@ Backbone}
 Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
 two dataframes are returned to the global environment. One, named
 taxaTaxonomy, with unique taxa and associated taxonomicinformation and two,
-named luTaxa, a lookup from unique values in sppcol to matched taxonomy from
+named lutaxa, a lookup from unique values in sppcol to matched taxonomy from
 GBIF backbone.
 }
 \description{

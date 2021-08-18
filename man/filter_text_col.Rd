@@ -2,23 +2,23 @@
 % Please edit documentation in R/envClean.R
 \name{filter_text_col}
 \alias{filter_text_col}
-\title{Filter a column annual taxa}
+\title{Filter a column}
 \usage{
-filter_text_col(df, filtcol = "lifespan", filtText = "A", dfJoin = NULL)
+filter_text_col(df, filtcol, filttext, dfjoin = NULL)
 }
 \arguments{
 \item{df}{Dataframe with column to filter.}
 
 \item{filtcol}{Character. Name of column to filter.}
 
-\item{filtText}{Character. Text(s) to filter from df.}
+\item{filttext}{Character. Text(s) to filter from df.}
 
-\item{dfJoin}{Optional dataframe. Joined to df before filter. No names from
+\item{dfjoin}{Optional dataframe. Joined to df before filter. No names from
 dfJoin are returned.}
 }
 \value{
 Filtered dataframe with same names as df
 }
 \description{
-Filter a column annual taxa
+Filter a column
 }

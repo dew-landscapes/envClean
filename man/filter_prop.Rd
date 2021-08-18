@@ -7,23 +7,23 @@
 filter_prop(
   df,
   context = "cell",
-  minSites = 15,
-  keepTaxa = NULL,
-  defaultPer = 1
+  minsites = 15,
+  keeptaxa = NULL,
+  defaultper = 1
 )
 }
 \arguments{
-\item{df}{Dataframe with Taxa and context}
+\item{df}{Dataframe with taxa and context}
 
 \item{context}{Character. Column names that define context, usually a 'visit'
 to a 'cell'.}
 
-\item{minSites}{Absolute minimum sites at which a taxa should be recorded.}
+\item{minsites}{Absolute minimum sites at which a taxa should be recorded.}
 
-\item{keepTaxa}{Character. Taxa that should not be dropped. Used to set x
+\item{keeptaxa}{Character. taxa that should not be dropped. Used to set x
 percent of sites.}
 
-\item{defaultPer}{If keepTaxa is NULL, what is the minimum percent of sites
+\item{defaultper}{If keeptaxa is NULL, what is the minimum percent of sites
 at which a taxa should be recorded.}
 }
 \value{

@@ -11,7 +11,7 @@ env_pca(envdf, axes = 3, cuts = 20, intstyle = "quantile")
 
 \item{axes}{Numeric. Number of axes to return.}
 
-\item{cuts}{Numeric. Number of cuts along PC1. PCn gets cuts/n cuts.}
+\item{cuts}{Numeric. Number of cuts along pc1. pcn gets cuts/n cuts.}
 
 \item{intstyle}{Character. Method passed to classInt::classIntervals.}
 }

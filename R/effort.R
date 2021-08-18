@@ -110,14 +110,14 @@
 #' @param envprcomp Output from env_pca.
 #' @param context Character. Column names that define context, usually a 'visit'
 #' to a 'cell'.
-#' @param doIter Numeric specifying the number of iterations to run for each
+#' @param doiter Numeric specifying the number of iterations to run for each
 #' chain in rstan analysis.
-#' @param doChains Numeric specifying the number of chains to run in rstan
+#' @param dochains Numeric specifying the number of chains to run in rstan
 #' analysis
 #' @param threshold Numeric between 0 and 1 specifying the two-tailed threshold
 #' above/below which richness is excessively above or below 'normal' for
 #'
-#' @return
+#' @return List of model outputs.
 #' @export
 #'
 #' @examples
@@ -131,7 +131,7 @@
 
     effortmod <- list()
 
-    modY <- "sr"
+    y <- "sr"
 
     effortmod$modExp <- df %>%
       dplyr::filter(!is.na(qsize)
@@ -140,7 +140,7 @@
       dplyr::distinct(taxa,across(all_of(context))) %>%
       dplyr::count(across(all_of(context)),name = "sr") %>%
       dplyr::inner_join(envprcomp$pcarescell) %>%
-      dplyr::select(!!ensym(modY),everything()) %>%
+      dplyr::select(!!ensym(y),everything()) %>%
       tidyr::pivot_longer(contains("pc"),names_to = "pc") %>%
       dplyr::left_join(envprcomp$pcabrks[,c("pc","brks")]) %>%
       dplyr::mutate(cutpc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
@@ -154,7 +154,7 @@
 
     effortmod$mod <- rstanarm::stan_glm(data = effortmod$modExp
 
-                  , formula = as.formula(paste0(modY, " ~ pc1 + pc2 + pc3"))
+                  , formula = as.formula(paste0(y, " ~ pc1 + pc2 + pc3"))
 
                   # Negative binomial
                   , family = neg_binomial_2()
@@ -215,8 +215,8 @@
                        , modmean = mean(sr,na.rm=TRUE)
                        , modci90lo = quantile(sr, 0.05,na.rm=TRUE)
                        , modci90up = quantile(sr, 0.95,na.rm=TRUE)
-                       , extremeSRlo = quantile(sr, probs = 0 + threshold/2, na.rm=TRUE)
-                       , extremeSRhi = quantile(sr, probs = 1 - threshold/2, na.rm=TRUE)
+                       , extremesrlo = quantile(sr, probs = 0 + threshold/2, na.rm=TRUE)
+                       , extremesrhi = quantile(sr, probs = 1 - threshold/2, na.rm=TRUE)
                        , text = paste0(round(modmed,2)," (",round(modci90lo,2)," to ",round(modci90up,2),")")
                        ) %>%
       dplyr::ungroup() %>%
@@ -251,24 +251,24 @@
                           dplyr::select(cell,pcgroup,colour)
                         ) %>%
       dplyr::inner_join(effortmod$modres) %>%
-      dplyr::mutate(keepHi = sr < extremeSRhi
-                    , keepLo = sr > extremeSRlo
-                    , keepqSize = !(qsize == 0 | is.na(qsize))
-                    , keep = as.logical(keepHi*keepLo)
-                    , keep = if_else(!keep,keepqSize,keep)
+      dplyr::mutate(keephi = sr < extremesrhi
+                    , keeplo = sr > extremesrlo
+                    , keepqsize = !(qsize == 0 | is.na(qsize))
+                    , keep = as.logical(keephi*keeplo)
+                    , keep = if_else(!keep,keepqsize,keep)
                     ) %>%
       dplyr::mutate(colour = if_else(keep,"black",colour))
 
     effortmod$modcellplot <- ggplot(effortmod$modcellresult,aes(cutpc1,sr,colour=colour)) +
       geom_jitter() +
       facet_grid(cutpc2~cutpc3) +
-      coord_cartesian(y = c(0,max(effortmod$modcellresult$sr[effortmod$modcellresult$keepHi == TRUE]))) +
+      coord_cartesian(y = c(0,max(effortmod$modcellresult$sr[effortmod$modcellresult$keephi == TRUE]))) +
       scale_colour_identity() +
       theme_dark() +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
     effortmod$modcelltab <- effortmod$modcellresult %>%
-      dplyr::count(keepHi,keepLo,keepqSize,keep)
+      dplyr::count(keephi,keeplo,keepqSize,keep)
 
     invisible(effortmod)
 
@@ -277,41 +277,45 @@
 
 #' Run all functions required to complete effort filter
 #'
+#' @param df Dataframe with biological data to be filtered.
 #' @param argscreateenv Named list of arguments passed to create_env.
 #' @param argsenvpca Named list of arguments passed to env_pca. The envdf
 #' argument is generated within effort_filter so is not needed.
 #' @param argseffortmodel Named list of arguments passed to effort_model. The
 #' df argument is generated within effort_filter so is not needed.
 #'
-#' @return
+#' @return dataframes florenv and filtered argscreateenv$df; lists: envpca and effortmod
 #' @export
 #'
 #' @examples
-  filter_effort <- function(argscreateenv
+  filter_effort <- function(flordf
+                            , argscreateenv
                             , argsenvpca
                             , argseffortmodel
                             ) {
 
-    florEnv <- do.call(create_env,args = argscreateenv) %>%
+    argscreateenv <- c(list(df = flordf),argscreateenv)
+
+    florenv <- do.call(create_env,args = argscreateenv) %>%
       na.omit()
 
-    argsenvpca <- c(list(envdf = florEnv),argsenvpca)
+    argsenvpca <- c(list(envdf = florenv),argsenvpca)
 
     envpca <- do.call(env_pca,args = argsenvpca)
 
-    argseffortmodel <- c(list(df = argscreateenv$df, envprcomp = envpca),argseffortmodel)
+    argseffortmodel <- c(list(df = flordf, envprcomp = envpca),argseffortmodel)
 
     effortmod <- do.call(effort_model,args = argseffortmodel)
 
-    toAssign <- c("florEnv","envpca","effortmod")
+    toassign <- c("florenv","envpca","effortmod")
 
-    walk(toAssign,~assign(.,get(.),envir = globalenv()))
+    walk(toassign,~assign(.,get(.),envir = globalenv()))
 
-    argscreateenv$df %>%
+    flordf %>%
       dplyr::inner_join(effortmod$modcellresult %>%
                           dplyr::filter(keep)
                         ) %>%
-      dplyr::select(names(argscreateenv$df),grep("cutpc",names(.),value = TRUE)) %>%
+      dplyr::select(names(flordf),grep("cutpc",names(.),value = TRUE)) %>%
       dplyr::distinct()
 
   }

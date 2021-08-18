@@ -4,19 +4,21 @@
 \alias{add_cover}
 \title{Generate best guess of cover for each taxa*context}
 \usage{
-add_cover(df, context = "cell", covCol = "useCover", smallcov = 0.009)
+add_cover(df, context = "cell", covcol = "usecover", smallcov = 0.009)
 }
 \arguments{
 \item{df}{Dataframe with context, taxa and cover columns.}
 
 \item{context}{Character. Name of columns defining context.}
 
+\item{covcol}{Character. Name of column containing cover values.}
+
 \item{smallcov}{A small cover value assigned to any record for which there
 is no available site, pca or taxa cover value.}
 }
 \value{
-Dataframe with covCol removed and replaced with best guess cover in
-column useCover
+Dataframe with covcol removed and replaced with best guess cover in
+column usecover
 }
 \description{
 Generate best guess of cover for each taxa*context

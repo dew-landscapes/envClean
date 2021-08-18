@@ -7,7 +7,7 @@
 add_lifeform(
   df,
   context = "cell",
-  lulf = tibble::tibble(lifeform = unique(df$lifeform), SortID =
+  lulf = tibble::tibble(lifeform = unique(df$lifeform), sort =
     1:length(unique(df$lifeform)))
 )
 }
