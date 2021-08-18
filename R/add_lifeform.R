@@ -16,51 +16,51 @@
                            , context = "cell"
                            , lulf = tibble::tibble(
                              lifeform = unique(df$lifeform)
-                             , SortID = 1:length(unique(df$lifeform))
+                             , sort = 1:length(unique(df$lifeform))
                              )
                            ) {
 
-    PCALifeform <- if(isTRUE(!is.null(envprcomp))) {
+    pcalifeform <- if(isTRUE(!is.null(envprcomp))) {
 
       df %>%
         dplyr::filter(!is.na(lifeform)) %>%
-        dplyr::count(Taxa,lifeform,across(contains("cutPC"))) %>%
+        dplyr::count(taxa,lifeform,across(contains("cutpc"))) %>%
         dplyr::left_join(lulf %>%
-                           dplyr::select(lifeform,SortID)
+                           dplyr::select(lifeform,sort)
                          ) %>%
-        dplyr::group_by(Taxa,across(contains("cutPC"))) %>%
+        dplyr::group_by(taxa,across(contains("cutpc"))) %>%
         dplyr::filter(n == max(n)) %>%
-        dplyr::filter(SortID == min(SortID)) %>%
+        dplyr::filter(sort == min(sort)) %>%
         dplyr::ungroup() %>%
-        dplyr::select(Taxa,contains("cutPC"),PCALifeform = lifeform)
+        dplyr::select(taxa,contains("cutpc"),pcalifeform = lifeform)
 
     } else {
 
       df %>%
-        dplyr::select(Taxa,contains("cutPC"),PCALifeform = lifeform)
+        dplyr::select(taxa,contains("cutpc"),pcalifeform = lifeform)
 
       }
 
-    taxaLifeform <- df %>%
+    taxalifeform <- df %>%
       dplyr::filter(!is.na(lifeform)) %>%
       dplyr::left_join(lulf) %>%
-      dplyr::count(Taxa,SortID,lifeform) %>%
-      dplyr::group_by(Taxa) %>%
+      dplyr::count(taxa,sort,lifeform) %>%
+      dplyr::group_by(taxa) %>%
       dplyr::filter(n == max(n)) %>%
-      dplyr::filter(SortID == min(SortID)) %>%
+      dplyr::filter(sort == min(sort)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(-n, -SortID) %>%
-      dplyr::rename(taxaLifeform = lifeform)
+      dplyr::select(-n, -sort) %>%
+      dplyr::rename(taxalifeform = lifeform)
 
     df %>%
-      dplyr::rename(siteLifeform = lifeform) %>%
-      dplyr::left_join(PCALifeform) %>%
-      dplyr::left_join(taxaLifeform) %>%
-      dplyr::mutate(lifeform = if_else(!is.na(siteLifeform)
-                                   ,siteLifeform
-                                   ,if_else(!is.na(PCALifeform)
-                                            , PCALifeform
-                                            , taxaLifeform
+      dplyr::rename(sitelifeform = lifeform) %>%
+      dplyr::left_join(pcalifeform) %>%
+      dplyr::left_join(taxalifeform) %>%
+      dplyr::mutate(lifeform = if_else(!is.na(sitelifeform)
+                                   ,sitelifeform
+                                   ,if_else(!is.na(pcalifeform)
+                                            , pcalifeform
+                                            , taxalifeform
                                             )
                                    )
                     ) %>%
