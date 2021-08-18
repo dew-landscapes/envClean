@@ -1,6 +1,8 @@
 
-  luRank <- tibble::tribble(
-    ~Rank, ~sort
+  library(magrittr)
+
+  lurank <- tibble::tribble(
+    ~rank, ~sort
     , "Kingdom", 1
     , "Phylum", 2
     , "Class", 3
@@ -12,7 +14,7 @@
     , "Variety", 9
     , "Form", 10
     ) %>%
-    dplyr::mutate(Rank = forcats::fct_reorder(Rank,sort)
-                  , Rank = factor(Rank,ordered = TRUE)
-                  , Rank = forcats::fct_rev(Rank)
+    dplyr::mutate(rank = forcats::fct_reorder(rank,sort)
+                  , rank = factor(rank,ordered = TRUE)
+                  , rank = forcats::fct_rev(rank)
                   )
