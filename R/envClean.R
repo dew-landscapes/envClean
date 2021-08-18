@@ -7,11 +7,11 @@
 #'
 #' @param df Dataframe with column of species names to resolve
 #' @param sppcol Character. Name of column with species names
-#' @param outFile Character. Path to save results to. Saving is iterative as
+#' @param outfile Character. Path to save results to. Saving is iterative as
 #' retrieving names can take some time.
-#' @param kingType Character. Kingdom type (i.e. Plantae, Animalia etc.)
-#' @param getCommon Logical. If TRUE, also get common names. Takes much longer.
-#' @param targetRank Character. Default is 'Species'. At what level of the
+#' @param kingtype Character. Kingdom type (i.e. Plantae, Animalia etc.)
+#' @param docommon Logical. If TRUE, also get common names. Takes much longer.
+#' @param targetrank Character. Default is 'Species'. At what level of the
 #' taxonomic hierarchy are results desired.
 #'
 #' @return Dataframe of unique species names, other columns defining
@@ -24,107 +24,107 @@
 #'
   gbif_tax <- function(df
                        , sppcol = 1
-                       , outFile = tempfile()
-                       , kingType = "Plantae"
-                       , getCommon = FALSE
-                       , targetRank = "Species"
+                       , outfile = tempfile()
+                       , kingtype = "Plantae"
+                       , getcommon = FALSE
+                       , targetrank = "Species"
                        ){
 
-    outFile <- paste0(gsub("\\..*","",outFile),".feather")
-    tmpFile <- paste0(gsub(".feather","",outFile),"_temp.feather")
+    outfile <- paste0(gsub("\\..*","",outfile),".feather")
+    tmpfile <- paste0(gsub(".feather","",outfile),"_temp.feather")
 
-    targetSort <- luRank %>%
-      dplyr::filter(Rank == targetRank) %>%
+    targetSort <- lurank %>%
+      dplyr::filter(rank == targetrank) %>%
       dplyr::pull(sort)
 
-    alreadyDone01 <- if(file.exists(outFile)) rio::import(outFile) %>%
-      dplyr::distinct(originalName) %>%
+    alreadydone01 <- if(file.exists(outfile)) rio::import(outfile) %>%
+      dplyr::distinct(originalname) %>%
       dplyr::pull()
 
-    alreadyDone02 <- if(file.exists(tmpFile)) rio::import(tmpFile) %>%
-      dplyr::distinct(originalName) %>%
+    alreadydone02 <- if(file.exists(tmpfile)) rio::import(tmpfile) %>%
+      dplyr::distinct(originalname) %>%
       dplyr::pull()
 
-    alreadyDone <- c(get0("alreadyDone01"),get0("alreadyDone02"))
+    alreadydone <- c(get0("alreadydone01"),get0("alreadydone02"))
 
-    toCheck <- df %>%
+    tocheck <- df %>%
       dplyr::select(all_of(sppcol)) %>%
       dplyr::distinct() %>%
       dplyr::pull()
 
-    taxa <- tibble::tibble(originalName = setdiff(toCheck,alreadyDone)) %>%
-      dplyr::filter(!grepl("BOLD:.*\\d{4}",originalName)
-                    , !is.na(originalName)
+    taxa <- tibble::tibble(originalname = setdiff(tocheck,alreadydone)) %>%
+      dplyr::filter(!grepl("BOLD:.*\\d{4}",originalname)
+                    , !is.na(originalname)
                     ) %>%
-      dplyr::mutate(searchedName = gsub("\\s*\\(.*\\).*|\\'|\\?| spp\\.| sp\\.| ssp\\.| var\\.| ex| [A-Z].*|#|\\s^"
+      dplyr::mutate(searchedname = gsub("\\s*\\(.*\\).*|\\'|\\?| spp\\.| sp\\.| ssp\\.| var\\.| ex| [A-Z].*|#|\\s^"
                                         ,""
-                                        ,originalName
+                                        ,originalname
                                         )
-      , searchedName = gsub(" x .*$| X .*$","",searchedName)
-      , searchedName = gsub("\\s{2,}"," ",searchedName)
-      , searchedName = stringr::str_squish(searchedName)
+      , searchedname = gsub(" x .*$| X .*$","",searchedname)
+      , searchedname = gsub("\\s{2,}"," ",searchedname)
+      , searchedname = stringr::str_squish(searchedname)
       )
 
     taxas <- taxa %>%
-      dplyr::distinct(searchedName) %>%
-      dplyr::arrange(searchedName)
+      dplyr::distinct(searchedname) %>%
+      dplyr::arrange(searchedname)
 
-    if(length(taxas$searchedName)>0){
+    if(length(taxas$searchedname)>0){
 
-      for (i in taxas$searchedName){
+      for (i in taxas$searchedname){
 
         print(i)
 
-        taxGBIF <- rgbif::name_backbone(i, kingdom = kingType) %>%
-          dplyr::mutate(searchedName = i)
+        taxgbif <- rgbif::name_backbone(i, kingdom = kingtype) %>%
+          dplyr::mutate(searchedname = i)
 
-        taxGBIF <- if(sum(grepl("acceptedUsageKey",names(taxGBIF)))>0) {
+        taxgbif <- if(sum(grepl("acceptedUsageKey",names(taxgbif)))>0) {
 
-          rgbif::name_usage(taxGBIF$acceptedUsageKey,return="data")$data %>%
+          rgbif::name_usage(taxgbif$acceptedUsageKey,return="data")$data %>%
             dplyr::mutate(matchType = "Synonym") %>%
             dplyr::rename(usageKey = key
                           , status = taxonomicStatus
                           ) %>%
-            dplyr::mutate(searchedName = i)
+            dplyr::mutate(searchedname = i)
 
         } else {
 
-          taxGBIF
+          taxgbif
 
         }
 
-        if(getCommon) taxGBIF$Common <- get_gbif_common(taxGBIF$usageKey)
+        if(getcommon) taxgbif$common <- get_gbif_common(taxgbif$usageKey)
 
-        taxGBIF$Taxa <- taxGBIF %>%
+        taxgbif$taxa <- taxgbif %>%
           tidyr::pivot_longer(where(is.numeric),names_to = "key") %>%
           dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))
                         , key = stringr::str_to_sentence(key)
                         ) %>%
-          dplyr::filter(key %in% luRank$Rank) %>%
-          dplyr::left_join(luRank, by = c("key" = "Rank")) %>%
+          dplyr::filter(key %in% lurank$rank) %>%
+          dplyr::left_join(lurank, by = c("key" = "rank")) %>%
           dplyr::filter(sort <= targetSort) %>%
           dplyr::filter(sort == max(sort)) %>%
-          dplyr::select(tolower(luRank$Rank[luRank$sort == .$sort])) %>%
+          dplyr::select(tolower(lurank$rank[lurank$sort == .$sort])) %>%
           dplyr::pull()
 
-        taxGBIF$Stamp <- Sys.time()
+        taxgbif$stamp <- Sys.time()
 
-        taxGBIF <- taxa %>%
-          dplyr::inner_join(taxGBIF)
+        taxgbif <- taxa %>%
+          dplyr::inner_join(taxgbif)
 
-        if(file.exists(tmpFile)) {
+        if(file.exists(tmpfile)) {
 
-          rio::export(taxGBIF %>%
-                          dplyr::bind_rows(rio::import(tmpFile)) %>%
-                          dplyr::select(1,2,Taxa,everything())
-                      , tmpFile
+          rio::export(taxgbif %>%
+                          dplyr::bind_rows(rio::import(tmpfile)) %>%
+                          dplyr::select(1,2,taxa,everything())
+                      , tmpfile
                       )
 
         } else {
 
-          rio::export(taxGBIF %>%
-                          dplyr::select(1,2,Taxa,everything())
-                      , tmpFile
+          rio::export(taxgbif %>%
+                          dplyr::select(1,2,taxa,everything())
+                      , tmpfile
                       )
 
         }
@@ -132,14 +132,14 @@
       }
 
       # Clean up results
-      rio::import(tmpFile) %>%
-        {if(!file.exists(outFile)) (.) else (.) %>% dplyr::bind_rows(rio::import(outFile))} %>%
-        dplyr::group_by(originalName) %>%
-        dplyr::filter(Stamp == max(Stamp)) %>%
+      rio::import(tmpfile) %>%
+        {if(!file.exists(outfile)) (.) else (.) %>% dplyr::bind_rows(rio::import(outfile))} %>%
+        dplyr::group_by(originalname) %>%
+        dplyr::filter(stamp == max(stamp)) %>%
         dplyr::ungroup() %>%
-        rio::export(outFile)
+        rio::export(outfile)
 
-      file.remove(tmpFile)
+      file.remove(tmpfile)
 
     } else {
 
@@ -147,7 +147,7 @@
 
     }
 
-    rio::import(outFile)
+    rio::import(outfile)
 
   }
 
@@ -166,20 +166,20 @@
 
     print(key)
 
-    commonNames <- rgbif::name_usage(key)$data %>%
+    commonnames <- rgbif::name_usage(key)$data %>%
       dplyr::select(contains("Key")) %>%
       dplyr::select(where(is.numeric)) %>%
       tidyr::pivot_longer(1:ncol(.),names_to = "key") %>%
       dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))
                     , key = stringr::str_to_sentence(key)
                     ) %>%
-      dplyr::filter(key %in% luRank$Rank) %>%
-      dplyr::left_join(luRank, by = c("key" = "Rank")) %>%
+      dplyr::filter(key %in% lurank$rank) %>%
+      dplyr::left_join(lurank, by = c("key" = "rank")) %>%
       dplyr::filter(sort == max(sort)) %>%
       dplyr::pull(value) %>%
       rgbif::name_usage(data="vernacularNames")
 
-    df <- commonNames$data %>%
+    df <- commonnames$data %>%
       dplyr::select(any_of(c("vernacularName","language","preferred")))
 
     hasAny <- nrow(df) > 0
@@ -240,70 +240,79 @@
   # Add common name to existing taxonomic data frame
   add_gbif_common <- function(path = "out/luGBIF.feather") {
 
-    gbifTaxDf <- rio::import(path) %>%
+    gbiftaxdf <- rio::import(path) %>%
       #(if(testing) {. %>% dplyr::sample_n(5)} else {.}) %>%
-      dplyr::mutate(Common = purrr::map_chr(key,envClean::get_gbif_common))
+      dplyr::mutate(common = purrr::map_chr(key,envClean::get_gbif_common))
 
-    rio::export(gbifTaxDf,path)
+    rio::export(gbifTaxdf,path)
 
   }
 
 
-#' Clean/Tidy to one row per Taxa*Visit
+#' Clean/Tidy to one row per taxa*Visit
 #'
-#' Includes running of taxa_taxonomy()
+#' Includes running of taxa_taxonomy(), if lutaxa does not already exist.
 #'
 #' @param df Dataframe to reduce.
 #' @param sppcol Character. Name of column with species.
-#' @param visit Character. Name of columns defining a visit.
+#' @param context Character. Name of columns defining context.
 #' @param extracols Character. Name of any extra columns to keep.
+#' @param targetrank Character. Name of level in taxonomic hierarchy that names
+#' should be retrieved from, if possible.
+#' @param docov Logical. Should cover (needs to be supplied in df) be appended
+#' to output.
+#' @param dolife Logical. Should lifeform (needs to be supplied in df) be
+#' appended to output.
 #'
-#' @return Dataframe with columns Taxa, visit column(s) and, if used, extracols.
+#' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
 #' @export
 #'
 #' @examples
   filter_taxa <- function(df
                           , sppcol = "SPECIES"
-                          , visit = visitcols
+                          , context
                           , extracols = NULL
-                          , targetRank = "Species"
-                          , doCover = FALSE
-                          , doLifeform = FALSE
+                          , targetrank = "Species"
+                          , docov = FALSE
+                          , dolife = FALSE
                           ) {
 
     # run taxa_taxonomy
-    if(!exists("luTaxa")) taxa_taxonomy(df, lifespancol = "lifespan")
+    if(!exists("lutaxa")) taxa_taxonomy(df, lifespancol = "lifespan")
 
-    # Use dfTaxa as base df from here
-    florTaxa <- df %>%
+    # Use dftaxa as base df from here
+    flortaxa <- df %>%
       dplyr::distinct(!!ensym(sppcol)) %>%
-      dplyr::left_join(luTaxa %>%
-                          dplyr::rename(!!ensym(sppcol) := originalName)
+      dplyr::left_join(lutaxa %>%
+                          dplyr::rename(!!ensym(sppcol) := originalname)
                         ) %>%
-      dplyr::filter(Rank >= "Species") %>%
+      dplyr::filter(rank >= targetrank) %>%
       dplyr::left_join(df) %>%
-      dplyr::select(all_of(visit),Taxa,all_of(extracols)) %>%
+      dplyr::select(all_of(context),taxa,all_of(extracols)) %>%
       dplyr::distinct()
 
-    florTaxaCov <- if(doCover) {
+    flortaxaCov <- if(docov) {
 
-      create_cover(florTaxa, visit = visitcols)
+      .context = context
 
-      } else florTaxa
+      create_cover(flortaxa, context = .context)
 
-    florTaxaLife <- if(doLifeform) {
+      } else flortaxa
 
-      create_lifeform(florTaxa, context = visitcols)
+    flortaxaLife <- if(dolife) {
 
-    } else florTaxa
+      .context = context
 
-    florTaxa <- florTaxa %>%
-      dplyr::distinct(across(all_of(visitcols)),Taxa) %>%
-      {if(doCover) (.) %>% dplyr::left_join(florTaxaCov) else (.)} %>%
-      {if(doLifeform) (.) %>% dplyr::left_join(florTaxaLife) else (.)}
+      create_lifeform(flortaxa, context = .context)
 
+    } else flortaxa
 
-    }
+    flortaxa <- flortaxa %>%
+      dplyr::distinct(across(all_of(context)),taxa) %>%
+      {if(doCover) (.) %>% dplyr::left_join(flortaxaCov) else (.)} %>%
+      {if(doLifeform) (.) %>% dplyr::left_join(flortaxaLife) else (.)}
+
+  }
 
 
 
@@ -311,18 +320,22 @@
 #'
 #' @param df Dataframe with species column.
 #' @param sppcol Name of column with species.
-#' @param poorTaxFilt Character. Any text to grep out of the species column.
-#' (e.g. c("dead", "unknown")).
-#' @param luTaxFile Character. Path to file containing desired taxonomy to use.
+#' @param lifespancol Character. Optional name of column containing lifespan
+#' information.
+#' @param indcol Character. Optional name of columns containing indigenous
+#' status of taxa in sppcol.
+#' @param poorfilt Character. Any taxa names to grep out of the species column.
+#' (e.g. c("annual form", "unverified")).
+#' @param savefile Character. Path to file containing desired taxonomy to use.
 #' This is usually the output from gfbif_tax(). If this does not exist it will
-#' be created by gbif_tax().
+#' be created (as tempfile) by gbif_tax().
 #' @param king Character. Kingdom to search preferentially in GBIF Taxonomy
 #' Backbone
 #'
 #' @return Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
 #' two dataframes are returned to the global environment. One, named
 #' taxaTaxonomy, with unique taxa and associated taxonomicinformation and two,
-#' named luTaxa, a lookup from unique values in sppcol to matched taxonomy from
+#' named lutaxa, a lookup from unique values in sppcol to matched taxonomy from
 #' GBIF backbone.
 #'
 #' @export
@@ -333,41 +346,44 @@
                             , sppcol = "SPECIES"
                             , lifespancol = NULL
                             , indcol = NULL
-                            , poorTaxFilt = speciesFilter
-                            , luTaxFile = "out/luGBIF.feather"
+                            , poorfilt = c("dead","unverified")
+                            , savefile = tempfile()
                             , king = "Plantae"
                             ) {
 
     # Remove dodgy taxonomy
     taxas <- df %>%
-      dplyr::distinct(dplyr::across(!!ensym(sppcol))) %>%
-      dplyr::filter(!grepl(paste0(speciesFilter,collapse = "|"),!!ensym(sppcol),ignore.case = TRUE))
+      dplyr::distinct(dplyr::across(all_of(sppcol))) %>%
+      dplyr::filter(!grepl(paste0(poorfilt,collapse = "|")
+                           ,!!ensym(sppcol)
+                           ,ignore.case = TRUE
+                           )
+                    )
 
     # GBIF taxonomy
     zero <- taxas %>%
-      gbif_tax(outFile = luTaxFile
-              , kingType = king
+      gbif_tax(outfile = savefile
+               , kingtype = king
                ) %>%
       dplyr::inner_join(taxas %>%
-                          dplyr::rename(originalName = 1)
+                          dplyr::rename(originalname = 1)
                         ) %>%
-      dplyr::mutate(Rank = stringr::str_to_sentence(rank))
+      dplyr::mutate(rank = stringr::str_to_sentence(rank))
 
-    returnTaxaTaxonomy <- c("Taxa",tolower(luRank$Rank))
+    returntaxataxonomy <- c("taxa",tolower(lurank$rank))
 
     one <- zero %>%
-      dplyr::distinct(dplyr::across(any_of(returnTaxaTaxonomy))) %>%
-      stats::setNames(stringr::str_to_sentence(names(.))) %>%
+      dplyr::distinct(dplyr::across(any_of(returntaxataxonomy))) %>%
       tibble::as_tibble()
 
     dups <- one %>%
-      dplyr::add_count(Taxa) %>%
+      dplyr::add_count(taxa) %>%
       dplyr::filter(n > 1) %>%
       dplyr::select(-n)
 
     keepDups <- dups %>%
-      dplyr::filter(Kingdom == king) %>%
-      dplyr::group_by(Taxa) %>%
+      dplyr::filter(kingdom == king) %>%
+      dplyr::group_by(taxa) %>%
       dplyr::slice(1) %>%
       dplyr::ungroup()
 
@@ -376,7 +392,7 @@
       dplyr::bind_rows(keepDups)
 
     two <- zero %>%
-      dplyr::distinct(originalName,Taxa,Rank) %>%
+      dplyr::distinct(originalname,taxa,rank) %>%
       tibble::as_tibble()
 
     # Add in lifespan
@@ -384,10 +400,10 @@
 
       sppLS <- df %>%
         dplyr::filter(!is.na(lifespan)) %>%
-        dplyr::rename(originalName = !!ensym(sppcol)) %>%
+        dplyr::rename(originalname = !!ensym(sppcol)) %>%
         dplyr::left_join(two) %>%
-        dplyr::count(Taxa,lifespan) %>%
-        dplyr::group_by(Taxa) %>%
+        dplyr::count(taxa,lifespan) %>%
+        dplyr::group_by(taxa) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::slice(1) %>%
         dplyr::ungroup() %>%
@@ -397,7 +413,7 @@
 
       genLS <- df %>%
         dplyr::filter(!is.na(lifespan)) %>%
-        dplyr::rename(originalName = !!ensym(sppcol)) %>%
+        dplyr::rename(originalname = !!ensym(sppcol)) %>%
         dplyr::left_join(two) %>%
         dplyr::left_join(one) %>%
         dplyr::count(Genus,lifespan) %>%
@@ -411,7 +427,7 @@
 
       famLS <- df %>%
         dplyr::filter(!is.na(lifespan)) %>%
-        dplyr::rename(originalName = !!ensym(sppcol)) %>%
+        dplyr::rename(originalname = !!ensym(sppcol)) %>%
         dplyr::left_join(two) %>%
         dplyr::left_join(one) %>%
         dplyr::count(Family,lifespan) %>%
@@ -444,10 +460,10 @@
     if(isTRUE(!is.null(indcol))) {
 
       inddf <- df %>%
-        dplyr::rename(originalName = SPECIES) %>%
+        dplyr::rename(originalname = SPECIES) %>%
         dplyr::left_join(two) %>%
-        create_ind_status(sppcol = "Taxa") %>%
-        dplyr::add_count(Taxa) %>%
+        create_ind_status(sppcol = "taxa") %>%
+        dplyr::add_count(taxa) %>%
         dplyr::mutate(ind = if_else(n > 1,"U",ind)) %>%
         dplyr::select(-n) %>%
         dplyr::distinct()
@@ -458,7 +474,7 @@
     }
 
     assign("taxaTaxonomy",one,envir = globalenv())
-    assign("luTaxa",two,envir = globalenv())
+    assign("lutaxa",two,envir = globalenv())
 
   }
 
@@ -473,7 +489,7 @@
 #' @export
 #'
 #' @examples
-  create_ind_status <- function(df, sppcol = "Taxa", indcol = "ind") {
+  create_ind_status <- function(df, sppcol = "taxa", indcol = "ind") {
 
     df %>%
       dplyr::count(dplyr::across(!!ensym(sppcol)),dplyr::across(!!ensym(indcol))) %>%
@@ -506,32 +522,32 @@
 #' @param lfcol Character. Name of lifeform (id) column.
 #' @param context Charcter or NULL. Set of columns that define a context within
 #' which to generate lifeform.
-#' @param luLifeformObj Dataframe. Name of dataframe object containing columns
-#' used later to deal with duplicates. e.g. if a taxa (within a context) has
-#' two lifeforms with the same number of instances, say, SA and SB, information
-#' in luLifeformObj helps to choose the tallest option.
 #'
 #' @return Dataframe with columns sppcol, visit col(s), lifeform
 #' @export
 #'
 #' @examples
-  create_lifeform <- function(df, sppcol = "Taxa", lfcol = "lifeform", context = NULL, luLifeformObj = luLifeform) {
+  create_lifeform <- function(df
+                              , sppcol = "taxa"
+                              , lfcol = "lifeform"
+                              , context = NULL
+                              ) {
 
     df %>%
       dplyr::filter(!is.na(!!ensym(lfcol))) %>%
-      dplyr::count(across(!!ensym(sppcol)),across(!!ensym(lfcol)),across(all_of(context)), name = "lifeformRecords") %>%
+      dplyr::count(across(!!ensym(sppcol)),across(!!ensym(lfcol)),across(all_of(context)), name = "lifeformrecords") %>%
       dplyr::group_by(across(!!ensym(sppcol)),across(all_of(context))) %>%
-      dplyr::mutate(taxaRecords = sum(lifeformRecords,na.rm = TRUE)
-                    , per = 100*lifeformRecords/taxaRecords
+      dplyr::mutate(taxaRecords = sum(lifeformrecords,na.rm = TRUE)
+                    , per = 100*lifeformrecords/taxaRecords
                     ) %>%
       dplyr::ungroup() %>%
       dplyr::filter(per > 5) %>%
-      dplyr::left_join(luLifeformObj, by = stats::setNames("LifeForm_Code",lfcol)) %>%
-      dplyr::mutate(HeightTest = dplyr::if_else(lifeform == "J",Height + 0.01, Height)) %>%
+      dplyr::left_join(lulifeform) %>%
+      dplyr::mutate(httest = dplyr::if_else(lifeform == "J",ht + 0.01, ht)) %>%
       dplyr::group_by(across(!!ensym(sppcol)),across(all_of(context))) %>%
-      dplyr::slice(which(HeightTest == max(HeightTest, na.rm=TRUE))) %>%
-      dplyr::slice(which(lifeformRecords == max(lifeformRecords, na.rm=TRUE))) %>%
-      dplyr::slice(which(LF_Class_Num == max(LF_Class_Num, na.rm=TRUE))) %>%
+      dplyr::slice(which(httest == max(httest, na.rm=TRUE))) %>%
+      dplyr::slice(which(lifeformrecords == max(lifeformrecords, na.rm=TRUE))) %>%
+      dplyr::slice(which(sort == max(sort, na.rm=TRUE))) %>%
       dplyr::ungroup() %>%
       dplyr::select(all_of(context),!!ensym(sppcol),lifeform) %>%
       dplyr::filter(!is.na(!!ensym(sppcol))) %>%
@@ -540,11 +556,11 @@
   }
 
 
-  create_cover <- function(df, sppcol = "Taxa", visit = NULL, luCoverObj = luCover) {
+  create_cover <- function(df, sppcol = "taxa", context = NULL, lucov = luCover) {
 
     # Assumes numeric (percentage) cover column called 'cover' and character
     # column called 'covCode' that is the modified Braun-Blanquet cover value
-    # from BDBSA. luCoverObj is used to map from covCode to numeric.
+    # from BDBSA. lucov is used to map from covCode to numeric.
 
     df %>%
       dplyr::filter(!is.na(cover) | !is.na(covCode)) %>%
@@ -554,9 +570,9 @@
                     , COVCODE = covCode
                     ) %>%
       dplyr::filter(!is.na(cover) | !is.na(covCode)) %>%
-      dplyr::left_join(luCoverObj) %>%
+      dplyr::left_join(lucov) %>%
       dplyr::mutate(useCover = if_else(!is.na(cover),cover,!!ensym(covType))) %>%
-      dplyr::group_by(dplyr::across(all_of(visit))
+      dplyr::group_by(dplyr::across(all_of(context))
                       , dplyr::across(!!ensym(sppcol))
                       ) %>%
       dplyr::summarise(useCover = max(useCover,na.rm = TRUE)) %>%
@@ -570,8 +586,8 @@
 #' @param df Dataframe.
 #' @param distcol Character. Name of the column containing the spatial reliability.
 #' @param dist Numeric. In units of the maxDist column.
-#' @param visit Character. column names defining a 'visit'.
-#' @param dfRel Dataframe. Lookup from reliability id to reliability distance.
+#' @param context Character. column names defining the context.
+#' @param dfrel Dataframe. Lookup from reliability id to reliability distance.
 #'
 #' @return Dataframe with records of greater than dist filtered. Filtering is done
 #' at 'visit' level.
@@ -580,20 +596,20 @@
 #' @examples
   filter_spat_rel <- function(df
                               , distcol = "maxDist"
-                              , dist = relDist
-                              , visit = visitcols
-                              , dfRel = luRel
+                              , dist
+                              , context
+                              , dfrel
                               ){
 
-    visRel <- df %>%
-      dplyr::left_join(dfRel) %>%
+    visrel <- df %>%
+      dplyr::left_join(dfrel) %>%
       dplyr::mutate(distcol := dplyr::if_else(is.na(!!ensym(distcol)),relDist,!!ensym(distcol))) %>%
-      dplyr::distinct(dplyr::across(any_of(visit)),!!ensym(distcol)) %>%
+      dplyr::distinct(dplyr::across(any_of(context)),!!ensym(distcol)) %>%
       dplyr::filter(!!ensym(distcol) <= dist) %>%
       dplyr::select(-!!ensym(distcol))
 
     df %>%
-      dplyr::inner_join(visRel) %>%
+      dplyr::inner_join(visrel) %>%
       tibble::as_tibble()
 
   }
@@ -602,33 +618,33 @@
 #' Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)
 #'
 #' @param df Dataframe. Needs coordinate columns
-#' @param AOI sf. Name of sf object defining the area of interest
+#' @param aoi sf. Name of sf object defining the area of interest
 #' @param x Character. Name of column with x coord
 #' @param y Character. Name of column with y coord
-#' @param crsDf Anything that will return a legitimate crs when passed to the
+#' @param crsdf Anything that will return a legitimate crs when passed to the
 #' crs attribute of st_transform or st_as_sf
-#' @param crsAOI as for crsDf
+#' @param crsaoi as for crsdf
 #'
 #' @return Dataframe filtered to area of interest
 #' @export
 #'
 #' @examples
   filter_aoi <- function(df
-                         , AOI = aoi
+                         , aoi
                          , x = "long"
                          , y = "lat"
-                         , crsDf = 4326
-                         , crsAOI = useEPSG
+                         , crsdf = 4326
+                         , crsaoi = useEPSG
                          ) {
 
     df %>%
       dplyr::distinct(!!ensym(x),!!ensym(y)) %>%
       sf::st_as_sf(coords = c(x,y)
-                   , crs = crsDf
+                   , crs = crsdf
                    , remove = FALSE
                    ) %>%
-      sf::st_transform(crs = crsAOI) %>%
-      sf::st_filter(AOI) %>%
+      sf::st_transform(crs = crsaoi) %>%
+      sf::st_filter(aoi) %>%
       sf::st_set_geometry(NULL) %>%
       dplyr::inner_join(df) %>%
       tibble::as_tibble()
@@ -636,12 +652,12 @@
   }
 
 
-#' Filter a column annual taxa
+#' Filter a column
 #'
 #' @param df Dataframe with column to filter.
 #' @param filtcol Character. Name of column to filter.
-#' @param filtText Character. Text(s) to filter from df.
-#' @param dfJoin Optional dataframe. Joined to df before filter. No names from
+#' @param filttext Character. Text(s) to filter from df.
+#' @param dfjoin Optional dataframe. Joined to df before filter. No names from
 #' dfJoin are returned.
 #'
 #' @return Filtered dataframe with same names as df
@@ -649,24 +665,24 @@
 #'
 #' @examples
   filter_text_col <- function(df
-                         , filtcol = "lifespan"
-                         , filtText = "A"
-                         , dfJoin = NULL
+                         , filtcol
+                         , filttext
+                         , dfjoin = NULL
                          ) {
 
-    joined <- if(isTRUE(!is.null(dfJoin))) {
+    joined <- if(isTRUE(!is.null(dfjoin))) {
 
       df %>%
-        dplyr::left_join(dfJoin)
+        dplyr::left_join(dfjoin)
 
     } else df
 
-    keepLevels <- joined %>%
+    keeplevels <- joined %>%
       dplyr::distinct(!!ensym(filtcol)) %>%
-      dplyr::filter(!grepl(paste0(filtText,collapse = "|"),!!ensym(filtcol)))
+      dplyr::filter(!grepl(paste0(filttext,collapse = "|"),!!ensym(filtcol)))
 
     joined %>%
-      dplyr::inner_join(keepLevels) %>%
+      dplyr::inner_join(keeplevels) %>%
       dplyr::select(names(df))
 
   }
@@ -698,13 +714,13 @@
 
 #' Filter taxa recorded at less than x percent of visits
 #'
-#' @param df Dataframe with Taxa and context
+#' @param df Dataframe with taxa and context
 #' @param context Character. Column names that define context, usually a 'visit'
 #' to a 'cell'.
-#' @param minSites Absolute minimum sites at which a taxa should be recorded.
-#' @param keepTaxa Character. Taxa that should not be dropped. Used to set x
+#' @param minsites Absolute minimum sites at which a taxa should be recorded.
+#' @param keeptaxa Character. taxa that should not be dropped. Used to set x
 #' percent of sites.
-#' @param defaultPer If keepTaxa is NULL, what is the minimum percent of sites
+#' @param defaultper If keeptaxa is NULL, what is the minimum percent of sites
 #' at which a taxa should be recorded.
 #'
 #' @return df filtered to exclude taxa recorded at less than x percent of
@@ -714,38 +730,38 @@
 #' @examples
   filter_prop <- function(df
                           , context = "cell"
-                          , minSites = 15
-                          , keepTaxa = NULL
-                          , defaultPer = 1
+                          , minsites = 15
+                          , keeptaxa = NULL
+                          , defaultper = 1
                           ) {
 
-    visitsPerFilter <- if(isTRUE(!is.null(keepTaxa))) {
+    visitsPerFilter <- if(isTRUE(!is.null(keeptaxa))) {
 
-      dontDropDf <- df %>%
+      dontdropdf <- df %>%
         dplyr::mutate(visits = n_distinct(across(all_of(context)))) %>%
-        dplyr::filter(Taxa %in% keepTaxa) %>%
-        dplyr::count(Taxa,visits,name = "records") %>%
+        dplyr::filter(taxa %in% keeptaxa) %>%
+        dplyr::count(taxa,visits,name = "records") %>%
         dplyr::filter(records > 5) %>%
         dplyr::mutate(per = round(100*records/visits,2))
 
-      dontDropDf %>%
-        dplyr::filter(visits > minAbsSites/2) %>%
+      dontdropdf %>%
+        dplyr::filter(visits > minsites/2) %>%
         dplyr::pull(per) %>%
         min()
 
-    } else defaultPer
+    } else defaultper
 
-    dropTaxa <- df %>%
+    droptaxa <- df %>%
       dplyr::mutate(nVisits = dplyr::n_distinct(across(all_of(context)))) %>%
-      dplyr::group_by(Taxa,nVisits) %>%
-      dplyr::summarise(nRecords = n()) %>%
+      dplyr::group_by(taxa,nvisits) %>%
+      dplyr::summarise(nrecords = n()) %>%
       dplyr::ungroup() %>%
-      dplyr::mutate(per = 100*nRecords/nVisits) %>%
-      dplyr::filter(per < visitsPerFilter) %>%
-      dplyr::distinct(Taxa)
+      dplyr::mutate(per = 100*nrecords/nvisits) %>%
+      dplyr::filter(per < defaultper) %>%
+      dplyr::distinct(taxa)
 
     df %>%
-      dplyr::anti_join(dropTaxa)
+      dplyr::anti_join(droptaxa)
 
   }
 

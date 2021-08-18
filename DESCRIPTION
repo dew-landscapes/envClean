@@ -1,19 +1,20 @@
 Package: envClean
-Title: What the Package Does (One Line, Title Case)
+Title: Clean Environmental, Biological and Non-biological Data to Create Ecosystems
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Nigel",
            family = "Willoughby",
            role = c("aut", "cre"),
-           email = "nige.willoughby@gmail.com")
-Description: What the package does (one paragraph).
-License: CC BY 4.0
+           email = "nige.willoughby@sa.gov.au")
+Description: Tools to facilitate cleaning tasks associated with environmental (raster), biological (records of taxa) and non-biological (e.g. landcover training data) data.
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     dplyr,
+    envEcosystems,
     magrittr,
     purrr,
     rgbif,

@@ -6,9 +6,9 @@
 #'
 #' @format A data frame with 53940 rows and 10 variables:
 #' \describe{
-#'   \item{Rank}{Taxonomic rank}
+#'   \item{rank}{Taxonomic rank}
 #'   \item{sort}{Numeric. Can be used directly to sort taxonomic ranks but is
-#'   also used to create the ordered factor Rank.}
+#'   also used to create the ordered factor rank.}
 #'   ...
 #' }
-"luRank"
+"lurank"
