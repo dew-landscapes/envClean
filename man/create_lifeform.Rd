@@ -4,13 +4,7 @@
 \alias{create_lifeform}
 \title{Get unique lifeform across species, perhaps including further context}
 \usage{
-create_lifeform(
-  df,
-  sppcol = "Taxa",
-  lfcol = "lifeform",
-  context = NULL,
-  luLifeformObj = luLifeform
-)
+create_lifeform(df, sppcol = "taxa", lfcol = "lifeform", context = NULL)
 }
 \arguments{
 \item{df}{Dataframe with species column.}
@@ -21,11 +15,6 @@ create_lifeform(
 
 \item{context}{Charcter or NULL. Set of columns that define a context within
 which to generate lifeform.}
-
-\item{luLifeformObj}{Dataframe. Name of dataframe object containing columns
-used later to deal with duplicates. e.g. if a taxa (within a context) has
-two lifeforms with the same number of instances, say, SA and SB, information
-in luLifeformObj helps to choose the tallest option.}
 }
 \value{
 Dataframe with columns sppcol, visit col(s), lifeform

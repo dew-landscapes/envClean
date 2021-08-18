@@ -2,16 +2,16 @@
 % Please edit documentation in R/envClean.R
 \name{filter_taxa}
 \alias{filter_taxa}
-\title{Clean/Tidy to one row per Taxa*Visit}
+\title{Clean/Tidy to one row per taxa*Visit}
 \usage{
 filter_taxa(
   df,
   sppcol = "SPECIES",
-  visit = visitcols,
+  context,
   extracols = NULL,
-  targetRank = "Species",
-  doCover = FALSE,
-  doLifeform = FALSE
+  targetrank = "Species",
+  docov = FALSE,
+  dolife = FALSE
 )
 }
 \arguments{
@@ -19,13 +19,22 @@ filter_taxa(
 
 \item{sppcol}{Character. Name of column with species.}
 
-\item{visit}{Character. Name of columns defining a visit.}
+\item{context}{Character. Name of columns defining context.}
 
 \item{extracols}{Character. Name of any extra columns to keep.}
+
+\item{targetrank}{Character. Name of level in taxonomic hierarchy that names
+should be retrieved from, if possible.}
+
+\item{docov}{Logical. Should cover (needs to be supplied in df) be appended
+to output.}
+
+\item{dolife}{Logical. Should lifeform (needs to be supplied in df) be
+appended to output.}
 }
 \value{
-Dataframe with columns Taxa, visit column(s) and, if used, extracols.
+Dataframe with columns taxa, visit column(s) and, if used, extracols.
 }
 \description{
-Includes running of taxa_taxonomy()
+Includes running of taxa_taxonomy(), if lutaxa does not already exist.
 }

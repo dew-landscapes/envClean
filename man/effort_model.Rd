@@ -8,8 +8,8 @@ effort_model(
   df,
   envprcomp,
   context = "cell",
-  doIter = 1000,
-  doChains = 3,
+  doiter = 1000,
+  dochains = 3,
   threshold = 0.05
 )
 }
@@ -21,17 +21,17 @@ effort_model(
 \item{context}{Character. Column names that define context, usually a 'visit'
 to a 'cell'.}
 
-\item{doIter}{Numeric specifying the number of iterations to run for each
+\item{doiter}{Numeric specifying the number of iterations to run for each
 chain in rstan analysis.}
 
-\item{doChains}{Numeric specifying the number of chains to run in rstan
+\item{dochains}{Numeric specifying the number of chains to run in rstan
 analysis}
 
 \item{threshold}{Numeric between 0 and 1 specifying the two-tailed threshold
 above/below which richness is excessively above or below 'normal' for}
 }
 \value{
-
+List of model outputs.
 }
 \description{
 Model the effect of principal components axes on taxa richness.

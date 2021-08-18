@@ -4,13 +4,7 @@
 \alias{filter_spat_rel}
 \title{Filter data frame to specified spatial reliability}
 \usage{
-filter_spat_rel(
-  df,
-  distcol = "maxDist",
-  dist = relDist,
-  visit = visitcols,
-  dfRel = luRel
-)
+filter_spat_rel(df, distcol = "maxDist", dist, context, dfrel)
 }
 \arguments{
 \item{df}{Dataframe.}
@@ -19,9 +13,9 @@ filter_spat_rel(
 
 \item{dist}{Numeric. In units of the maxDist column.}
 
-\item{visit}{Character. column names defining a 'visit'.}
+\item{context}{Character. column names defining the context.}
 
-\item{dfRel}{Dataframe. Lookup from reliability id to reliability distance.}
+\item{dfrel}{Dataframe. Lookup from reliability id to reliability distance.}
 }
 \value{
 Dataframe with records of greater than dist filtered. Filtering is done
