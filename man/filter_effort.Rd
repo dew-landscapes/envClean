@@ -4,7 +4,7 @@
 \alias{filter_effort}
 \title{Run all functions required to complete effort filter}
 \usage{
-filter_effort(argscreateenv, argsenvpca, argseffortmodel)
+filter_effort(flordf, argscreateenv, argsenvpca, argseffortmodel)
 }
 \arguments{
 \item{argscreateenv}{Named list of arguments passed to create_env.}
@@ -14,9 +14,11 @@ argument is generated within effort_filter so is not needed.}
 
 \item{argseffortmodel}{Named list of arguments passed to effort_model. The
 df argument is generated within effort_filter so is not needed.}
+
+\item{df}{Dataframe with biological data to be filtered.}
 }
 \value{
-
+dataframes florenv and filtered argscreateenv$df; lists: envpca and effortmod
 }
 \description{
 Run all functions required to complete effort filter
