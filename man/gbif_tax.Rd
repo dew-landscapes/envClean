@@ -6,27 +6,27 @@
 \usage{
 gbif_tax(
   df,
-  sppcol = 1,
-  outfile = tempfile(),
-  kingtype = "Plantae",
-  getcommon = FALSE,
-  targetrank = "Species"
+  taxa_col = 1,
+  out_file = tempfile(),
+  king_type = "Plantae",
+  do_common = FALSE,
+  target_rank = "Species"
 )
 }
 \arguments{
 \item{df}{Dataframe with column of species names to resolve}
 
-\item{sppcol}{Character. Name of column with species names}
+\item{taxa_col}{Character. Name of column with species names}
 
-\item{outfile}{Character. Path to save results to. Saving is iterative as
+\item{out_file}{Character. Path to save results to. Saving is iterative as
 retrieving names can take some time.}
 
-\item{kingtype}{Character. Kingdom type (i.e. Plantae, Animalia etc.)}
+\item{king_type}{Character. Kingdom type (i.e. Plantae, Animalia etc.)}
 
-\item{targetrank}{Character. Default is 'Species'. At what level of the
+\item{do_common}{Logical. If TRUE, also get common names. Takes much longer.}
+
+\item{target_rank}{Character. Default is 'Species'. At what level of the
 taxonomic hierarchy are results desired.}
-
-\item{docommon}{Logical. If TRUE, also get common names. Takes much longer.}
 }
 \value{
 Dataframe of unique species names, other columns defining

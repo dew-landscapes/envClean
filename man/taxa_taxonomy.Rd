@@ -6,29 +6,29 @@
 \usage{
 taxa_taxonomy(
   df,
-  sppcol = "SPECIES",
-  lifespancol = NULL,
-  indcol = NULL,
-  poorfilt = c("dead", "unverified"),
-  savefile = tempfile(),
+  taxa_col = "SPECIES",
+  lifespan_col = NULL,
+  ind_col = NULL,
+  poor_filt = c("dead", "unverified"),
+  save_file = tempfile(),
   king = "Plantae"
 )
 }
 \arguments{
 \item{df}{Dataframe with species column.}
 
-\item{sppcol}{Name of column with species.}
+\item{taxa_col}{Name of column with species.}
 
-\item{lifespancol}{Character. Optional name of column containing lifespan
+\item{lifespan_col}{Character. Optional name of column containing lifespan
 information.}
 
-\item{indcol}{Character. Optional name of columns containing indigenous
-status of taxa in sppcol.}
+\item{ind_col}{Character. Optional name of columns containing indigenous
+status of taxa in taxa_col.}
 
-\item{poorfilt}{Character. Any taxa names to grep out of the species column.
+\item{poor_filt}{Character. Any taxa names to grep out of the species column.
 (e.g. c("annual form", "unverified")).}
 
-\item{savefile}{Character. Path to file containing desired taxonomy to use.
+\item{save_file}{Character. Path to file containing desired taxonomy to use.
 This is usually the output from gfbif_tax(). If this does not exist it will
 be created (as tempfile) by gbif_tax().}
 
@@ -39,7 +39,7 @@ Backbone}
 Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
 two dataframes are returned to the global environment. One, named
 taxaTaxonomy, with unique taxa and associated taxonomicinformation and two,
-named lutaxa, a lookup from unique values in sppcol to matched taxonomy from
+named lutaxa, a lookup from unique values in taxa_col to matched taxonomy from
 GBIF backbone.
 }
 \description{

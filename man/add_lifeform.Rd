@@ -4,21 +4,14 @@
 \alias{add_lifeform}
 \title{Generate best guess of lifeform for each taxa*context}
 \usage{
-add_lifeform(
-  df,
-  context = "cell",
-  lulf = tibble::tibble(lifeform = unique(df$lifeform), sort =
-    1:length(unique(df$lifeform)))
-)
+add_lifeform(df, context = "cell", env_prcomp = NULL)
 }
 \arguments{
 \item{df}{Dataframe with context, taxa and lifeform columns.}
 
 \item{context}{Character. Name of columns defining context.}
 
-\item{lulf}{Object mapping lifeform to some form of order to break ties.}
-
-\item{envprcomp}{Output from env_pca()}
+\item{env_prcomp}{Optional. Output from env_pca()}
 }
 \value{
 Dataframe with best guess lifeform replacing original lifeform.

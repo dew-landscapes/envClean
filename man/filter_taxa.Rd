@@ -6,30 +6,30 @@
 \usage{
 filter_taxa(
   df,
-  sppcol = "SPECIES",
+  taxa_col = "SPECIES",
   context,
-  extracols = NULL,
-  targetrank = "Species",
-  docov = FALSE,
-  dolife = FALSE
+  extra_cols = NULL,
+  target_rank = "Species",
+  do_cov = FALSE,
+  do_life = FALSE
 )
 }
 \arguments{
 \item{df}{Dataframe to reduce.}
 
-\item{sppcol}{Character. Name of column with species.}
+\item{taxa_col}{Character. Name of column with species.}
 
 \item{context}{Character. Name of columns defining context.}
 
-\item{extracols}{Character. Name of any extra columns to keep.}
+\item{extra_cols}{Character. Name of any extra columns to keep.}
 
-\item{targetrank}{Character. Name of level in taxonomic hierarchy that names
+\item{target_rank}{Character. Name of level in taxonomic hierarchy that names
 should be retrieved from, if possible.}
 
-\item{docov}{Logical. Should cover (needs to be supplied in df) be appended
+\item{do_cov}{Logical. Should cover (needs to be supplied in df) be appended
 to output.}
 
-\item{dolife}{Logical. Should lifeform (needs to be supplied in df) be
+\item{do_life}{Logical. Should lifeform (needs to be supplied in df) be
 appended to output.}
 }
 \value{
