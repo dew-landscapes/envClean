@@ -6,6 +6,7 @@
 #' @param df Dataframe with context, taxa and lifeform columns.
 #' @param context Character. Name of columns defining context.
 #' @param env_prcomp Optional. Output from env_pca()
+#' @param lulife Dataframe lookup for lifeform.
 #'
 #' @return Dataframe with best guess lifeform replacing original lifeform.
 #' @export
@@ -14,16 +15,15 @@
   add_lifeform <- function(df
                            , context = "cell"
                            , env_prcomp = NULL
+                           , lulife
                            ) {
-
-    lulifeform <- envEcosystems::lulifeform
 
     pca_lifeform <- if(isTRUE(!is.null(env_prcomp))) {
 
       df %>%
         dplyr::filter(!is.na(lifeform)) %>%
         dplyr::count(taxa,lifeform,across(contains("cutpc"))) %>%
-        dplyr::left_join(lulifeform %>%
+        dplyr::left_join(lulife %>%
                            dplyr::select(lifeform,sort)
                          ) %>%
         dplyr::group_by(taxa,across(contains("cutpc"))) %>%
@@ -43,7 +43,7 @@
 
     taxa_lifeform <- df %>%
       dplyr::filter(!is.na(lifeform)) %>%
-      dplyr::left_join(lulifeform) %>%
+      dplyr::left_join(lulife) %>%
       dplyr::count(taxa,sort,lifeform) %>%
       dplyr::group_by(taxa) %>%
       dplyr::filter(n == max(n)) %>%
