@@ -12,7 +12,9 @@ filter_taxa(
   target_rank = "species",
   do_cov = FALSE,
   do_life = FALSE,
-  lucov = NULL
+  lucov = NULL,
+  lulife = NULL,
+  poor = NULL
 )
 }
 \arguments{
@@ -33,7 +35,11 @@ to output.}
 \item{do_life}{Logical. Should lifeform (needs to be supplied in df) be
 appended to output.}
 
-\item{lucov}{Dataframe. Lookup from cover}
+\item{lucov}{Dataframe lookup for cover.}
+
+\item{lulife}{Dataframe lookup for lifeform.}
+
+\item{poor}{Character. Vector of words to exclude from species list.}
 }
 \value{
 Dataframe with columns taxa, visit column(s) and, if used, extracols.

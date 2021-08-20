@@ -9,17 +9,17 @@
 #' is no available site, pca or taxa cover value.
 #'
 #' @return Dataframe with covcol removed and replaced with best guess cover in
-#' column usecover
+#' column use_cover
 #' @export
 #'
 #' @examples
   add_cover <- function(df
                         , context = "cell"
-                        , covcol = "usecover"
+                        , covcol = "use_cover"
                         , smallcov = 0.009
                         ) {
 
-    namesdf <- c(names(df)[names(df) != covcol],"usecover")
+    namesdf <- c(names(df)[names(df) != covcol],"use_cover")
 
     sitecov <- df %>%
       dplyr::group_by(across(contains("cutpc")),across(all_of(context)),taxa) %>%
@@ -40,19 +40,19 @@
       dplyr::left_join(sitecov) %>%
       dplyr::left_join(pcacov) %>%
       dplyr::left_join(taxacov) %>%
-      dplyr::mutate(usecover = if_else(!is.na(sitecover)
+      dplyr::mutate(use_cover = if_else(!is.na(sitecover)
                                    ,sitecover
                                    ,if_else(!is.na(pcacover)
                                             , pcacover
                                             , taxacover
                                             )
                                    )
-                    , usecover = if_else(is.na(usecover),smallcov,usecover)
+                    , use_cover = if_else(is.na(use_cover),smallcov,use_cover)
                     ) %>%
       dplyr::select(all_of(names(df))) %>%
       # remove sites where all cover values had to be assigned as a small value
       dplyr::group_by(across(all_of(context))) %>%
-      dplyr::mutate(covmean = mean(usecover)) %>%
+      dplyr::mutate(covmean = mean(use_cover)) %>%
       dplyr::ungroup() %>%
       dplyr::filter(covmean != smallcov) %>%
       dplyr::select(all_of(namesdf))

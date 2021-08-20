@@ -48,7 +48,7 @@
                     , brks = purrr::map2(data
                                          ,id
                                          ,~unique(c(-Inf
-                                                    ,classInt::classIntervals(.x$value, cuts/.y, style = intstyle)$brks
+                                                    ,classInt::classIntervals(.x$value, cuts/.y, style = int_style)$brks
                                                     ,Inf
                                                     )
                                                   )
@@ -143,10 +143,10 @@
       dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
       dplyr::mutate(cut_pc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
       dplyr::select(-brks) %>%
-      tidyr::pivot_wider(names_from = "pc", values_from = c(value,"cutpc")) %>%
+      tidyr::pivot_wider(names_from = "pc", values_from = c(value,"cut_pc")) %>%
       stats::setNames(gsub("value_|pc_","",names(.))) %>%
       tidyr::unnest(cols = 1:ncol(.))  %>%
-      tidyr::unnest(cols = grep("cutpc",names(.),value = TRUE))
+      tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE))
 
     #--------model-------
 
@@ -198,7 +198,7 @@
       dplyr::mutate(stand_resid = residual/stats::sd(.$residual)) %>%
       dplyr::bind_cols(effort_mod$dat_exp)
 
-    effort_mod$mod_resid_plot <- ggplot2::ggplot(effortmod$mod_resid
+    effort_mod$mod_resid_plot <- ggplot2::ggplot(effort_mod$mod_resid
                                                  ,aes(fitted,stand_resid)
                                                  ) +
       ggplot2::geom_point() +
@@ -292,52 +292,6 @@
       dplyr::count(keep_hi,keep_lo,keep_qsize,keep)
 
     invisible(effort_mod)
-
-  }
-
-
-#' Run all functions required to complete effort filter
-#'
-#' @param bio_df Dataframe with biological data to be filtered.
-#' @param args_create_env Named list of arguments passed to create_env.
-#' @param args_env_pca Named list of arguments passed to env_pca. The envdf
-#' argument is generated within effort_filter so is not needed.
-#' @param args_effort_model Named list of arguments passed to effort_model. The
-#' df argument is generated within effort_filter so is not needed.
-#'
-#' @return dataframes florenv and filtered argscreateenv$df; lists: envpca and effortmod
-#' @export
-#'
-#' @examples
-  filter_effort <- function(bio_df
-                            , args_create_env
-                            , args_env_pca
-                            , args_effort_model
-                            ) {
-
-    args_create_env <- c(list(df = bio_df),args_create_env)
-
-    flor_env <- do.call(envFunc::create_env,args = args_create_env) %>%
-      stats::na.omit()
-
-    args_env_pca <- c(list(env_df = flor_env),args_env_pca)
-
-    env_pca <- do.call(env_pca,args = args_env_pca)
-
-    args_effort_model <- c(list(df = bio_df, env_prcomp = env_pca),args_effort_model)
-
-    effort_mod <- do.call(effort_model,args = args_effort_model)
-
-    toassign <- c("flor_env","env_pca","effort_mod")
-
-    walk(toassign,~assign(.,get(.),envir = globalenv()))
-
-    bio_df %>%
-      dplyr::inner_join(effort_mod$mod_cell_result %>%
-                          dplyr::filter(keep)
-                        ) %>%
-      dplyr::select(names(bio_df),grep("cutpc",names(.),value = TRUE)) %>%
-      dplyr::distinct()
 
   }
 

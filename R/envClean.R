@@ -264,7 +264,9 @@
 #' to output.
 #' @param do_life Logical. Should lifeform (needs to be supplied in df) be
 #' appended to output.
-#' @param lucov Dataframe. Lookup from cover
+#' @param lucov Dataframe lookup for cover.
+#' @param lulife Dataframe lookup for lifeform.
+#' @param poor Character. Vector of words to exclude from species list.
 #'
 #' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
 #' @export
@@ -278,13 +280,26 @@
                           , do_cov = FALSE
                           , do_life = FALSE
                           , lucov = NULL
+                          , lulife = NULL
+                          , poor = NULL
                           ) {
 
     df <- df %>%
       dplyr::rename(original_name = !!ensym(taxa_col))
 
     # run taxa_taxonomy
-    if(!exists("lutaxa")) make_taxa_taxonomy(df, lifespan_col = "lifespan")
+    if(!exists("lutaxa")) {
+
+      .taxa_col <- taxa_col
+      if(do_life) lifespan_col <- "lifespan"
+      ind_col <- "ind"
+      poor_filt = poor
+      save_luGBIF = "out/luGBIF.feather"
+      king = "Plantae"
+
+      make_taxa_taxonomy(df, lifespan_col = "lifespan")
+
+      }
 
     # Use dftaxa as base df from here
     flor_taxa <- df %>%
@@ -299,16 +314,24 @@
     flor_taxa_cov <- if(do_cov) {
 
       .context = context
+      .lucov = lucov
 
-      create_cover(flor_taxa, context = .context)
+      create_cover(flor_taxa
+                   , context = .context
+                   , lucov = .lucov
+                   )
 
       } else flortaxa
 
     flor_taxa_life <- if(do_life) {
 
       .context = context
+      .lulife = lulife
 
-      create_lifeform(flor_taxa, context = .context)
+      create_lifeform(flor_taxa
+                      , context = .context
+                      , lulife = .lulife
+                      )
 
     } else flor_taxa
 
@@ -348,7 +371,7 @@
 #' @examples
 #'
   make_taxa_taxonomy <- function(df
-                            , taxa_col = "SPECIES"
+                            , taxa_col = "original_name"
                             , lifespan_col = NULL
                             , ind_col = NULL
                             , poor_filt = c("dead","unverified")
@@ -466,7 +489,7 @@
       ind_df <- df %>%
         dplyr::rename(original_name = !!ensym(taxa_col)) %>%
         dplyr::left_join(two) %>%
-        create_ind_status(taxa_col = taxa_col) %>%
+        create_ind_status(taxa_col = "taxa") %>%
         dplyr::add_count(taxa) %>%
         dplyr::mutate(ind = if_else(n > 1,"U",ind)) %>%
         dplyr::select(-n) %>%
@@ -526,6 +549,7 @@
 #' @param lf_col Character. Name of lifeform (id) column.
 #' @param context Charcter or NULL. Set of columns that define a context within
 #' which to generate lifeform.
+#' @param lulife Dataframe lookup for lifeform.
 #'
 #' @return Dataframe with columns taxa_col, visit col(s), lifeform
 #' @export
@@ -535,6 +559,7 @@
                               , taxa_col = "taxa"
                               , lf_col = "lifeform"
                               , context = NULL
+                              , lulife
                               ) {
 
     df %>%
@@ -546,7 +571,7 @@
                     ) %>%
       dplyr::ungroup() %>%
       dplyr::filter(per > 5) %>%
-      dplyr::left_join(lulifeform) %>%
+      dplyr::left_join(lulife) %>%
       dplyr::mutate(ht_test = dplyr::if_else(lifeform == "J",ht + 0.01, ht)) %>%
       dplyr::group_by(across(!!ensym(taxa_col)),across(all_of(context))) %>%
       dplyr::slice(which(ht_test == max(ht_test, na.rm=TRUE))) %>%
@@ -770,7 +795,7 @@
         dplyr::count(taxa,visits,name = "records") %>%
         dplyr::filter(records > 5) %>%
         dplyr::mutate(per = round(100*records/visits,2)) %>%
-        dplyr::filter(visits > minsites/2) %>%
+        dplyr::filter(visits > min_sites/2) %>%
         dplyr::pull(per) %>%
         min()
 
