@@ -6,12 +6,13 @@
 \usage{
 filter_taxa(
   df,
-  taxa_col = "SPECIES",
+  taxa_col = "original_name",
   context,
   extra_cols = NULL,
-  target_rank = "Species",
+  target_rank = "species",
   do_cov = FALSE,
-  do_life = FALSE
+  do_life = FALSE,
+  lucov = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ to output.}
 
 \item{do_life}{Logical. Should lifeform (needs to be supplied in df) be
 appended to output.}
+
+\item{lucov}{Dataframe. Lookup from cover}
 }
 \value{
 Dataframe with columns taxa, visit column(s) and, if used, extracols.

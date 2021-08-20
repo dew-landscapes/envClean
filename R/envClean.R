@@ -19,10 +19,10 @@
 #' @export
 #'
 #' @examples
-#' gbif_tax(data.frame(Species = "Eucalyptus viminalis"))
+#' get_gbif_tax(data.frame(Species = "Eucalyptus viminalis"))
 #'
 #'
-  gbif_tax <- function(df
+  get_gbif_tax <- function(df
                        , taxa_col = 1
                        , out_file = tempfile()
                        , king_type = "Plantae"
@@ -264,29 +264,33 @@
 #' to output.
 #' @param do_life Logical. Should lifeform (needs to be supplied in df) be
 #' appended to output.
+#' @param lucov Dataframe. Lookup from cover
 #'
 #' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
 #' @export
 #'
 #' @examples
   filter_taxa <- function(df
-                          , taxa_col = "SPECIES"
+                          , taxa_col = "original_name"
                           , context
                           , extra_cols = NULL
-                          , target_rank = "Species"
+                          , target_rank = "species"
                           , do_cov = FALSE
                           , do_life = FALSE
+                          , lucov = NULL
                           ) {
 
+    df <- df %>%
+      dplyr::rename(original_name = !!ensym(taxa_col))
+
     # run taxa_taxonomy
-    if(!exists("lutaxa")) taxa_taxonomy(df, lifespan_col = "lifespan")
+    if(!exists("lutaxa")) make_taxa_taxonomy(df, lifespan_col = "lifespan")
 
     # Use dftaxa as base df from here
-    flortaxa <- df %>%
+    flor_taxa <- df %>%
       dplyr::distinct(!!ensym(taxa_col)) %>%
-      dplyr::left_join(lutaxa %>%
-                          dplyr::rename(!!ensym(taxa_col) := original_name)
-                        ) %>%
+      dplyr::rename(original_name = !!ensym(taxa_col)) %>%
+      dplyr::left_join(lutaxa) %>%
       dplyr::filter(rank >= target_rank) %>%
       dplyr::left_join(df) %>%
       dplyr::select(all_of(context),taxa,all_of(extra_cols)) %>%
@@ -329,7 +333,7 @@
 #' (e.g. c("annual form", "unverified")).
 #' @param save_luGBIF Character. Path to file containing desired taxonomy to use.
 #' This is usually the output from gfbif_tax(). If this does not exist it will
-#' be created (as tempfile) by gbif_tax().
+#' be created (as tempfile) by get_gbif_tax().
 #' @param king Character. Kingdom to search preferentially in GBIF Taxonomy
 #' Backbone
 #'
@@ -343,7 +347,7 @@
 #'
 #' @examples
 #'
-  taxa_taxonomy <- function(df
+  make_taxa_taxonomy <- function(df
                             , taxa_col = "SPECIES"
                             , lifespan_col = NULL
                             , ind_col = NULL
@@ -363,7 +367,7 @@
 
     # GBIF taxonomy
     zero <- taxas %>%
-      gbif_tax(out_file = save_luGBIF
+      get_gbif_tax(out_file = save_luGBIF
                , king_type = king
                ) %>%
       dplyr::inner_join(taxas %>%
@@ -462,7 +466,7 @@
       ind_df <- df %>%
         dplyr::rename(original_name = !!ensym(taxa_col)) %>%
         dplyr::left_join(two) %>%
-        create_ind_status(taxa_col = "taxa") %>%
+        create_ind_status(taxa_col = taxa_col) %>%
         dplyr::add_count(taxa) %>%
         dplyr::mutate(ind = if_else(n > 1,"U",ind)) %>%
         dplyr::select(-n) %>%
@@ -556,11 +560,26 @@
   }
 
 
+#' Create a single (numeric, proportion) cover column from different sorts of
+#' input cover
+#'
+#' Assumes a numeric (percentage) cover column called 'cover' and character
+#' column called 'cover_code' that is the modified Braun-Blanquet
+#' \insertRef{RN4265}{envEcosystems} cover value using
+#' [Biological Databases of South Australia](https://www.environment.sa.gov.au/topics/Science/Information_data/Biological_databases_of_South_Australia)
+#' codes (`COVCODE` field in BDBSA). Example of `lucov` at
+#' `envEcosystems::lucover`.
+#'
+#' @param df Dataframe containing columns to consolidate.
+#' @param taxa_col Character. Name of column containing taxa.
+#' @param context Character. Name of columns defining the context.
+#' @param lucov Dataframe. Lookup from `cover_code` to numeric cover values.
+#'
+#' @return Dataframe with consolidated `use_cover` column.
+#' @export
+#'
+#' @examples
   create_cover <- function(df, taxa_col = "taxa", context = NULL, lucov) {
-
-    # Assumes numeric (percentage) cover column called 'cover' and character
-    # column called 'cover_code' that is the modified Braun-Blanquet cover value
-    # from BDBSA. lucov is used to map from covCode to numeric.
 
     df %>%
       dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
@@ -626,7 +645,7 @@
 #' Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)
 #'
 #' @param df Dataframe. Needs coordinate columns
-#' @param aoi sf. Name of sf object defining the area of interest
+#' @param use_aoi sf. Name of sf object defining the area of interest
 #' @param x Character. Name of column with x coord
 #' @param y Character. Name of column with y coord
 #' @param crs_df Anything that will return a legitimate crs when passed to the
