@@ -7,7 +7,7 @@
 
   lapply(codes,source)
 
-  datas <- ls(pattern = "cut|lu|Spp")
+  datas <- ls(pattern = "lu")
 
   do.call(save, c(lapply(datas,as.name), file = "data/data.rda"))
 

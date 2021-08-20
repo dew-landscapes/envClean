@@ -13,13 +13,20 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
+    classInt,
     dplyr,
     envEcosystems,
+    envFunc,
+    factoextra,
+    ggplot2,
+    janitor,
     magrittr,
     purrr,
     rgbif,
     rio,
+    rstanarm,
     sf,
+    stats,
     stringr,
     tibble,
     tidyr,
