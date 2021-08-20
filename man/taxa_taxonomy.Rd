@@ -10,7 +10,7 @@ taxa_taxonomy(
   lifespan_col = NULL,
   ind_col = NULL,
   poor_filt = c("dead", "unverified"),
-  save_file = tempfile(),
+  save_luGBIF = tempfile(),
   king = "Plantae"
 )
 }
@@ -28,7 +28,7 @@ status of taxa in taxa_col.}
 \item{poor_filt}{Character. Any taxa names to grep out of the species column.
 (e.g. c("annual form", "unverified")).}
 
-\item{save_file}{Character. Path to file containing desired taxonomy to use.
+\item{save_luGBIF}{Character. Path to file containing desired taxonomy to use.
 This is usually the output from gfbif_tax(). If this does not exist it will
 be created (as tempfile) by gbif_tax().}
 

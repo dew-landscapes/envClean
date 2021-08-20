@@ -327,7 +327,7 @@
 #' status of taxa in taxa_col.
 #' @param poor_filt Character. Any taxa names to grep out of the species column.
 #' (e.g. c("annual form", "unverified")).
-#' @param save_file Character. Path to file containing desired taxonomy to use.
+#' @param save_luGBIF Character. Path to file containing desired taxonomy to use.
 #' This is usually the output from gfbif_tax(). If this does not exist it will
 #' be created (as tempfile) by gbif_tax().
 #' @param king Character. Kingdom to search preferentially in GBIF Taxonomy
@@ -348,7 +348,7 @@
                             , lifespan_col = NULL
                             , ind_col = NULL
                             , poor_filt = c("dead","unverified")
-                            , save_file = tempfile()
+                            , save_luGBIF = tempfile()
                             , king = "Plantae"
                             ) {
 
@@ -363,7 +363,7 @@
 
     # GBIF taxonomy
     zero <- taxas %>%
-      gbif_tax(out_file = save_file
+      gbif_tax(out_file = save_luGBIF
                , king_type = king
                ) %>%
       dplyr::inner_join(taxas %>%
@@ -417,8 +417,8 @@
         dplyr::rename(original_name = !!ensym(taxa_col)) %>%
         dplyr::left_join(two) %>%
         dplyr::left_join(one) %>%
-        dplyr::count(Genus,lifespan) %>%
-        dplyr::group_by(Genus) %>%
+        dplyr::count(genus,lifespan) %>%
+        dplyr::group_by(genus) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::slice(1) %>%
         dplyr::ungroup() %>%
@@ -431,8 +431,8 @@
         dplyr::rename(original_name = !!ensym(taxa_col)) %>%
         dplyr::left_join(two) %>%
         dplyr::left_join(one) %>%
-        dplyr::count(Family,lifespan) %>%
-        dplyr::group_by(Family) %>%
+        dplyr::count(family,lifespan) %>%
+        dplyr::group_by(family) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::slice(1) %>%
         dplyr::ungroup() %>%
@@ -638,7 +638,7 @@
 #'
 #' @examples
   filter_aoi <- function(df
-                         , aoi
+                         , use_aoi
                          , x = "long"
                          , y = "lat"
                          , crs_df = 4326
@@ -652,7 +652,7 @@
                    , remove = FALSE
                    ) %>%
       sf::st_transform(crs = crs_aoi) %>%
-      sf::st_filter(aoi) %>%
+      sf::st_filter(use_aoi) %>%
       sf::st_set_geometry(NULL) %>%
       dplyr::inner_join(df) %>%
       tibble::as_tibble()
@@ -743,7 +743,7 @@
                           , default_per = 1
                           ) {
 
-    thresh <- if(isTRUE(!is.null(keep_taxa))) {
+    thresh <- if(isTRUE(!is.null(keep))) {
 
       dont_drop_df <- df %>%
         dplyr::mutate(visits = n_distinct(across(all_of(context)))) %>%
