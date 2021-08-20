@@ -4,16 +4,16 @@
 \alias{filter_text_col}
 \title{Filter a column}
 \usage{
-filter_text_col(df, filtcol, filttext, dfjoin = NULL)
+filter_text_col(df, filt_col, filt_text, df_join = NULL)
 }
 \arguments{
 \item{df}{Dataframe with column to filter.}
 
-\item{filtcol}{Character. Name of column to filter.}
+\item{filt_col}{Character. Name of column to filter.}
 
-\item{filttext}{Character. Text(s) to filter from df.}
+\item{filt_text}{Character. Text(s) to filter from df.}
 
-\item{dfjoin}{Optional dataframe. Joined to df before filter. No names from
+\item{df_join}{Optional dataframe. Joined to df before filter. No names from
 dfJoin are returned.}
 }
 \value{

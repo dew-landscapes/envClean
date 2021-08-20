@@ -4,7 +4,7 @@
 \alias{filter_aoi}
 \title{Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)}
 \usage{
-filter_aoi(df, aoi, x = "long", y = "lat", crsdf = 4326, crsaoi = useEPSG)
+filter_aoi(df, aoi, x = "long", y = "lat", crs_df = 4326, crs_aoi)
 }
 \arguments{
 \item{df}{Dataframe. Needs coordinate columns}
@@ -15,10 +15,10 @@ filter_aoi(df, aoi, x = "long", y = "lat", crsdf = 4326, crsaoi = useEPSG)
 
 \item{y}{Character. Name of column with y coord}
 
-\item{crsdf}{Anything that will return a legitimate crs when passed to the
+\item{crs_df}{Anything that will return a legitimate crs when passed to the
 crs attribute of st_transform or st_as_sf}
 
-\item{crsaoi}{as for crsdf}
+\item{crs_aoi}{as for crsdf}
 }
 \value{
 Dataframe filtered to area of interest

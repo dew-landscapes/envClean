@@ -4,20 +4,20 @@
 \alias{create_lifeform}
 \title{Get unique lifeform across species, perhaps including further context}
 \usage{
-create_lifeform(df, sppcol = "taxa", lfcol = "lifeform", context = NULL)
+create_lifeform(df, taxa_col = "taxa", lf_col = "lifeform", context = NULL)
 }
 \arguments{
 \item{df}{Dataframe with species column.}
 
-\item{sppcol}{Character. Name of species column.}
+\item{taxa_col}{Character. Name of species column.}
 
-\item{lfcol}{Character. Name of lifeform (id) column.}
+\item{lf_col}{Character. Name of lifeform (id) column.}
 
 \item{context}{Charcter or NULL. Set of columns that define a context within
 which to generate lifeform.}
 }
 \value{
-Dataframe with columns sppcol, visit col(s), lifeform
+Dataframe with columns taxa_col, visit col(s), lifeform
 }
 \description{
 There are two tasks here:

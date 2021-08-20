@@ -5,8 +5,7 @@
 #'
 #' @param df Dataframe with context, taxa and lifeform columns.
 #' @param context Character. Name of columns defining context.
-#' @param lulf Object mapping lifeform to some form of order to break ties.
-#' @param envprcomp Output from env_pca()
+#' @param env_prcomp Optional. Output from env_pca()
 #'
 #' @return Dataframe with best guess lifeform replacing original lifeform.
 #' @export
@@ -14,53 +13,54 @@
 #' @examples
   add_lifeform <- function(df
                            , context = "cell"
-                           , lulf = tibble::tibble(
-                             lifeform = unique(df$lifeform)
-                             , sort = 1:length(unique(df$lifeform))
-                             )
+                           , env_prcomp = NULL
                            ) {
 
-    pcalifeform <- if(isTRUE(!is.null(envprcomp))) {
+    lulifeform <- envEcosystems::lulifeform
+
+    pca_lifeform <- if(isTRUE(!is.null(env_prcomp))) {
 
       df %>%
         dplyr::filter(!is.na(lifeform)) %>%
         dplyr::count(taxa,lifeform,across(contains("cutpc"))) %>%
-        dplyr::left_join(lulf %>%
+        dplyr::left_join(lulifeform %>%
                            dplyr::select(lifeform,sort)
                          ) %>%
         dplyr::group_by(taxa,across(contains("cutpc"))) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::filter(sort == min(sort)) %>%
         dplyr::ungroup() %>%
-        dplyr::select(taxa,contains("cutpc"),pcalifeform = lifeform)
+        dplyr::select(taxa,contains("cutpc"),pca_lifeform = lifeform) %>%
+        dplyr::distinct()
 
     } else {
 
       df %>%
-        dplyr::select(taxa,contains("cutpc"),pcalifeform = lifeform)
+        dplyr::select(taxa,contains("cutpc"),pca_lifeform = lifeform) %>%
+        dplyr::distinct()
 
       }
 
-    taxalifeform <- df %>%
+    taxa_lifeform <- df %>%
       dplyr::filter(!is.na(lifeform)) %>%
-      dplyr::left_join(lulf) %>%
+      dplyr::left_join(lulifeform) %>%
       dplyr::count(taxa,sort,lifeform) %>%
       dplyr::group_by(taxa) %>%
       dplyr::filter(n == max(n)) %>%
       dplyr::filter(sort == min(sort)) %>%
       dplyr::ungroup() %>%
       dplyr::select(-n, -sort) %>%
-      dplyr::rename(taxalifeform = lifeform)
+      dplyr::rename(taxa_lifeform = lifeform)
 
     df %>%
-      dplyr::rename(sitelifeform = lifeform) %>%
-      dplyr::left_join(pcalifeform) %>%
-      dplyr::left_join(taxalifeform) %>%
-      dplyr::mutate(lifeform = if_else(!is.na(sitelifeform)
-                                   ,sitelifeform
-                                   ,if_else(!is.na(pcalifeform)
-                                            , pcalifeform
-                                            , taxalifeform
+      dplyr::rename(site_lifeform = lifeform) %>%
+      dplyr::left_join(pca_lifeform) %>%
+      dplyr::left_join(taxa_lifeform) %>%
+      dplyr::mutate(lifeform = if_else(!is.na(site_lifeform)
+                                   ,site_lifeform
+                                   ,if_else(!is.na(pca_lifeform)
+                                            , pca_lifeform
+                                            , taxa_lifeform
                                             )
                                    )
                     ) %>%

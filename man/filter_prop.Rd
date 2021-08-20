@@ -4,13 +4,7 @@
 \alias{filter_prop}
 \title{Filter taxa recorded at less than x percent of visits}
 \usage{
-filter_prop(
-  df,
-  context = "cell",
-  minsites = 15,
-  keeptaxa = NULL,
-  defaultper = 1
-)
+filter_prop(df, context = "cell", min_sites = 15, keep = NULL, default_per = 1)
 }
 \arguments{
 \item{df}{Dataframe with taxa and context}
@@ -18,12 +12,12 @@ filter_prop(
 \item{context}{Character. Column names that define context, usually a 'visit'
 to a 'cell'.}
 
-\item{minsites}{Absolute minimum sites at which a taxa should be recorded.}
+\item{min_sites}{Absolute minimum sites at which a taxa should be recorded.}
 
-\item{keeptaxa}{Character. taxa that should not be dropped. Used to set x
+\item{keep}{Character. taxa that should not be dropped. Used to set x
 percent of sites.}
 
-\item{defaultper}{If keeptaxa is NULL, what is the minimum percent of sites
+\item{default_per}{If keeptaxa is NULL, what is the minimum percent of sites
 at which a taxa should be recorded.}
 }
 \value{
