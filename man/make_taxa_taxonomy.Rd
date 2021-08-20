@@ -6,7 +6,7 @@
 \usage{
 make_taxa_taxonomy(
   df,
-  taxa_col = "SPECIES",
+  taxa_col = "original_name",
   lifespan_col = NULL,
   ind_col = NULL,
   poor_filt = c("dead", "unverified"),

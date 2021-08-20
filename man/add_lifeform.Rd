@@ -4,7 +4,7 @@
 \alias{add_lifeform}
 \title{Generate best guess of lifeform for each taxa*context}
 \usage{
-add_lifeform(df, context = "cell", env_prcomp = NULL)
+add_lifeform(df, context = "cell", env_prcomp = NULL, lulife)
 }
 \arguments{
 \item{df}{Dataframe with context, taxa and lifeform columns.}
@@ -12,6 +12,8 @@ add_lifeform(df, context = "cell", env_prcomp = NULL)
 \item{context}{Character. Name of columns defining context.}
 
 \item{env_prcomp}{Optional. Output from env_pca()}
+
+\item{lulife}{Dataframe lookup for lifeform.}
 }
 \value{
 Dataframe with best guess lifeform replacing original lifeform.
