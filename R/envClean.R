@@ -267,6 +267,9 @@
 #' @param lucov Dataframe lookup for cover.
 #' @param lulife Dataframe lookup for lifeform.
 #' @param poor Character. Vector of words to exclude from species list.
+#' @param save_gbif_file Character. Path to `luGBIF.feather`. Passed to
+#' `get_gbif_taxa()` (via `create_taxa_taxonomy()`) if lutaxa does not exist.
+#' @param king_for_taxa Character. Passed to `get_gbif_taxa()`
 #'
 #' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
 #' @export
@@ -282,6 +285,8 @@
                           , lucov = NULL
                           , lulife = NULL
                           , poor = NULL
+                          , save_gbif_file = tempfile()
+                          , king_for_taxa = "Plantae"
                           ) {
 
     df <- df %>%
@@ -291,13 +296,15 @@
     if(!exists("lutaxa")) {
 
       .taxa_col <- taxa_col
-      if(do_life) lifespan_col <- "lifespan"
-      ind_col <- "ind"
-      poor_filt = poor
-      save_luGBIF = "out/luGBIF.feather"
-      king = "Plantae"
 
-      make_taxa_taxonomy(df, lifespan_col = "lifespan")
+      make_taxa_taxonomy(df
+                         , taxa_col = .taxa_col
+                         , lifespan_col = if(do_life) lifespan_col <- "lifespan" else NULL
+                         , ind_col <- "ind"
+                         , poor_filt = poor
+                         , save_luGBIF = save_gbif_file
+                         , king = king_for_taxa
+                         )
 
       }
 
