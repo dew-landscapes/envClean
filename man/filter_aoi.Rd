@@ -9,6 +9,8 @@ filter_aoi(df, use_aoi, x = "long", y = "lat", crs_df = 4326, crs_aoi)
 \arguments{
 \item{df}{Dataframe. Needs coordinate columns}
 
+\item{use_aoi}{sf. Name of sf object defining the area of interest}
+
 \item{x}{Character. Name of column with x coord}
 
 \item{y}{Character. Name of column with y coord}
@@ -17,8 +19,6 @@ filter_aoi(df, use_aoi, x = "long", y = "lat", crs_df = 4326, crs_aoi)
 crs attribute of st_transform or st_as_sf}
 
 \item{crs_aoi}{as for crsdf}
-
-\item{aoi}{sf. Name of sf object defining the area of interest}
 }
 \value{
 Dataframe filtered to area of interest
