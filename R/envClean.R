@@ -641,23 +641,20 @@
 #' @param dist Numeric. Filter spatial reliability greater than this value. In
 #' the same units as `dist_col`.
 #' @param context Character. column names defining the context.
-#' @param df_rel Dataframe. Lookup from reliability id to reliability distance.
 #'
-#' @return Dataframe with records of greater than dist filtered. Filtering is
+#' @return Dataframe with records of greater than `dist` filtered. Filtering is
 #' done at `context` level.
 #' @export
 #'
 #' @examples
   filter_spat_rel <- function(df
-                              , dist_col = "max_dist"
+                              , dist_col = "rel_dist"
                               , default = Inf
                               , dist = 50
                               , context
-                              , df_rel
                               ){
 
     vis_rel <- df %>%
-      dplyr::left_join(df_rel) %>%
       dplyr::mutate(dist_col := dplyr::if_else(is.na(!!ensym(dist_col))
                                                , default
                                                , !!ensym(dist_col)
@@ -668,8 +665,7 @@
       dplyr::select(-!!ensym(dist_col))
 
     df %>%
-      dplyr::inner_join(vis_rel) %>%
-      tibble::as_tibble()
+      dplyr::inner_join(vis_rel)
 
   }
 
