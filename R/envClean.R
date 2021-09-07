@@ -268,7 +268,7 @@
 #' @param lulife Dataframe lookup for lifeform.
 #' @param poor Character. Vector of words to exclude from species list.
 #' @param save_gbif_file Character. Path to `luGBIF.feather`. Passed to
-#' `get_gbif_taxa()` (via `create_taxa_taxonomy()`) if lutaxa does not exist.
+#' `get_gbif_taxa()` (via `make_taxa_taxonomy()`) if lutaxa does not exist.
 #' @param king_for_taxa Character. Passed to `get_gbif_taxa()`
 #'
 #' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
@@ -323,7 +323,7 @@
       .context = context
       .lucov = lucov
 
-      create_cover(flor_taxa
+      make_cover(flor_taxa
                    , context = .context
                    , lucov = .lucov
                    )
@@ -335,7 +335,7 @@
       .context = context
       .lulife = lulife
 
-      create_lifeform(flor_taxa
+      make_lifeform(flor_taxa
                       , context = .context
                       , lulife = .lulife
                       )
@@ -351,7 +351,7 @@
 
 
 
-#' Create taxonomy lookups
+#' Make taxonomy lookups
 #'
 #' @param df Dataframe with species column.
 #' @param taxa_col Name of column with species.
@@ -496,7 +496,7 @@
       ind_df <- df %>%
         dplyr::rename(original_name = !!ensym(taxa_col)) %>%
         dplyr::left_join(two) %>%
-        create_ind_status(taxa_col = "taxa") %>%
+        make_ind_status(taxa_col = "taxa") %>%
         dplyr::add_count(taxa) %>%
         dplyr::mutate(ind = if_else(n > 1,"U",ind)) %>%
         dplyr::select(-n) %>%
@@ -512,7 +512,7 @@
 
   }
 
-#' Create indigenous status lookup
+#' Make indigenous status lookup
 #'
 #' @param df Dataframe with species column and column indicating indigenous
 #' status.
@@ -523,7 +523,7 @@
 #' @export
 #'
 #' @examples
-  create_ind_status <- function(df, taxa_col = "taxa", ind_col = "ind") {
+  make_ind_status <- function(df, taxa_col = "taxa", ind_col = "ind") {
 
     df %>%
       dplyr::count(dplyr::across(!!ensym(taxa_col)),dplyr::across(!!ensym(ind_col))) %>%
@@ -562,7 +562,7 @@
 #' @export
 #'
 #' @examples
-  create_lifeform <- function(df
+  make_lifeform <- function(df
                               , taxa_col = "taxa"
                               , lf_col = "lifeform"
                               , context = NULL
@@ -592,7 +592,7 @@
   }
 
 
-#' Create a single (numeric, proportion) cover column from different sorts of
+#' Make a single (numeric, proportion) cover column from different sorts of
 #' input cover
 #'
 #' Assumes a numeric (percentage) cover column called 'cover' and character
@@ -611,7 +611,7 @@
 #' @export
 #'
 #' @examples
-  create_cover <- function(df, taxa_col = "taxa", context = NULL, lucov) {
+  make_cover <- function(df, taxa_col = "taxa", context = NULL, lucov) {
 
     df %>%
       dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%

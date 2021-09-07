@@ -2,7 +2,7 @@
 % Please edit documentation in R/envClean.R
 \name{make_taxa_taxonomy}
 \alias{make_taxa_taxonomy}
-\title{Create taxonomy lookups}
+\title{Make taxonomy lookups}
 \usage{
 make_taxa_taxonomy(
   df,
@@ -43,7 +43,7 @@ named lutaxa, a lookup from unique values in taxa_col to matched taxonomy from
 GBIF backbone.
 }
 \description{
-Create taxonomy lookups
+Make taxonomy lookups
 }
 \examples{
 
