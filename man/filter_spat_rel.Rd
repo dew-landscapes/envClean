@@ -4,7 +4,13 @@
 \alias{filter_spat_rel}
 \title{Filter data frame to specified spatial reliability}
 \usage{
-filter_spat_rel(df, dist_col = "rel_dist", default = Inf, dist = 50, context)
+filter_spat_rel(
+  df,
+  dist_col = "rel_dist",
+  dist = 50,
+  context,
+  over_ride = NULL
+)
 }
 \arguments{
 \item{df}{Dataframe.}
@@ -12,13 +18,14 @@ filter_spat_rel(df, dist_col = "rel_dist", default = Inf, dist = 50, context)
 \item{dist_col}{Character. Name of the column containing the spatial
 reliability.}
 
-\item{default}{Numeric. Default value for \code{dist_col} to use if \code{dist_col} is
-\code{NA}. Useful when importing reliable data with no associated reli}
-
 \item{dist}{Numeric. Filter spatial reliability greater than this value. In
 the same units as \code{dist_col}.}
 
 \item{context}{Character. column names defining the context.}
+
+\item{over_ride}{Named list. List names must be the same as column names. Any
+names in \code{over_ride} will be matched to column names in \code{df} and any values
+in that list element will not be filtered (on spatial reliability).}
 }
 \value{
 Dataframe with records of greater than \code{dist} filtered. Filtering is
