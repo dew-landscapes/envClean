@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-  create_env_pca <- function(env_df, axes = 3, cuts = 20, int_style = "quantile") {
+  make_env_pca <- function(env_df, axes = 3, cuts = 20, int_style = "quantile") {
 
     # assumes each row has a unique 'cell' id (cell number from raster)
 
@@ -112,19 +112,21 @@
 #' chain in rstan analysis.
 #' @param do_chains Numeric specifying the number of chains to run in rstan
 #' analysis
-#' @param threshold Numeric between 0 and 1 specifying the two-tailed threshold
-#' above/below which richness is excessively above or below 'normal' for
+#' @param threshold_lo,threshold_hi Numeric between 0 and 1 specifying the
+#' threshold above/below which richness is excessively above or below 'normal'
+#' and should be filtered.
 #'
 #' @return List of model outputs.
 #' @export
 #'
 #' @examples
-  create_effort_mod <- function(df
+  make_effort_mod <- function(df
                            , env_prcomp
                            , context = "cell"
                            , do_iter = 1000
                            , do_chains = 3
-                           , threshold = 0.05
+                           , threshold_lo = 0.05/2
+                           , threshold_hi = 0.05/2
                            ) {
 
     effort_mod <- list()
@@ -215,8 +217,8 @@
                        , mod_mean = mean(sr,na.rm=TRUE)
                        , mod_ci90_lo = stats::quantile(sr, 0.05,na.rm=TRUE)
                        , mod_ci90_up = stats::quantile(sr, 0.95,na.rm=TRUE)
-                       , extreme_sr_lo = stats::quantile(sr, probs = 0 + threshold/2, na.rm=TRUE)
-                       , extreme_sr_hi = stats::quantile(sr, probs = 1 - threshold/2, na.rm=TRUE)
+                       , extreme_sr_lo = stats::quantile(sr, probs = 0 + threshold_lo, na.rm=TRUE)
+                       , extreme_sr_hi = stats::quantile(sr, probs = 1 - threshold_hi, na.rm=TRUE)
                        , text = paste0(round(mod_med,2)," (",round(mod_ci90_lo,2)," to ",round(mod_ci90_up,2),")")
                        ) %>%
       dplyr::ungroup() %>%
