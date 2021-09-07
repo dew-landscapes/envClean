@@ -44,7 +44,7 @@ appended to output.}
 \item{poor}{Character. Vector of words to exclude from species list.}
 
 \item{save_gbif_file}{Character. Path to \code{luGBIF.feather}. Passed to
-\code{get_gbif_taxa()} (via \code{create_taxa_taxonomy()}) if lutaxa does not exist.}
+\code{get_gbif_taxa()} (via \code{make_taxa_taxonomy()}) if lutaxa does not exist.}
 
 \item{king_for_taxa}{Character. Passed to \code{get_gbif_taxa()}}
 }
