@@ -5,7 +5,7 @@
 \alias{lufilter}
 \title{Dataframe of filtering steps}
 \format{
-A data frame with 13 rows and 2
+A data frame with 15 rows and 2
 variables:
 \describe{
 \item{filter}{Character short name for filtering step.}
