@@ -408,7 +408,7 @@
       dplyr::inner_join(taxas %>%
                           dplyr::rename(original_name = 1)
                         ) %>%
-      dplyr::mutate(rank = stringr::str_to_sentence(rank)
+      dplyr::mutate(rank = tolower(rank)
                     , rank = factor(rank
                                     , levels = levels(envClean::lurank$rank)
                                     , ordered = TRUE
