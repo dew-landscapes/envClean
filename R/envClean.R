@@ -215,7 +215,12 @@
 
       df %>%
         dplyr::filter(language == "eng") %>%
-        tidytext::unnest_tokens("common",vernacularName,token = "regex", pattern = ",|and",collapse = FALSE) %>%
+        tidytext::unnest_tokens("common"
+                                , vernacularName
+                                , token = "regex"
+                                , pattern = ",|and"
+                                , collapse = NULL
+                                ) %>%
         dplyr::mutate(common = gsub("^\\s|\\s$|etc","",common)) %>%
         dplyr::distinct(common) %>%
         dplyr::pull(common) %>%
