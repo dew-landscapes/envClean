@@ -1,4 +1,6 @@
 
+  rm(list = ls())
+
   codes <- grep("makeData"
                 , list.files(path = "data-raw",pattern = "\\.R$", full.names = TRUE)
                 , value = TRUE

@@ -5,9 +5,10 @@
 \alias{lurank}
 \title{Dataframe of taxonomic ranks}
 \format{
-A data frame with 53940 rows and 10 variables:
+A data frame with 10 rows and 2
+variables:
 \describe{
-\item{rank}{Taxonomic rank}
+\item{rank}{Taxonomic rank.}
 \item{sort}{Numeric. Can be used directly to sort taxonomic ranks but is
 also used to create the ordered factor rank.}
 ...
