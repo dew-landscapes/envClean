@@ -318,8 +318,9 @@
       dplyr::distinct(!!ensym(taxa_col)) %>%
       dplyr::rename(original_name = !!ensym(taxa_col)) %>%
       dplyr::left_join(lutaxa) %>%
-      dplyr::filter(rank >= target_rank) %>%
-      dplyr::left_join(df) %>%
+      dplyr::filter(!is.na(taxa)) %>%
+      dplyr::filter(rank <= target_rank) %>%
+      dplyr::inner_join(df) %>%
       dplyr::select(all_of(context),taxa,all_of(extra_cols)) %>%
       dplyr::distinct()
 
