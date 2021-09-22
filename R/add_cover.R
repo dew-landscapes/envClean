@@ -23,17 +23,26 @@
 
     site_cov <- df %>%
       dplyr::group_by(across(contains("cut_pc")),across(all_of(context)),taxa) %>%
-      dplyr::summarise(site_cover = max(!!ensym(cov_col))) %>%
-      dplyr::ungroup()
+      dplyr::summarise(site_cover = max(!!ensym(cov_col), na.rm = TRUE)) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(!is.na(site_cover)
+                    , site_cover != -Inf
+                    )
 
     pca_cov <- df %>%
       dplyr::group_by(across(contains("cut_pc")),taxa) %>%
       dplyr::summarise(pca_cover = median(!!ensym(cov_col), na.rm = TRUE)) %>%
-      dplyr::ungroup()
+      dplyr::ungroup() %>%
+      dplyr::filter(!is.na(pca_cover)
+                    , pca_cover != -Inf
+                    )
 
     taxa_cov <- df %>%
       dplyr::group_by(taxa) %>%
-      dplyr::summarise(taxa_cover = median(!!ensym(cov_col), na.rm = TRUE)) %>%
+      dplyr::summarise(taxa_cover = median(!!ensym(cov_col)
+                                           , na.rm = TRUE
+                                           )
+                       ) %>%
       dplyr::ungroup()
 
     df %>%
