@@ -27,7 +27,7 @@
                        , out_file = tempfile()
                        , king_type = "Plantae"
                        , do_common = FALSE
-                       , target_rank = "Species"
+                       , target_rank = "species"
                        ){
 
     out_file <- paste0(gsub("\\..*","",out_file),".feather")
@@ -97,9 +97,7 @@
 
         tax_gbif$taxa <- tax_gbif %>%
           tidyr::pivot_longer(where(is.numeric),names_to = "key") %>%
-          dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))
-                        , key = stringr::str_to_sentence(key)
-                        ) %>%
+          dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))) %>%
           dplyr::filter(key %in% lurank$rank) %>%
           dplyr::left_join(lurank, by = c("key" = "rank")) %>%
           dplyr::filter(sort <= target_sort) %>%
@@ -171,9 +169,7 @@
       dplyr::select(contains("Key")) %>%
       dplyr::select(where(is.numeric)) %>%
       tidyr::pivot_longer(1:ncol(.),names_to = "key") %>%
-      dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))
-                    , key = stringr::str_to_sentence(key)
-                    ) %>%
+      dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))) %>%
       dplyr::filter(key %in% lurank$rank) %>%
       dplyr::left_join(lurank, by = c("key" = "rank")) %>%
       dplyr::filter(sort == max(sort)) %>%
@@ -734,21 +730,23 @@
   }
 
 
-#' Filter a column
+#' Filter a dataframe column on character string(s)
 #'
 #' @param df Dataframe with column to filter.
 #' @param filt_col Character. Name of column to filter.
-#' @param filt_text Character. Text(s) to filter from df.
+#' @param filt_text Character string(s) to find in `filt_col`.
+#' @param keep_text Logical. Keep or remove instances of `filt_text`?
 #' @param df_join Optional dataframe. Joined to df before filter. No names from
-#' dfJoin are returned.
+#' `df_join` are returned.
 #'
-#' @return Filtered dataframe with same names as df
+#' @return Filtered dataframe with same names as `df`.
 #' @export
 #'
 #' @examples
   filter_text_col <- function(df
                          , filt_col
                          , filt_text
+                         , keep_text = FALSE
                          , df_join = NULL
                          ) {
 
@@ -759,13 +757,30 @@
 
     } else df
 
-    keep_levels <- joined %>%
+    matched_rows <- joined %>%
       dplyr::distinct(!!ensym(filt_col)) %>%
-      dplyr::filter(!grepl(paste0(filt_text,collapse = "|"),!!ensym(filt_col)))
+      dplyr::filter(grepl(paste0(filt_text
+                                 , collapse = "|"
+                                 )
+                          , !!ensym(filt_col)
+                          )
+                    )
 
-    joined %>%
-      dplyr::inner_join(keep_levels) %>%
-      dplyr::select(names(df))
+    res <- if(keep_text) {
+
+      joined %>%
+        dplyr::inner_join(keep_levels) %>%
+        dplyr::select(names(df))
+
+    } else {
+
+      joined %>%
+        dplyr::anti_join(keep_levels) %>%
+        dplyr::select(names(df))
+
+    }
+
+    return(res)
 
   }
 
