@@ -10,7 +10,7 @@ get_gbif_tax(
   out_file = tempfile(),
   king_type = "Plantae",
   do_common = FALSE,
-  target_rank = "Species"
+  target_rank = "species"
 )
 }
 \arguments{
