@@ -2,23 +2,25 @@
 % Please edit documentation in R/envClean.R
 \name{filter_text_col}
 \alias{filter_text_col}
-\title{Filter a column}
+\title{Filter a dataframe column on character string(s)}
 \usage{
-filter_text_col(df, filt_col, filt_text, df_join = NULL)
+filter_text_col(df, filt_col, filt_text, keep_text = FALSE, df_join = NULL)
 }
 \arguments{
 \item{df}{Dataframe with column to filter.}
 
 \item{filt_col}{Character. Name of column to filter.}
 
-\item{filt_text}{Character. Text(s) to filter from df.}
+\item{filt_text}{Character string(s) to find in \code{filt_col}.}
+
+\item{keep_text}{Logical. Keep or remove instances of \code{filt_text}?}
 
 \item{df_join}{Optional dataframe. Joined to df before filter. No names from
-dfJoin are returned.}
+\code{df_join} are returned.}
 }
 \value{
-Filtered dataframe with same names as df
+Filtered dataframe with same names as \code{df}.
 }
 \description{
-Filter a column
+Filter a dataframe column on character string(s)
 }
