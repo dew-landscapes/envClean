@@ -769,13 +769,13 @@
     res <- if(keep_text) {
 
       joined %>%
-        dplyr::inner_join(keep_levels) %>%
+        dplyr::inner_join(matched_rows) %>%
         dplyr::select(names(df))
 
     } else {
 
       joined %>%
-        dplyr::anti_join(keep_levels) %>%
+        dplyr::anti_join(matched_rows) %>%
         dplyr::select(names(df))
 
     }
