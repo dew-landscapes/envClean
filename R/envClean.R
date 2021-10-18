@@ -19,16 +19,18 @@
 #' @export
 #'
 #' @examples
-#' get_gbif_tax(data.frame(Species = "Eucalyptus viminalis"))
+#' get_gbif_tax(data.frame(spp = "Eucalyptus viminalis"), taxa_col = "spp")
 #'
 #'
   get_gbif_tax <- function(df
-                       , taxa_col = 1
+                       , taxa_col = "original_name"
                        , out_file = tempfile()
                        , king_type = "Plantae"
                        , do_common = FALSE
                        , target_rank = "species"
                        ){
+
+    taxa_col <- names(df[taxa_col])
 
     out_file <- paste0(gsub("\\..*","",out_file),".feather")
     tmp_file <- paste0(gsub(".feather","",out_file),"_temp.feather")
@@ -388,6 +390,8 @@
                             , king = "Plantae"
                             ) {
 
+    .taxa_col = taxa_col
+
     # Remove dodgy taxonomy
     taxas <- df %>%
       dplyr::distinct(dplyr::across(all_of(taxa_col))) %>%
@@ -401,6 +405,7 @@
     zero <- taxas %>%
       get_gbif_tax(out_file = save_luGBIF
                , king_type = king
+               , taxa_col = .taxa_col
                ) %>%
       dplyr::inner_join(taxas %>%
                           dplyr::rename(original_name = 1)
