@@ -312,7 +312,7 @@
       }
 
     # Use dftaxa as base df from here
-    flor_taxa <- df %>%
+    bio_taxa <- df %>%
       dplyr::distinct(!!ensym(taxa_col)) %>%
       dplyr::rename(original_name = !!ensym(taxa_col)) %>%
       dplyr::left_join(lutaxa) %>%
@@ -322,34 +322,34 @@
       dplyr::select(all_of(context),taxa,all_of(extra_cols)) %>%
       dplyr::distinct()
 
-    flor_taxa_cov <- if(do_cov) {
+    bio_taxa_cov <- if(do_cov) {
 
       .context = context
       .lucov = lucov
 
-      make_cover(flor_taxa
+      make_cover(bio_taxa
                    , context = .context
                    , lucov = .lucov
                    )
 
-      } else flortaxa
+      } else bio_taxa
 
-    flor_taxa_life <- if(do_life) {
+    bio_taxa_life <- if(do_life) {
 
       .context = context
       .lulife = lulife
 
-      make_lifeform(flor_taxa
+      make_lifeform(bio_taxa
                       , context = .context
                       , lulife = .lulife
                       )
 
-    } else flor_taxa
+    } else bio_taxa
 
-    flor_taxa <- flor_taxa %>%
+    bio_taxa <- bio_taxa %>%
       dplyr::distinct(across(all_of(context)),taxa) %>%
-      {if(do_cov) (.) %>% dplyr::left_join(flor_taxa_cov) else (.)} %>%
-      {if(do_life) (.) %>% dplyr::left_join(flor_taxa_life) else (.)}
+      {if(do_cov) (.) %>% dplyr::left_join(bio_taxa_cov) else (.)} %>%
+      {if(do_life) (.) %>% dplyr::left_join(bio_taxa_life) else (.)}
 
   }
 
