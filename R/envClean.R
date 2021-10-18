@@ -319,7 +319,7 @@
       dplyr::filter(!is.na(taxa)) %>%
       dplyr::filter(rank <= target_rank) %>%
       dplyr::inner_join(df) %>%
-      dplyr::select(all_of(context),taxa,all_of(extra_cols)) %>%
+      dplyr::select(any_of(context),taxa,all_of(extra_cols)) %>%
       dplyr::distinct()
 
     bio_taxa_cov <- if(do_cov) {
@@ -347,7 +347,7 @@
     } else bio_taxa
 
     bio_taxa <- bio_taxa %>%
-      dplyr::distinct(across(all_of(context)),taxa) %>%
+      dplyr::distinct(across(any_of(context)),taxa) %>%
       {if(do_cov) (.) %>% dplyr::left_join(bio_taxa_cov) else (.)} %>%
       {if(do_life) (.) %>% dplyr::left_join(bio_taxa_life) else (.)}
 
@@ -583,8 +583,8 @@
 
     df %>%
       dplyr::filter(!is.na(!!ensym(lf_col))) %>%
-      dplyr::count(across(!!ensym(taxa_col)),across(!!ensym(lf_col)),across(all_of(context)), name = "lifeform_records") %>%
-      dplyr::group_by(across(!!ensym(taxa_col)),across(all_of(context))) %>%
+      dplyr::count(across(!!ensym(taxa_col)),across(!!ensym(lf_col)),across(any_of(context)), name = "lifeform_records") %>%
+      dplyr::group_by(across(!!ensym(taxa_col)),across(any_of(context))) %>%
       dplyr::mutate(taxa_records = sum(lifeform_records,na.rm = TRUE)
                     , per = 100*lifeform_records/taxa_records
                     ) %>%
@@ -592,12 +592,12 @@
       dplyr::filter(per > 5) %>%
       dplyr::left_join(lulife) %>%
       dplyr::mutate(ht_test = dplyr::if_else(lifeform == "J",ht + 0.01, ht)) %>%
-      dplyr::group_by(across(!!ensym(taxa_col)),across(all_of(context))) %>%
+      dplyr::group_by(across(!!ensym(taxa_col)),across(any_of(context))) %>%
       dplyr::slice(which(ht_test == max(ht_test, na.rm=TRUE))) %>%
       dplyr::slice(which(lifeform_records == max(lifeform_records, na.rm=TRUE))) %>%
       dplyr::slice(which(sort == max(sort, na.rm=TRUE))) %>%
       dplyr::ungroup() %>%
-      dplyr::select(all_of(context),!!ensym(taxa_col),lifeform) %>%
+      dplyr::select(any_of(context),!!ensym(taxa_col),lifeform) %>%
       dplyr::filter(!is.na(!!ensym(taxa_col))) %>%
       dplyr::distinct()
 
@@ -634,7 +634,7 @@
       dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
       dplyr::left_join(lucov) %>%
       dplyr::mutate(use_cover = if_else(!is.na(cover),cover,!!ensym(cov_type))) %>%
-      dplyr::group_by(dplyr::across(all_of(context))
+      dplyr::group_by(dplyr::across(any_of(context))
                       , dplyr::across(!!ensym(taxa_col))
                       ) %>%
       dplyr::summarise(use_cover = max(use_cover,na.rm = TRUE)) %>%
@@ -805,7 +805,7 @@
   filter_counts <- function(df, context, thresh = 1) {
 
     df %>%
-      dplyr::add_count(across(all_of(context))) %>%
+      dplyr::add_count(across(any_of(context))) %>%
       dplyr::filter(n > thresh) %>%
       dplyr::select(names(df))
 
@@ -840,7 +840,7 @@
     thresh <- if(isTRUE(!is.null(keep))) {
 
       dont_drop_df <- df %>%
-        dplyr::mutate(visits = n_distinct(across(all_of(context)))) %>%
+        dplyr::mutate(visits = n_distinct(across(any_of(context)))) %>%
         dplyr::filter(taxa %in% keep) %>%
         dplyr::count(taxa,visits,name = "records") %>%
         dplyr::filter(records > 5) %>%
@@ -852,7 +852,7 @@
     } else default_per
 
     drop_taxa <- df %>%
-      dplyr::mutate(n_visits = dplyr::n_distinct(across(all_of(context)))) %>%
+      dplyr::mutate(n_visits = dplyr::n_distinct(across(any_of(context)))) %>%
       dplyr::group_by(taxa,n_visits) %>%
       dplyr::summarise(n_records = n()) %>%
       dplyr::ungroup() %>%
