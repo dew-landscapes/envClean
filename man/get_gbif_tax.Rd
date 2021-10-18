@@ -6,7 +6,7 @@
 \usage{
 get_gbif_tax(
   df,
-  taxa_col = 1,
+  taxa_col = "original_name",
   out_file = tempfile(),
   king_type = "Plantae",
   do_common = FALSE,
@@ -37,7 +37,7 @@ Retrieve accepted name taxonomy and retrieve taxonomic hierarchy for a df
 with a column of taxonomic names
 }
 \examples{
-get_gbif_tax(data.frame(Species = "Eucalyptus viminalis"))
+get_gbif_tax(data.frame(spp = "Eucalyptus viminalis"), taxa_col = "spp")
 
 
 }
