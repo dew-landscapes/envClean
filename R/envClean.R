@@ -295,12 +295,7 @@
     df <- df %>%
       dplyr::rename(original_name = !!ensym(taxa_col))
 
-    # run taxa_taxonomy
-    if(!exists("lutaxa")) {
-
-      .taxa_col <- taxa_col
-
-      make_taxa_taxonomy(df
+    make_taxa_taxonomy(df
                          , taxa_col = .taxa_col
                          , lifespan_col = if(do_life) lifespan_col <- "lifespan" else NULL
                          , ind_col <- "ind"
@@ -309,8 +304,6 @@
                          , king = king_for_taxa
                          )
 
-      }
-
     # Use dftaxa as base df from here
     bio_taxa <- df %>%
       dplyr::distinct(!!ensym(taxa_col)) %>%
@@ -318,6 +311,9 @@
       dplyr::left_join(lutaxa) %>%
       dplyr::filter(!is.na(taxa)) %>%
       dplyr::filter(rank <= target_rank) %>%
+      dplyr::left_join(taxa_taxonomy %>%
+                         dplyr::select(taxa, any_of(taxa_col), any_of(context))
+                       ) %>%
       dplyr::inner_join(df) %>%
       dplyr::select(any_of(context),taxa,all_of(extra_cols)) %>%
       dplyr::distinct()

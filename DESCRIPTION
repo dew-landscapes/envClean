@@ -21,6 +21,7 @@ Imports:
     factoextra,
     feather,
     ggplot2,
+    ggridges,
     janitor,
     magrittr,
     purrr,
