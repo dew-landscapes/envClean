@@ -292,6 +292,8 @@
                           , king_for_taxa = "Plantae"
                           ) {
 
+    .taxa_col = taxa_col
+
     df <- df %>%
       dplyr::rename(original_name = !!ensym(taxa_col))
 
