@@ -120,7 +120,7 @@
 #' @export
 #'
 #' @examples
-  make_effort_mod <- function(df
+  make_effort_mod_pca <- function(df
                            , env_prcomp
                            , context = "cell"
                            , do_iter = 1000
