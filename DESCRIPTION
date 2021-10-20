@@ -2,10 +2,15 @@ Package: envClean
 Title: Clean Environmental, Biological and Non-biological Data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Nigel",
-           family = "Willoughby",
-           role = c("aut", "cre"),
-           email = "nige.willoughby@sa.gov.au")
+    c(
+    person(given = "Nigel", family = "Willoughby"
+    , role = c("aut", "cre")
+    , email = "nige.willoughby@sa.gov.au"
+    ),
+    person(family = "DEW"
+    , role = "cph"
+    )
+    )
 Description: Tools to facilitate cleaning tasks associated with environmental (raster), biological (records of taxa) and non-biological (e.g. landcover training data) data.
 License: GPL (>= 3)
 Encoding: UTF-8
