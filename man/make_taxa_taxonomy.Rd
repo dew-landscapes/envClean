@@ -11,7 +11,8 @@ make_taxa_taxonomy(
   ind_col = NULL,
   poor_filt = c("dead", "unverified"),
   save_luGBIF = tempfile(),
-  king = "Plantae"
+  king = "Plantae",
+  get_common = FALSE
 )
 }
 \arguments{
@@ -34,11 +35,13 @@ be created (as tempfile) by get_gbif_tax().}
 
 \item{king}{Character. Kingdom to search preferentially in GBIF Taxonomy
 Backbone}
+
+\item{get_common}{Logical. Add common name to GBIF taxonomy?}
 }
 \value{
 Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
 two dataframes are returned to the global environment. One, named
-taxaTaxonomy, with unique taxa and associated taxonomicinformation and two,
+taxa_taxonomy, with unique taxa and associated taxonomic information and two,
 named lutaxa, a lookup from unique values in taxa_col to matched taxonomy from
 GBIF backbone.
 }
