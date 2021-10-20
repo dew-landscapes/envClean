@@ -23,12 +23,12 @@
 #'
 #'
   get_gbif_tax <- function(df
-                       , taxa_col = "original_name"
-                       , out_file = tempfile()
-                       , king_type = "Plantae"
-                       , do_common = FALSE
-                       , target_rank = "species"
-                       ){
+                           , taxa_col = "original_name"
+                           , out_file = tempfile()
+                           , king_type = "Plantae"
+                           , do_common = FALSE
+                           , target_rank = "species"
+                           ){
 
     taxa_col <- names(df[taxa_col])
 
@@ -82,9 +82,9 @@
 
         tax_gbif <- if(sum(grepl("acceptedUsageKey",names(tax_gbif)))>0) {
 
-          rgbif::name_usage(tax_gbif$acceptedUsageKey,return="data")$data %>%
+          rgbif::name_usage(tax_gbif$acceptedUsageKey)$data %>%
             dplyr::mutate(matchType = "Synonym") %>%
-            dplyr::rename(usage_key = key
+            dplyr::rename(usageKey = key
                           , status = taxonomicStatus
                           ) %>%
             dplyr::mutate(searched_name = i)
@@ -94,8 +94,6 @@
           tax_gbif
 
         }
-
-        if(do_common) tax_gbif$common <- get_gbif_common(tax_gbif$usage_key)
 
         tax_gbif$taxa <- tax_gbif %>%
           tidyr::pivot_longer(where(is.numeric),names_to = "key") %>%
@@ -115,8 +113,8 @@
         if(file.exists(tmp_file)) {
 
           rio::export(tax_gbif %>%
-                          dplyr::bind_rows(rio::import(tmp_file)) %>%
-                          dplyr::select(1,2,taxa,everything())
+                        dplyr::bind_rows(rio::import(tmp_file)) %>%
+                        dplyr::select(1,2,taxa,everything())
                       , tmp_file
                       )
 
@@ -141,9 +139,11 @@
 
       file.remove(tmp_file)
 
-    } else {
+    }
 
-      {warning( "No taxa supplied" )}
+    if(do_common) {
+
+      add_gbif_common(out_file)
 
     }
 
@@ -237,18 +237,74 @@
         dplyr::pull(vernacularName) %>%
         `[` (1)
 
-    } else ""
+    } else NA
 
   }
 
   # Add common name to existing taxonomic data frame
   add_gbif_common <- function(path = "out/luGBIF.feather") {
 
-    gbif_tax_df <- rio::import(path) %>%
-      #(if(testing) {. %>% dplyr::sample_n(5)} else {.}) %>%
-      dplyr::mutate(common = purrr::map_chr(key,envClean::get_gbif_common))
+    df <- rio::import(path) %>%
+      as_tibble()
 
-    rio::export(gbif_tax_df,path)
+    any_done <- "common" %in% names(df)
+
+    if(any_done) {
+
+      todo <- df %>%
+        dplyr::filter(is.na(common)) %>%
+        dplyr::distinct(usageKey) %>%
+        dplyr::filter(!is.na(usageKey))
+
+      done <- df %>%
+        dplyr::select(usageKey, common) %>%
+        dplyr::filter(!is.na(common)
+                      , common != "<NA>"
+                      )
+
+    } else {
+
+      todo <- df %>%
+        dplyr::distinct(usageKey) %>%
+        dplyr::filter(!is.na(usageKey))
+
+      done <- tibble(usageKey = 1, common = "Animalia")
+
+      }
+
+    common_name_df <- todo %>%
+      #(if(testing) {. %>% dplyr::sample_n(5)} else {.}) %>%
+      dplyr::mutate(common = purrr::map_chr(usageKey
+                                            , envClean::get_gbif_common
+                                            )
+                    )
+
+    common_name_res <- if(any_done) {
+
+      common_name_df %>%
+        dplyr::bind_rows(done) %>%
+        dplyr::distinct()
+
+    } else {
+
+      common_name_df %>%
+        dplyr::distinct()
+
+      }
+
+    res <- df %>%
+      {if(any_done) (.) %>% dplyr::select(-common) else (.)} %>%
+      dplyr::left_join(common_name_res) %>%
+      dplyr::select(taxa
+                    , common
+                    , everything()
+                    )
+
+    rio::export(res
+                , path
+                )
+
+    return(res)
 
   }
 
@@ -297,14 +353,22 @@
     df <- df %>%
       dplyr::rename(original_name = !!ensym(taxa_col))
 
-    make_taxa_taxonomy(df
+    # run taxa_taxonomy
+    if(!exists("lutaxa")) {
+
+      .taxa_col <- taxa_col
+
+      make_taxa_taxonomy(df
                          , taxa_col = .taxa_col
                          , lifespan_col = if(do_life) lifespan_col <- "lifespan" else NULL
                          , ind_col <- "ind"
                          , poor_filt = poor
                          , save_luGBIF = save_gbif_file
                          , king = king_for_taxa
+                         , get_common = do_common
                          )
+
+    }
 
     # Use dftaxa as base df from here
     bio_taxa <- df %>%
@@ -314,10 +378,16 @@
       dplyr::filter(!is.na(taxa)) %>%
       dplyr::filter(rank <= target_rank) %>%
       dplyr::left_join(taxa_taxonomy %>%
-                         dplyr::select(taxa, any_of(taxa_col), any_of(context))
+                         dplyr::select(taxa
+                                       , any_of(taxa_col)
+                                       , any_of(context)
+                                       )
                        ) %>%
       dplyr::inner_join(df) %>%
-      dplyr::select(any_of(context),taxa,all_of(extra_cols)) %>%
+      dplyr::select(any_of(context)
+                    , taxa
+                    , all_of(extra_cols)
+                    ) %>%
       dplyr::distinct()
 
     bio_taxa_cov <- if(do_cov) {
@@ -345,7 +415,9 @@
     } else bio_taxa
 
     bio_taxa <- bio_taxa %>%
-      dplyr::distinct(across(any_of(context)),taxa) %>%
+      dplyr::distinct(across(any_of(context))
+                      , taxa
+                      ) %>%
       {if(do_cov) (.) %>% dplyr::left_join(bio_taxa_cov) else (.)} %>%
       {if(do_life) (.) %>% dplyr::left_join(bio_taxa_life) else (.)}
 
@@ -368,10 +440,11 @@
 #' be created (as tempfile) by get_gbif_tax().
 #' @param king Character. Kingdom to search preferentially in GBIF Taxonomy
 #' Backbone
+#' @param get_common Logical. Add common name to GBIF taxonomy?
 #'
 #' @return Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
 #' two dataframes are returned to the global environment. One, named
-#' taxaTaxonomy, with unique taxa and associated taxonomicinformation and two,
+#' taxa_taxonomy, with unique taxa and associated taxonomic information and two,
 #' named lutaxa, a lookup from unique values in taxa_col to matched taxonomy from
 #' GBIF backbone.
 #'
@@ -386,13 +459,14 @@
                             , poor_filt = c("dead","unverified")
                             , save_luGBIF = tempfile()
                             , king = "Plantae"
+                            , get_common = FALSE
                             ) {
 
     .taxa_col = taxa_col
 
     # Remove dodgy taxonomy
     taxas <- df %>%
-      dplyr::distinct(dplyr::across(all_of(taxa_col))) %>%
+      dplyr::distinct(dplyr::across(any_of(taxa_col))) %>%
       dplyr::filter(!grepl(paste0(poor_filt,collapse = "|")
                            ,!!ensym(taxa_col)
                            ,ignore.case = TRUE
@@ -402,9 +476,10 @@
     # GBIF taxonomy
     zero <- taxas %>%
       get_gbif_tax(out_file = save_luGBIF
-               , king_type = king
-               , taxa_col = .taxa_col
-               ) %>%
+                   , king_type = king
+                   , taxa_col = .taxa_col
+                   , do_common = get_common
+                   ) %>%
       dplyr::inner_join(taxas %>%
                           dplyr::rename(original_name = 1)
                         ) %>%
@@ -415,7 +490,10 @@
                                     )
                     )
 
-    return_taxa_taxonomy <- c("taxa",tolower(lurank$rank))
+    return_taxa_taxonomy <- c("taxa"
+                              , if(get_common) "common"
+                              , tolower(lurank$rank)
+                              )
 
     one <- zero %>%
       dplyr::distinct(dplyr::across(any_of(return_taxa_taxonomy))) %>%
