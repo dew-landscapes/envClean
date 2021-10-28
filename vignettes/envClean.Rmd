@@ -21,17 +21,25 @@ vignette: >
 
 ```
 
-```{r setup, include = FALSE}
+```{r setup}
 
   library(envClean)
   library(envReport)
+  library(envFunc) # needed for add_raster_cell
   library(sf)
   library(tibble)
   library(tmap)
+  library(raster)
 
   tmap_mode("plot")
 
   flor_all <- tibble::as_tibble(flor_all)
+  
+  # What crs to use for maps?
+  use_crs <- 3577 # actually an epsg code. see epsg.io
+  
+  aoi <- aoi %>%
+    sf::st_transform(crs = use_crs)
   
 ```
 
@@ -73,6 +81,14 @@ Here, we'll start with combined floristic data (called `flor_all`) from the mall
   flor_all
 
 ```
+
+### Note on coordinate reference systems
+
+There are two (possibly three) main coordinate reference systems (crs):
+
+1. the crs for the original records. Often decimal degrees. Almost certainly using [epsg](https://epsg.io/) = [4283](https://epsg.io/4283) with these data will return the correct crs.
+2. the crs to use for most spatial data. Set here (in setup chunk) to `use_crs` = `r use_crs`. It is likely that a projected crs will work best, particularly for buffering, filtering etc.
+3. the crs for any other imported spatial data, which could be anything, but is hopefully specified. Try using `sf::st_read("random_shape_file.shp") %>% sf::st_tranform(crs = use_crs)` to deal with this.
 
 ### Area of interest
 
@@ -117,10 +133,10 @@ Check that spatial filter worked.
                  )
 
   tm_shape(aoi
-           , bbox = st_bbox(flor_aoi_sf)
+           , bbox = st_bbox(flor_all_sf)
            ) +
     tm_polygons() +
-  tm_shape(flor_all_sf) +
+  tm_shape(flor_aoi_sf) +
     tm_dots()
 
 ```
@@ -129,13 +145,13 @@ Check that spatial filter worked.
 
 There are two scales of particular interest: space (location) and time. Together these are used to set the `context` in further filtering and analysis.
 
-The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped.
+The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped. The lumping is done via a raster placed over the `aoi`.
 
 The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one 'visit'.
 
 ### Precision
 
-Records with precision less than threshold are filtered using `filter_spat_rel`. This takes a dataframe as its first argument, in this case `flor_aoi`. `dist_col` specifies the column in `df` that contains the precision estimates. `dist` provides the threshold above which to filter. If there are data sources (or any other columns in `df`) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument `over_ride`. This takes a named list, with name matching the columns in `df`. Any levels within the columns provided in `over_ride` will not be filtered, irrespective of the values in `dist_col`.
+Records with precision less than threshold are filtered using `filter_spat_rel`. This takes a dataframe (`df`) as its first argument, in this case `flor_aoi`. `dist_col` specifies the column in `df` that contains the precision estimates. `dist` provides the threshold above which to filter. If there are data sources (or any other columns in `df`) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument `over_ride`. This takes a named list, where names need to match the columns in `df`. Any levels within the columns provided in `over_ride` will not be filtered, irrespective of the values in `dist_col`.
 
 ```{r flor_aoi_rel}
 
@@ -154,6 +170,34 @@ Records with precision less than threshold are filtered using `filter_spat_rel`.
 
 ```
 
+### Rasterize
+
+Now that records with dubious spatial precision have been removed, an accuracy threshold is adpoted by rasterizing remaining records into the cells of `aoi_raster`, created here.
+
+```{r aoi_raster}
+
+  aoi_raster <- raster(ext = round(extent(aoi), -3)
+                      , resolution = 30
+                      , crs = CRS(paste0("+init=epsg:",use_crs))
+                      )
+
+  aoi_raster
+
+```
+
+Rasterizing the current data is then done via `add_raster_cell`. This function has the argument `add_xy` which will add the centroid of the cell back to the data frame using the same names as the original `x` and `y` columns. Alternatively, the `x` and `y` columns will be lost from the returned data frame, replaced with `cell`, the raster cell id.
+
+```{r flor_rel_cell}
+
+  flor_cell <- add_raster_cell(aoi_raster
+                               , flor_rel
+                               , add_xy = TRUE
+                               , crs_df = 4283
+                               )
+
+  flor_cell
+
+```
 
 
 
