@@ -33,6 +33,7 @@ Imports:
     Rdpack,
     rgbif,
     rio,
+    rlang,
     rstanarm,
     sf,
     stats,

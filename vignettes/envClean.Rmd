@@ -39,6 +39,10 @@ vignette: >
 
 Cleaning large, unstructured, biological (or `env`ironmental) data sets is a challenging task. `envClean` provides a range of functions to assist.
 
+The approach taken has evolved out of many years undertaking such cleaning tasks. It assumes the desired end result is a plausible list of taxa recorded at space and time locations for use in further analysis. This is _not the same_ as an authoritative checklist of taxa for any space and time locations.
+
+While there are many implied and explicit decisions to make (e.g. there may be a lot of work to set up for new data sets), there is no manual input required once those decisions are made - these functions have the potential to provide an automated workflow from combined data through to analysis-ready data.
+
 ## Get `envClean`
 
 `envClean` is not on CRAN.
@@ -94,14 +98,75 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
 
 ```{r flor_all_aoi}
 
-  #flor_aoi <- 
+  flor_aoi <- filter_aoi(flor_all
+                         , aoi
+                         , crs_aoi = st_crs(aoi)
+                         )
+
+  flor_aoi
+
+```
+
+Check that spatial filter worked.
+
+```{r flor_aoi}
+
+  flor_aoi_sf <- flor_aoi %>%
+    sf::st_as_sf(coords = c("long", "lat")
+                 , crs = 4326
+                 )
+
+  tm_shape(aoi
+           , bbox = st_bbox(flor_aoi_sf)
+           ) +
+    tm_polygons() +
+  tm_shape(flor_all_sf) +
+    tm_dots()
+
+```
+
+## Set scales of interest
+
+There are two scales of particular interest: space (location) and time. Together these are used to set the `context` in further filtering and analysis.
+
+The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped.
+
+The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one 'visit'.
+
+### Precision
+
+Records with precision less than threshold are filtered using `filter_spat_rel`. This takes a dataframe as its first argument, in this case `flor_aoi`. `dist_col` specifies the column in `df` that contains the precision estimates. `dist` provides the threshold above which to filter. If there are data sources (or any other columns in `df`) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument `over_ride`. This takes a named list, with name matching the columns in `df`. Any levels within the columns provided in `over_ride` will not be filtered, irrespective of the values in `dist_col`.
+
+```{r flor_aoi_rel}
+
+  context <- c("year", "month", "lat", "long", "cell")
+
+  include_data_name <- c("ALIS","BCM","NVB","TERN")
+
+  flor_rel <- filter_spat_rel(flor_aoi
+                              , dist_col = "rel_dist"
+                              , dist = 100
+                              , context = context
+                              , over_ride = list(data_name = include_data_name)
+                              )
+  
+  flor_rel
 
 ```
 
 
+
+
+
+
+
+
+
+
+
 # References
 
-```{r pacCitations}
+```{r pacCitations, include = FALSE}
 
   fix_bib(bib_file = "packages.bib")
 
