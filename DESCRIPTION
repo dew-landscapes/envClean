@@ -39,8 +39,13 @@ Imports:
     stringr,
     tibble,
     tidyr,
+    tidyselect,
     tidytext
 URL: https://github.com/Acanthiza/envClean
 BugReports: https://github.com/Acanthiza/envClean/issues
 Depends: 
     R (>= 2.10)
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
