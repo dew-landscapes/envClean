@@ -83,8 +83,8 @@
     # Generate colours for pcas
     env_pca$pca_res_col <- env_pca$pca_res_cell_cut %>%
       dplyr::left_join(env_pca$pca_res_cell) %>%
-      dplyr::mutate(across(where(is.factor),factor)) %>%
-      dplyr::mutate(across(where(is.factor)
+      dplyr::mutate(dplyr::across(where(is.factor),factor)) %>%
+      dplyr::mutate(dplyr::across(where(is.factor)
                            , ~as.numeric(.)/length(levels(.))
                            , .names = "rgb_{col}"
                            )
@@ -108,13 +108,10 @@
 #' @param env_prcomp Output from env_pca.
 #' @param context Character. Column names that define context, usually a 'visit'
 #' to a 'cell'.
-#' @param do_iter Numeric specifying the number of iterations to run for each
-#' chain in rstan analysis.
-#' @param do_chains Numeric specifying the number of chains to run in rstan
-#' analysis
 #' @param threshold_lo,threshold_hi Numeric between 0 and 1 specifying the
 #' threshold above/below which richness is excessively above or below 'normal'
 #' and should be filtered.
+#' @param ... Passed to rstanarm::stan_glm
 #'
 #' @return List of model outputs.
 #' @export
@@ -123,10 +120,9 @@
   make_effort_mod_pca <- function(df
                            , env_prcomp
                            , context = "cell"
-                           , do_iter = 1000
-                           , do_chains = 3
                            , threshold_lo = 0.05/2
                            , threshold_hi = 0.05/2
+                           , ...
                            ) {
 
     effort_mod <- list()
@@ -137,10 +133,10 @@
       dplyr::filter(!is.na(qsize)
                     , qsize >= 3*3
                     ) %>%
-      dplyr::distinct(taxa,across(all_of(context))) %>%
-      dplyr::count(across(all_of(context)),name = "sr") %>%
+      dplyr::distinct(taxa,dplyr::across(tidyselect::all_of(context))) %>%
+      dplyr::count(dplyr::across(tidyselect::all_of(context)),name = "sr") %>%
       dplyr::inner_join(env_prcomp$pca_res_cell) %>%
-      dplyr::select(!!ensym(y),everything()) %>%
+      dplyr::select(!!rlang::ensym(y),everything()) %>%
       tidyr::pivot_longer(contains("pc"),names_to = "pc") %>%
       dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
       dplyr::mutate(cut_pc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
@@ -160,8 +156,7 @@
                   , family = rstanarm::neg_binomial_2()
 
                   # Options
-                  , iter = do_iter
-                  , chains = do_chains
+                  , ...
                   )
 
     effort_mod$preds <- env_prcomp$pca_brks %>%
@@ -176,7 +171,7 @@
       tidyr::unnest(cols = 1:ncol(.))  %>%
       tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE)) %>%
       dplyr::inner_join(effort_mod$dat_exp %>%
-                          dplyr::distinct(across(grep("cut|month",names(.),value = TRUE)))
+                          dplyr::distinct(dplyr::across(grep("cut|month",names(.),value = TRUE)))
                         )
 
     effort_mod$mod_pred <- effort_mod$preds %>%
@@ -210,7 +205,7 @@
     #--------result---------
 
     effort_mod$mod_res <- effort_mod$mod_pred %>%
-      dplyr::group_by(across(contains("pc"))) %>%
+      dplyr::group_by(dplyr::across(contains("pc"))) %>%
       dplyr::summarise(runs = n()
                        , n_check = nrow(tibble::as_tibble(effort_mod$mod))
                        , mod_med = stats::quantile(sr,0.5,na.rm=TRUE)

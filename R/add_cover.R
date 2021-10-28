@@ -22,16 +22,16 @@
     namesdf <- c(names(df)[names(df) != cov_col], cov_col)
 
     site_cov <- df %>%
-      dplyr::group_by(across(contains("cut_pc")),across(all_of(context)),taxa) %>%
-      dplyr::summarise(site_cover = max(!!ensym(cov_col), na.rm = TRUE)) %>%
+      dplyr::group_by(dplyr::across(contains("cut_pc")),dplyr::across(tidyselect::all_of(context)),taxa) %>%
+      dplyr::summarise(site_cover = max(!!rlang::ensym(cov_col), na.rm = TRUE)) %>%
       dplyr::ungroup() %>%
       dplyr::filter(!is.na(site_cover)
                     , site_cover != -Inf
                     )
 
     pca_cov <- df %>%
-      dplyr::group_by(across(contains("cut_pc")),taxa) %>%
-      dplyr::summarise(pca_cover = median(!!ensym(cov_col), na.rm = TRUE)) %>%
+      dplyr::group_by(dplyr::across(contains("cut_pc")),taxa) %>%
+      dplyr::summarise(pca_cover = median(!!rlang::ensym(cov_col), na.rm = TRUE)) %>%
       dplyr::ungroup() %>%
       dplyr::filter(!is.na(pca_cover)
                     , pca_cover != -Inf
@@ -39,7 +39,7 @@
 
     taxa_cov <- df %>%
       dplyr::group_by(taxa) %>%
-      dplyr::summarise(taxa_cover = median(!!ensym(cov_col)
+      dplyr::summarise(taxa_cover = median(!!rlang::ensym(cov_col)
                                            , na.rm = TRUE
                                            )
                        ) %>%
@@ -49,21 +49,24 @@
       dplyr::left_join(site_cov) %>%
       dplyr::left_join(pca_cov) %>%
       dplyr::left_join(taxa_cov) %>%
-      dplyr::mutate(use_cover = if_else(!is.na(site_cover)
-                                   ,site_cover
-                                   ,if_else(!is.na(pca_cover)
-                                            , pca_cover
-                                            , taxa_cover
-                                            )
+      dplyr::mutate(use_cover = dplyr::if_else(!is.na(site_cover)
+                                   , site_cover
+                                   , dplyr::if_else(!is.na(pca_cover)
+                                                    , pca_cover
+                                                    , taxa_cover
+                                                    )
                                    )
-                    , use_cover = if_else(is.na(use_cover),small_cov,use_cover)
+                    , use_cover = dplyr::if_else(is.na(use_cover)
+                                                 , small_cov
+                                                 , use_cover
+                                                 )
                     ) %>%
-      dplyr::select(all_of(names(df))) %>%
+      dplyr::select(tidyselect::all_of(names(df))) %>%
       # remove sites where all cover values had to be assigned as a small value
-      dplyr::group_by(across(all_of(context))) %>%
+      dplyr::group_by(dplyr::across(tidyselect::all_of(context))) %>%
       dplyr::mutate(covmean = mean(use_cover)) %>%
       dplyr::ungroup() %>%
       dplyr::filter(covmean != small_cov) %>%
-      dplyr::select(all_of(namesdf))
+      dplyr::select(tidyselect::all_of(namesdf))
 
     }
