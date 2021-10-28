@@ -30,9 +30,9 @@ make_effort_mod_cat <- function(df
   y <- "sr"
 
   effort_mod$dat_exp <- df %>%
-    dplyr::distinct(taxa,across(any_of(context))) %>%
-    dplyr::count(across(all_of(context)),name = "sr") %>%
-    dplyr::select(!!ensym(y),everything())
+    dplyr::distinct(taxa,dplyr::across(tidyselect::any_of(context))) %>%
+    dplyr::count(dplyr::across(tidyselect::all_of(context)),name = "sr") %>%
+    dplyr::select(!!rlang::ensym(y),everything())
 
 
   #--------model-------
@@ -53,7 +53,7 @@ make_effort_mod_cat <- function(df
                                        )
 
   effort_mod$mod_pred <- effort_mod$dat_exp %>%
-    dplyr::distinct(across(any_of(cat_cols))) %>%
+    dplyr::distinct(dplyr::across(tidyselect::any_of(cat_cols))) %>%
     dplyr::mutate(col = row.names(.)) %>%
     dplyr::left_join(as_tibble(rstanarm::posterior_predict(effort_mod$mod
                                                            , newdata = .
@@ -84,7 +84,7 @@ make_effort_mod_cat <- function(df
   #--------result---------
 
   effort_mod$mod_res <- effort_mod$mod_pred %>%
-    dplyr::group_by(across(any_of(cat_cols))) %>%
+    dplyr::group_by(dplyr::across(tidyselect::any_of(cat_cols))) %>%
     dplyr::summarise(runs = n()
                      , n_check = nrow(tibble::as_tibble(effort_mod$mod))
                      , mod_med = stats::quantile(sr,0.5,na.rm=TRUE)
@@ -105,14 +105,14 @@ make_effort_mod_cat <- function(df
   gg_fac <- cat_cols[2]
 
   effort_mod$mod_plot <- ggplot2::ggplot(effort_mod$mod_pred %>%
-                                           dplyr::group_by(across(any_of(cat_cols))) %>%
-                                           dplyr::filter(!!ensym(y) < quantile(!!ensym(y), probs = 0.975))
-                                         ,aes(!!ensym(y)
-                                              , !!ensym(gg_x)
+                                           dplyr::group_by(dplyr::across(tidyselect::any_of(cat_cols))) %>%
+                                           dplyr::filter(!!rlang::ensym(y) < quantile(!!rlang::ensym(y), probs = 0.975))
+                                         ,aes(!!rlang::ensym(y)
+                                              , !!rlang::ensym(gg_x)
                                               )
                                          ) +
     ggridges::geom_density_ridges() +
-    ggplot2::facet_wrap(eval(expr(~!!ensym(gg_fac)))
+    ggplot2::facet_wrap(eval(expr(~!!rlang::ensym(gg_fac)))
                         , scales = "free"
                         ) +
     ggplot2::theme(axis.text.x = element_text(angle = 90
@@ -138,15 +138,15 @@ make_effort_mod_cat <- function(df
   max_y <- max(effort_mod$mod_cell_result$sr[effort_mod$mod_cell_result$keep_hi == TRUE])
 
   effort_mod$mod_cell_plot <- ggplot2::ggplot(effort_mod$mod_cell_result
-                                              ,aes(!!ensym(gg_x)
-                                                   , !!ensym(y)
+                                              ,aes(!!rlang::ensym(gg_x)
+                                                   , !!rlang::ensym(y)
                                                    , colour = colour
                                                    )
                                               ) +
     ggplot2::geom_jitter(alpha = 0.5
                          , shape = "."
                          ) +
-    ggplot2::facet_wrap(eval(expr(~!!ensym(gg_fac)))) +
+    ggplot2::facet_wrap(eval(expr(~!!rlang::ensym(gg_fac)))) +
     ggplot2::coord_cartesian(y = c(0,max_y)) +
     ggplot2::scale_colour_identity() +
     #ggplot2::theme_dark() +

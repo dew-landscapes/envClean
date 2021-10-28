@@ -22,11 +22,11 @@
 
       df %>%
         dplyr::filter(!is.na(lifeform)) %>%
-        dplyr::count(taxa,lifeform,across(contains("cutpc"))) %>%
+        dplyr::count(taxa,lifeform,dplyr::across(contains("cutpc"))) %>%
         dplyr::left_join(lulife %>%
                            dplyr::select(lifeform,sort)
                          ) %>%
-        dplyr::group_by(taxa,across(contains("cutpc"))) %>%
+        dplyr::group_by(taxa,dplyr::across(contains("cutpc"))) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::filter(sort == min(sort)) %>%
         dplyr::ungroup() %>%
@@ -56,13 +56,13 @@
       dplyr::rename(site_lifeform = lifeform) %>%
       dplyr::left_join(pca_lifeform) %>%
       dplyr::left_join(taxa_lifeform) %>%
-      dplyr::mutate(lifeform = if_else(!is.na(site_lifeform)
-                                   ,site_lifeform
-                                   ,if_else(!is.na(pca_lifeform)
-                                            , pca_lifeform
-                                            , taxa_lifeform
-                                            )
-                                   )
+      dplyr::mutate(lifeform = dplyr::if_else(!is.na(site_lifeform)
+                                              , site_lifeform
+                                              , dplyr::if_else(!is.na(pca_lifeform)
+                                                               , pca_lifeform
+                                                               , taxa_lifeform
+                                                               )
+                                              )
                     ) %>%
       dplyr::select(names(df))
 

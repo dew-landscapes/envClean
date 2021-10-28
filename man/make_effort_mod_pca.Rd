@@ -8,10 +8,9 @@ make_effort_mod_pca(
   df,
   env_prcomp,
   context = "cell",
-  do_iter = 1000,
-  do_chains = 3,
   threshold_lo = 0.05/2,
-  threshold_hi = 0.05/2
+  threshold_hi = 0.05/2,
+  ...
 )
 }
 \arguments{
@@ -22,15 +21,11 @@ make_effort_mod_pca(
 \item{context}{Character. Column names that define context, usually a 'visit'
 to a 'cell'.}
 
-\item{do_iter}{Numeric specifying the number of iterations to run for each
-chain in rstan analysis.}
-
-\item{do_chains}{Numeric specifying the number of chains to run in rstan
-analysis}
-
 \item{threshold_lo, threshold_hi}{Numeric between 0 and 1 specifying the
 threshold above/below which richness is excessively above or below 'normal'
 and should be filtered.}
+
+\item{...}{Passed to rstanarm::stan_glm}
 }
 \value{
 List of model outputs.
