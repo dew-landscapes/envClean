@@ -1,0 +1,108 @@
+---
+title: "envClean"
+author:
+- Department for Environment and Water
+- Nigel Willoughby
+date: "`r format(Sys.time(), '%A, %d %B, %Y. %H:%M')`"
+output: rmarkdown::html_vignette
+bibliography: packages.bib
+vignette: >
+  %\VignetteIndexEntry{envClean}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+
+  knitr::opts_chunk$set(
+    collapse = TRUE
+    , comment = "#>"
+  )
+
+```
+
+```{r setup, include = FALSE}
+
+  library(envClean)
+  library(envReport)
+  library(sf)
+  library(tibble)
+  library(tmap)
+
+  tmap_mode("plot")
+
+  flor_all <- tibble::as_tibble(flor_all)
+  
+```
+
+## About the package
+
+Cleaning large, unstructured, biological (or `env`ironmental) data sets is a challenging task. `envClean` provides a range of functions to assist.
+
+## Get `envClean`
+
+`envClean` is not on CRAN.
+
+Install the development version from GitHub
+
+```r
+remotes::install_github("acanthiza/envClean")
+```
+
+Load `envClean`
+
+```r
+library("envClean")
+```
+## Suggested workflow
+
+After many, many iterations, the following workflow has been found to be ok. Only ok. There is no awesome when cleaning large, unstructured data.
+
+### Import
+
+Querying and uniting disparate data sources into a single data set is a challenge in its own right. See `envImport` for tools to assist there. Once you've imported and combined all your data, read on.
+
+Here, we'll start with combined floristic data (called `flor_all`) from the mallee in South Australia. This data set is provided with `envClean`.
+
+```{r flor_all}
+
+  flor_all
+
+```
+
+### Area of interest
+
+Usually this is geographic and/or taxonomic area of interest. An example area overlapping flor_all is provided in `aoi`. Converting `flor_all` to `sf` allows plotting them together.
+
+```{r aoi}
+
+  flor_all_sf <- flor_all %>%
+    sf::st_as_sf(coords = c("long", "lat")
+                 , crs = 4326
+                 )
+
+  tm_shape(aoi
+           , bbox = st_bbox(flor_all_sf)
+           ) +
+    tm_polygons() +
+  tm_shape(flor_all_sf) +
+    tm_dots()
+
+```
+
+Filtering `flor_all` to `aoi` is done with `filter_aoi`.
+
+```{r flor_all_aoi}
+
+  #flor_aoi <- 
+
+```
+
+
+# References
+
+```{r pacCitations}
+
+  fix_bib(bib_file = "packages.bib")
+
+```

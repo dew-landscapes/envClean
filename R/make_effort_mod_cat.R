@@ -8,13 +8,10 @@
 #' @param cat_cols Columns (2) specifying the categorical variables to model.
 #' Usually a taxonomic level (say, class) and a geographic level (say, IBRA
 #' Region).
-#' @param do_iter Numeric specifying the number of iterations to run for each
-#' chain in rstan analysis.
-#' @param do_chains Numeric specifying the number of chains to run in rstan
-#' analysis
 #' @param threshold_lo,threshold_hi Numeric between 0 and 1 specifying the
 #' threshold above/below which richness is excessively above or below 'normal'
 #' and should be filtered.
+#' @param ... Passed to `rstanarm::stan_glm` (e.g. chains, iter).
 #'
 #' @return List of model outputs.
 #' @export
@@ -23,10 +20,9 @@
 make_effort_mod_cat <- function(df
                                 , context = "cell"
                                 , cat_cols
-                                , do_iter = 1000
-                                , do_chains = 3
                                 , threshold_lo = 0.05/2
                                 , threshold_hi = 0.05/2
+                                , ...
                                 ) {
 
   effort_mod <- list()
@@ -53,8 +49,7 @@ make_effort_mod_cat <- function(df
                                        , family = rstanarm::neg_binomial_2()
 
                                        # Options
-                                       , iter = do_iter
-                                       , chains = do_chains
+                                       , ...
                                        )
 
   effort_mod$mod_pred <- effort_mod$dat_exp %>%
@@ -67,7 +62,7 @@ make_effort_mod_cat <- function(df
                                ) %>%
       tibble::rownames_to_column(var = "row") %>%
       tidyr::gather(col,value,2:ncol(.))
-    ) %>%
+      ) %>%
     (function(x) dplyr::bind_cols(x %>% dplyr::select(-value),sr = as.numeric(x$value)))
 
 

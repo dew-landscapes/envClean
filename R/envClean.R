@@ -797,7 +797,7 @@
                          ) {
 
     df %>%
-      dplyr::distinct(!!ensym(x),!!ensym(y)) %>%
+      dplyr::distinct(dplyr::across(tidyselect::any_of(c(x,y)))) %>%
       sf::st_as_sf(coords = c(x,y)
                    , crs = crs_df
                    , remove = FALSE
