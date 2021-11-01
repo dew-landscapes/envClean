@@ -34,10 +34,14 @@ taxonomic hierarchy and, optionally, common names.
 }
 \description{
 Retrieve accepted name taxonomy and retrieve taxonomic hierarchy for a df
-with a column of taxonomic names
+with a column of taxonomic names. Querying GBIF is done via the \code{rgbif}
+\insertCite{@R-rgbif}{envClean}
+function \code{name_backbone}.
 }
 \examples{
 get_gbif_tax(data.frame(spp = "Eucalyptus viminalis"), taxa_col = "spp")
 
-
+}
+\references{
+\insertAllC
 }

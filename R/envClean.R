@@ -3,7 +3,9 @@
 #' Get taxonomy from [GBIF Backbone Taxonomy](https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c).
 #'
 #' Retrieve accepted name taxonomy and retrieve taxonomic hierarchy for a df
-#' with a column of taxonomic names
+#' with a column of taxonomic names. Querying GBIF is done via the `rgbif`
+#' \insertCite{`r envReport::cite_package("rgbif", pac_cite_file = "inst/BIBLIOGRAPHY.bib", brack = FALSE)`}{envClean}
+#' function `name_backbone`.
 #'
 #' @param df Dataframe with column of species names to resolve
 #' @param taxa_col Character. Name of column with species names
@@ -20,6 +22,9 @@
 #'
 #' @examples
 #' get_gbif_tax(data.frame(spp = "Eucalyptus viminalis"), taxa_col = "spp")
+#'
+#' @references
+#' \insertAllCited{}
 #'
 #'
   get_gbif_tax <- function(df
@@ -387,6 +392,7 @@
       dplyr::select(tidyselect::any_of(context)
                     , taxa
                     , tidyselect::all_of(extra_cols)
+                    , tidyselect::any_of(c("cover", "cover_code"))
                     ) %>%
       dplyr::distinct()
 
@@ -694,12 +700,19 @@
 #' @param taxa_col Character. Name of column containing taxa.
 #' @param context Character. Name of columns defining the context.
 #' @param lucov Dataframe. Lookup from `cover_code` to numeric cover values.
+#' @param cov_type Character. Name of column in `lucov` that is used to convert
+#' character `cover_code` to numeric values.
 #'
 #' @return Dataframe with consolidated `use_cover` column.
 #' @export
 #'
 #' @examples
-  make_cover <- function(df, taxa_col = "taxa", context = NULL, lucov) {
+  make_cover <- function(df
+                         , taxa_col = "taxa"
+                         , context = NULL
+                         , lucov
+                         , cov_type = "cover_mid"
+                         ) {
 
     df %>%
       dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
@@ -709,7 +722,11 @@
                     ) %>%
       dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
       dplyr::left_join(lucov) %>%
-      dplyr::mutate(use_cover = if_else(!is.na(cover),cover,!!rlang::ensym(cov_type))) %>%
+      dplyr::mutate(use_cover = dplyr::if_else(!is.na(cover)
+                                               , cover
+                                               , !!rlang::ensym(cov_type)
+                                               )
+                    ) %>%
       dplyr::group_by(dplyr::across(tidyselect::any_of(context))
                       , dplyr::across(!!rlang::ensym(taxa_col))
                       ) %>%
