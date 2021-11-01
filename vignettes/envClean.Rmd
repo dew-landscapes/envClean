@@ -316,7 +316,22 @@ Taxa richness can be modelled as a function of any variables of interest, for ex
 * principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change
 * a categorical variable of interest. Say, [IBRA](https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra) Subregions
 
-Effort is filtered using the `filter_effort` function. This models taxa richness using a Bayesian generalised linear model implemented by the `rstan_glm` function in the `rstanarm` [`r cite_package("rstanarm", pac_cite_file = "vignettes/packages.bib")`] package. The model is used to predict upper and lower bounds for taxa richness. Any cell with taxa richness outside those bounds can be removed, by setting the acceptable lower and upper percentiles. Cells with a quadrat size recorded (implying a space-based effort rule) can be kept, irrespective of their taxa richness.
+Effort is filtered using the `filter_effort` function. This models taxa richness using a Bayesian generalised linear model implemented by the `rstan_glm` function in the `rstanarm` [`r cite_package("rstanarm", pac_cite_file = "vignettes/packages.bib")`] package. The model is used to predict upper and lower bounds for taxa richness. Any cell with taxa richness outside those bounds can be removed, by setting the acceptable lower and upper percentiles.
+
+```{r flor_effort}
+
+  # effort_mod <- make_effort_mod(flor_single
+  #                               , context = context
+  #                               )
+  # 
+  # flor_effort <- flor_single %>%
+  #   dplyr::inner_join(effort_mod$mod_cell_result %>%
+  #                       dplyr::filter(keep)
+  #                     )
+  # 
+  # flor_effort
+
+```
 
 ## Filtering summary
 
