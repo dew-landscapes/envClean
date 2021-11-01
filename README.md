@@ -131,26 +131,26 @@ Check that spatial filter worked.
 
 The following functions and data sets are provided in `envClean`.
 
-| object                 | class                       | description                                                                 |
-| :--------------------- | :-------------------------- | :-------------------------------------------------------------------------- |
-| add\_cover             | function                    | Generate best guess of cover for each taxa\*context                         |
-| add\_lifeform          | function                    | Generate best guess of lifeform for each taxa\*context                      |
-| aoi                    | sf and data.frame           | Simple feature to define a geographic area of interest.                     |
-| filter\_aoi            | function                    | Filter a dataframe with e/n or lat/long to an area of interest polygon (sf) |
-| filter\_counts         | function                    | Filter any context with less instances than a threshold value               |
-| filter\_prop           | function                    | Filter taxa recorded at less than x percent of visits                       |
-| filter\_spat\_rel      | function                    | Filter data frame to specified spatial reliability                          |
-| filter\_taxa           | function                    | Clean/Tidy to one row per taxa\*Visit                                       |
-| filter\_text\_col      | function                    | Filter a dataframe column on character string(s)                            |
-| flor\_all              | tbl\_df, tbl and data.frame | Example of data combined from several data sources.                         |
-| get\_gbif\_common      | function                    | Find common name from GBIF                                                  |
-| get\_gbif\_tax         | function                    | Get taxonomy from href                                                      |
-| lufilter               | tbl\_df, tbl and data.frame | Dataframe of filtering steps                                                |
-| lurank                 | tbl\_df, tbl and data.frame | Dataframe of taxonomic ranks                                                |
-| make\_cover            | function                    | Make a single (numeric, proportion) cover column from different sorts of    |
-| make\_effort\_mod\_cat | function                    | Model the effect of categorical variables on taxa richness.                 |
-| make\_effort\_mod\_pca | function                    | Model the effect of principal components axes on taxa richness.             |
-| make\_env\_pca         | function                    | Principal components analysis and various outputs from environmental data   |
-| make\_ind\_status      | function                    | Make indigenous status lookup                                               |
-| make\_lifeform         | function                    | Get unique lifeform across species, perhaps including further context       |
-| make\_taxa\_taxonomy   | function                    | Make taxonomy lookups                                                       |
+| object                 | class                       | description                                                                                                          |
+| :--------------------- | :-------------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| add\_cover             | function                    | Generate best guess of cover for each taxa\*context                                                                  |
+| add\_lifeform          | function                    | Generate best guess of lifeform for each taxa\*context                                                               |
+| aoi                    | sf and data.frame           | Simple feature to define a geographic area of interest.                                                              |
+| filter\_aoi            | function                    | Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)                                          |
+| filter\_counts         | function                    | Filter any context with less instances than a threshold value                                                        |
+| filter\_prop           | function                    | Filter taxa recorded at less than x percent of visits                                                                |
+| filter\_spat\_rel      | function                    | Filter data frame to specified spatial reliability                                                                   |
+| filter\_taxa           | function                    | Clean/Tidy to one row per taxa\*Visit                                                                                |
+| filter\_text\_col      | function                    | Filter a dataframe column on character string(s)                                                                     |
+| flor\_all              | tbl\_df, tbl and data.frame | Example of data combined from several data sources.                                                                  |
+| get\_gbif\_common      | function                    | Find common name from GBIF                                                                                           |
+| get\_gbif\_tax         | function                    | Get taxonomy from href{<https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c>}{GBIF Backbone Taxonomy}. |
+| lufilter               | tbl\_df, tbl and data.frame | Dataframe of filtering steps                                                                                         |
+| lurank                 | tbl\_df, tbl and data.frame | Dataframe of taxonomic ranks                                                                                         |
+| make\_cover            | function                    | Make a single (numeric, proportion) cover column from different sorts of                                             |
+| make\_effort\_mod\_cat | function                    | Model the effect of categorical variables on taxa richness.                                                          |
+| make\_effort\_mod\_pca | function                    | Model the effect of principal components axes on taxa richness.                                                      |
+| make\_env\_pca         | function                    | Principal components analysis and various outputs from environmental data                                            |
+| make\_ind\_status      | function                    | Make indigenous status lookup                                                                                        |
+| make\_lifeform         | function                    | Get unique lifeform across species, perhaps including further context                                                |
+| make\_taxa\_taxonomy   | function                    | Make taxonomy lookups                                                                                                |
