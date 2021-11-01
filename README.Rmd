@@ -117,9 +117,9 @@ The following functions and data sets are provided in `envClean`.
                     , value = "description"
                     ) %>%
       dplyr::filter(grepl("title", description)) %>%
-      dplyr::mutate(description = gsub("\\\\|\\}","",description)) %>%
-      tidyr::separate(description, into = c("object", "description"), sep = "{") %>%
-      dplyr::select(description)
+      dplyr::mutate(description = gsub("\\\\|title", "", description)
+                    , description = gsub("^\\{|\\}$", "", description)
+                    )
     
   }
 
