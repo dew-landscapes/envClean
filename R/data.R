@@ -11,7 +11,7 @@
 #' }
 "aoi"
 
-#' Dataframe of filtering steps
+#' Example of data combined from several data sources.
 #'
 #' Example resulting from munging several different data sources (`data_name`)
 #' into one tidy data set. This is the sort of starting point where `envClean`

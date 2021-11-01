@@ -43,5 +43,5 @@ get_gbif_tax(data.frame(spp = "Eucalyptus viminalis"), taxa_col = "spp")
 
 }
 \references{
-\insertAllC
+\insertAllCited{}
 }

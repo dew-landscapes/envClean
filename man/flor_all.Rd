@@ -3,7 +3,7 @@
 \docType{data}
 \name{flor_all}
 \alias{flor_all}
-\title{Dataframe of filtering steps}
+\title{Example of data combined from several data sources.}
 \format{
 A data frame with 13104 rows and 13
 variables:

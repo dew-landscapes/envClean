@@ -5,7 +5,13 @@
 \title{Make a single (numeric, proportion) cover column from different sorts of
 input cover}
 \usage{
-make_cover(df, taxa_col = "taxa", context = NULL, lucov)
+make_cover(
+  df,
+  taxa_col = "taxa",
+  context = NULL,
+  lucov,
+  cov_type = "cover_mid"
+)
 }
 \arguments{
 \item{df}{Dataframe containing columns to consolidate.}
@@ -15,6 +21,9 @@ make_cover(df, taxa_col = "taxa", context = NULL, lucov)
 \item{context}{Character. Name of columns defining the context.}
 
 \item{lucov}{Dataframe. Lookup from \code{cover_code} to numeric cover values.}
+
+\item{cov_type}{Character. Name of column in \code{lucov} that is used to convert
+character \code{cover_code} to numeric values.}
 }
 \value{
 Dataframe with consolidated \code{use_cover} column.
