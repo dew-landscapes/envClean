@@ -5,7 +5,7 @@ author:
 - Nigel Willoughby
 date: "`r format(Sys.time(), '%A, %d %B, %Y. %H:%M')`"
 output: rmarkdown::html_vignette
-bibliography: packages.bib
+bibliography: ["packages.bib", "refs.bib"]
 vignette: >
   %\VignetteIndexEntry{envClean}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,6 +13,8 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+
+  knitr::opts_knit$set(root.dir = here::here())
 
   knitr::opts_chunk$set(
     collapse = TRUE
@@ -23,9 +25,13 @@ vignette: >
 
 ```{r setup}
 
+  library(knitr)
   library(envClean)
   library(envReport)
   library(envFunc) # needed for add_raster_cell
+  library(fs)
+  library(purrr)
+  library(dplyr)
   library(sf)
   library(tibble)
   library(tmap)
@@ -84,15 +90,15 @@ Here, we'll start with combined floristic data (called `flor_all`) from the mall
 
 ### Note on coordinate reference systems
 
-There are two (possibly three) main coordinate reference systems (crs):
+There are two (possibly three) main coordinate reference systems (crs) to worry about:
 
-1. the crs for the original records. Often decimal degrees. Almost certainly using [epsg](https://epsg.io/) = [4283](https://epsg.io/4283) with these data will return the correct crs.
-2. the crs to use for most spatial data. Set here (in setup chunk) to `use_crs` = `r use_crs`. It is likely that a projected crs will work best, particularly for buffering, filtering etc.
-3. the crs for any other imported spatial data, which could be anything, but is hopefully specified. Try using `sf::st_read("random_shape_file.shp") %>% sf::st_tranform(crs = use_crs)` to deal with this.
+1. the crs for the original records. If these are in decimal degrees, using [epsg](https://epsg.io/) = [4283](https://epsg.io/4283) is likely to return the correct crs.
+2. the crs you'd like to use for most spatial data. Set here (in setup chunk) to `use_crs` = `r use_crs`. It is likely that a projected crs will work best, particularly for buffering, filtering etc.
+3. the crs for any other spatial data imported to help with cleaning. Try using `sf::st_read("random_shape_file.shp") %>% sf::st_tranform(crs = use_crs)` to deal with this.
 
 ### Area of interest
 
-Usually this is geographic and/or taxonomic area of interest. An example area overlapping flor_all is provided in `aoi`. Converting `flor_all` to `sf` allows plotting them together.
+Usually this is a geographic and/or taxonomic area of interest. An example area overlapping `flor_all` is provided in `aoi`. Converting `flor_all` to `sf` allows plotting them together.
 
 ```{r aoi}
 
@@ -115,9 +121,10 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
 ```{r flor_all_aoi}
 
   flor_aoi <- filter_aoi(flor_all
-                         , aoi
+                         , use_aoi = aoi
                          , crs_aoi = st_crs(aoi)
-                         )
+                         ) %>%
+    add_time_stamp()
 
   flor_aoi
 
@@ -141,13 +148,25 @@ Check that spatial filter worked.
 
 ```
 
-## Set scales of interest
+## Context: scales of interest {#context}
 
-There are two scales of particular interest: space (location) and time. Together these are used to set the `context` in further filtering and analysis.
+There are two scales of particular interest: space (location) and time. Together these are used to set the `context` throughout filtering and analysis. It is possible to assign other concepts to `context` too (e.g. say, data source). Note that `context` is first applied _exclusively_ only when taxonomy is filtered. For example, if sppA has a record at location x and time y from different data sources (see table below) these will only be reduced to a single 'record' when taxonomy is filtered. Another way to say this: extraneous fields/columns beyond `context` are maintained until taxonomy is filtered. However, even at that point, extra columns can be specified (see [Filter taxonomy]).
 
 The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped. The lumping is done via a raster placed over the `aoi`.
 
-The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one 'visit'.
+The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one 'visit'. A 'taxa' within a 'visit' is considered a 'record'.
+
+```{r context_example, echo = FALSE}
+
+  context_example <- tibble::tribble(
+     ~data_source, ~taxa, ~location, ~year,
+     "A", "sppA", "x", "y",
+     "B", "sppA", "x", "y"
+   )
+
+  kable(context_example, caption = "Context example")
+
+```
 
 ### Precision
 
@@ -164,7 +183,8 @@ Records with precision less than threshold are filtered using `filter_spat_rel`.
                               , dist = 100
                               , context = context
                               , over_ride = list(data_name = include_data_name)
-                              )
+                              ) %>%
+    add_time_stamp()
   
   flor_rel
 
@@ -193,25 +213,146 @@ Rasterizing the current data is then done via `add_raster_cell`. This function h
                                , flor_rel
                                , add_xy = TRUE
                                , crs_df = 4283
-                               )
+                               ) %>%
+    add_time_stamp()
 
   flor_cell
 
 ```
 
+## Taxonomy
+
+### Make taxonomy
+
+Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the [GBIF taxonomy backbone](https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c) provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.
+
+Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This creates two objects that are loaded to the global environment:
+
+* `lutaxa.` This is a simple lookup from the original name provided to the taxa to use in place of that name. Thus, `taxa` is likely to be duplicated
+* `taxa_taxonomy` provides the full taxonomic hierarchy for each `taxa` in the `lutaxa` object. The column `taxa` should not have any duplicates. The output can also include lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to `make_taxa_taxonomy`.
+
+```{r make_taxa_taxonomy}
+
+  make_taxa_taxonomy(flor_cell
+                     , save_luGBIF = path("vignettes","luGBIF.feather")
+                     )
+
+```
+
+`lutaxa` is returned to the global environment.
+
+```{r lutaxa}
+
+  lutaxa
+
+```
+
+as is `taxa_taxonomy`
+
+```{r taxa_taxonomy}
+
+  taxa_taxonomy
+
+```
+
+### Filter taxonomy
+
+Cleaning to a single taxonomy is now possible sing `lutaxa` and `taxa_taxonomy`. At this point, the [context](#context) is also _exclusively_ applied. Thus the output of applying `filter_taxa` is to generate a single record for each taxa within each context, with a single field-based result for any `extra_cols` provided to `filter_taxa`. Likewise, by providing `do_cov` and `lucov` to `filter_taxa`, a single, field-based estimate of cover is generated for each 'record'.
+
+```{r filt_tax}
+
+  flor_taxa <- filter_taxa(flor_cell
+                          , taxa_col = "original_name"
+                          , context = context
+                          , do_cov = TRUE
+                          , lucov = envEcosystems::lucover
+                          ) %>%
+    add_time_stamp()
+
+  flor_taxa
+
+```
+
+
+## Singletons
+
+An implicit assumption in collation of data sources is usually that records were a list of taxa collected at a specific spatial location (and date). In many cases this assumption proves incorrect. For example, records may be related to, say, tree health monitoring where no other taxa were concurrently recorded.
+
+Thus, filtering 'singleton' sites (a site with only a single taxa was recorded) is often prudent.
+
+This will also inadvertently filter legitimate single taxa lists. For example, some areas of samphire or mangroves may have only a single taxa recorded within a survey site. As always, it depends on the goal of any particular analysis whether this trade-off will be worthwhile.
+
+```{r flor_single}
+  
+  flor_single <- filter_counts(flor_taxa
+                              , context = context
+                              , thresh = 1
+                              ) %>%
+    add_time_stamp()
+
+  flor_single
+
+```
+
+## Effort
+
+Aggregated data sets are likely to contain records of taxa at spatial locations collected by almost any method imaginable. The effort any observer(s) put into time and taxonomy at each spatial location is usually unknown.
+
+Given that effort matters when documenting ecology [e.g. @RN2377], filtering 'effort' is an attempt to remove the most seriously under- and over-sampled contexts.
+
+Examples of low taxa richness contexts that may occur in large, unstructured data sets:
+
+* brief, opportune records
+* tree-health monitoring data
+
+Examples of high taxa richness contexts that may occur in large, unstructured data sets:
+
+* an observer wandering widely from the location they recorded, particularly if crossing an ecotone
+* several observers working together
+* an observer with well above average botanical knowledge
+* observations taken over a long time-frame but recorded on a single day
+
+These examples just scratch the surface of the ways in which taxa richness can deviate from that expected from an average effort by an average observer.
+
+Taxa richness can be modelled as a function of any variables of interest, for example:
+
+* nothing. This option might be useful in relatively small areas where the non-biological drivers of biological change are relatively stable
+* a continuous variable of interest. Say, annual mean temperature, or, soil ph
+* principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change
+* a categorical variable of interest. Say, [IBRA](https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra) Subregions
+
+Effort is filtered using the `filter_effort` function. This models taxa richness using a Bayesian generalised linear model implemented by the `rstan_glm` function in the `rstanarm` [`r cite_package("rstanarm", pac_cite_file = "vignettes/packages.bib")`] package. The model is used to predict upper and lower bounds for taxa richness. Any cell with taxa richness outside those bounds can be removed, by setting the acceptable lower and upper percentiles. Cells with a quadrat size recorded (implying a space-based effort rule) can be kept, irrespective of their taxa richness.
 
 
 
 
 
 
+## Filtering summary
 
 
+```{r filt_summary}
+  
+  filt_summary <- ls(pattern = "flor_") %>%
+    grep("combine|all|wide|sf", ., value = TRUE, invert = TRUE) %>%
+    tibble::enframe(name = NULL, value = "name") %>%
+    dplyr::mutate(obj = map(name,get)
+                  , has_stamp = map_lgl(obj,~"ctime" %in% names(attributes(.)))
+                  ) %>% 
+    dplyr::filter(has_stamp) %>%
+    dplyr::mutate(nrow = map_dbl(obj, nrow)) %>%
+    dplyr::mutate(ctime = map(obj,attr,"ctime")) %>%
+    tidyr::unnest(cols = c(ctime)) %>%
+    dplyr::arrange(desc(nrow),ctime)
 
-# References
+
+```
+
+
+## References
 
 ```{r pacCitations, include = FALSE}
 
-  fix_bib(bib_file = "packages.bib")
+  fix_bib(bib_file = "vignettes/packages.bib")
 
 ```
