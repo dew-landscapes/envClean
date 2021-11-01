@@ -23,13 +23,17 @@ Imports:
     dplyr,
     envEcosystems,
     envFunc,
+    envReport,
     factoextra,
     feather,
+    fs,
     ggplot2,
     ggridges,
+    here,
     janitor,
     magrittr,
     purrr,
+    raster,
     Rdpack,
     rgbif,
     rio,
@@ -41,7 +45,8 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    tidytext
+    tidytext,
+    tmap
 URL: https://github.com/Acanthiza/envClean
 BugReports: https://github.com/Acanthiza/envClean/issues
 Depends: 

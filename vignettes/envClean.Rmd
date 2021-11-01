@@ -36,6 +36,9 @@ vignette: >
   library(tibble)
   library(tmap)
   library(raster)
+  library(rstanarm)
+
+  fix_bib(bib_file = "vignettes/packages.bib")
 
   tmap_mode("plot")
 
@@ -315,11 +318,6 @@ Taxa richness can be modelled as a function of any variables of interest, for ex
 
 Effort is filtered using the `filter_effort` function. This models taxa richness using a Bayesian generalised linear model implemented by the `rstan_glm` function in the `rstanarm` [`r cite_package("rstanarm", pac_cite_file = "vignettes/packages.bib")`] package. The model is used to predict upper and lower bounds for taxa richness. Any cell with taxa richness outside those bounds can be removed, by setting the acceptable lower and upper percentiles. Cells with a quadrat size recorded (implying a space-based effort rule) can be kept, irrespective of their taxa richness.
 
-
-
-
-
-
 ## Filtering summary
 
 
@@ -345,6 +343,6 @@ Effort is filtered using the `filter_effort` function. This models taxa richness
 
 ```{r pacCitations, include = FALSE}
 
-  fix_bib(bib_file = "vignettes/packages.bib")
+  
 
 ```
