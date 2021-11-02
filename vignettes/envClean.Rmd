@@ -326,16 +326,16 @@ Effort is filtered using the `filter_effort` function. This models taxa richness
 
 ```{r flor_effort}
 
-  # effort_mod <- make_effort_mod(flor_single
-  #                               , context = context
-  #                               )
-  # 
-  # flor_effort <- flor_single %>%
-  #   dplyr::inner_join(effort_mod$mod_cell_result %>%
-  #                       dplyr::filter(keep)
-  #                     )
-  # 
-  # flor_effort
+  effort_mod <- make_effort_mod(flor_single
+                                , context = context
+                                )
+
+  flor_effort <- flor_single %>%
+    dplyr::inner_join(effort_mod$mod_cell_result %>%
+                        dplyr::filter(keep)
+                      )
+
+  flor_effort
 
 ```
 

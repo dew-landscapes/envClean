@@ -74,7 +74,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 02 November, 2021. 10:49</h4>
+            <h4 class="date">Tuesday, 02 November, 2021. 11:03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/envClean.Rmd"><code>vignettes/envClean.Rmd</code></a></small>
       <div class="hidden name"><code>envClean.Rmd</code></div>
@@ -507,16 +507,135 @@
 <p>Effort is filtered using the <code>filter_effort</code> function. This models taxa richness using a Bayesian generalised linear model implemented by the <code>rstan_glm</code> function in the <code>rstanarm</code> [<span class="citation">(<span class="citeproc-not-found" data-reference-id="R-rstanarm"><strong>???</strong></span>)</span>] package. The model is used to predict upper and lower bounds for taxa richness. Any cell with taxa richness outside those bounds can be removed, by setting the acceptable lower and upper percentiles.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="co"># effort_mod &lt;- make_effort_mod(flor_single</span>
-  <span class="co">#                               , context = context</span>
-  <span class="co">#                               )</span>
-  <span class="co"># </span>
-  <span class="co"># flor_effort &lt;- flor_single %&gt;%</span>
-  <span class="co">#   dplyr::inner_join(effort_mod$mod_cell_result %&gt;%</span>
-  <span class="co">#                       dplyr::filter(keep)</span>
-  <span class="co">#                     )</span>
-  <span class="co"># </span>
-  <span class="co"># flor_effort</span></code></pre></div>
+  <span class="va">effort_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_effort_mod.html">make_effort_mod</a></span><span class="op">(</span><span class="va">flor_single</span>
+                                , context <span class="op">=</span> <span class="va">context</span>
+                                <span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 0 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.347 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.326 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.673 seconds (Total)</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2: Gradient evaluation took 0 seconds</span>
+<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.326 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.351 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.677 seconds (Total)</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3: Gradient evaluation took 0 seconds</span>
+<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.326 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.34 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.666 seconds (Total)</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4: Gradient evaluation took 0 seconds</span>
+<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.331 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.358 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.689 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:</span>
+<span class="co">#&gt; Joining, by = "col"</span>
+
+  <span class="va">flor_effort</span> <span class="op">&lt;-</span> <span class="va">flor_single</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">effort_mod</span><span class="op">$</span><span class="va">mod_cell_result</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+                        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">keep</span><span class="op">)</span>
+                      <span class="op">)</span>
+<span class="co">#&gt; Joining, by = c("year", "month", "lat", "long", "cell")</span>
+
+  <span class="va">flor_effort</span>
+<span class="co">#&gt; # A tibble: 816 x 21</span>
+<span class="co">#&gt;     year month   lat  long  cell taxa      use_cover    sr  runs n_check mod_med</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westring~     0.015    18  4000    4000      11</span>
+<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westring~     0.01     22  4000    4000      11</span>
+<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westring~     0.015    15  4000    4000      11</span>
+<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westring~     0.015     8  4000    4000      11</span>
+<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westring~     0.015    19  4000    4000      11</span>
+<span class="co">#&gt;  6  2006    10 -34.5  140. 19307 Westring~     0.01     13  4000    4000      11</span>
+<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westring~     0.015    24  4000    4000      11</span>
+<span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westring~     0.015    20  4000    4000      11</span>
+<span class="co">#&gt;  9  1990     4 -34.5  140. 37110 Westring~     0.015    15  4000    4000      11</span>
+<span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westring~     0.015    23  4000    4000      11</span>
+<span class="co">#&gt; # ... with 806 more rows, and 10 more variables: mod_mean &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   mod_ci90_lo &lt;dbl&gt;, mod_ci90_up &lt;dbl&gt;, extreme_sr_lo &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   extreme_sr_hi &lt;dbl&gt;, text &lt;chr&gt;, colour &lt;chr&gt;, keep_hi &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   keep_lo &lt;lgl&gt;, keep &lt;lgl&gt;</span></code></pre></div>
 </div>
 <div id="filtering-summary" class="section level2">
 <h2 class="hasAnchor">
