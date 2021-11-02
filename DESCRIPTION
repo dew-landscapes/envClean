@@ -1,5 +1,5 @@
 Package: envClean
-Title: Clean Environmental, Biological and Non-biological Data
+Title: Clean Biological Data from Large Unstructured Dataset(s)
 Version: 0.0.0.9000
 Authors@R: 
     c(
@@ -47,7 +47,7 @@ Imports:
     tidyselect,
     tidytext,
     tmap
-URL: https://github.com/Acanthiza/envClean
+URL: https://acanthiza.github.io/envClean/
 BugReports: https://github.com/Acanthiza/envClean/issues
 Depends: 
     R (>= 2.10)
