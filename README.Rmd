@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# envClean
+# An R package to help clean large unstructured data set(s)
 
 <!-- badges: start -->
 <!-- badges: end -->

@@ -28,9 +28,9 @@ geographic level (say, IBRA Region). If NULL (default), model is \code{y ~ 1}.}
 threshold above/below which richness is excessively above or below 'normal'
 and should be filtered.}
 
-\item{...}{Other arguments passed to \code{rstanarm::stan_glm} (e.g. chains, iter).}
+\item{use_family}{Passed to \code{rstanarm::stan_glm} \code{family} argument.}
 
-\item{family}{Passed to \code{rstanarm::stan_glm}.}
+\item{...}{Other arguments passed to \code{rstanarm::stan_glm} (e.g. chains, iter).}
 }
 \value{
 List of model outputs.
