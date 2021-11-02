@@ -97,7 +97,7 @@ There are two (possibly three) main coordinate reference systems (crs) to worry 
 2. the crs you'd like to use for most spatial data. Set here (in setup chunk) to `use_crs` = `r use_crs`. It is likely that a projected crs will work best, particularly for buffering, filtering etc.
 3. the crs for any other spatial data imported to help with cleaning. Try using `sf::st_read("random_shape_file.shp") %>% sf::st_tranform(crs = use_crs)` to deal with this.
 
-### Area of interest
+## Area of interest
 
 Usually this is a geographic and/or taxonomic area of interest. An example area overlapping `flor_all` is provided in `aoi`. Converting `flor_all` to `sf` allows plotting them together.
 
@@ -322,7 +322,7 @@ Taxa richness can be modelled as a function of any variables of interest, for ex
 * principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change
 * a categorical variable of interest. Say, [IBRA](https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra) Subregions
 
-Effort is filtered using the `filter_effort` function. This models taxa richness using a Bayesian generalised linear model implemented by the `rstan_glm` function in the `rstanarm` [`r cite_package("rstanarm", pac_cite_file = "vignettes/packages.bib")`] package. The model is used to predict upper and lower bounds for taxa richness. Any cell with taxa richness outside those bounds can be removed, by setting the acceptable lower and upper percentiles.
+Taxa richness can be modelled using a Bayesian generalised linear model using the `make_effort_mod` function. This implements the `rstan_glm` function in the `rstanarm` `r envReport::cite_package("rstanarm", pac_cite_file = "vignettes/packages.bib")` package. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.
 
 ```{r flor_effort}
 

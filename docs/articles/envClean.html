@@ -74,7 +74,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 02 November, 2021. 11:03</h4>
+            <h4 class="date">Tuesday, 02 November, 2021. 11:53</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/envClean.Rmd"><code>vignettes/envClean.Rmd</code></a></small>
       <div class="hidden name"><code>envClean.Rmd</code></div>
@@ -86,7 +86,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envClean">envClean</a></span><span class="op">)</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://acanthiza.github.io/envClean/">envClean</a></span><span class="op">)</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envReport">envReport</a></span><span class="op">)</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envFunc">envFunc</a></span><span class="op">)</span> <span class="co"># needed for add_raster_cell</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://fs.r-lib.org">fs</a></span><span class="op">)</span>
@@ -139,7 +139,7 @@
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"acanthiza/envClean"</span><span class="op">)</span></code></pre></div>
 <p>Load <code>envClean</code></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/Acanthiza/envClean">"envClean"</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://acanthiza.github.io/envClean/">"envClean"</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="suggested-workflow" class="section level2">
 <h2 class="hasAnchor">
@@ -179,9 +179,10 @@
 <li>the crs for any other spatial data imported to help with cleaning. Try using <code>sf::st_read("random_shape_file.shp") %&gt;% sf::st_tranform(crs = use_crs)</code> to deal with this.</li>
 </ol>
 </div>
-<div id="area-of-interest" class="section level3">
-<h3 class="hasAnchor">
-<a href="#area-of-interest" class="anchor"></a>Area of interest</h3>
+</div>
+<div id="area-of-interest" class="section level2">
+<h2 class="hasAnchor">
+<a href="#area-of-interest" class="anchor"></a>Area of interest</h2>
 <p>Usually this is a geographic and/or taxonomic area of interest. An example area overlapping <code>flor_all</code> is provided in <code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code> allows plotting them together.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -238,7 +239,6 @@
   <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">flor_aoi_sf</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="envClean_files/figure-html/flor_aoi-1.png" width="700"></p>
-</div>
 </div>
 <div id="context" class="section level2">
 <h2 class="hasAnchor">
@@ -504,7 +504,7 @@
 <li>principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change</li>
 <li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra">IBRA</a> Subregions</li>
 </ul>
-<p>Effort is filtered using the <code>filter_effort</code> function. This models taxa richness using a Bayesian generalised linear model implemented by the <code>rstan_glm</code> function in the <code>rstanarm</code> [<span class="citation">(<span class="citeproc-not-found" data-reference-id="R-rstanarm"><strong>???</strong></span>)</span>] package. The model is used to predict upper and lower bounds for taxa richness. Any cell with taxa richness outside those bounds can be removed, by setting the acceptable lower and upper percentiles.</p>
+<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-rstanarm"><strong>???</strong></span>)</span> package. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">effort_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_effort_mod.html">make_effort_mod</a></span><span class="op">(</span><span class="va">flor_single</span>
@@ -531,9 +531,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.347 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.326 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.673 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.319 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.362 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.681 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -556,9 +556,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.326 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.351 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.677 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.333 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.336 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.669 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -581,9 +581,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.326 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.34 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.666 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.306 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.343 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.649 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -606,9 +606,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.331 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.358 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.689 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.31 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.328 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.638 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 <span class="co">#&gt; Joining, by = "col"</span>
 
