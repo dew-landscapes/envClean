@@ -74,7 +74,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 02 November, 2021. 10:37</h4>
+            <h4 class="date">Tuesday, 02 November, 2021. 10:49</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/envClean.Rmd"><code>vignettes/envClean.Rmd</code></a></small>
       <div class="hidden name"><code>envClean.Rmd</code></div>
@@ -86,16 +86,12 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'knitr' was built under R version 4.0.5</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envClean">envClean</a></span><span class="op">)</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envReport">envReport</a></span><span class="op">)</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envFunc">envFunc</a></span><span class="op">)</span> <span class="co"># needed for add_raster_cell</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://fs.r-lib.org">fs</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'fs' was built under R version 4.0.5</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'purrr' was built under R version 4.0.5</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.0.5</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
@@ -105,65 +101,31 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'sf' was built under R version 4.0.5</span>
 <span class="co">#&gt; Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'tibble' was built under R version 4.0.5</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'tmap' was built under R version 4.0.5</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'raster' was built under R version 4.0.5</span>
 <span class="co">#&gt; Loading required package: sp</span>
-<span class="co">#&gt; Warning: package 'sp' was built under R version 4.0.5</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'raster'</span>
 <span class="co">#&gt; The following object is masked from 'package:dplyr':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     select</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mc-stan.org/rstanarm/">rstanarm</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'rstanarm' was built under R version 4.0.5</span>
 <span class="co">#&gt; Loading required package: Rcpp</span>
-<span class="co">#&gt; Warning: package 'Rcpp' was built under R version 4.0.5</span>
 <span class="co">#&gt; This is rstanarm version 2.21.1</span>
 <span class="co">#&gt; - See https://mc-stan.org/rstanarm/articles/priors for changes to default priors!</span>
 <span class="co">#&gt; - Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.</span>
 <span class="co">#&gt; - For execution on a local, multicore CPU with excess RAM we recommend calling</span>
 <span class="co">#&gt;   options(mc.cores = parallel::detectCores())</span>
 
-  <span class="fu"><a href="https://rdrr.io/pkg/envReport/man/fix_bib.html">fix_bib</a></span><span class="op">(</span>bib_file <span class="op">=</span> <span class="st">"vignettes/packages.bib"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: `as_data_frame()` was deprecated in tibble 2.0.0.</span>
-<span class="co">#&gt; Please use `as_tibble()` instead.</span>
-<span class="co">#&gt; The signature and semantics have changed, see `?as_tibble`.</span>
-<span class="co">#&gt; # A tibble: 13 x 28</span>
-<span class="co">#&gt;    CATEGORY BIBTEXKEY  ADDRESS  ANNOTE AUTHOR BOOKTITLE CHAPTER CROSSREF EDITION</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;list&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;  </span>
-<span class="co">#&gt;  1 MANUAL   R-base     Vienna,~ &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  2 MANUAL   R-envClean &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  3 MANUAL   R-envFunc  &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  4 MANUAL   R-envRepo~ &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  5 MANUAL   R-raster   &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  6 MANUAL   R-sf       &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  7 MANUAL   R-sp       &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  8 MANUAL   R-tibble   &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt;  9 MANUAL   R-tmap     &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt; 10 ARTICLE  sf2018     &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt; 11 ARTICLE  sp2005     &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt; 12 BOOK     sp2013     &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt; 13 ARTICLE  tmap2018   &lt;NA&gt;     &lt;NA&gt;   &lt;chr ~ &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt; # ... with 19 more variables: EDITOR &lt;list&gt;, HOWPUBLISHED &lt;chr&gt;,</span>
-<span class="co">#&gt; #   INSTITUTION &lt;chr&gt;, JOURNAL &lt;chr&gt;, KEY &lt;chr&gt;, MONTH &lt;chr&gt;, NOTE &lt;chr&gt;,</span>
-<span class="co">#&gt; #   NUMBER &lt;chr&gt;, ORGANIZATION &lt;chr&gt;, PAGES &lt;chr&gt;, PUBLISHER &lt;chr&gt;,</span>
-<span class="co">#&gt; #   SCHOOL &lt;chr&gt;, SERIES &lt;chr&gt;, TITLE &lt;chr&gt;, TYPE &lt;chr&gt;, VOLUME &lt;chr&gt;,</span>
-<span class="co">#&gt; #   YEAR &lt;chr&gt;, URL &lt;chr&gt;, DOI &lt;chr&gt;</span>
-
-  <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span>
-<span class="co">#&gt; tmap mode set to plotting</span>
-
+  <span class="co">#  Load data</span>
   <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">flor_all</span><span class="op">)</span>
   
   <span class="co"># What crs to use for maps?</span>
   <span class="va">use_crs</span> <span class="op">&lt;-</span> <span class="fl">3577</span> <span class="co"># actually an epsg code. see epsg.io</span>
   
+  <span class="co"># set area of interest coordinate reference system</span>
   <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="va">aoi</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span>
   </code></pre></div>
