@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of envClean is to help clean large, unstructured, biological (or `env`ironmental) data sets.
+The goal of `envClean` is to help clean large, unstructured, biological (or `env`ironmental) data sets.
 
 It assumes the desired end result is a plausible list of taxa recorded at space and time locations for use in further analysis. This is _not the same_ as an authoritative checklist of taxa for any space and time locations.
 
@@ -31,7 +31,7 @@ While there are many implied and explicit decisions to make (e.g. there may be a
 
 `envClean` is not on [CRAN](https://CRAN.R-project.org).
 
-You can install the  development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -106,7 +106,7 @@ Check that spatial filter worked.
 
 ## What else is in `envClean`
 
-The following functions and data sets are provided in `envClean`.
+The following functions and data sets are provided in `envClean`. See https://acanthiza.github.io/envClean/ for more examples.
 
 ```{r, echo = FALSE, warning = FALSE}
 

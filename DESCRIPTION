@@ -11,7 +11,9 @@ Authors@R:
     , role = "cph"
     )
     )
-Description: Tools to facilitate cleaning tasks associated with environmental (raster), biological (records of taxa) and non-biological (e.g. landcover training data) data.
+Description: Tools to facilitate cleaning tasks associated with environmental
+    (raster), biological (records of taxa) and non-biological (e.g. landcover
+    training data) data.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

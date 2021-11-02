@@ -170,7 +170,20 @@ and should be filtered.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List of model outputs.</p>
+    <p>List of model outputs:</p>
+<dt>dat_exp</dt><dd><p>dataframe of data used in pre-model data exploration</p></dd>
+<dt>mod</dt><dd><p>model object</p></dd>
+<dt>mod_pred</dt><dd><p>dataframe resulting from rstanarm::posterior_predict</p></dd>
+<dt>mod_resid</dt><dd><p>dataframe of residuals</p></dd>
+<dt>mod_resid_plot</dt><dd><p>plot of residuals (ggplot object)</p></dd>
+<dt>mod_res</dt><dd><p>dataframe of summarised <code>mod_pred</code> results</p></dd>
+<dt>mod_plot</dt><dd><p>plot of distribution of credible values, faceted by any
+variables in the model</p></dd>
+<dt>mod_cell_result</dt><dd><p>dataframe of all contexts with column <code>keep</code>
+indicating whether the context is outside acceptable taxa richness</p></dd>
+<dt>mod_cell_tab</dt><dd><p>dataframe tabulating how many contexts were above and
+below the acceptable richness quantile thresholds</p></dd>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
