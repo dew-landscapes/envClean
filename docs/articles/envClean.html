@@ -74,7 +74,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 02 November, 2021. 11:53</h4>
+            <h4 class="date">Tuesday, 02 November, 2021. 17:56</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/envClean.Rmd"><code>vignettes/envClean.Rmd</code></a></small>
       <div class="hidden name"><code>envClean.Rmd</code></div>
@@ -85,39 +85,18 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://acanthiza.github.io/envClean/">envClean</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envReport">envReport</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Acanthiza/envFunc">envFunc</a></span><span class="op">)</span> <span class="co"># needed for add_raster_cell</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://fs.r-lib.org">fs</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="co">#&gt; Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: sp</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'raster'</span>
-<span class="co">#&gt; The following object is masked from 'package:dplyr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     select</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mc-stan.org/rstanarm/">rstanarm</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: Rcpp</span>
-<span class="co">#&gt; This is rstanarm version 2.21.1</span>
-<span class="co">#&gt; - See https://mc-stan.org/rstanarm/articles/priors for changes to default priors!</span>
-<span class="co">#&gt; - Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.</span>
-<span class="co">#&gt; - For execution on a local, multicore CPU with excess RAM we recommend calling</span>
-<span class="co">#&gt;   options(mc.cores = parallel::detectCores())</span>
+  <span class="va">pacs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"knitr"</span>, <span class="st">"envClean"</span>, <span class="st">"envReport"</span>
+            , <span class="st">"envFunc"</span>, <span class="st">"fs"</span>, <span class="st">"purrr"</span>
+            , <span class="st">"dplyr"</span>, <span class="st">"sf"</span>, <span class="st">"tibble"</span>
+            , <span class="st">"tmap"</span>, <span class="st">"raster"</span>, <span class="st">"rstanarm"</span>
+            <span class="op">)</span>
+
+  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">walk</a></span><span class="op">(</span><span class="va">pacs</span>
+              , <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">.</span>
+                                                        , character.only <span class="op">=</span> <span class="cn">TRUE</span>
+                                                        , quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+                                                <span class="op">)</span>
+              <span class="op">)</span>
 
   <span class="co">#  Load data</span>
   <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">flor_all</span><span class="op">)</span>
@@ -186,28 +165,32 @@
 <p>Usually this is a geographic and/or taxonomic area of interest. An example area overlapping <code>flor_all</code> is provided in <code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code> allows plotting them together.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+  <span class="co"># Create simple feature from flor_all</span>
   <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>
                  , crs <span class="op">=</span> <span class="fl">4326</span>
                  <span class="op">)</span>
 
-  <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">aoi</span>
-           , bbox <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
+  <span class="co"># Plot flor_all along with aoi</span>
+  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi</span>
+           , bbox <span class="op">=</span> <span class="fu">st_bbox</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
            <span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="envClean_files/figure-html/aoi-1.png" width="700"></p>
 <p>Filtering <code>flor_all</code> to <code>aoi</code> is done with <code>filter_aoi</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+  <span class="co"># Filter area of interest</span>
   <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_aoi.html">filter_aoi</a></span><span class="op">(</span><span class="va">flor_all</span>
                          , use_aoi <span class="op">=</span> <span class="va">aoi</span>
-                         , crs_aoi <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>
+                         , crs_aoi <span class="op">=</span> <span class="fu">st_crs</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>
                          <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span>
+    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = c("lat", "long")</span>
 
+  <span class="co"># Have a look at results</span>
   <span class="va">flor_aoi</span>
 <span class="co">#&gt; # A tibble: 3,485 x 13</span>
 <span class="co">#&gt;      lat  long data_name site   date       original_name cover cover_code quad_x</span>
@@ -227,17 +210,19 @@
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+  <span class="co"># Create sf from flor_aoi</span>
   <span class="va">flor_aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_aoi</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>
                  , crs <span class="op">=</span> <span class="fl">4326</span>
                  <span class="op">)</span>
 
-  <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">aoi</span>
-           , bbox <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
+  <span class="co"># Plot flor_aoi along with aoi (using the same extent/bbox as the previous plot)</span>
+  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi</span>
+           , bbox <span class="op">=</span> <span class="fu">st_bbox</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
            <span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">flor_aoi_sf</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">flor_aoi_sf</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="envClean_files/figure-html/flor_aoi-1.png" width="700"></p>
 </div>
 <div id="context" class="section level2">
@@ -247,7 +232,8 @@
 <p>The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped. The lumping is done via a raster placed over the <code>aoi</code>.</p>
 <p>The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one ‘visit’. A ‘taxa’ within a ‘visit’ is considered a ‘record’.</p>
 <table class="table">
-<caption>Context example</caption>
+<caption>Context example. If context is <code>location</code> and <code>year</code>, only upon running <code>filter_taxa</code> will <code>data_source</code> drop out and the dataframe will collapse to one line (implemented by <code>dplyr::distinct(across(any_of(context)))</code>
+</caption>
 <thead><tr class="header">
 <th align="left">data_source</th>
 <th align="left">taxa</th>
@@ -285,9 +271,10 @@
                               , context <span class="op">=</span> <span class="va">context</span>
                               , over_ride <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data_name <span class="op">=</span> <span class="va">include_data_name</span><span class="op">)</span>
                               <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span>
+    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = c("lat", "long", "month", "year")</span>
   
+  <span class="co"># Have a look at results</span>
   <span class="va">flor_rel</span>
 <span class="co">#&gt; # A tibble: 2,332 x 13</span>
 <span class="co">#&gt;      lat  long data_name site   date       original_name cover cover_code quad_x</span>
@@ -311,9 +298,9 @@
 <p>Now that records with dubious spatial precision have been removed, an accuracy threshold is adpoted by rasterizing remaining records into the cells of <code>aoi_raster</code>, created here.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">aoi_raster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>
+  <span class="va">aoi_raster</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu">extent</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>
                       , resolution <span class="op">=</span> <span class="fl">30</span>
-                      , crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html">CRS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"+init=epsg:"</span>,<span class="va">use_crs</span><span class="op">)</span><span class="op">)</span>
+                      , crs <span class="op">=</span> <span class="fu">CRS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"+init=epsg:"</span>,<span class="va">use_crs</span><span class="op">)</span><span class="op">)</span>
                       <span class="op">)</span>
 <span class="co">#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj</span>
 <span class="co">#&gt; = prefer_proj): Discarded datum Geocentric_Datum_of_Australia_1994 in Proj4</span>
@@ -328,14 +315,15 @@
 <p>Rasterizing the current data is then done via <code>add_raster_cell</code>. This function has the argument <code>add_xy</code> which will add the centroid of the cell back to the data frame using the same names as the original <code>x</code> and <code>y</code> columns. Alternatively, the <code>x</code> and <code>y</code> columns will be lost from the returned data frame, replaced with <code>cell</code>, the raster cell id.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">flor_cell</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_raster_cell.html">add_raster_cell</a></span><span class="op">(</span><span class="va">aoi_raster</span>
+  <span class="va">flor_cell</span> <span class="op">&lt;-</span> <span class="fu">add_raster_cell</span><span class="op">(</span><span class="va">aoi_raster</span>
                                , <span class="va">flor_rel</span>
                                , add_xy <span class="op">=</span> <span class="cn">TRUE</span>
                                , crs_df <span class="op">=</span> <span class="fl">4283</span>
                                <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span>
+    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = c("old_y", "old_x")</span>
 
+  <span class="co"># Have a look at results</span>
   <span class="va">flor_cell</span>
 <span class="co">#&gt; # A tibble: 2,330 x 14</span>
 <span class="co">#&gt;     cell  long   lat data_name site   date       original_name  cover cover_code</span>
@@ -371,7 +359,7 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
-                     , save_luGBIF <span class="op">=</span> <span class="fu"><a href="http://fs.r-lib.org/reference/path.html">path</a></span><span class="op">(</span><span class="st">"vignettes"</span>,<span class="st">"luGBIF.feather"</span><span class="op">)</span>
+                     , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="st">"vignettes"</span>,<span class="st">"luGBIF.feather"</span><span class="op">)</span>
                      <span class="op">)</span>
 <span class="co">#&gt; Loading required namespace: feather</span>
 <span class="co">#&gt; Joining, by = "original_name"</span>
@@ -425,13 +413,14 @@
                           , do_cov <span class="op">=</span> <span class="cn">TRUE</span>
                           , lucov <span class="op">=</span> <span class="fu">envEcosystems</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/envEcosystems/man/lucover.html">lucover</a></span>
                           <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span>
+    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = "original_name"</span>
 <span class="co">#&gt; Joining, by = "taxa"</span>
 <span class="co">#&gt; Joining, by = "original_name"</span>
 <span class="co">#&gt; Joining, by = "cover_code"</span>
 <span class="co">#&gt; Joining, by = c("year", "month", "lat", "long", "cell", "taxa")</span>
 
+  <span class="co"># Have a look at results</span>
   <span class="va">flor_taxa</span>
 <span class="co">#&gt; # A tibble: 860 x 7</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
@@ -457,12 +446,14 @@
 <p>This will also inadvertently filter legitimate single taxa lists. For example, some areas of samphire or mangroves may have only a single taxa recorded within a survey site. As always, it depends on the goal of any particular analysis whether this trade-off will be worthwhile.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
+  <span class="co"># Filter singletons</span>
   <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span><span class="va">flor_taxa</span>
                               , context <span class="op">=</span> <span class="va">context</span>
                               , thresh <span class="op">=</span> <span class="fl">1</span>
                               <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span>
+    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 
+  <span class="co"># Have a look at results</span>
   <span class="va">flor_single</span>
 <span class="co">#&gt; # A tibble: 853 x 7</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
@@ -504,9 +495,10 @@
 <li>principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change</li>
 <li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra">IBRA</a> Subregions</li>
 </ul>
-<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-rstanarm"><strong>???</strong></span>)</span> package. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
+<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020; Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+  <span class="co"># run model</span>
   <span class="va">effort_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_effort_mod.html">make_effort_mod</a></span><span class="op">(</span><span class="va">flor_single</span>
                                 , context <span class="op">=</span> <span class="va">context</span>
                                 <span class="op">)</span>
@@ -531,9 +523,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.319 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.362 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.681 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.327 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.333 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.66 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -556,9 +548,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.333 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.336 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.669 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.32 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.33 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.65 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -581,9 +573,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.306 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.343 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.649 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.312 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.301 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.613 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -606,36 +598,37 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.31 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.328 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.638 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.333 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.338 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.671 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 <span class="co">#&gt; Joining, by = "col"</span>
 
+  <span class="co"># filter using model results</span>
   <span class="va">flor_effort</span> <span class="op">&lt;-</span> <span class="va">flor_single</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">effort_mod</span><span class="op">$</span><span class="va">mod_cell_result</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
                         <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">keep</span><span class="op">)</span>
-                      <span class="op">)</span>
+                      <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">flor_single</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = c("year", "month", "lat", "long", "cell")</span>
 
+  <span class="co"># Have a look at results</span>
   <span class="va">flor_effort</span>
-<span class="co">#&gt; # A tibble: 816 x 21</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa      use_cover    sr  runs n_check mod_med</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westring~     0.015    18  4000    4000      11</span>
-<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westring~     0.01     22  4000    4000      11</span>
-<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westring~     0.015    15  4000    4000      11</span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westring~     0.015     8  4000    4000      11</span>
-<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westring~     0.015    19  4000    4000      11</span>
-<span class="co">#&gt;  6  2006    10 -34.5  140. 19307 Westring~     0.01     13  4000    4000      11</span>
-<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westring~     0.015    24  4000    4000      11</span>
-<span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westring~     0.015    20  4000    4000      11</span>
-<span class="co">#&gt;  9  1990     4 -34.5  140. 37110 Westring~     0.015    15  4000    4000      11</span>
-<span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westring~     0.015    23  4000    4000      11</span>
-<span class="co">#&gt; # ... with 806 more rows, and 10 more variables: mod_mean &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   mod_ci90_lo &lt;dbl&gt;, mod_ci90_up &lt;dbl&gt;, extreme_sr_lo &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   extreme_sr_hi &lt;dbl&gt;, text &lt;chr&gt;, colour &lt;chr&gt;, keep_hi &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   keep_lo &lt;lgl&gt;, keep &lt;lgl&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 816 x 7</span>
+<span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westringia rigida     0.015</span>
+<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
+<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
+<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westringia rigida     0.015</span>
+<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westringia rigida     0.015</span>
+<span class="co">#&gt;  6  2006    10 -34.5  140. 19307 Westringia rigida     0.01 </span>
+<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westringia rigida     0.015</span>
+<span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westringia rigida     0.015</span>
+<span class="co">#&gt;  9  1990     4 -34.5  140. 37110 Westringia rigida     0.015</span>
+<span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
+<span class="co">#&gt; # ... with 806 more rows</span></code></pre></div>
 </div>
 <div id="filtering-summary" class="section level2">
 <h2 class="hasAnchor">
@@ -645,19 +638,25 @@
   <span class="va">filt_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"flor_"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"combine|all|wide|sf"</span>, <span class="va">.</span>, value <span class="op">=</span> <span class="cn">TRUE</span>, invert <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>, value <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">name</span>,<span class="va">get</span><span class="op">)</span>
-                  , has_stamp <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_lgl</a></span><span class="op">(</span><span class="va">obj</span>,<span class="op">~</span><span class="st">"ctime"</span> <span class="op"><a href="https://rdrr.io/pkg/raster/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">name</span>,<span class="va">get</span><span class="op">)</span>
+                  , has_stamp <span class="op">=</span> <span class="fu">map_lgl</span><span class="op">(</span><span class="va">obj</span>,<span class="op">~</span><span class="st">"ctime"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
                   <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">has_stamp</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">nrow</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ctime <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">obj</span>,<span class="va">attr</span>,<span class="st">"ctime"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">obj</span>, <span class="va">nrow</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ctime <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">obj</span>,<span class="va">attr</span>,<span class="st">"ctime"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">ctime</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">nrow</span><span class="op">)</span>,<span class="va">ctime</span><span class="op">)</span></code></pre></div>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">nrow</span><span class="op">)</span>,<span class="va">ctime</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
+<div id="ref-rstanarm2018">
+<p>Brilleman, SL, MJ Crowther, M Moreno-Betancur, J Buros Novik, and R Wolfe. 2018. “Joint Longitudinal and Time-to-Event Models via Stan.” <a href="https://github.com/stan-dev/stancon_talks/">https://github.com/stan-dev/stancon_talks/</a>.</p>
+</div>
+<div id="ref-R-rstanarm">
+<p>Gabry, Jonah, and Ben Goodrich. 2020. <em>rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm">https://CRAN.R-project.org/package=rstanarm</a>.</p>
+</div>
 <div id="ref-RN2377">
 <p>Wiens, J A. 1989. “Spatial scaling in ecology.” Journal Article. <em>Functional Ecology</em> 3 (4): 385–97.</p>
 </div>
