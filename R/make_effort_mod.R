@@ -18,7 +18,19 @@
 #' @param use_family Passed to `rstanarm::stan_glm` `family` argument.
 #' @param ... Other arguments passed to `rstanarm::stan_glm` (e.g. chains, iter).
 #'
-#' @return List of model outputs.
+#' @return List of model outputs:
+#'   \item{dat_exp}{dataframe of data used in pre-model data exploration}
+#'   \item{mod}{model object}
+#'   \item{mod_pred}{dataframe resulting from rstanarm::posterior_predict}
+#'   \item{mod_resid}{dataframe of residuals}
+#'   \item{mod_resid_plot}{plot of residuals (ggplot object)}
+#'   \item{mod_res}{dataframe of summarised `mod_pred` results}
+#'   \item{mod_plot}{plot of distribution of credible values, faceted by any
+#'   variables in the model}
+#'   \item{mod_cell_result}{dataframe of all contexts with column `keep`
+#'   indicating whether the context is outside acceptable taxa richness}
+#'   \item{mod_cell_tab}{dataframe tabulating how many contexts were above and
+#'   below the acceptable richness quantile thresholds}
 #' @export
 #'
 #' @examples

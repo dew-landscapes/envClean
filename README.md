@@ -1,13 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# envClean
+# An R package to help clean large unstructured data set(s)
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-The goal of envClean is to help clean large, unstructured, biological
+The goal of `envClean` is to help clean large, unstructured, biological
 (or `env`ironmental) data sets.
 
 It assumes the desired end result is a plausible list of taxa recorded
@@ -129,7 +129,8 @@ Check that spatial filter worked.
 
 ## What else is in `envClean`
 
-The following functions and data sets are provided in `envClean`.
+The following functions and data sets are provided in `envClean`. See
+<https://acanthiza.github.io/envClean/> for more examples.
 
 | object                 | class                       | description                                                                                                          |
 | :--------------------- | :-------------------------- | :------------------------------------------------------------------------------------------------------------------- |
@@ -148,7 +149,7 @@ The following functions and data sets are provided in `envClean`.
 | lufilter               | tbl\_df, tbl and data.frame | Dataframe of filtering steps                                                                                         |
 | lurank                 | tbl\_df, tbl and data.frame | Dataframe of taxonomic ranks                                                                                         |
 | make\_cover            | function                    | Make a single (numeric, proportion) cover column from different sorts of                                             |
-| make\_effort\_mod\_cat | function                    | Model the effect of categorical variables on taxa richness.                                                          |
+| make\_effort\_mod      | function                    | Distribution of credible values for taxa richness.                                                                   |
 | make\_effort\_mod\_pca | function                    | Model the effect of principal components axes on taxa richness.                                                      |
 | make\_env\_pca         | function                    | Principal components analysis and various outputs from environmental data                                            |
 | make\_ind\_status      | function                    | Make indigenous status lookup                                                                                        |
