@@ -23,7 +23,7 @@ vignette: >
 
 ```
 
-```{r setup}
+```{r setup, warning = FALSE}
 
   library(knitr)
   library(envClean)
@@ -38,18 +38,24 @@ vignette: >
   library(raster)
   library(rstanarm)
 
-  fix_bib(bib_file = "vignettes/packages.bib")
-
-  tmap_mode("plot")
-
+  #  Load data
   flor_all <- tibble::as_tibble(flor_all)
   
   # What crs to use for maps?
   use_crs <- 3577 # actually an epsg code. see epsg.io
   
+  # set area of interest coordinate reference system
   aoi <- aoi %>%
     sf::st_transform(crs = use_crs)
   
+```
+
+```{r housekeeping, include = FALSE, echo = FALSE}
+
+  fix_bib(bib_file = "vignettes/packages.bib")
+
+  tmap_mode("plot")
+
 ```
 
 ## Get `envClean`
