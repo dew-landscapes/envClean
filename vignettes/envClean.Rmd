@@ -25,18 +25,18 @@ vignette: >
 
 ```{r setup, warning = FALSE}
 
-  library(knitr)
-  library(envClean)
-  library(envReport)
-  library(envFunc) # needed for add_raster_cell
-  library(fs)
-  library(purrr)
-  library(dplyr)
-  library(sf)
-  library(tibble)
-  library(tmap)
-  library(raster)
-  library(rstanarm)
+  pacs <- c("knitr", "envClean", "envReport"
+            , "envFunc", "fs", "purrr"
+            , "dplyr", "sf", "tibble"
+            , "tmap", "raster", "rstanarm"
+            )
+
+  purrr::walk(pacs
+              , ~suppressPackageStartupMessages(library(.
+                                                        , character.only = TRUE
+                                                        , quietly = TRUE)
+                                                )
+              )
 
   #  Load data
   flor_all <- tibble::as_tibble(flor_all)
@@ -52,7 +52,11 @@ vignette: >
 
 ```{r housekeeping, include = FALSE, echo = FALSE}
 
-  fix_bib(bib_file = "vignettes/packages.bib")
+  pac_cits <- "vignettes/packages.bib"
+
+  unlink(pac_cits)
+
+  fix_bib(bib_file = pac_cits)
 
   tmap_mode("plot")
 
@@ -103,11 +107,13 @@ Usually this is a geographic and/or taxonomic area of interest. An example area 
 
 ```{r aoi}
 
+  # Create simple feature from flor_all
   flor_all_sf <- flor_all %>%
     sf::st_as_sf(coords = c("long", "lat")
                  , crs = 4326
                  )
 
+  # Plot flor_all along with aoi
   tm_shape(aoi
            , bbox = st_bbox(flor_all_sf)
            ) +
@@ -121,12 +127,14 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
 
 ```{r flor_all_aoi}
 
+  # Filter area of interest
   flor_aoi <- filter_aoi(flor_all
                          , use_aoi = aoi
                          , crs_aoi = st_crs(aoi)
                          ) %>%
     add_time_stamp()
 
+  # Have a look at results
   flor_aoi
 
 ```
@@ -135,11 +143,13 @@ Check that spatial filter worked.
 
 ```{r flor_aoi}
 
+  # Create sf from flor_aoi
   flor_aoi_sf <- flor_aoi %>%
     sf::st_as_sf(coords = c("long", "lat")
                  , crs = 4326
                  )
 
+  # Plot flor_aoi along with aoi (using the same extent/bbox as the previous plot)
   tm_shape(aoi
            , bbox = st_bbox(flor_all_sf)
            ) +
@@ -159,13 +169,16 @@ The original time scale probably suggests accuracy to day, or perhaps even hour,
 
 ```{r context_example, echo = FALSE}
 
+  # Simple context example
   context_example <- tibble::tribble(
      ~data_source, ~taxa, ~location, ~year,
      "A", "sppA", "x", "y",
      "B", "sppA", "x", "y"
    )
 
-  kable(context_example, caption = "Context example")
+  kable(context_example
+        , caption = "Context example. If context is `location` and `year`, only upon running `filter_taxa` will `data_source` drop out and the dataframe will collapse to one line (implemented by `dplyr::distinct(across(any_of(context)))`"
+        )
 
 ```
 
@@ -187,6 +200,7 @@ Records with precision less than threshold are filtered using `filter_spat_rel`.
                               ) %>%
     add_time_stamp()
   
+  # Have a look at results
   flor_rel
 
 ```
@@ -217,6 +231,7 @@ Rasterizing the current data is then done via `add_raster_cell`. This function h
                                ) %>%
     add_time_stamp()
 
+  # Have a look at results
   flor_cell
 
 ```
@@ -270,6 +285,7 @@ Cleaning to a single taxonomy is now possible sing `lutaxa` and `taxa_taxonomy`.
                           ) %>%
     add_time_stamp()
 
+  # Have a look at results
   flor_taxa
 
 ```
@@ -285,12 +301,14 @@ This will also inadvertently filter legitimate single taxa lists. For example, s
 
 ```{r flor_single}
   
+  # Filter singletons
   flor_single <- filter_counts(flor_taxa
                               , context = context
                               , thresh = 1
                               ) %>%
     add_time_stamp()
 
+  # Have a look at results
   flor_single
 
 ```
@@ -322,25 +340,29 @@ Taxa richness can be modelled as a function of any variables of interest, for ex
 * principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change
 * a categorical variable of interest. Say, [IBRA](https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra) Subregions
 
-Taxa richness can be modelled using a Bayesian generalised linear model using the `make_effort_mod` function. This implements the `rstan_glm` function in the `rstanarm` `r envReport::cite_package("rstanarm", pac_cite_file = "vignettes/packages.bib")` package. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.
+Taxa richness can be modelled using a Bayesian generalised linear model using the `make_effort_mod` function. This implements the `rstan_glm` function in the `rstanarm` package `r envReport::cite_package("rstanarm", pac_cite_file = pac_cits)`. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.
 
 ```{r flor_effort}
 
+  # run model
   effort_mod <- make_effort_mod(flor_single
                                 , context = context
                                 )
 
+  # filter using model results
   flor_effort <- flor_single %>%
     dplyr::inner_join(effort_mod$mod_cell_result %>%
                         dplyr::filter(keep)
-                      )
+                      ) %>%
+    dplyr::select(names(flor_single)) %>%
+    add_time_stamp()
 
+  # Have a look at results
   flor_effort
 
 ```
 
 ## Filtering summary
-
 
 ```{r filt_summary}
   
@@ -356,14 +378,8 @@ Taxa richness can be modelled using a Bayesian generalised linear model using th
     tidyr::unnest(cols = c(ctime)) %>%
     dplyr::arrange(desc(nrow),ctime)
 
-
 ```
 
 
 ## References
 
-```{r pacCitations, include = FALSE}
-
-  
-
-```
