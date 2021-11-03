@@ -2,7 +2,7 @@
 % Please edit documentation in R/envClean.R
 \name{make_lifeform}
 \alias{make_lifeform}
-\title{Get unique lifeform across species, perhaps including further context}
+\title{Get unique lifeform across taxa, perhaps including further context}
 \usage{
 make_lifeform(
   df,
@@ -13,9 +13,9 @@ make_lifeform(
 )
 }
 \arguments{
-\item{df}{Dataframe with species column.}
+\item{df}{Dataframe with taxa column.}
 
-\item{taxa_col}{Character. Name of species column.}
+\item{taxa_col}{Character. Name of taxa column.}
 
 \item{lf_col}{Character. Name of lifeform (id) column.}
 

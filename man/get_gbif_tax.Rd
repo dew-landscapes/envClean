@@ -14,9 +14,9 @@ get_gbif_tax(
 )
 }
 \arguments{
-\item{df}{Dataframe with column of species names to resolve}
+\item{df}{Dataframe with column of taxa names to resolve}
 
-\item{taxa_col}{Character. Name of column with species names}
+\item{taxa_col}{Character. Name of column with taxa names}
 
 \item{out_file}{Character. Path to save results to. Saving is iterative as
 retrieving names can take some time.}
@@ -25,17 +25,17 @@ retrieving names can take some time.}
 
 \item{do_common}{Logical. If TRUE, also get common names. Takes much longer.}
 
-\item{target_rank}{Character. Default is 'Species'. At what level of the
+\item{target_rank}{Character. Default is 'species'. At what level of the
 taxonomic hierarchy are results desired.}
 }
 \value{
-Dataframe of unique species names, other columns defining
+Dataframe of unique taxa names, other columns defining
 taxonomic hierarchy and, optionally, common names.
 }
 \description{
 Retrieve accepted name taxonomy and retrieve taxonomic hierarchy for a df
 with a column of taxonomic names. Querying GBIF is done via the \code{rgbif}
-\insertCite{@R-rgbif}{envClean}
+\insertCite{R-rgbif,rgbif2017}{envClean}
 function \code{name_backbone}.
 }
 \examples{

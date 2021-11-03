@@ -74,7 +74,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 02 November, 2021. 17:56</h4>
+            <h4 class="date">Wednesday, 03 November, 2021. 13:04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/envClean.Rmd"><code>vignettes/envClean.Rmd</code></a></small>
       <div class="hidden name"><code>envClean.Rmd</code></div>
@@ -495,7 +495,7 @@
 <li>principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change</li>
 <li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra">IBRA</a> Subregions</li>
 </ul>
-<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020; Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
+<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020)</span>;<span class="citation">(Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># run model</span>
@@ -505,8 +505,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 0.001 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
 <span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; Chain 1: </span>
@@ -523,9 +523,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.327 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.333 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.66 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.31 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.33 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.64 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -548,9 +548,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.32 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.33 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.65 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.321 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.321 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.642 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -573,9 +573,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.312 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.301 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.613 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.317 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.348 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.665 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -598,9 +598,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.333 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.338 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.671 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.316 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.383 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.699 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 <span class="co">#&gt; Joining, by = "col"</span>
 

@@ -1,22 +1,21 @@
 
-
 #' Get taxonomy from [GBIF Backbone Taxonomy](https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c).
 #'
 #' Retrieve accepted name taxonomy and retrieve taxonomic hierarchy for a df
 #' with a column of taxonomic names. Querying GBIF is done via the `rgbif`
-#' \insertCite{`r envReport::cite_package("rgbif", pac_cite_file = "inst/BIBLIOGRAPHY.bib", brack = FALSE)`}{envClean}
+#' \insertCite{`r gsub("@","",envReport::cite_package("rgbif", brack = FALSE, bib_file = "inst/REFERENCES.bib", sep = ","))`}{envClean}
 #' function `name_backbone`.
 #'
-#' @param df Dataframe with column of species names to resolve
-#' @param taxa_col Character. Name of column with species names
+#' @param df Dataframe with column of taxa names to resolve
+#' @param taxa_col Character. Name of column with taxa names
 #' @param out_file Character. Path to save results to. Saving is iterative as
 #' retrieving names can take some time.
 #' @param king_type Character. Kingdom type (i.e. Plantae, Animalia etc.)
 #' @param do_common Logical. If TRUE, also get common names. Takes much longer.
-#' @param target_rank Character. Default is 'Species'. At what level of the
+#' @param target_rank Character. Default is 'species'. At what level of the
 #' taxonomic hierarchy are results desired.
 #'
-#' @return Dataframe of unique species names, other columns defining
+#' @return Dataframe of unique taxa names, other columns defining
 #' taxonomic hierarchy and, optionally, common names.
 #' @export
 #'
@@ -24,7 +23,7 @@
 #' get_gbif_tax(data.frame(spp = "Eucalyptus viminalis"), taxa_col = "spp")
 #'
 #' @references
-#' \insertAllCited{}
+#'   \insertAllCited{}
 #'
 #'
   get_gbif_tax <- function(df
@@ -319,7 +318,7 @@
 #' Includes running of taxa_taxonomy(), if lutaxa does not already exist.
 #'
 #' @param df Dataframe to reduce.
-#' @param taxa_col Character. Name of column with species.
+#' @param taxa_col Character. Name of column with taxa.
 #' @param context Character. Name of columns defining context.
 #' @param extra_cols Character. Name of any extra columns to keep.
 #' @param target_rank Character. Name of level in taxonomic hierarchy that names
@@ -330,7 +329,7 @@
 #' appended to output.
 #' @param lucov Dataframe lookup for cover.
 #' @param lulife Dataframe lookup for lifeform.
-#' @param poor Character. Vector of words to exclude from species list.
+#' @param poor Character. Vector of words to exclude from taxa list.
 #' @param save_gbif_file Character. Path to `luGBIF.feather`. Passed to
 #' `get_gbif_taxa()` (via `make_taxa_taxonomy()`) if lutaxa does not exist.
 #' @param king_for_taxa Character. Passed to `get_gbif_taxa()`
@@ -433,13 +432,13 @@
 
 #' Make taxonomy lookups
 #'
-#' @param df Dataframe with species column.
-#' @param taxa_col Name of column with species.
+#' @param df Dataframe with taxa column.
+#' @param taxa_col Name of column with taxa.
 #' @param lifespan_col Character. Optional name of column containing lifespan
 #' information.
 #' @param ind_col Character. Optional name of columns containing indigenous
 #' status of taxa in taxa_col.
-#' @param poor_filt Character. Any taxa names to grep out of the species column.
+#' @param poor_filt Character. Any taxa names to grep out of the taxa column.
 #' (e.g. c("annual form", "unverified")).
 #' @param save_luGBIF Character. Path to file containing desired taxonomy to use.
 #' This is usually the output from gfbif_tax(). If this does not exist it will
@@ -608,12 +607,12 @@
 
 #' Make indigenous status lookup
 #'
-#' @param df Dataframe with species column and column indicating indigenous
+#' @param df Dataframe with taxa column and column indicating indigenous
 #' status.
-#' @param taxa_col Character. Name of column with species.
+#' @param taxa_col Character. Name of column with taxa.
 #' @param ind_col Character. Name of column with indigenous status
 #'
-#' @return Dataframe with unique species and their indigenous status.
+#' @return Dataframe with unique taxa and their indigenous status.
 #' @export
 #'
 #' @examples
@@ -637,7 +636,7 @@
 
 
 
-#' Get unique lifeform across species, perhaps including further context
+#' Get unique lifeform across taxa, perhaps including further context
 #'
 #' There are two tasks here:
 #'
@@ -645,8 +644,8 @@
 #' other context)
 #' * ensure there are no duplicates across the relevant context
 #'
-#' @param df Dataframe with species column.
-#' @param taxa_col Character. Name of species column.
+#' @param df Dataframe with taxa column.
+#' @param taxa_col Character. Name of taxa column.
 #' @param lf_col Character. Name of lifeform (id) column.
 #' @param context Charcter or NULL. Set of columns that define a context within
 #' which to generate lifeform.
