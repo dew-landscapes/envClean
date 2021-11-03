@@ -56,7 +56,7 @@ vignette: >
 
   unlink(pac_cits)
 
-  fix_bib(bib_file = pac_cits)
+  make_bib(bib_file = pac_cits)
 
   tmap_mode("plot")
 
@@ -340,7 +340,7 @@ Taxa richness can be modelled as a function of any variables of interest, for ex
 * principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change
 * a categorical variable of interest. Say, [IBRA](https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra) Subregions
 
-Taxa richness can be modelled using a Bayesian generalised linear model using the `make_effort_mod` function. This implements the `rstan_glm` function in the `rstanarm` package `r envReport::cite_package("rstanarm", pac_cite_file = pac_cits)`. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.
+Taxa richness can be modelled using a Bayesian generalised linear model using the `make_effort_mod` function. This implements the `rstan_glm` function in the `rstanarm` package `r envReport::cite_package("rstanarm", bib_file = pac_cits)`. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.
 
 ```{r flor_effort}
 

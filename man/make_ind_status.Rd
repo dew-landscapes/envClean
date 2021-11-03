@@ -7,15 +7,15 @@
 make_ind_status(df, taxa_col = "taxa", ind_col = "ind")
 }
 \arguments{
-\item{df}{Dataframe with species column and column indicating indigenous
+\item{df}{Dataframe with taxa column and column indicating indigenous
 status.}
 
-\item{taxa_col}{Character. Name of column with species.}
+\item{taxa_col}{Character. Name of column with taxa.}
 
 \item{ind_col}{Character. Name of column with indigenous status}
 }
 \value{
-Dataframe with unique species and their indigenous status.
+Dataframe with unique taxa and their indigenous status.
 }
 \description{
 Make indigenous status lookup
