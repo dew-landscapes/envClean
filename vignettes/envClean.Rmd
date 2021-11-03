@@ -169,6 +169,8 @@ The original time scale probably suggests accuracy to day, or perhaps even hour,
 
 ```{r context_example, echo = FALSE}
 
+  rm(flor_aoi_sf)
+
   # Simple context example
   context_example <- tibble::tribble(
      ~data_source, ~taxa, ~location, ~year,
@@ -273,7 +275,11 @@ as is `taxa_taxonomy`
 
 ### Filter taxonomy
 
-Cleaning to a single taxonomy is now possible sing `lutaxa` and `taxa_taxonomy`. At this point, the [context](#context) is also _exclusively_ applied. Thus the output of applying `filter_taxa` is to generate a single record for each taxa within each context, with a single field-based result for any `extra_cols` provided to `filter_taxa`. Likewise, by providing `do_cov` and `lucov` to `filter_taxa`, a single, field-based estimate of cover is generated for each 'record'.
+Cleaning to a single taxonomy is now possible sing `lutaxa` and `taxa_taxonomy`.
+
+At this point, the [context](#context) is also _exclusively_ applied.
+
+Thus the output of applying `filter_taxa` is to generate a single record for each taxa within each context. Further, by providing `do_cov` and `lucov` to `filter_taxa`, a single, field-based estimate of cover (if available) is generated for each record, including reconciling the different methods of recording cover: cover (a percentage); and cover_code (ordinal scale based on Braun-Blanquet [@RN4265] cover-abundance scale). An attempt will also be made to provide a single value for any `extra_cols` but this will fail if there are values within any of `extra_cols` that are not equivalent within a taxa and context.
 
 ```{r filt_tax}
 
@@ -289,7 +295,6 @@ Cleaning to a single taxonomy is now possible sing `lutaxa` and `taxa_taxonomy`.
   flor_taxa
 
 ```
-
 
 ## Singletons
 
@@ -362,24 +367,86 @@ Taxa richness can be modelled using a Bayesian generalised linear model using th
 
 ```
 
+## Proportion of sites at which a taxa occurs
+
+When clustering biological data, it is often useful to exclude rare taxa from the data set. `filter_prop` allows filtering such taxa.
+
+```{r flor_prop}
+  
+  # Filter taxa recorded at less than 5% of contexts
+  flor_prop <- filter_prop(flor_effort
+                           , context = context
+                           , default_per = 5
+                           ) %>%
+    add_time_stamp()
+  
+  # Have a look at results
+  flor_prop
+
+```
+
+## Time
+
+So far, all contexts `r vec_to_sentence(context, end = "or")` have been kept. It may be desirable to keep only the most recent contexts. Just use `dplyr`...
+
+```{r flor_recent}
+
+  flor_recent <- flor_prop %>%
+    dplyr::group_by(across(any_of(context[!context %in% c("month", "year")]))) %>%
+    dplyr::filter(year == max(year)
+                  , month == max(month)
+                  ) %>%
+    dplyr::ungroup() %>%
+    add_time_stamp()
+
+  # Have a look at results
+  flor_recent
+
+```
+
 ## Filtering summary
+
+A little care naming objects enables easily capturing the results of the cleaning process. The function `rec_vis_sit_tax` summarises the taxa, records, visits and sites in each `flor_` data frame.
 
 ```{r filt_summary}
   
   filt_summary <- ls(pattern = "flor_") %>%
-    grep("combine|all|wide|sf", ., value = TRUE, invert = TRUE) %>%
     tibble::enframe(name = NULL, value = "name") %>%
     dplyr::mutate(obj = map(name,get)
                   , has_stamp = map_lgl(obj,~"ctime" %in% names(attributes(.)))
-                  ) %>% 
+                  ) %>%
     dplyr::filter(has_stamp) %>%
     dplyr::mutate(nrow = map_dbl(obj, nrow)) %>%
     dplyr::mutate(ctime = map(obj,attr,"ctime")) %>%
     tidyr::unnest(cols = c(ctime)) %>%
-    dplyr::arrange(desc(nrow),ctime)
+    dplyr::arrange(desc(nrow),ctime) %>%
+    dplyr::mutate(summary = map(obj
+                                , rec_vis_sit_tax
+                                , site_cols = c("cell", "lat", "long")
+                                , visit_cols = c("month", "year")
+                                , taxa_cols = c("taxa", "original_name")
+                                )
+                  ) %>%
+    tidyr::unnest(cols = c(summary))
+
+  # Have a look at results
+  filt_summary
 
 ```
 
+## What happened to x?
+
+It can often be useful to trace the results for a single taxa through the filtering process. How did, say, _Eucalyptus incrassata_ fare through the process?
+
+```{r find_taxa}
+
+  find_taxa(taxa_to_find = "Eucalyptus incrassata")
+
+```
+
+## Conclusion
+
+After ingesting data from a range of sources (`r vec_to_sentence(unique(flor_all$data_name))`) the `envClean` functions helped clean the data ready for further analysis. The original `r filt_summary[1,"nrow"]` records were cleaned, tidied and filtered to `r filt_summary[nrow(filt_summary),"nrow"]` records.
 
 ## References
 
