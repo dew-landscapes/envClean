@@ -22,7 +22,7 @@ filter_taxa(
 \arguments{
 \item{df}{Dataframe to reduce.}
 
-\item{taxa_col}{Character. Name of column with species.}
+\item{taxa_col}{Character. Name of column with taxa.}
 
 \item{context}{Character. Name of columns defining context.}
 
@@ -41,7 +41,7 @@ appended to output.}
 
 \item{lulife}{Dataframe lookup for lifeform.}
 
-\item{poor}{Character. Vector of words to exclude from species list.}
+\item{poor}{Character. Vector of words to exclude from taxa list.}
 
 \item{save_gbif_file}{Character. Path to \code{luGBIF.feather}. Passed to
 \code{get_gbif_taxa()} (via \code{make_taxa_taxonomy()}) if lutaxa does not exist.}

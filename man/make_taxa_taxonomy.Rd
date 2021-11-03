@@ -16,9 +16,9 @@ make_taxa_taxonomy(
 )
 }
 \arguments{
-\item{df}{Dataframe with species column.}
+\item{df}{Dataframe with taxa column.}
 
-\item{taxa_col}{Name of column with species.}
+\item{taxa_col}{Name of column with taxa.}
 
 \item{lifespan_col}{Character. Optional name of column containing lifespan
 information.}
@@ -26,7 +26,7 @@ information.}
 \item{ind_col}{Character. Optional name of columns containing indigenous
 status of taxa in taxa_col.}
 
-\item{poor_filt}{Character. Any taxa names to grep out of the species column.
+\item{poor_filt}{Character. Any taxa names to grep out of the taxa column.
 (e.g. c("annual form", "unverified")).}
 
 \item{save_luGBIF}{Character. Path to file containing desired taxonomy to use.
