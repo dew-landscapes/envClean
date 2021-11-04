@@ -31,8 +31,11 @@ Dataframe with consolidated \code{use_cover} column.
 \description{
 Assumes a numeric (percentage) cover column called 'cover' and character
 column called 'cover_code' that is the modified Braun-Blanquet
-\insertRef{RN4265}{envEcosystems} cover value using
+\insertCite{RN4265}{envEcosystems} cover value using
 \href{https://www.environment.sa.gov.au/topics/Science/Information_data/Biological_databases_of_South_Australia}{Biological Databases of South Australia}
 codes (\code{COVCODE} field in BDBSA). Example of \code{lucov} at
 \code{envEcosystems::lucover}.
+}
+\references{
+\insertAllCited{}
 }
