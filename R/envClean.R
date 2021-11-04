@@ -683,7 +683,7 @@
 #'
 #' Assumes a numeric (percentage) cover column called 'cover' and character
 #' column called 'cover_code' that is the modified Braun-Blanquet
-#' \insertRef{RN4265}{envEcosystems} cover value using
+#' \insertCite{RN4265}{envEcosystems} cover value using
 #' [Biological Databases of South Australia](https://www.environment.sa.gov.au/topics/Science/Information_data/Biological_databases_of_South_Australia)
 #' codes (`COVCODE` field in BDBSA). Example of `lucov` at
 #' `envEcosystems::lucover`.
@@ -696,6 +696,8 @@
 #' character `cover_code` to numeric values.
 #'
 #' @return Dataframe with consolidated `use_cover` column.
+#' @references
+#'   \insertAllCited{}
 #' @export
 #'
 #' @examples

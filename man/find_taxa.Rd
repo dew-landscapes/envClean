@@ -26,7 +26,9 @@ created at each step in the filtering process.}
 
 }
 \description{
-Find how taxa changed through the cleaning/filtering/tidying process
+\code{find_taxa} does not work hierarchically. For example \emph{Eucalyptus} will only
+match genus level records, not species records, such as
+\emph{Eucalyptus leucoxylon}.
 }
 \examples{
 
@@ -34,13 +36,14 @@ Find how taxa changed through the cleaning/filtering/tidying process
 library(envClean)
 
 # Example taxa
-use_taxa <- "Angianthus tomentosus"
+use_taxa <- "Eucalyptus gracilis"
 
 # Set context
 context <- c("lat", "long", "month", "year")
 
 # Start
 flor_start <- flor_all \%>\%
+  tibble::as_tibble() \%>\%
   envFunc::add_time_stamp()
 
 # Remove singletons
