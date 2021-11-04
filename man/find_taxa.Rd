@@ -5,22 +5,69 @@
 \title{Find how taxa changed through the cleaning/filtering/tidying process}
 \usage{
 find_taxa(
-  taxa_to_find,
+  taxa,
   taxa_cols = c("original_name", "taxa"),
-  lookup_taxa = lutaxa
+  lookup_taxa = lutaxa,
+  filt_df_prefix = "flor_"
 )
 }
 \arguments{
-\item{taxa_to_find}{Character. Taxa name to find.}
+\item{taxa}{Character. Taxa name to find.}
 
 \item{taxa_cols}{Character. Name of column(s) across data frames containing
 taxa information.}
 
 \item{lookup_taxa}{Dataframe with columns names matching \code{taxa_cols}.}
+
+\item{filt_df_prefix}{Character. Prefix used in each of the data frames
+created at each step in the filtering process.}
 }
 \value{
 
 }
 \description{
 Find how taxa changed through the cleaning/filtering/tidying process
+}
+\examples{
+
+
+library(envClean)
+
+# Example taxa
+use_taxa <- "Angianthus tomentosus"
+
+# Set context
+context <- c("lat", "long", "month", "year")
+
+# Start
+flor_start <- flor_all \%>\%
+  envFunc::add_time_stamp()
+
+# Remove singletons
+flor_single <- flor_start \%>\%
+  filter_counts(context = context
+                , thresh = 5
+                ) \%>\%
+  envFunc::add_time_stamp()
+
+# Just keep most recent contexts
+flor_recent <- flor_single \%>\%
+  dplyr::group_by(across(any_of(context[!context \%in\% c("month", "year")]))) \%>\%
+  dplyr::filter(year == max(year)
+                , month == max(month)
+                ) \%>\%
+  dplyr::ungroup() \%>\%
+  envFunc::add_time_stamp()
+
+# Make sure required taxonomy objects are available
+make_taxa_taxonomy(df = data.frame(original_name = use_taxa))
+
+# Filter taxonomy
+  # As lutaxa only contains `use_taxa`, this removes all other taxa
+  # Normally, you'd have a row in lutaxa for every taxa
+flor_taxa <- flor_recent \%>\%
+  filter_taxa(context = context)
+
+# How did records of 'taxa' change through the filtering?
+find_taxa(taxa = use_taxa)
 }

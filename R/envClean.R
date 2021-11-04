@@ -329,10 +329,7 @@
 #' appended to output.
 #' @param lucov Dataframe lookup for cover.
 #' @param lulife Dataframe lookup for lifeform.
-#' @param poor Character. Vector of words to exclude from taxa list.
-#' @param save_gbif_file Character. Path to `luGBIF.feather`. Passed to
-#' `get_gbif_taxa()` (via `make_taxa_taxonomy()`) if lutaxa does not exist.
-#' @param king_for_taxa Character. Passed to `get_gbif_taxa()`
+#' @param ... Passed to `\link{envClean}{make_taxa_taxonomy()}`.
 #'
 #' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
 #' @export
@@ -345,11 +342,10 @@
                           , target_rank = "species"
                           , do_cov = FALSE
                           , do_life = FALSE
+                          , do_ind = FALSE
                           , lucov = NULL
                           , lulife = NULL
-                          , poor = NULL
-                          , save_gbif_file = tempfile()
-                          , king_for_taxa = "Plantae"
+                          , ...
                           ) {
 
     .taxa_col = taxa_col
@@ -364,12 +360,9 @@
 
       make_taxa_taxonomy(df
                          , taxa_col = .taxa_col
-                         , lifespan_col = if(do_life) lifespan_col <- "lifespan" else NULL
-                         , ind_col <- "ind"
-                         , poor_filt = poor
-                         , save_luGBIF = save_gbif_file
-                         , king = king_for_taxa
-                         , get_common = do_common
+                         , lifespan_col = if(do_life) "lifespan" else NULL
+                         , ind_col = if(do_ind) "ind" else NULL
+                         , ...
                          )
 
     }
