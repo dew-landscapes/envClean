@@ -45,6 +45,7 @@
 #' \describe{
 #'   \item{filter}{Character short name for filtering step.}
 #'   \item{desc}{Phrase describing filtering step.}
+#'   \item{order}{Suggested order}
 #'   ...
 #' }
 "lufilter"

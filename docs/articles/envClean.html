@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>envClean • envClean</title>
+<title>The full process • envClean</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="envClean">
+<script src="../pkgdown.js"></script><meta property="og:title" content="The full process">
 <meta property="og:description" content="envClean">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -49,6 +49,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/overview.html">Overview</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -70,11 +82,11 @@
       </header><script src="envClean_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>envClean</h1>
+      <h1 data-toc-skip>The full process</h1>
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Wednesday, 03 November, 2021. 17:43</h4>
+            <h4 class="date">Thursday, 04 November, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/envClean.Rmd"><code>vignettes/envClean.Rmd</code></a></small>
       <div class="hidden name"><code>envClean.Rmd</code></div>
@@ -108,62 +120,11 @@
   <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="va">aoi</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span>
   </code></pre></div>
-<div id="get-envclean" class="section level2">
-<h2 class="hasAnchor">
-<a href="#get-envclean" class="anchor"></a>Get <code>envClean</code>
-</h2>
-<p><code>envClean</code> is not on CRAN.</p>
-<p>Install the development version from GitHub</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"acanthiza/envClean"</span><span class="op">)</span></code></pre></div>
-<p>Load <code>envClean</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://acanthiza.github.io/envClean/">"envClean"</a></span><span class="op">)</span></code></pre></div>
-</div>
-<div id="suggested-workflow" class="section level2">
-<h2 class="hasAnchor">
-<a href="#suggested-workflow" class="anchor"></a>Suggested workflow</h2>
-<p>After many, many iterations, the following workflow has been found to be ok. Only ok. There is no awesome when cleaning large, unstructured data.</p>
-<div id="import" class="section level3">
-<h3 class="hasAnchor">
-<a href="#import" class="anchor"></a>Import</h3>
-<p>Querying and uniting disparate data sources into a single data set is a challenge in its own right. See <code>envImport</code> for tools to assist there. Once you’ve imported and combined all your data, read on.</p>
-<p>Here, we’ll start with combined floristic data (called <code>flor_all</code>) from the mallee in South Australia. This data set is provided with <code>envClean</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">flor_all</span>
-<span class="co">#&gt; # A tibble: 13,104 x 13</span>
-<span class="co">#&gt;      lat  long data_name site   date       original_name cover cover_code quad_x</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.5  140. BCM       -2110~ 2013-01-23 Eucalyptus p~    NA &lt;NA&gt;           20</span>
-<span class="co">#&gt;  2 -34.5  140. BCM       -2110~ 2013-01-23 Triodia irri~    NA &lt;NA&gt;           20</span>
-<span class="co">#&gt;  3 -34.5  140. BCM       -2110~ 2013-01-23 Carpobrotus ~    NA &lt;NA&gt;           20</span>
-<span class="co">#&gt;  4 -34.5  140. BCM       -2110~ 2013-01-23 Geijera line~    NA &lt;NA&gt;           20</span>
-<span class="co">#&gt;  5 -34.5  140. BCM       -2110~ 2013-01-23 Sclerolaena ~    NA &lt;NA&gt;           20</span>
-<span class="co">#&gt;  6 -34.5  140. BCM       -2110~ 2013-01-23 Eucalyptus o~    NA &lt;NA&gt;           20</span>
-<span class="co">#&gt;  7 -34.5  140. BCM       -2110~ 2013-01-23 Sisymbrium i~    NA &lt;NA&gt;           20</span>
-<span class="co">#&gt;  8 -34.5  140. BCM       -5177~ 2006-09-10 Olearia pime~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  9 -34.5  140. BCM       -5177~ 2006-09-10 Eucalyptus o~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt; 10 -34.5  140. BCM       -5177~ 2006-09-10 Eucalyptus g~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt; # ... with 13,094 more rows, and 4 more variables: quad_y &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   rel_dist &lt;dbl&gt;, month &lt;dbl&gt;, year &lt;dbl&gt;</span></code></pre></div>
-</div>
-<div id="note-on-coordinate-reference-systems" class="section level3">
-<h3 class="hasAnchor">
-<a href="#note-on-coordinate-reference-systems" class="anchor"></a>Note on coordinate reference systems</h3>
-<p>There are two (possibly three) main coordinate reference systems (crs) to worry about:</p>
-<ol style="list-style-type: decimal">
-<li>the crs for the original records. If these are in decimal degrees, using <a href="https://epsg.io/">epsg</a> = <a href="https://epsg.io/4283">4283</a> is likely to return the correct crs.</li>
-<li>the crs you’d like to use for most spatial data. Set here (in setup chunk) to <code>use_crs</code> = 3577. It is likely that a projected crs will work best, particularly for buffering, filtering etc.</li>
-<li>the crs for any other spatial data imported to help with cleaning. Try using <code>sf::st_read("random_shape_file.shp") %&gt;% sf::st_tranform(crs = use_crs)</code> to deal with this.</li>
-</ol>
-</div>
-</div>
-<div id="area-of-interest" class="section level2">
-<h2 class="hasAnchor">
-<a href="#area-of-interest" class="anchor"></a>Area of interest</h2>
+<div id="area-of-interest" class="section level1">
+<h1 class="hasAnchor">
+<a href="#area-of-interest" class="anchor"></a>Area of interest</h1>
 <p>Usually this is a geographic and/or taxonomic area of interest. An example area overlapping <code>flor_all</code> is provided in <code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code> allows plotting them together.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># Create simple feature from flor_all</span>
   <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -180,7 +141,7 @@
     <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="envClean_files/figure-html/aoi-1.png" width="700"></p>
 <p>Filtering <code>flor_all</code> to <code>aoi</code> is done with <code>filter_aoi</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># Filter area of interest</span>
   <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_aoi.html">filter_aoi</a></span><span class="op">(</span><span class="va">flor_all</span>
@@ -208,7 +169,7 @@
 <span class="co">#&gt; # ... with 3,475 more rows, and 4 more variables: quad_y &lt;dbl&gt;, rel_dist &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   month &lt;dbl&gt;, year &lt;dbl&gt;</span></code></pre></div>
 <p>Check that spatial filter worked.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># Create sf from flor_aoi</span>
   <span class="va">flor_aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_aoi</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -225,41 +186,16 @@
     <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="envClean_files/figure-html/flor_aoi-1.png" width="700"></p>
 </div>
-<div id="context" class="section level2">
-<h2 class="hasAnchor">
-<a href="#context" class="anchor"></a>Context: scales of interest</h2>
-<p>There are two scales of particular interest: space (location) and time. Together these are used to set the <code>context</code> throughout filtering and analysis. It is possible to assign other concepts to <code>context</code> too (e.g. say, data source). Note that <code>context</code> is first applied <em>exclusively</em> only when taxonomy is filtered. For example, if sppA has a record at location x and time y from different data sources (see table below) these will only be reduced to a single ‘record’ when taxonomy is filtered. Another way to say this: extraneous fields/columns beyond <code>context</code> are maintained until taxonomy is filtered. However, even at that point, extra columns can be specified (see <a href="#filter-taxonomy">Filter taxonomy</a>).</p>
+<div id="context" class="section level1">
+<h1 class="hasAnchor">
+<a href="#context" class="anchor"></a>Context: scales of interest</h1>
 <p>The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped. The lumping is done via a raster placed over the <code>aoi</code>.</p>
 <p>The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one ‘visit’. A ‘taxa’ within a ‘visit’ is considered a ‘record’.</p>
-<table class="table">
-<caption>Context example. If context is <code>location</code> and <code>year</code>, only upon running <code>filter_taxa</code> will <code>data_source</code> drop out and the dataframe will collapse to one line (implemented by <code>dplyr::distinct(across(any_of(context)))</code>
-</caption>
-<thead><tr class="header">
-<th align="left">data_source</th>
-<th align="left">taxa</th>
-<th align="left">location</th>
-<th align="left">year</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">A</td>
-<td align="left">sppA</td>
-<td align="left">x</td>
-<td align="left">y</td>
-</tr>
-<tr class="even">
-<td align="left">B</td>
-<td align="left">sppA</td>
-<td align="left">x</td>
-<td align="left">y</td>
-</tr>
-</tbody>
-</table>
-<div id="precision" class="section level3">
-<h3 class="hasAnchor">
-<a href="#precision" class="anchor"></a>Precision</h3>
+<div id="precision" class="section level2">
+<h2 class="hasAnchor">
+<a href="#precision" class="anchor"></a>Precision</h2>
 <p>Records with precision less than threshold are filtered using <code>filter_spat_rel</code>. This takes a dataframe (<code>df</code>) as its first argument, in this case <code>flor_aoi</code>. <code>dist_col</code> specifies the column in <code>df</code> that contains the precision estimates. <code>dist</code> provides the threshold above which to filter. If there are data sources (or any other columns in <code>df</code>) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument <code>over_ride</code>. This takes a named list, where names need to match the columns in <code>df</code>. Any levels within the columns provided in <code>over_ride</code> will not be filtered, irrespective of the values in <code>dist_col</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span>, <span class="st">"cell"</span><span class="op">)</span>
 
@@ -292,11 +228,11 @@
 <span class="co">#&gt; # ... with 2,322 more rows, and 4 more variables: quad_y &lt;dbl&gt;, rel_dist &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   month &lt;dbl&gt;, year &lt;dbl&gt;</span></code></pre></div>
 </div>
-<div id="rasterize" class="section level3">
-<h3 class="hasAnchor">
-<a href="#rasterize" class="anchor"></a>Rasterize</h3>
+<div id="rasterize" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rasterize" class="anchor"></a>Rasterize</h2>
 <p>Now that records with dubious spatial precision have been removed, an accuracy threshold is adpoted by rasterizing remaining records into the cells of <code>aoi_raster</code>, created here.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">aoi_raster</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu">extent</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>
                       , resolution <span class="op">=</span> <span class="fl">30</span>
@@ -313,7 +249,7 @@
 <span class="co">#&gt; extent     : 723000, 732000, -3800010, -3789000  (xmin, xmax, ymin, ymax)</span>
 <span class="co">#&gt; crs        : +proj=aea +lat_0=0 +lon_0=132 +lat_1=-18 +lat_2=-36 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></code></pre></div>
 <p>Rasterizing the current data is then done via <code>add_raster_cell</code>. This function has the argument <code>add_xy</code> which will add the centroid of the cell back to the data frame using the same names as the original <code>x</code> and <code>y</code> columns. Alternatively, the <code>x</code> and <code>y</code> columns will be lost from the returned data frame, replaced with <code>cell</code>, the raster cell id.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">flor_cell</span> <span class="op">&lt;-</span> <span class="fu">add_raster_cell</span><span class="op">(</span><span class="va">aoi_raster</span>
                                , <span class="va">flor_rel</span>
@@ -342,12 +278,12 @@
 <span class="co">#&gt; #   rel_dist &lt;dbl&gt;, month &lt;dbl&gt;, year &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
-<div id="taxonomy" class="section level2">
+<div id="taxonomy" class="section level1">
+<h1 class="hasAnchor">
+<a href="#taxonomy" class="anchor"></a>Taxonomy</h1>
+<div id="make-taxonomy" class="section level2">
 <h2 class="hasAnchor">
-<a href="#taxonomy" class="anchor"></a>Taxonomy</h2>
-<div id="make-taxonomy" class="section level3">
-<h3 class="hasAnchor">
-<a href="#make-taxonomy" class="anchor"></a>Make taxonomy</h3>
+<a href="#make-taxonomy" class="anchor"></a>Make taxonomy</h2>
 <p>Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF taxonomy backbone</a> provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.</p>
 <p>Reconciling taxonomy can be done with the <code>make_taxa_taxonomy</code> function. This creates two objects that are loaded to the global environment:</p>
 <ul>
@@ -356,7 +292,7 @@
 <li>
 <code>taxa_taxonomy</code> provides the full taxonomic hierarchy for each <code>taxa</code> in the <code>lutaxa</code> object. The column <code>taxa</code> should not have any duplicates. The output can also include lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to <code>make_taxa_taxonomy</code>.</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
                      , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="st">"vignettes"</span>,<span class="st">"luGBIF.feather"</span><span class="op">)</span>
@@ -365,7 +301,7 @@
 <span class="co">#&gt; Joining, by = "original_name"</span>
 <span class="co">#&gt; Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus", "species", "class")</span></code></pre></div>
 <p><code>lutaxa</code> is returned to the global environment.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">lutaxa</span>
 <span class="co">#&gt; # A tibble: 352 x 3</span>
@@ -383,7 +319,7 @@
 <span class="co">#&gt; 10 Vittadinia megacephala (Benth.) J.M.Black Vittadinia megacephala species   </span>
 <span class="co">#&gt; # ... with 342 more rows</span></code></pre></div>
 <p>as is <code>taxa_taxonomy</code></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa_taxonomy</span>
 <span class="co">#&gt; # A tibble: 195 x 8</span>
@@ -401,13 +337,13 @@
 <span class="co">#&gt; 10 Vittadinia cervicularis Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
 <span class="co">#&gt; # ... with 185 more rows</span></code></pre></div>
 </div>
-<div id="filter-taxonomy" class="section level3">
-<h3 class="hasAnchor">
-<a href="#filter-taxonomy" class="anchor"></a>Filter taxonomy</h3>
+<div id="filter-taxonomy" class="section level2">
+<h2 class="hasAnchor">
+<a href="#filter-taxonomy" class="anchor"></a>Filter taxonomy</h2>
 <p>Cleaning to a single taxonomy is now possible sing <code>lutaxa</code> and <code>taxa_taxonomy</code>.</p>
 <p>At this point, the <a href="#context">context</a> is also <em>exclusively</em> applied.</p>
 <p>Thus the output of applying <code>filter_taxa</code> is to generate a single record for each taxa within each context. Further, by providing <code>do_cov</code> and <code>lucov</code> to <code>filter_taxa</code>, a single, field-based estimate of cover (if available) is generated for each record, including reconciling the different methods of recording cover: cover (a percentage); and cover_code (ordinal scale based on Braun-Blanquet <span class="citation">(Braun-Blanquet 1932)</span> cover-abundance scale). An attempt will also be made to provide a single value for any <code>extra_cols</code> but this will fail if there are values within any of <code>extra_cols</code> that are not equivalent within a taxa and context.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa</a></span><span class="op">(</span><span class="va">flor_cell</span>
                           , taxa_col <span class="op">=</span> <span class="st">"original_name"</span>
@@ -440,13 +376,13 @@
 <span class="co">#&gt; # ... with 850 more rows</span></code></pre></div>
 </div>
 </div>
-<div id="singletons" class="section level2">
-<h2 class="hasAnchor">
-<a href="#singletons" class="anchor"></a>Singletons</h2>
+<div id="singletons" class="section level1">
+<h1 class="hasAnchor">
+<a href="#singletons" class="anchor"></a>Singletons</h1>
 <p>An implicit assumption in collation of data sources is usually that records were a list of taxa collected at a specific spatial location (and date). In many cases this assumption proves incorrect. For example, records may be related to, say, tree health monitoring where no other taxa were concurrently recorded.</p>
 <p>Thus, filtering ‘singleton’ sites (a site with only a single taxa was recorded) is often prudent.</p>
 <p>This will also inadvertently filter legitimate single taxa lists. For example, some areas of samphire or mangroves may have only a single taxa recorded within a survey site. As always, it depends on the goal of any particular analysis whether this trade-off will be worthwhile.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
   <span class="co"># Filter singletons</span>
   <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span><span class="va">flor_taxa</span>
@@ -472,9 +408,9 @@
 <span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
 <span class="co">#&gt; # ... with 843 more rows</span></code></pre></div>
 </div>
-<div id="effort" class="section level2">
-<h2 class="hasAnchor">
-<a href="#effort" class="anchor"></a>Effort</h2>
+<div id="effort" class="section level1">
+<h1 class="hasAnchor">
+<a href="#effort" class="anchor"></a>Effort</h1>
 <p>Aggregated data sets are likely to contain records of taxa at spatial locations collected by almost any method imaginable. The effort any observer(s) put into time and taxonomy at each spatial location is usually unknown.</p>
 <p>Given that effort matters when documenting ecology <span class="citation">(e.g. Wiens 1989)</span>, filtering ‘effort’ is an attempt to remove the most seriously under- and over-sampled contexts.</p>
 <p>Examples of low taxa richness contexts that may occur in large, unstructured data sets:</p>
@@ -498,7 +434,7 @@
 <li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra">IBRA</a> Subregions</li>
 </ul>
 <p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020)</span>;<span class="citation">(Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># run model</span>
   <span class="va">effort_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_effort_mod.html">make_effort_mod</a></span><span class="op">(</span><span class="va">flor_single</span>
@@ -525,9 +461,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.317 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.323 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.64 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.303 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.331 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.634 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -550,9 +486,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.313 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.333 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.646 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.333 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.343 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.676 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -575,9 +511,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.328 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.349 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.677 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.336 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.326 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.662 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -600,9 +536,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.329 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.301 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.63 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.334 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.291 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.625 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 <span class="co">#&gt; Joining, by = "col"</span>
 
@@ -632,11 +568,11 @@
 <span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
 <span class="co">#&gt; # ... with 806 more rows</span></code></pre></div>
 </div>
-<div id="proportion-of-sites-at-which-a-taxa-occurs" class="section level2">
-<h2 class="hasAnchor">
-<a href="#proportion-of-sites-at-which-a-taxa-occurs" class="anchor"></a>Proportion of sites at which a taxa occurs</h2>
+<div id="proportion-of-sites-at-which-a-taxa-occurs" class="section level1">
+<h1 class="hasAnchor">
+<a href="#proportion-of-sites-at-which-a-taxa-occurs" class="anchor"></a>Proportion of sites at which a taxa occurs</h1>
 <p>When clustering biological data, it is often useful to exclude rare taxa from the data set. <code>filter_prop</code> allows filtering such taxa.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
   <span class="co"># Filter taxa recorded at less than 5% of contexts</span>
   <span class="va">flor_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_prop.html">filter_prop</a></span><span class="op">(</span><span class="va">flor_effort</span>
@@ -663,11 +599,11 @@
 <span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
 <span class="co">#&gt; # ... with 629 more rows</span></code></pre></div>
 </div>
-<div id="time" class="section level2">
-<h2 class="hasAnchor">
-<a href="#time" class="anchor"></a>Time</h2>
+<div id="time" class="section level1">
+<h1 class="hasAnchor">
+<a href="#time" class="anchor"></a>Time</h1>
 <p>So far, all contexts year, month, lat, long or cell have been kept. It may be desirable to keep only the most recent contexts. Just use <code>dplyr</code>…</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">flor_recent</span> <span class="op">&lt;-</span> <span class="va">flor_prop</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">any_of</span><span class="op">(</span><span class="va">context</span><span class="op">[</span><span class="op">!</span><span class="va">context</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -694,11 +630,11 @@
 <span class="co">#&gt; 10  1990     7 -34.6  140. 64297 Westringia rigida     0.015</span>
 <span class="co">#&gt; # ... with 545 more rows</span></code></pre></div>
 </div>
-<div id="filtering-summary" class="section level2">
-<h2 class="hasAnchor">
-<a href="#filtering-summary" class="anchor"></a>Filtering summary</h2>
+<div id="summary" class="section level1">
+<h1 class="hasAnchor">
+<a href="#summary" class="anchor"></a>Filtering summary</h1>
 <p>A little care naming objects enables easily capturing the results of the cleaning process. The function <code>rec_vis_sit_tax</code> summarises the taxa, records, visits and sites in each <code>flor_</code> data frame.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
   <span class="va">filt_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"flor_"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>, value <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -721,36 +657,48 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">filt_summary</span>
-<span class="co">#&gt; # A tibble: 8 x 9</span>
+<span class="co">#&gt; # A tibble: 9 x 10</span>
 <span class="co">#&gt;   name    obj     has_stamp  nrow ctime                taxa records visits sites</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;  &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3485 2021-11-03 17:43:11   420    3485    227    22</span>
-<span class="co">#&gt; 2 flor_r~ &lt;tibbl~ TRUE       2332 2021-11-03 17:43:12   353    2332     76    13</span>
-<span class="co">#&gt; 3 flor_c~ &lt;tibbl~ TRUE       2330 2021-11-03 17:43:13   353    2330     64    13</span>
-<span class="co">#&gt; 4 flor_t~ &lt;tibbl~ TRUE        860 2021-11-03 17:43:13   176     860     64    12</span>
-<span class="co">#&gt; 5 flor_s~ &lt;tibbl~ TRUE        853 2021-11-03 17:43:14   176     853     57    12</span>
-<span class="co">#&gt; 6 flor_e~ &lt;tibbl~ TRUE        816 2021-11-03 17:43:17   174     816     56    12</span>
-<span class="co">#&gt; 7 flor_p~ &lt;tibbl~ TRUE        639 2021-11-03 17:43:17    63     639     54    12</span>
-<span class="co">#&gt; 8 flor_r~ &lt;tibbl~ TRUE        555 2021-11-03 17:43:17    63     555     54    12</span></code></pre></div>
+<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3485 2021-11-04 14:51:08   420    3485    227    22</span>
+<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3485 2021-11-04 14:51:08   420    3485      1    22</span>
+<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2332 2021-11-04 14:51:09   353    2332     76    13</span>
+<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2330 2021-11-04 14:51:10   353    2330     64    13</span>
+<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        860 2021-11-04 14:51:10   176     860     64    12</span>
+<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        853 2021-11-04 14:51:11   176     853     57    12</span>
+<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        816 2021-11-04 14:51:14   174     816     56    12</span>
+<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        639 2021-11-04 14:51:14    63     639     54    12</span>
+<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        555 2021-11-04 14:51:14    63     555     54    12</span>
+<span class="co">#&gt; # ... with 1 more variable: geometry &lt;GEOMETRY [°]&gt;</span>&gt;</code></pre></div>
 </div>
-<div id="what-happened-to-x" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-happened-to-x" class="anchor"></a>What happened to x?</h2>
+<div id="what-happened-to-x" class="section level1">
+<h1 class="hasAnchor">
+<a href="#what-happened-to-x" class="anchor"></a>What happened to x?</h1>
 <p>It can often be useful to trace the results for a single taxa through the filtering process. How did, say, <em>Eucalyptus incrassata</em> fare through the process?</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa_to_find <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 0 x 1</span>
-<span class="co">#&gt; # ... with 1 variable: name &lt;chr&gt;</span></code></pre></div>
+  <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 9 x 6</span>
+<span class="co">#&gt;   name        obj              has_stamp  nrow ctime               summary      </span>
+<span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
+<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3485 2021-11-04 14:51:08 Eucalyptus i~</span>
+<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3485 2021-11-04 14:51:08 Eucalyptus i~</span>
+<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2332 2021-11-04 14:51:09 Eucalyptus i~</span>
+<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2330 2021-11-04 14:51:10 Eucalyptus i~</span>
+<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        860 2021-11-04 14:51:10 Eucalyptus i~</span>
+<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        853 2021-11-04 14:51:11 Eucalyptus i~</span>
+<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        816 2021-11-04 14:51:14 Eucalyptus i~</span>
+<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        639 2021-11-04 14:51:14 Eucalyptus i~</span>
+<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        555 2021-11-04 14:51:14 Eucalyptus i~</span></code></pre></div>
 </div>
-<div id="conclusion" class="section level2">
-<h2 class="hasAnchor">
-<a href="#conclusion" class="anchor"></a>Conclusion</h2>
+<div id="conclusion" class="section level1">
+<h1 class="hasAnchor">
+<a href="#conclusion" class="anchor"></a>Conclusion</h1>
 <p>After ingesting data from a range of sources (BCM, BDBSA, EGIS and GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 3485 records were cleaned, tidied and filtered to 555 records.</p>
 </div>
-<div id="references" class="section level2 unnumbered">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-RN4265">
 <p>Braun-Blanquet, J. 1932. <em>Plant sociology. The study of plant communities.</em> Book. 1st ed.</p>
