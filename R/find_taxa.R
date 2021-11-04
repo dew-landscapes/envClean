@@ -1,5 +1,9 @@
 #' Find how taxa changed through the cleaning/filtering/tidying process
 #'
+#' `find_taxa` does not work hierarchically. For example _Eucalyptus_ will only
+#' match genus level records, not species records, such as
+#' _Eucalyptus leucoxylon_.
+#'
 #' @param taxa Character. Taxa name to find.
 #' @param taxa_cols Character. Name of column(s) across data frames containing
 #' taxa information.
@@ -32,7 +36,7 @@ find_taxa <- function(taxa
     unique()
 
   ls(pattern = filt_df_prefix
-     , envir = parent.frame()
+     , envir = globalenv()
      ) %>%
     tibble::enframe(name = NULL, value = "name") %>%
     dplyr::mutate(obj = purrr::map(name
@@ -75,7 +79,7 @@ find_taxa <- function(taxa
                   , summary = purrr::map_chr(obj
                                   , ~paste0(taxa
                                            , " has "
-                                           , nrow(.)
+                                           , sum(.$n)
                                            , " records"
                                            )
                                   )

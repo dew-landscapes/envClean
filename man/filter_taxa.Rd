@@ -12,6 +12,7 @@ filter_taxa(
   target_rank = "species",
   do_cov = FALSE,
   do_life = FALSE,
+  do_ind = FALSE,
   lucov = NULL,
   lulife = NULL,
   ...

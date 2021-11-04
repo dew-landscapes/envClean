@@ -3,13 +3,14 @@
 library(envClean)
 
 # Example taxa
-use_taxa <- "Angianthus tomentosus"
+use_taxa <- "Eucalyptus gracilis"
 
 # Set context
 context <- c("lat", "long", "month", "year")
 
 # Start
 flor_start <- flor_all %>%
+  tibble::as_tibble() %>%
   envFunc::add_time_stamp()
 
 # Remove singletons
