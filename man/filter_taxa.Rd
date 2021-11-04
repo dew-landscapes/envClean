@@ -14,9 +14,7 @@ filter_taxa(
   do_life = FALSE,
   lucov = NULL,
   lulife = NULL,
-  poor = NULL,
-  save_gbif_file = tempfile(),
-  king_for_taxa = "Plantae"
+  ...
 )
 }
 \arguments{
@@ -41,12 +39,7 @@ appended to output.}
 
 \item{lulife}{Dataframe lookup for lifeform.}
 
-\item{poor}{Character. Vector of words to exclude from taxa list.}
-
-\item{save_gbif_file}{Character. Path to \code{luGBIF.feather}. Passed to
-\code{get_gbif_taxa()} (via \code{make_taxa_taxonomy()}) if lutaxa does not exist.}
-
-\item{king_for_taxa}{Character. Passed to \code{get_gbif_taxa()}}
+\item{...}{Passed to \verb{\link{envClean}{make_taxa_taxonomy()}}.}
 }
 \value{
 Dataframe with columns taxa, visit column(s) and, if used, extracols.

@@ -90,6 +90,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/overview.html">Overview</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -121,16 +133,17 @@
     </div>
 
     <pre class="usage"><span class='fu'>find_taxa</span><span class='op'>(</span>
-  <span class='va'>taxa_to_find</span>,
+  <span class='va'>taxa</span>,
   taxa_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"original_name"</span>, <span class='st'>"taxa"</span><span class='op'>)</span>,
-  lookup_taxa <span class='op'>=</span> <span class='va'>lutaxa</span>
+  lookup_taxa <span class='op'>=</span> <span class='va'>lutaxa</span>,
+  filt_df_prefix <span class='op'>=</span> <span class='st'>"flor_"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>taxa_to_find</th>
+      <th>taxa</th>
       <td><p>Character. Taxa name to find.</p></td>
     </tr>
     <tr>
@@ -142,6 +155,11 @@ taxa information.</p></td>
       <th>lookup_taxa</th>
       <td><p>Dataframe with columns names matching <code>taxa_cols</code>.</p></td>
     </tr>
+    <tr>
+      <th>filt_df_prefix</th>
+      <td><p>Character. Prefix used in each of the data frames
+created at each step in the filtering process.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -150,6 +168,60 @@ taxa information.</p></td>
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://acanthiza.github.io/envClean/'>envClean</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Example taxa</span></span>
+<span class='r-in'><span class='va'>use_taxa</span> <span class='op'>&lt;-</span> <span class='st'>"Angianthus tomentosus"</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Set context</span></span>
+<span class='r-in'><span class='va'>context</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lat"</span>, <span class='st'>"long"</span>, <span class='st'>"month"</span>, <span class='st'>"year"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Start</span></span>
+<span class='r-in'><span class='va'>flor_start</span> <span class='op'>&lt;-</span> <span class='va'>flor_all</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>envFunc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/envFunc/man/add_time_stamp.html'>add_time_stamp</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Remove singletons</span></span>
+<span class='r-in'><span class='va'>flor_single</span> <span class='op'>&lt;-</span> <span class='va'>flor_start</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='filter_counts.html'>filter_counts</a></span><span class='op'>(</span>context <span class='op'>=</span> <span class='va'>context</span></span>
+<span class='r-in'>                , thresh <span class='op'>=</span> <span class='fl'>5</span></span>
+<span class='r-in'>                <span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>envFunc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/envFunc/man/add_time_stamp.html'>add_time_stamp</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Just keep most recent contexts</span></span>
+<span class='r-in'><span class='va'>flor_recent</span> <span class='op'>&lt;-</span> <span class='va'>flor_single</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>any_of</span><span class='op'>(</span><span class='va'>context</span><span class='op'>[</span><span class='op'>!</span><span class='va'>context</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"month"</span>, <span class='st'>"year"</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>year</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>year</span><span class='op'>)</span></span>
+<span class='r-in'>                , <span class='va'>month</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>)</span></span>
+<span class='r-in'>                <span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>envFunc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/envFunc/man/add_time_stamp.html'>add_time_stamp</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Make sure required taxonomy objects are available</span></span>
+<span class='r-in'><span class='fu'><a href='make_taxa_taxonomy.html'>make_taxa_taxonomy</a></span><span class='op'>(</span>df <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>original_name <span class='op'>=</span> <span class='va'>use_taxa</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Angianthus tomentosus"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required namespace: feather</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus", "species", "class")</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Filter taxonomy</span></span>
+<span class='r-in'>  <span class='co'># As lutaxa only contains `use_taxa`, this removes all other taxa</span></span>
+<span class='r-in'>  <span class='co'># Normally, you'd have a row in lutaxa for every taxa</span></span>
+<span class='r-in'><span class='va'>flor_taxa</span> <span class='op'>&lt;-</span> <span class='va'>flor_recent</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='filter_taxa.html'>filter_taxa</a></span><span class='op'>(</span>context <span class='op'>=</span> <span class='va'>context</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "taxa"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># How did records of 'taxa' change through the filtering?</span></span>
+<span class='r-in'><span class='fu'>find_taxa</span><span class='op'>(</span>taxa <span class='op'>=</span> <span class='va'>use_taxa</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error:</span> Problem with `mutate()` column `obj`.</span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span style='color: #0000BB;'>i</span> `obj = purrr::map(name, get)`.</span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'>x</span> object 'flor_recent' not found</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

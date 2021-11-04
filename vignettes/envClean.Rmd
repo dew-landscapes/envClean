@@ -1,13 +1,13 @@
 ---
-title: "envClean"
+title: "The full process"
 author:
 - Department for Environment and Water
 - Nigel Willoughby
-date: "`r format(Sys.time(), '%A, %d %B, %Y. %H:%M')`"
+date: "`r format(Sys.time(), '%A, %d %B, %Y')`"
 output: rmarkdown::html_vignette
 bibliography: ["packages.bib", "refs.bib"]
 vignette: >
-  %\VignetteIndexEntry{envClean}
+  %\VignetteIndexEntry{The full process}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -62,46 +62,7 @@ vignette: >
 
 ```
 
-## Get `envClean`
-
-`envClean` is not on CRAN.
-
-Install the development version from GitHub
-
-```r
-remotes::install_github("acanthiza/envClean")
-```
-
-Load `envClean`
-
-```r
-library("envClean")
-```
-## Suggested workflow
-
-After many, many iterations, the following workflow has been found to be ok. Only ok. There is no awesome when cleaning large, unstructured data.
-
-### Import
-
-Querying and uniting disparate data sources into a single data set is a challenge in its own right. See `envImport` for tools to assist there. Once you've imported and combined all your data, read on.
-
-Here, we'll start with combined floristic data (called `flor_all`) from the mallee in South Australia. This data set is provided with `envClean`.
-
-```{r flor_all}
-
-  flor_all
-
-```
-
-### Note on coordinate reference systems
-
-There are two (possibly three) main coordinate reference systems (crs) to worry about:
-
-1. the crs for the original records. If these are in decimal degrees, using [epsg](https://epsg.io/) = [4283](https://epsg.io/4283) is likely to return the correct crs.
-2. the crs you'd like to use for most spatial data. Set here (in setup chunk) to `use_crs` = `r use_crs`. It is likely that a projected crs will work best, particularly for buffering, filtering etc.
-3. the crs for any other spatial data imported to help with cleaning. Try using `sf::st_read("random_shape_file.shp") %>% sf::st_tranform(crs = use_crs)` to deal with this.
-
-## Area of interest
+# Area of interest
 
 Usually this is a geographic and/or taxonomic area of interest. An example area overlapping `flor_all` is provided in `aoi`. Converting `flor_all` to `sf` allows plotting them together.
 
@@ -159,32 +120,17 @@ Check that spatial filter worked.
 
 ```
 
-## Context: scales of interest {#context}
+# Context: scales of interest {#context}
 
-There are two scales of particular interest: space (location) and time. Together these are used to set the `context` throughout filtering and analysis. It is possible to assign other concepts to `context` too (e.g. say, data source). Note that `context` is first applied _exclusively_ only when taxonomy is filtered. For example, if sppA has a record at location x and time y from different data sources (see table below) these will only be reduced to a single 'record' when taxonomy is filtered. Another way to say this: extraneous fields/columns beyond `context` are maintained until taxonomy is filtered. However, even at that point, extra columns can be specified (see [Filter taxonomy]).
+
 
 The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped. The lumping is done via a raster placed over the `aoi`.
 
 The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one 'visit'. A 'taxa' within a 'visit' is considered a 'record'.
 
-```{r context_example, echo = FALSE}
 
-  rm(flor_aoi_sf)
 
-  # Simple context example
-  context_example <- tibble::tribble(
-     ~data_source, ~taxa, ~location, ~year,
-     "A", "sppA", "x", "y",
-     "B", "sppA", "x", "y"
-   )
-
-  kable(context_example
-        , caption = "Context example. If context is `location` and `year`, only upon running `filter_taxa` will `data_source` drop out and the dataframe will collapse to one line (implemented by `dplyr::distinct(across(any_of(context)))`"
-        )
-
-```
-
-### Precision
+## Precision
 
 Records with precision less than threshold are filtered using `filter_spat_rel`. This takes a dataframe (`df`) as its first argument, in this case `flor_aoi`. `dist_col` specifies the column in `df` that contains the precision estimates. `dist` provides the threshold above which to filter. If there are data sources (or any other columns in `df`) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument `over_ride`. This takes a named list, where names need to match the columns in `df`. Any levels within the columns provided in `over_ride` will not be filtered, irrespective of the values in `dist_col`.
 
@@ -207,7 +153,7 @@ Records with precision less than threshold are filtered using `filter_spat_rel`.
 
 ```
 
-### Rasterize
+## Rasterize
 
 Now that records with dubious spatial precision have been removed, an accuracy threshold is adpoted by rasterizing remaining records into the cells of `aoi_raster`, created here.
 
@@ -238,9 +184,9 @@ Rasterizing the current data is then done via `add_raster_cell`. This function h
 
 ```
 
-## Taxonomy
+# Taxonomy
 
-### Make taxonomy
+## Make taxonomy
 
 Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the [GBIF taxonomy backbone](https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c) provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.
 
@@ -273,7 +219,7 @@ as is `taxa_taxonomy`
 
 ```
 
-### Filter taxonomy
+## Filter taxonomy
 
 Cleaning to a single taxonomy is now possible sing `lutaxa` and `taxa_taxonomy`.
 
@@ -296,7 +242,7 @@ Thus the output of applying `filter_taxa` is to generate a single record for eac
 
 ```
 
-## Singletons
+# Singletons
 
 An implicit assumption in collation of data sources is usually that records were a list of taxa collected at a specific spatial location (and date). In many cases this assumption proves incorrect. For example, records may be related to, say, tree health monitoring where no other taxa were concurrently recorded.
 
@@ -318,7 +264,7 @@ This will also inadvertently filter legitimate single taxa lists. For example, s
 
 ```
 
-## Effort
+# Effort
 
 Aggregated data sets are likely to contain records of taxa at spatial locations collected by almost any method imaginable. The effort any observer(s) put into time and taxonomy at each spatial location is usually unknown.
 
@@ -367,7 +313,7 @@ Taxa richness can be modelled using a Bayesian generalised linear model using th
 
 ```
 
-## Proportion of sites at which a taxa occurs
+# Proportion of sites at which a taxa occurs
 
 When clustering biological data, it is often useful to exclude rare taxa from the data set. `filter_prop` allows filtering such taxa.
 
@@ -385,7 +331,7 @@ When clustering biological data, it is often useful to exclude rare taxa from th
 
 ```
 
-## Time
+# Time
 
 So far, all contexts `r vec_to_sentence(context, end = "or")` have been kept. It may be desirable to keep only the most recent contexts. Just use `dplyr`...
 
@@ -404,7 +350,7 @@ So far, all contexts `r vec_to_sentence(context, end = "or")` have been kept. It
 
 ```
 
-## Filtering summary
+# Filtering summary {#summary}
 
 A little care naming objects enables easily capturing the results of the cleaning process. The function `rec_vis_sit_tax` summarises the taxa, records, visits and sites in each `flor_` data frame.
 
@@ -434,19 +380,18 @@ A little care naming objects enables easily capturing the results of the cleanin
 
 ```
 
-## What happened to x?
+# What happened to x?
 
 It can often be useful to trace the results for a single taxa through the filtering process. How did, say, _Eucalyptus incrassata_ fare through the process?
 
 ```{r find_taxa}
 
-  find_taxa(taxa_to_find = "Eucalyptus incrassata")
+  find_taxa(taxa = "Eucalyptus incrassata")
 
 ```
 
-## Conclusion
+# Conclusion
 
 After ingesting data from a range of sources (`r vec_to_sentence(unique(flor_all$data_name))`) the `envClean` functions helped clean the data ready for further analysis. The original `r filt_summary[1,"nrow"]` records were cleaned, tidied and filtered to `r filt_summary[nrow(filt_summary),"nrow"]` records.
 
-## References
-
+# References

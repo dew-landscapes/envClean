@@ -1,38 +1,39 @@
 #' Find how taxa changed through the cleaning/filtering/tidying process
 #'
-#' @param taxa_to_find Character. Taxa name to find.
+#' @param taxa Character. Taxa name to find.
 #' @param taxa_cols Character. Name of column(s) across data frames containing
 #' taxa information.
 #' @param lookup_taxa Dataframe with columns names matching `taxa_cols`.
+#' @param filt_df_prefix Character. Prefix used in each of the data frames
+#' created at each step in the filtering process.
 #'
 #' @return
 #' @export
 #'
-#' @examples
-find_taxa <- function(taxa_to_find
+#' @example examples/find_taxa.R
+find_taxa <- function(taxa
                       , taxa_cols = c("original_name", "taxa")
                       , lookup_taxa = lutaxa
+                      , filt_df_prefix = "flor_"
                       ) {
 
   cols_out <- c("name", "taxas")
 
-  to_find <- character()
+  find_string <- paste0(taxa, collapse = "|")
 
-  for(i in taxa_cols) {
-
-    to_find <- c(to_find
-                , unname(grep(paste0(taxa_to_find
-                                  , collapse = "|"
-                                  )
-                              , unlist(lookup_taxa[i])
-                              , value = TRUE
-                              )
+  to_find <- lookup_taxa %>%
+    dplyr::filter(if_any(any_of(taxa_cols)
+                         , ~ grepl(find_string, .)
                          )
-                )
+                  ) %>%
+    dplyr::select(any_of(taxa_cols)) %>%
+    as.matrix() %>%
+    as.vector() %>%
+    unique()
 
-  }
-
-  ls(pattern = "flor_") %>%
+  ls(pattern = filt_df_prefix
+     , envir = parent.frame()
+     ) %>%
     tibble::enframe(name = NULL, value = "name") %>%
     dplyr::mutate(obj = purrr::map(name
                                    , get
@@ -69,20 +70,16 @@ find_taxa <- function(taxa_to_find
                                              ) %>%
                                dplyr::count(taxa
                                             , name = "n"
-                                            ) %>%
-                               dplyr::summarise(taxas = paste0(taxa
-                                                               , " ("
-                                                               , n
-                                                               , " records)"
-                                                               , collapse = ", "
-                                                               )
-                                                )
+                                            )
                              )
+                  , summary = purrr::map_chr(obj
+                                  , ~paste0(taxa
+                                           , " has "
+                                           , nrow(.)
+                                           , " records"
+                                           )
+                                  )
                   ) %>%
-    tidyr::unnest(cols = c(obj)
-                  , keep_empty = TRUE
-                  ) %>%
-    dplyr::arrange(desc(nrow),ctime) %>%
-    dplyr::select(any_of(cols_out))
+    dplyr::arrange(desc(nrow), ctime)
 
 }
