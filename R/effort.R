@@ -4,6 +4,8 @@
 #' Principal components analysis and various outputs from environmental data
 #'
 #' @param env_df Dataframe containing 'cell' and environmental data.
+#' @param exclude_cols Numeric. Exclude columns with index(es). Used to prevent
+#' context information being passed to [stats::prcomp()].
 #' @param axes Numeric. Number of axes to return.
 #' @param cuts Numeric. Number of cuts along pc1. pcn gets cuts/n cuts.
 #' @param int_style Character. Method passed to classInt::classIntervals.
@@ -12,7 +14,12 @@
 #' @export
 #'
 #' @examples
-  make_env_pca <- function(env_df, axes = 3, cuts = 20, int_style = "quantile") {
+  make_env_pca <- function(env_df
+                           , exclude_cols = 1
+                           , axes = 3
+                           , cuts = 20
+                           , int_style = "quantile"
+                           ) {
 
     # assumes each row has a unique 'cell' id (cell number from raster)
 
@@ -22,13 +29,13 @@
       janitor::remove_constant() %>%
       stats::na.omit()
 
-    env_pca$pca_pca <- stats::prcomp(env_pca$pca_data[,-1]
+    env_pca$pca_pca <- stats::prcomp(env_pca$pca_data[,-exclude_cols]
                    , center = TRUE
                    , scale. = TRUE
                    )
 
     env_pca$pca_res_cell <- env_pca$pca_data %>%
-      dplyr::select(cell) %>%
+      dplyr::select(exclude_cols) %>%
       dplyr::bind_cols(factoextra::get_pca_ind(env_pca$pca_pca)$coord[,1:axes] %>%
                          tibble::as_tibble() %>%
                          stats::setNames(paste0("pc",1:ncol(.)))
