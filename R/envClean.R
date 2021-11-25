@@ -327,6 +327,8 @@
 #' to output.
 #' @param do_life Logical. Should lifeform (needs to be supplied in df) be
 #' appended to output.
+#' @param do_ind Logical. Should ind (needs to be supplied in df) be
+#' appended to output.
 #' @param lucov Dataframe lookup for cover.
 #' @param lulife Dataframe lookup for lifeform.
 #' @param ... Passed to `\link{envClean}{make_taxa_taxonomy()}`.

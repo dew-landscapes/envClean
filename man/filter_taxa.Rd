@@ -36,6 +36,9 @@ to output.}
 \item{do_life}{Logical. Should lifeform (needs to be supplied in df) be
 appended to output.}
 
+\item{do_ind}{Logical. Should ind (needs to be supplied in df) be
+appended to output.}
+
 \item{lucov}{Dataframe lookup for cover.}
 
 \item{lulife}{Dataframe lookup for lifeform.}
