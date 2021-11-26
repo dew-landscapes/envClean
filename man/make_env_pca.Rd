@@ -6,7 +6,7 @@
 \usage{
 make_env_pca(
   env_df,
-  exclude_cols = 1,
+  context = "cell",
   axes = 3,
   cuts = 20,
   int_style = "quantile"
@@ -15,8 +15,7 @@ make_env_pca(
 \arguments{
 \item{env_df}{Dataframe containing 'cell' and environmental data.}
 
-\item{exclude_cols}{Numeric. Exclude columns with index(es). Used to prevent
-context information being passed to \code{\link[stats:prcomp]{stats::prcomp()}}.}
+\item{context}{Character. Name of columns defining context.}
 
 \item{axes}{Numeric. Number of axes to return.}
 

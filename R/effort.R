@@ -4,8 +4,7 @@
 #' Principal components analysis and various outputs from environmental data
 #'
 #' @param env_df Dataframe containing 'cell' and environmental data.
-#' @param exclude_cols Numeric. Exclude columns with index(es). Used to prevent
-#' context information being passed to [stats::prcomp()].
+#' @param context Character. Name of columns defining context.
 #' @param axes Numeric. Number of axes to return.
 #' @param cuts Numeric. Number of cuts along pc1. pcn gets cuts/n cuts.
 #' @param int_style Character. Method passed to classInt::classIntervals.
@@ -15,13 +14,11 @@
 #'
 #' @examples
   make_env_pca <- function(env_df
-                           , exclude_cols = 1
+                           , context = "cell"
                            , axes = 3
                            , cuts = 20
                            , int_style = "quantile"
                            ) {
-
-    # assumes each row has a unique 'cell' id (cell number from raster)
 
     env_pca <- list()
 
@@ -29,13 +26,19 @@
       janitor::remove_constant() %>%
       stats::na.omit()
 
+    exclude_cols <- grep(paste0(context
+                                , collapse = "|"
+                                )
+                         , names(env_df)
+                         )
+
     env_pca$pca_pca <- stats::prcomp(env_pca$pca_data[,-exclude_cols]
                    , center = TRUE
                    , scale. = TRUE
                    )
 
     env_pca$pca_res_cell <- env_pca$pca_data %>%
-      dplyr::select(exclude_cols) %>%
+      dplyr::select(tidyselect::any_of(context)) %>%
       dplyr::bind_cols(factoextra::get_pca_ind(env_pca$pca_pca)$coord[,1:axes] %>%
                          tibble::as_tibble() %>%
                          stats::setNames(paste0("pc",1:ncol(.)))
@@ -178,7 +181,7 @@
       tidyr::unnest(cols = 1:ncol(.))  %>%
       tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE)) %>%
       dplyr::inner_join(effort_mod$dat_exp %>%
-                          dplyr::distinct(dplyr::across(grep("cut|month",names(.),value = TRUE)))
+                          dplyr::distinct(dplyr::across(grep("cut",names(.),value = TRUE)))
                         )
 
     effort_mod$mod_pred <- effort_mod$preds %>%
@@ -261,7 +264,7 @@
 
     effort_mod$mod_cell_qsize <- df %>%
       dplyr::inner_join(effort_mod$dat_exp) %>%
-      dplyr::distinct(cell,year,month,qsize)
+      dplyr::distinct(across(any_of(context)),qsize)
 
     effort_mod$mod_cell_result <- df %>%
       dplyr::count(cell,qsize,name = "sr") %>%
