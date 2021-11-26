@@ -118,7 +118,7 @@
 #' @param threshold_lo,threshold_hi Numeric between 0 and 1 specifying the
 #' threshold above/below which richness is excessively above or below 'normal'
 #' and should be filtered.
-#' @param ... Passed to rstanarm::stan_glm
+#' @param ... Passed to [rstanarm::stan_glm()].
 #'
 #' @return List of model outputs.
 #' @export
@@ -137,9 +137,9 @@
     y <- "sr"
 
     effort_mod$dat_exp <- df %>%
-      dplyr::filter(!is.na(qsize)
-                    , qsize >= 3*3
-                    ) %>%
+      # dplyr::filter(!is.na(qsize)
+      #               , qsize >= 3*3
+      #               ) %>%
       dplyr::distinct(taxa,dplyr::across(tidyselect::all_of(context))) %>%
       dplyr::count(dplyr::across(tidyselect::all_of(context)),name = "sr") %>%
       dplyr::inner_join(env_prcomp$pca_res_cell) %>%
@@ -183,7 +183,7 @@
 
     effort_mod$mod_pred <- effort_mod$preds %>%
       dplyr::mutate(col = row.names(.)) %>%
-      dplyr::left_join(as_tibble(rstanarm::posterior_predict(effort_mod$mod
+      dplyr::left_join(tibble::as_tibble(rstanarm::posterior_predict(effort_mod$mod
                                                    , newdata = .
                                                    , re.form = NA
                                                    )
