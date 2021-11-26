@@ -25,7 +25,7 @@ to a 'cell'.}
 threshold above/below which richness is excessively above or below 'normal'
 and should be filtered.}
 
-\item{...}{Passed to rstanarm::stan_glm}
+\item{...}{Passed to \code{\link[rstanarm:stan_glm]{rstanarm::stan_glm()}}.}
 }
 \value{
 List of model outputs.
