@@ -56,8 +56,6 @@ vignette: >
 
   unlink(pac_cits)
 
-  make_bib(bib_file = pac_cits)
-
   tmap_mode("plot")
 
 ```

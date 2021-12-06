@@ -10,6 +10,8 @@ make_effort_mod_pca(
   context = "cell",
   threshold_lo = 0.05/2,
   threshold_hi = 0.05/2,
+  effort_col = "qsize",
+  effort_thresh = 3 * 3,
   ...
 )
 }
@@ -24,6 +26,11 @@ to a 'cell'.}
 \item{threshold_lo, threshold_hi}{Numeric between 0 and 1 specifying the
 threshold above/below which richness is excessively above or below 'normal'
 and should be filtered.}
+
+\item{effort_col}{Character. Name of column with some measure of effort.}
+
+\item{effort_thresh}{Numeric. \code{effort_col} will be filtered below this
+threshold.}
 
 \item{...}{Passed to \code{\link[rstanarm:stan_glm]{rstanarm::stan_glm()}}.}
 }
