@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Friday, 26 November, 2021</h4>
+            <h4 class="date">Tuesday, 07 December, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/envClean.Rmd"><code>vignettes/envClean.Rmd</code></a></small>
       <div class="hidden name"><code>envClean.Rmd</code></div>
@@ -434,7 +434,7 @@
 <li>principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change</li>
 <li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra">IBRA</a> Subregions</li>
 </ul>
-<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020)</span>;<span class="citation">(Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
+<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020; Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># run model</span>
@@ -462,9 +462,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.343 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.337 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.68 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.316 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.343 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.659 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -487,9 +487,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.334 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.299 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.633 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.329 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.332 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.661 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -512,9 +512,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.31 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.323 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.633 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.325 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.345 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.67 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -537,9 +537,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.321 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.324 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.645 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.305 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.283 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.588 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 <span class="co">#&gt; Joining, by = "col"</span>
 
@@ -661,15 +661,15 @@
 <span class="co">#&gt; # A tibble: 9 x 10</span>
 <span class="co">#&gt;   name    obj     has_stamp  nrow ctime                taxa records visits sites</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;  &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3485 2021-11-26 17:57:10   420    3485    227    22</span>
-<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3485 2021-11-26 17:57:10   420    3485      1    22</span>
-<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2332 2021-11-26 17:57:12   353    2332     76    13</span>
-<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2330 2021-11-26 17:57:12   353    2330     64    13</span>
-<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        860 2021-11-26 17:57:16   176     860     64    12</span>
-<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        853 2021-11-26 17:57:16   176     853     57    12</span>
-<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        816 2021-11-26 17:57:19   174     816     56    12</span>
-<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        639 2021-11-26 17:57:19    63     639     54    12</span>
-<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        555 2021-11-26 17:57:19    63     555     54    12</span>
+<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3485 2021-12-07 08:46:25   420    3485    227    22</span>
+<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3485 2021-12-07 08:46:25   420    3485      1    22</span>
+<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2332 2021-12-07 08:46:26   353    2332     76    13</span>
+<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2330 2021-12-07 08:46:27   353    2330     64    13</span>
+<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        860 2021-12-07 08:46:31   176     860     64    12</span>
+<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        853 2021-12-07 08:46:31   176     853     57    12</span>
+<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        816 2021-12-07 08:46:34   174     816     56    12</span>
+<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        639 2021-12-07 08:46:34    63     639     54    12</span>
+<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        555 2021-12-07 08:46:35    63     555     54    12</span>
 <span class="co">#&gt; # ... with 1 more variable: geometry &lt;GEOMETRY [°]&gt;</span>&gt;</code></pre></div>
 </div>
 <div id="what-happened-to-x" class="section level1">
@@ -682,15 +682,15 @@
 <span class="co">#&gt; # A tibble: 9 x 6</span>
 <span class="co">#&gt;   name        obj              has_stamp  nrow ctime               summary      </span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
-<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3485 2021-11-26 17:57:10 Eucalyptus i~</span>
-<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3485 2021-11-26 17:57:10 Eucalyptus i~</span>
-<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2332 2021-11-26 17:57:12 Eucalyptus i~</span>
-<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2330 2021-11-26 17:57:12 Eucalyptus i~</span>
-<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        860 2021-11-26 17:57:16 Eucalyptus i~</span>
-<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        853 2021-11-26 17:57:16 Eucalyptus i~</span>
-<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        816 2021-11-26 17:57:19 Eucalyptus i~</span>
-<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        639 2021-11-26 17:57:19 Eucalyptus i~</span>
-<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        555 2021-11-26 17:57:19 Eucalyptus i~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3485 2021-12-07 08:46:25 Eucalyptus i~</span>
+<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3485 2021-12-07 08:46:25 Eucalyptus i~</span>
+<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2332 2021-12-07 08:46:26 Eucalyptus i~</span>
+<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2330 2021-12-07 08:46:27 Eucalyptus i~</span>
+<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        860 2021-12-07 08:46:31 Eucalyptus i~</span>
+<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        853 2021-12-07 08:46:31 Eucalyptus i~</span>
+<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        816 2021-12-07 08:46:34 Eucalyptus i~</span>
+<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        639 2021-12-07 08:46:34 Eucalyptus i~</span>
+<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        555 2021-12-07 08:46:35 Eucalyptus i~</span></code></pre></div>
 </div>
 <div id="conclusion" class="section level1">
 <h1 class="hasAnchor">
@@ -708,7 +708,7 @@
 <p>Brilleman, SL, MJ Crowther, M Moreno-Betancur, J Buros Novik, and R Wolfe. 2018. “Joint Longitudinal and Time-to-Event Models via Stan.” <a href="https://github.com/stan-dev/stancon_talks/">https://github.com/stan-dev/stancon_talks/</a>.</p>
 </div>
 <div id="ref-R-rstanarm">
-<p>Gabry, Jonah, and Ben Goodrich. 2020. <em>rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm">https://CRAN.R-project.org/package=rstanarm</a>.</p>
+<p>Gabry, Jonah, and Ben Goodrich. 2020. <em>Rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm">https://CRAN.R-project.org/package=rstanarm</a>.</p>
 </div>
 <div id="ref-RN2377">
 <p>Wiens, J A. 1989. “Spatial scaling in ecology.” Journal Article. <em>Functional Ecology</em> 3 (4): 385–97.</p>
