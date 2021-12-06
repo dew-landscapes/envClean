@@ -121,6 +121,9 @@
 #' @param threshold_lo,threshold_hi Numeric between 0 and 1 specifying the
 #' threshold above/below which richness is excessively above or below 'normal'
 #' and should be filtered.
+#' @param effort_col Character. Name of column with some measure of effort.
+#' @param effort_thresh Numeric. `effort_col` will be filtered below this
+#' threshold.
 #' @param ... Passed to [rstanarm::stan_glm()].
 #'
 #' @return List of model outputs.
@@ -132,21 +135,23 @@
                            , context = "cell"
                            , threshold_lo = 0.05/2
                            , threshold_hi = 0.05/2
+                           , effort_col = "qsize"
+                           , effort_thresh = 3*3
                            , ...
                            ) {
 
     effort_mod <- list()
 
-    y <- "sr"
+    response <- "sr"
 
     effort_mod$dat_exp <- df %>%
-      # dplyr::filter(!is.na(qsize)
-      #               , qsize >= 3*3
-      #               ) %>%
+      dplyr::filter(!is.na(!!rlang::ensym(effort_col))
+                    , !!ensym(effort_col) >= effort_thresh
+                    ) %>%
       dplyr::distinct(taxa,dplyr::across(tidyselect::all_of(context))) %>%
       dplyr::count(dplyr::across(tidyselect::all_of(context)),name = "sr") %>%
       dplyr::inner_join(env_prcomp$pca_res_cell) %>%
-      dplyr::select(!!rlang::ensym(y),everything()) %>%
+      dplyr::select(!!rlang::ensym(response),everything()) %>%
       tidyr::pivot_longer(contains("pc"),names_to = "pc") %>%
       dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
       dplyr::mutate(cut_pc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
@@ -160,7 +165,7 @@
 
     effort_mod$mod <- rstanarm::stan_glm(data = effort_mod$dat_exp
 
-                  , formula = stats::as.formula(paste0(y, " ~ pc1 + pc2 + pc3"))
+                  , formula = stats::as.formula(paste0(response, " ~ pc1 + pc2 + pc3"))
 
                   # Negative binomial
                   , family = rstanarm::neg_binomial_2()
@@ -263,18 +268,18 @@
     #-------cell results-------
 
     effort_mod$mod_cell_qsize <- df %>%
-      dplyr::inner_join(effort_mod$dat_exp) %>%
-      dplyr::distinct(across(any_of(context)),qsize)
+      dplyr::left_join(effort_mod$dat_exp) %>%
+      dplyr::distinct(across(any_of(context)),!!rlang::ensym(effort_col))
 
     effort_mod$mod_cell_result <- df %>%
-      dplyr::count(cell,qsize,name = "sr") %>%
+      dplyr::count(cell,!!rlang::ensym(effort_col),name = "sr") %>%
       dplyr::inner_join(env_prcomp$pca_res_col %>%
                           dplyr::select(cell,pc_group,colour)
                         ) %>%
       dplyr::inner_join(effort_mod$mod_res) %>%
       dplyr::mutate(keep_hi = sr < extreme_sr_hi
                     , keep_lo = sr > extreme_sr_lo
-                    , keep_qsize = !(qsize == 0 | is.na(qsize))
+                    , keep_qsize = !(!!rlang::ensym(effort_col) == 0 | is.na(!!rlang::ensym(effort_col)))
                     , keep = as.logical(keep_hi*keep_lo)
                     , keep = if_else(!keep,keep_qsize,keep)
                     ) %>%
