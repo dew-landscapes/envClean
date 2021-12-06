@@ -138,6 +138,8 @@
   context <span class='op'>=</span> <span class='st'>"cell"</span>,
   threshold_lo <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>/</span><span class='fl'>2</span>,
   threshold_hi <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>/</span><span class='fl'>2</span>,
+  effort_col <span class='op'>=</span> <span class='st'>"qsize"</span>,
+  effort_thresh <span class='op'>=</span> <span class='fl'>3</span> <span class='op'>*</span> <span class='fl'>3</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -162,6 +164,15 @@ to a 'cell'.</p></td>
       <td><p>Numeric between 0 and 1 specifying the
 threshold above/below which richness is excessively above or below 'normal'
 and should be filtered.</p></td>
+    </tr>
+    <tr>
+      <th>effort_col</th>
+      <td><p>Character. Name of column with some measure of effort.</p></td>
+    </tr>
+    <tr>
+      <th>effort_thresh</th>
+      <td><p>Numeric. <code>effort_col</code> will be filtered below this
+threshold.</p></td>
     </tr>
     <tr>
       <th>...</th>
