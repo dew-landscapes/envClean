@@ -16,10 +16,11 @@ vignette: >
 
   knitr::opts_knit$set(root.dir = here::here())
 
-  knitr::opts_chunk$set(
-    collapse = TRUE
-    , comment = "#>"
-  )
+  knitr::opts_chunk$set(collapse = TRUE
+                        , comment = "#>"
+                        , message = FALSE
+                        , warning = FALSE
+                        )
 
 ```
 

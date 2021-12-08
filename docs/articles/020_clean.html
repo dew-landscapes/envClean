@@ -149,7 +149,6 @@
                          , crs_aoi <span class="op">=</span> <span class="fu">st_crs</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>
                          <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = c("lat", "long")</span>
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_aoi</span>
@@ -208,7 +207,6 @@
                               , over_ride <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data_name <span class="op">=</span> <span class="va">include_data_name</span><span class="op">)</span>
                               <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = c("lat", "long", "month", "year")</span>
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_rel</span>
@@ -238,9 +236,6 @@
                       , resolution <span class="op">=</span> <span class="fl">30</span>
                       , crs <span class="op">=</span> <span class="fu">CRS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"+init=epsg:"</span>,<span class="va">use_crs</span><span class="op">)</span><span class="op">)</span>
                       <span class="op">)</span>
-<span class="co">#&gt; Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj</span>
-<span class="co">#&gt; = prefer_proj): Discarded datum Geocentric_Datum_of_Australia_1994 in Proj4</span>
-<span class="co">#&gt; definition</span>
 
   <span class="va">aoi_raster</span>
 <span class="co">#&gt; class      : RasterLayer </span>
@@ -257,7 +252,6 @@
                                , crs_df <span class="op">=</span> <span class="fl">4283</span>
                                <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = c("old_y", "old_x")</span>
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_cell</span>
@@ -297,10 +291,7 @@
 <code class="sourceCode R">
   <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
                      , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="st">"vignettes"</span>,<span class="st">"luGBIF.feather"</span><span class="op">)</span>
-                     <span class="op">)</span>
-<span class="co">#&gt; Loading required namespace: feather</span>
-<span class="co">#&gt; Joining, by = "original_name"</span>
-<span class="co">#&gt; Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus", "class", "species")</span></code></pre></div>
+                     <span class="op">)</span></code></pre></div>
 <p><code>lutaxa</code> is returned to the global environment.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -353,448 +344,6 @@
                           , lucov <span class="op">=</span> <span class="fu">envEcosystems</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/envEcosystems/man/lucover.html">lucover</a></span>
                           <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "original_name"</span>
-<span class="co">#&gt; Joining, by = "taxa"</span>
-<span class="co">#&gt; Joining, by = "original_name"</span>
-<span class="co">#&gt; Joining, by = "cover_code"</span>
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-
-<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
-<span class="co">#&gt; returning -Inf</span>
-<span class="co">#&gt; Joining, by = c("year", "month", "lat", "long", "cell", "taxa")</span>
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_taxa</span>
@@ -899,9 +448,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.299 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.306 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.605 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.313 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.325 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.638 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -924,9 +473,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.305 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.308 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.613 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.294 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.351 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.645 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -949,15 +498,15 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.319 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.337 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.656 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.33 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.285 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.615 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 4: Gradient evaluation took 0.001 seconds</span>
+<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
 <span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 4: </span>
 <span class="co">#&gt; Chain 4: </span>
@@ -974,11 +523,10 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.309 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.341 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.65 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.304 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.34 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.644 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
-<span class="co">#&gt; Joining, by = "col"</span>
 
   <span class="co"># filter using model results</span>
   <span class="va">flor_effort</span> <span class="op">&lt;-</span> <span class="va">flor_single</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -987,7 +535,6 @@
                       <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">flor_single</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = c("year", "month", "lat", "long", "cell")</span>
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_effort</span>
@@ -1018,7 +565,6 @@
                            , default_per <span class="op">=</span> <span class="fl">5</span>
                            <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "taxa"</span>
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_prop</span>
@@ -1098,15 +644,15 @@
 <span class="co">#&gt; # A tibble: 9 x 10</span>
 <span class="co">#&gt;   name    obj     has_stamp  nrow ctime                taxa records visits sites</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;  &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3396 2021-12-08 13:30:13   408    3396    211    20</span>
-<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3396 2021-12-08 13:30:13   408    3396      1    20</span>
-<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2271 2021-12-08 13:30:15   346    2271     65    11</span>
-<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2271 2021-12-08 13:30:15   346    2271     62    11</span>
-<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        832 2021-12-08 13:30:19   174     832     62    10</span>
-<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        825 2021-12-08 13:30:19   174     825     55    10</span>
-<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        788 2021-12-08 13:30:22   172     788     54    10</span>
-<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        608 2021-12-08 13:30:22    60     608     52    10</span>
-<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        526 2021-12-08 13:30:23    60     526     52    10</span>
+<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3396 2021-12-08 13:38:20   408    3396    211    20</span>
+<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3396 2021-12-08 13:38:20   408    3396      1    20</span>
+<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2271 2021-12-08 13:38:22   346    2271     65    11</span>
+<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2271 2021-12-08 13:38:23   346    2271     62    11</span>
+<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        832 2021-12-08 13:38:26   174     832     62    10</span>
+<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        825 2021-12-08 13:38:27   174     825     55    10</span>
+<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        788 2021-12-08 13:38:30   172     788     54    10</span>
+<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        608 2021-12-08 13:38:30    60     608     52    10</span>
+<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        526 2021-12-08 13:38:30    60     526     52    10</span>
 <span class="co">#&gt; # ... with 1 more variable: geometry &lt;GEOMETRY [°]&gt;</span>&gt;</code></pre></div>
 </div>
 <div id="what-happened-to-x" class="section level1">
@@ -1119,15 +665,15 @@
 <span class="co">#&gt; # A tibble: 9 x 6</span>
 <span class="co">#&gt;   name        obj              has_stamp  nrow ctime               summary      </span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
-<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3396 2021-12-08 13:30:13 Eucalyptus i~</span>
-<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3396 2021-12-08 13:30:13 Eucalyptus i~</span>
-<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2271 2021-12-08 13:30:15 Eucalyptus i~</span>
-<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2271 2021-12-08 13:30:15 Eucalyptus i~</span>
-<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        832 2021-12-08 13:30:19 Eucalyptus i~</span>
-<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        825 2021-12-08 13:30:19 Eucalyptus i~</span>
-<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        788 2021-12-08 13:30:22 Eucalyptus i~</span>
-<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        608 2021-12-08 13:30:22 Eucalyptus i~</span>
-<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        526 2021-12-08 13:30:23 Eucalyptus i~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3396 2021-12-08 13:38:20 Eucalyptus i~</span>
+<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3396 2021-12-08 13:38:20 Eucalyptus i~</span>
+<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2271 2021-12-08 13:38:22 Eucalyptus i~</span>
+<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2271 2021-12-08 13:38:23 Eucalyptus i~</span>
+<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        832 2021-12-08 13:38:26 Eucalyptus i~</span>
+<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        825 2021-12-08 13:38:27 Eucalyptus i~</span>
+<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        788 2021-12-08 13:38:30 Eucalyptus i~</span>
+<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        608 2021-12-08 13:38:30 Eucalyptus i~</span>
+<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        526 2021-12-08 13:38:30 Eucalyptus i~</span></code></pre></div>
 </div>
 <div id="conclusion" class="section level1">
 <h1 class="hasAnchor">
