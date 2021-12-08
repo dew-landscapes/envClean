@@ -35,6 +35,7 @@
     flor_aoi_sens <- envImport::flag_sens_records(flor_aoi, nsx_col = "nsx", surv_col = "survey_nr")
 
     flor_all <- flor_aoi_sens %>%
+      dplyr::filter(data_name != "BCM") %>%
       dplyr::filter(!grepl(TRUE, sens_surv)) %>%
       dplyr::filter(!grepl(TRUE, sens_taxa)) %>%
       dplyr::select(any_of(keep_cols))

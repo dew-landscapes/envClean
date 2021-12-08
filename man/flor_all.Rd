@@ -5,7 +5,7 @@
 \alias{flor_all}
 \title{Example of data combined from several data sources.}
 \format{
-A data frame with 12819 rows and 13
+A data frame with 12602 rows and 13
 variables:
 \describe{
 \item{lat}{Latitude in decimal degrees.}

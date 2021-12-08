@@ -79,20 +79,20 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
 #> Joining, by = c("lat", "long")
 
   flor_aoi
-#> # A tibble: 3,429 x 13
-#>      lat  long data_name site       date       original_name          cover cover_code quad_x quad_y rel_dist month  year
-#>    <dbl> <dbl> <chr>     <chr>      <date>     <chr>                  <dbl> <chr>       <int>  <int>    <dbl> <int> <int>
-#>  1 -34.5  140. BCM       -517716896 2006-09-10 Olearia pimeleoides       NA ""             30     30       NA     9  2006
-#>  2 -34.5  140. BCM       -517716896 2006-09-10 Eucalyptus oleosa ssp.    NA ""             30     30       NA     9  2006
-#>  3 -34.5  140. BCM       -517716896 2006-09-10 Eucalyptus gracilis       NA ""             30     30       NA     9  2006
-#>  4 -34.5  140. BCM       -517716896 2006-09-10 Maireana trichoptera      NA ""             30     30       NA     9  2006
-#>  5 -34.5  140. BCM       -517716896 2006-09-10 Maireana pentatropis      NA ""             30     30       NA     9  2006
-#>  6 -34.5  140. BCM       -517716896 2006-09-10 Santalum murrayanum       NA ""             30     30       NA     9  2006
-#>  7 -34.5  140. BCM       -517716896 2006-09-10 Rhagodia crassifolia      NA ""             30     30       NA     9  2006
-#>  8 -34.5  140. BCM       -517716896 2006-09-10 Eremophila glabra ssp.    NA ""             30     30       NA     9  2006
-#>  9 -34.5  140. BCM       -517716896 2006-09-10 Geijera linearifolia      NA ""             30     30       NA     9  2006
-#> 10 -34.5  140. BCM       -517716896 2006-09-10 Maireana erioclada        NA ""             30     30       NA     9  2006
-#> # ... with 3,419 more rows
+#> # A tibble: 3,396 x 13
+#>      lat  long data_name site      date       original_name             cover cover_code quad_x quad_y rel_dist month  year
+#>    <dbl> <dbl> <chr>     <chr>     <date>     <chr>                     <dbl> <chr>       <int>  <int>    <dbl> <int> <int>
+#>  1 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus gracilis          NA "2"            30     30      100     7  1990
+#>  2 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus oleosa (NC)       NA "2"            30     30      100     7  1990
+#>  3 -34.6  140. BDBSA     216       1990-07-12 Brassica tournefortii        NA "T"            30     30      100     7  1990
+#>  4 -34.6  140. BDBSA     216       1990-07-12 Beyeria opaca                NA "T"            30     30      100     7  1990
+#>  5 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus socialis (NC)     NA "T"            30     30      100     7  1990
+#>  6 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus brachycalyx       NA "1"            30     30      100     7  1990
+#>  7 -34.6  140. BDBSA     216       1990-07-12 Myoporum platycarpum (NC)    NA "T"            30     30      100     7  1990
+#>  8 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus dumosa            NA "1"            30     30      100     7  1990
+#>  9 -34.6  140. BDBSA     216       1990-07-12 Melaleuca lanceolata         NA "T"            30     30      100     7  1990
+#> 10 -34.6  140. EGIS      SUP2006-2 1990-07-12 Eucalyptus gracilis          NA ""             NA     NA      100     7  1990
+#> # ... with 3,386 more rows
 ```
 
 Check that spatial filter worked.
