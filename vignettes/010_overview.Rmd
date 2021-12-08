@@ -20,13 +20,15 @@ vignette: >
     collapse = TRUE
     , comment = "#>"
   )
-  
+
 ```
 
 ```{r setup, warning = FALSE}
 
   pacs <- c("knitr", "envClean", "envReport"
-            , "envFunc"
+            , "envFunc", "fs", "purrr"
+            , "dplyr", "sf", "tibble"
+            , "tmap", "raster", "rstanarm"
             )
 
   purrr::walk(pacs
@@ -36,9 +38,28 @@ vignette: >
                                                 )
               )
 
-  # What crs to use for spatial analysis?
+  #  Load data
+  flor_all <- tibble::as_tibble(flor_all)
+  
+  # What crs to use for maps?
   use_crs <- 3577 # actually an epsg code. see epsg.io
   
+  # set area of interest coordinate reference system
+  aoi <- aoi %>%
+    sf::st_transform(crs = use_crs)
+  
+```
+
+```{r housekeeping, include = FALSE, echo = FALSE}
+
+  pac_cits <- "vignettes/packages.bib"
+
+  unlink(pac_cits)
+
+  tmap_mode("plot")
+  
+  knitr::write_bib(file = pac_cits)
+
 ```
 
 ## Installation

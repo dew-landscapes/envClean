@@ -57,6 +57,8 @@ vignette: >
   unlink(pac_cits)
 
   tmap_mode("plot")
+  
+  knitr::write_bib(file = pac_cits)
 
 ```
 
