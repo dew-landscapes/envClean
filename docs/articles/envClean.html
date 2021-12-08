@@ -153,21 +153,21 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_aoi</span>
-<span class="co">#&gt; # A tibble: 3,483 x 13</span>
+<span class="co">#&gt; # A tibble: 3,396 x 13</span>
 <span class="co">#&gt;      lat  long data_name site   date       original_name cover cover_code quad_x</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.5  140. BCM       -5177~ 2006-09-10 Olearia pime~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  2 -34.5  140. BCM       -5177~ 2006-09-10 Eucalyptus o~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  3 -34.5  140. BCM       -5177~ 2006-09-10 Eucalyptus g~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  4 -34.5  140. BCM       -5177~ 2006-09-10 Maireana tri~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  5 -34.5  140. BCM       -5177~ 2006-09-10 Maireana pen~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  6 -34.5  140. BCM       -5177~ 2006-09-10 Santalum mur~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  7 -34.5  140. BCM       -5177~ 2006-09-10 Rhagodia cra~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  8 -34.5  140. BCM       -5177~ 2006-09-10 Eremophila g~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  9 -34.5  140. BCM       -5177~ 2006-09-10 Geijera line~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt; 10 -34.5  140. BCM       -5177~ 2006-09-10 Maireana eri~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt; # ... with 3,473 more rows, and 4 more variables: quad_y &lt;dbl&gt;, rel_dist &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   month &lt;dbl&gt;, year &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;       &lt;int&gt;</span>
+<span class="co">#&gt;  1 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus g~    NA "2"            30</span>
+<span class="co">#&gt;  2 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus o~    NA "2"            30</span>
+<span class="co">#&gt;  3 -34.6  140. BDBSA     216    1990-07-12 Brassica tou~    NA "T"            30</span>
+<span class="co">#&gt;  4 -34.6  140. BDBSA     216    1990-07-12 Beyeria opaca    NA "T"            30</span>
+<span class="co">#&gt;  5 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus s~    NA "T"            30</span>
+<span class="co">#&gt;  6 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus b~    NA "1"            30</span>
+<span class="co">#&gt;  7 -34.6  140. BDBSA     216    1990-07-12 Myoporum pla~    NA "T"            30</span>
+<span class="co">#&gt;  8 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus d~    NA "1"            30</span>
+<span class="co">#&gt;  9 -34.6  140. BDBSA     216    1990-07-12 Melaleuca la~    NA "T"            30</span>
+<span class="co">#&gt; 10 -34.6  140. EGIS      SUP20~ 1990-07-12 Eucalyptus g~    NA ""             NA</span>
+<span class="co">#&gt; # ... with 3,386 more rows, and 4 more variables: quad_y &lt;int&gt;, rel_dist &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   month &lt;int&gt;, year &lt;int&gt;</span></code></pre></div>
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -212,21 +212,21 @@
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_rel</span>
-<span class="co">#&gt; # A tibble: 2,330 x 13</span>
+<span class="co">#&gt; # A tibble: 2,271 x 13</span>
 <span class="co">#&gt;      lat  long data_name site   date       original_name cover cover_code quad_x</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.5  140. BCM       -5177~ 2006-09-10 Olearia pime~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  2 -34.5  140. BCM       -5177~ 2006-09-10 Eucalyptus o~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  3 -34.5  140. BCM       -5177~ 2006-09-10 Eucalyptus g~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  4 -34.5  140. BCM       -5177~ 2006-09-10 Maireana tri~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  5 -34.5  140. BCM       -5177~ 2006-09-10 Maireana pen~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  6 -34.5  140. BCM       -5177~ 2006-09-10 Santalum mur~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  7 -34.5  140. BCM       -5177~ 2006-09-10 Rhagodia cra~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  8 -34.5  140. BCM       -5177~ 2006-09-10 Eremophila g~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt;  9 -34.5  140. BCM       -5177~ 2006-09-10 Geijera line~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt; 10 -34.5  140. BCM       -5177~ 2006-09-10 Maireana eri~    NA &lt;NA&gt;           30</span>
-<span class="co">#&gt; # ... with 2,320 more rows, and 4 more variables: quad_y &lt;dbl&gt;, rel_dist &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   month &lt;dbl&gt;, year &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;       &lt;int&gt;</span>
+<span class="co">#&gt;  1 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus g~    NA "2"            30</span>
+<span class="co">#&gt;  2 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus o~    NA "2"            30</span>
+<span class="co">#&gt;  3 -34.6  140. BDBSA     216    1990-07-12 Brassica tou~    NA "T"            30</span>
+<span class="co">#&gt;  4 -34.6  140. BDBSA     216    1990-07-12 Beyeria opaca    NA "T"            30</span>
+<span class="co">#&gt;  5 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus s~    NA "T"            30</span>
+<span class="co">#&gt;  6 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus b~    NA "1"            30</span>
+<span class="co">#&gt;  7 -34.6  140. BDBSA     216    1990-07-12 Myoporum pla~    NA "T"            30</span>
+<span class="co">#&gt;  8 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus d~    NA "1"            30</span>
+<span class="co">#&gt;  9 -34.6  140. BDBSA     216    1990-07-12 Melaleuca la~    NA "T"            30</span>
+<span class="co">#&gt; 10 -34.6  140. EGIS      SUP20~ 1990-07-12 Eucalyptus g~    NA ""             NA</span>
+<span class="co">#&gt; # ... with 2,261 more rows, and 4 more variables: quad_y &lt;int&gt;, rel_dist &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   month &lt;int&gt;, year &lt;int&gt;</span></code></pre></div>
 </div>
 <div id="rasterize" class="section level2">
 <h2 class="hasAnchor">
@@ -261,22 +261,22 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_cell</span>
-<span class="co">#&gt; # A tibble: 2,328 x 16</span>
-<span class="co">#&gt;     cell   ras_x     ras_y  long   lat data_name site   date       original_name</span>
-<span class="co">#&gt;    &lt;int&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;        </span>
-<span class="co">#&gt;  1  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Westringia r~</span>
-<span class="co">#&gt;  2  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Maireana tri~</span>
-<span class="co">#&gt;  3  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Maireana pen~</span>
-<span class="co">#&gt;  4  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Olearia muel~</span>
-<span class="co">#&gt;  5  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Geijera line~</span>
-<span class="co">#&gt;  6  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Halgania and~</span>
-<span class="co">#&gt;  7  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Rhagodia cra~</span>
-<span class="co">#&gt;  8  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Ptilotus sem~</span>
-<span class="co">#&gt;  9  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Austrostipa ~</span>
-<span class="co">#&gt; 10  7040 727171. -3789716.  140. -34.5 EGIS      SUP29~ 2006-10-18 Eucalyptus g~</span>
-<span class="co">#&gt; # ... with 2,318 more rows, and 7 more variables: cover &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   cover_code &lt;chr&gt;, quad_x &lt;dbl&gt;, quad_y &lt;dbl&gt;, rel_dist &lt;dbl&gt;, month &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   year &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 2,271 x 16</span>
+<span class="co">#&gt;     cell   ras_x     ras_y  long   lat data_name site  date       original_name </span>
+<span class="co">#&gt;    &lt;int&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;date&gt;     &lt;chr&gt;         </span>
+<span class="co">#&gt;  1  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Westringia ri~</span>
+<span class="co">#&gt;  2  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Maireana tric~</span>
+<span class="co">#&gt;  3  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Maireana pent~</span>
+<span class="co">#&gt;  4  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Olearia muell~</span>
+<span class="co">#&gt;  5  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Geijera linea~</span>
+<span class="co">#&gt;  6  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Halgania andr~</span>
+<span class="co">#&gt;  7  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Rhagodia cras~</span>
+<span class="co">#&gt;  8  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Ptilotus semi~</span>
+<span class="co">#&gt;  9  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Austrostipa a~</span>
+<span class="co">#&gt; 10  7040 727171. -3789716.  140. -34.5 BDBSA     26610 2006-10-18 Eucalyptus gr~</span>
+<span class="co">#&gt; # ... with 2,261 more rows, and 7 more variables: cover &lt;int&gt;,</span>
+<span class="co">#&gt; #   cover_code &lt;chr&gt;, quad_x &lt;int&gt;, quad_y &lt;int&gt;, rel_dist &lt;dbl&gt;, month &lt;int&gt;,</span>
+<span class="co">#&gt; #   year &lt;int&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="taxonomy" class="section level1">
@@ -299,44 +299,52 @@
                      , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="st">"vignettes"</span>,<span class="st">"luGBIF.feather"</span><span class="op">)</span>
                      <span class="op">)</span>
 <span class="co">#&gt; Loading required namespace: feather</span>
+<span class="co">#&gt; [1] "Dodonaea hexandra"</span>
+<span class="co">#&gt; Joining, by = "searched_name"</span>
+<span class="co">#&gt; [1] "Gonocarpus elatus"</span>
+<span class="co">#&gt; Joining, by = "searched_name"</span>
+<span class="co">#&gt; [1] "Olearia"</span>
+<span class="co">#&gt; Joining, by = "searched_name"</span>
+<span class="co">#&gt; [1] "Ptilotus"</span>
+<span class="co">#&gt; Joining, by = "searched_name"</span>
 <span class="co">#&gt; Joining, by = "original_name"</span>
-<span class="co">#&gt; Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus", "species", "class")</span></code></pre></div>
+<span class="co">#&gt; Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus", "class", "species")</span></code></pre></div>
 <p><code>lutaxa</code> is returned to the global environment.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">lutaxa</span>
-<span class="co">#&gt; # A tibble: 351 x 3</span>
-<span class="co">#&gt;    original_name                             taxa                   rank      </span>
-<span class="co">#&gt;    &lt;chr&gt;                                     &lt;chr&gt;                  &lt;ord&gt;     </span>
-<span class="co">#&gt;  1 Zygophyllum aurantiacum (NC)              Roepera aurantiaca     subspecies</span>
-<span class="co">#&gt;  2 Westringia rigida                         Westringia rigida      species   </span>
-<span class="co">#&gt;  3 Westringia rigida R.Br.                   Westringia rigida      species   </span>
-<span class="co">#&gt;  4 Wahlenbergia luteola                      Wahlenbergia luteola   species   </span>
-<span class="co">#&gt;  5 Wahlenbergia luteola P.J.Sm.              Wahlenbergia luteola   species   </span>
-<span class="co">#&gt;  6 Vulpia myuros f. myuros                   Vulpia myuros          species   </span>
-<span class="co">#&gt;  7 Vulpia muralis                            Vulpia muralis         species   </span>
-<span class="co">#&gt;  8 Vulpia muralis (Kunth) Nees               Vulpia muralis         species   </span>
-<span class="co">#&gt;  9 Vittadinia megacephala                    Vittadinia megacephala species   </span>
-<span class="co">#&gt; 10 Vittadinia megacephala (Benth.) J.M.Black Vittadinia megacephala species   </span>
-<span class="co">#&gt; # ... with 341 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 345 x 3</span>
+<span class="co">#&gt;    original_name                                taxa                 rank      </span>
+<span class="co">#&gt;    &lt;chr&gt;                                        &lt;chr&gt;                &lt;ord&gt;     </span>
+<span class="co">#&gt;  1 Ptilotus R.Br.                               Ptilotus             genus     </span>
+<span class="co">#&gt;  2 Olearia Moench                               Olearia              genus     </span>
+<span class="co">#&gt;  3 Gonocarpus elatus (A.Cunn. ex Fenzl) Orchard Gonocarpus elatus    species   </span>
+<span class="co">#&gt;  4 Dodonaea hexandra F.Muell.                   Dodonaea hexandra    species   </span>
+<span class="co">#&gt;  5 Zygophyllum aurantiacum (NC)                 Roepera aurantiaca   subspecies</span>
+<span class="co">#&gt;  6 Westringia rigida                            Westringia rigida    species   </span>
+<span class="co">#&gt;  7 Westringia rigida R.Br.                      Westringia rigida    species   </span>
+<span class="co">#&gt;  8 Wahlenbergia luteola                         Wahlenbergia luteola species   </span>
+<span class="co">#&gt;  9 Wahlenbergia luteola P.J.Sm.                 Wahlenbergia luteola species   </span>
+<span class="co">#&gt; 10 Vulpia myuros f. myuros                      Vulpia myuros        species   </span>
+<span class="co">#&gt; # ... with 335 more rows</span></code></pre></div>
 <p>as is <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa_taxonomy</span>
-<span class="co">#&gt; # A tibble: 195 x 8</span>
-<span class="co">#&gt;    taxa                    kingdom phylum  order  family  genus  species   class</span>
-<span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;</span>
-<span class="co">#&gt;  1 Roepera aurantiaca      Plantae Trache~ Zygop~ Zygoph~ Roepe~ Roepera ~ Magn~</span>
-<span class="co">#&gt;  2 Westringia rigida       Plantae Trache~ Lamia~ Lamiac~ Westr~ Westring~ Magn~</span>
-<span class="co">#&gt;  3 Wahlenbergia luteola    Plantae Trache~ Aster~ Campan~ Wahle~ Wahlenbe~ Magn~</span>
-<span class="co">#&gt;  4 Vulpia myuros           Plantae Trache~ Poales Poaceae Vulpia Vulpia m~ Lili~</span>
-<span class="co">#&gt;  5 Vulpia muralis          Plantae Trache~ Poales Poaceae Vulpia Vulpia m~ Lili~</span>
-<span class="co">#&gt;  6 Vittadinia megacephala  Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt;  7 Vittadinia gracilis     Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt;  8 Vittadinia dissecta     Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt;  9 Vittadinia cuneata      Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt; 10 Vittadinia cervicularis Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt; # ... with 185 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 192 x 8</span>
+<span class="co">#&gt;    taxa                   kingdom phylum       order  family genus class species</span>
+<span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 Ptilotus               Plantae Tracheophyta Caryo~ Amara~ Ptil~ Magn~ &lt;NA&gt;   </span>
+<span class="co">#&gt;  2 Olearia                Plantae Tracheophyta Aster~ Aster~ Olea~ Magn~ &lt;NA&gt;   </span>
+<span class="co">#&gt;  3 Gonocarpus elatus      Plantae Tracheophyta Saxif~ Halor~ Gono~ Magn~ Gonoca~</span>
+<span class="co">#&gt;  4 Dodonaea hexandra      Plantae Tracheophyta Sapin~ Sapin~ Dodo~ Magn~ Dodona~</span>
+<span class="co">#&gt;  5 Roepera aurantiaca     Plantae Tracheophyta Zygop~ Zygop~ Roep~ Magn~ Roeper~</span>
+<span class="co">#&gt;  6 Westringia rigida      Plantae Tracheophyta Lamia~ Lamia~ West~ Magn~ Westri~</span>
+<span class="co">#&gt;  7 Wahlenbergia luteola   Plantae Tracheophyta Aster~ Campa~ Wahl~ Magn~ Wahlen~</span>
+<span class="co">#&gt;  8 Vulpia myuros          Plantae Tracheophyta Poales Poace~ Vulp~ Lili~ Vulpia~</span>
+<span class="co">#&gt;  9 Vulpia muralis         Plantae Tracheophyta Poales Poace~ Vulp~ Lili~ Vulpia~</span>
+<span class="co">#&gt; 10 Vittadinia megacephala Plantae Tracheophyta Aster~ Aster~ Vitt~ Magn~ Vittad~</span>
+<span class="co">#&gt; # ... with 182 more rows</span></code></pre></div>
 </div>
 <div id="filter-taxonomy" class="section level2">
 <h2 class="hasAnchor">
@@ -357,13 +365,450 @@
 <span class="co">#&gt; Joining, by = "taxa"</span>
 <span class="co">#&gt; Joining, by = "original_name"</span>
 <span class="co">#&gt; Joining, by = "cover_code"</span>
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
+
+<span class="co">#&gt; Warning in max(use_cover, na.rm = TRUE): no non-missing arguments to max;</span>
+<span class="co">#&gt; returning -Inf</span>
 <span class="co">#&gt; Joining, by = c("year", "month", "lat", "long", "cell", "taxa")</span>
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_taxa</span>
-<span class="co">#&gt; # A tibble: 860 x 7</span>
+<span class="co">#&gt; # A tibble: 832 x 7</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westringia rigida     0.015</span>
 <span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
 <span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
@@ -374,7 +819,7 @@
 <span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt;  9  1990     4 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 850 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 822 more rows</span></code></pre></div>
 </div>
 </div>
 <div id="singletons" class="section level1">
@@ -394,9 +839,9 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_single</span>
-<span class="co">#&gt; # A tibble: 853 x 7</span>
+<span class="co">#&gt; # A tibble: 825 x 7</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westringia rigida     0.015</span>
 <span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
 <span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
@@ -407,7 +852,7 @@
 <span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt;  9  1990     4 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 843 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 815 more rows</span></code></pre></div>
 </div>
 <div id="effort" class="section level1">
 <h1 class="hasAnchor">
@@ -462,9 +907,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.329 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.352 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.681 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.302 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.299 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.601 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -487,9 +932,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.328 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.336 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.664 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.322 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.294 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.616 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -512,9 +957,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.31 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.302 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.612 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.323 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.332 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.655 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -537,9 +982,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.317 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.314 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.631 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.3 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.3 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.6 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 <span class="co">#&gt; Joining, by = "col"</span>
 
@@ -554,9 +999,9 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_effort</span>
-<span class="co">#&gt; # A tibble: 816 x 7</span>
+<span class="co">#&gt; # A tibble: 788 x 7</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westringia rigida     0.015</span>
 <span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
 <span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
@@ -567,7 +1012,7 @@
 <span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt;  9  1990     4 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 806 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 778 more rows</span></code></pre></div>
 </div>
 <div id="proportion-of-sites-at-which-a-taxa-occurs" class="section level1">
 <h1 class="hasAnchor">
@@ -585,9 +1030,9 @@
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_prop</span>
-<span class="co">#&gt; # A tibble: 639 x 7</span>
+<span class="co">#&gt; # A tibble: 608 x 7</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westringia rigida     0.015</span>
 <span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
 <span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
@@ -598,7 +1043,7 @@
 <span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt;  9  1990     4 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt; 10  1990     4 -34.5  140. 39212 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 629 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 598 more rows</span></code></pre></div>
 </div>
 <div id="time" class="section level1">
 <h1 class="hasAnchor">
@@ -616,9 +1061,9 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_recent</span>
-<span class="co">#&gt; # A tibble: 555 x 7</span>
+<span class="co">#&gt; # A tibble: 526 x 7</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7040 Westringia rigida     0.015</span>
 <span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
 <span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
@@ -629,7 +1074,7 @@
 <span class="co">#&gt;  8  2006    10 -34.5  140. 37110 Westringia rigida     0.015</span>
 <span class="co">#&gt;  9  2006    10 -34.5  140. 39212 Westringia rigida     0.025</span>
 <span class="co">#&gt; 10  1990     7 -34.6  140. 64297 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 545 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 516 more rows</span></code></pre></div>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
@@ -661,15 +1106,15 @@
 <span class="co">#&gt; # A tibble: 9 x 10</span>
 <span class="co">#&gt;   name    obj     has_stamp  nrow ctime                taxa records visits sites</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;  &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3483 2021-12-08 13:00:36   419    3483    227    22</span>
-<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3483 2021-12-08 13:00:36   419    3483      1    22</span>
-<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2330 2021-12-08 13:00:38   352    2330     76    13</span>
-<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2328 2021-12-08 13:00:38   352    2328     64    13</span>
-<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        860 2021-12-08 13:00:42   176     860     64    12</span>
-<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        853 2021-12-08 13:00:42   176     853     57    12</span>
-<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        816 2021-12-08 13:00:45   174     816     56    12</span>
-<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        639 2021-12-08 13:00:45    63     639     54    12</span>
-<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        555 2021-12-08 13:00:46    63     555     54    12</span>
+<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3396 2021-12-08 13:11:32   408    3396    211    20</span>
+<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3396 2021-12-08 13:11:32   408    3396      1    20</span>
+<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2271 2021-12-08 13:11:33   346    2271     65    11</span>
+<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2271 2021-12-08 13:11:34   346    2271     62    11</span>
+<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        832 2021-12-08 13:11:41   174     832     62    10</span>
+<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        825 2021-12-08 13:11:41   174     825     55    10</span>
+<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        788 2021-12-08 13:11:44   172     788     54    10</span>
+<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        608 2021-12-08 13:11:44    60     608     52    10</span>
+<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        526 2021-12-08 13:11:44    60     526     52    10</span>
 <span class="co">#&gt; # ... with 1 more variable: geometry &lt;GEOMETRY [°]&gt;</span>&gt;</code></pre></div>
 </div>
 <div id="what-happened-to-x" class="section level1">
@@ -682,20 +1127,20 @@
 <span class="co">#&gt; # A tibble: 9 x 6</span>
 <span class="co">#&gt;   name        obj              has_stamp  nrow ctime               summary      </span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
-<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3483 2021-12-08 13:00:36 Eucalyptus i~</span>
-<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3483 2021-12-08 13:00:36 Eucalyptus i~</span>
-<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2330 2021-12-08 13:00:38 Eucalyptus i~</span>
-<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2328 2021-12-08 13:00:38 Eucalyptus i~</span>
-<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        860 2021-12-08 13:00:42 Eucalyptus i~</span>
-<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        853 2021-12-08 13:00:42 Eucalyptus i~</span>
-<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        816 2021-12-08 13:00:45 Eucalyptus i~</span>
-<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        639 2021-12-08 13:00:45 Eucalyptus i~</span>
-<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        555 2021-12-08 13:00:46 Eucalyptus i~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3396 2021-12-08 13:11:32 Eucalyptus i~</span>
+<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3396 2021-12-08 13:11:32 Eucalyptus i~</span>
+<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2271 2021-12-08 13:11:33 Eucalyptus i~</span>
+<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2271 2021-12-08 13:11:34 Eucalyptus i~</span>
+<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        832 2021-12-08 13:11:41 Eucalyptus i~</span>
+<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        825 2021-12-08 13:11:41 Eucalyptus i~</span>
+<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        788 2021-12-08 13:11:44 Eucalyptus i~</span>
+<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        608 2021-12-08 13:11:44 Eucalyptus i~</span>
+<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        526 2021-12-08 13:11:44 Eucalyptus i~</span></code></pre></div>
 </div>
 <div id="conclusion" class="section level1">
 <h1 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h1>
-<p>After ingesting data from a range of sources (BCM, BDBSA, EGIS and GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 3483 records were cleaned, tidied and filtered to 555 records.</p>
+<p>After ingesting data from a range of sources (BDBSA, EGIS and GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 3396 records were cleaned, tidied and filtered to 526 records.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
