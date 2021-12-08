@@ -33,6 +33,9 @@ Load `envClean`
 
 ```r
 library("envClean")
+#> Warning in FUN(X[[i]], ...): restarting interrupted promise evaluation
+#> Warning in FUN(X[[i]], ...): internal error -3 in R_decompress1
+#> Error in FUN(X[[i]], ...): lazy-load database 'C:/Users/nwilloughby/Documents/R/win-library/4.0/envClean/data/Rdata.rdb' is corrupt
 ```
 
 ## Filtering an 'area of interest'
@@ -76,23 +79,10 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
                          , crs_aoi = sf::st_crs(aoi)
                          ) %>%
     envFunc::add_time_stamp()
-#> Joining, by = c("lat", "long")
+#> Error in filter_aoi(flor_all, use_aoi = aoi, crs_aoi = sf::st_crs(aoi)): could not find function "filter_aoi"
 
   flor_aoi
-#> # A tibble: 3,396 x 13
-#>      lat  long data_name site      date       original_name             cover cover_code quad_x quad_y rel_dist month  year
-#>    <dbl> <dbl> <chr>     <chr>     <date>     <chr>                     <int> <chr>       <int>  <int>    <dbl> <int> <int>
-#>  1 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus gracilis          NA "2"            30     30      100     7  1990
-#>  2 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus oleosa (NC)       NA "2"            30     30      100     7  1990
-#>  3 -34.6  140. BDBSA     216       1990-07-12 Brassica tournefortii        NA "T"            30     30      100     7  1990
-#>  4 -34.6  140. BDBSA     216       1990-07-12 Beyeria opaca                NA "T"            30     30      100     7  1990
-#>  5 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus socialis (NC)     NA "T"            30     30      100     7  1990
-#>  6 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus brachycalyx       NA "1"            30     30      100     7  1990
-#>  7 -34.6  140. BDBSA     216       1990-07-12 Myoporum platycarpum (NC)    NA "T"            30     30      100     7  1990
-#>  8 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus dumosa            NA "1"            30     30      100     7  1990
-#>  9 -34.6  140. BDBSA     216       1990-07-12 Melaleuca lanceolata         NA "T"            30     30      100     7  1990
-#> 10 -34.6  140. EGIS      SUP2006-2 1990-07-12 Eucalyptus gracilis          NA ""             NA     NA      100     7  1990
-#> # ... with 3,386 more rows
+#> Error in eval(expr, envir, enclos): object 'flor_aoi' not found
 ```
 
 Check that spatial filter worked.
@@ -104,6 +94,7 @@ Check that spatial filter worked.
     sf::st_as_sf(coords = c("long", "lat")
                  , crs = 4326
                  )
+#> Error in sf::st_as_sf(., coords = c("long", "lat"), crs = 4326): object 'flor_aoi' not found
 
   tmap::tm_shape(aoi
            , bbox = sf::st_bbox(flor_all_sf)
@@ -111,9 +102,8 @@ Check that spatial filter worked.
     tmap::tm_polygons() +
   tmap::tm_shape(flor_aoi_sf) +
     tmap::tm_dots()
+#> Error in as.list.environment(environment()): object 'flor_aoi_sf' not found
 ```
-
-<img src="man/figures/README-flor_aoi-1.png" title="plot of chunk flor_aoi" alt="plot of chunk flor_aoi" width="100%" />
 
 ## What else is in `envClean`
 
@@ -123,7 +113,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 ```
 #> Error: Problem with `mutate()` column `class`.
 #> i `class = purrr::map_chr(object, ~envFunc::vec_to_sentence(class(get(.))))`.
-#> x lazy-load database 'C:/Users/nwilloughby/Documents/R/win-library/4.0/envClean/R/envClean.rdb' is corrupt
+#> x object 'add_cover' not found
 #> Error in knitr::kable(manuals[, 2:4]): object 'manuals' not found
 ```
 
