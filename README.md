@@ -120,31 +120,12 @@ Check that spatial filter worked.
 The following functions and data sets are provided in `envClean`. See https://acanthiza.github.io/envClean/ for more examples.
 
 
-|object              |class                      |description                                                                                                        |
-|:-------------------|:--------------------------|:------------------------------------------------------------------------------------------------------------------|
-|add_cover           |function                   |Generate best guess of cover for each taxa*context                                                                 |
-|add_lifeform        |function                   |Generate best guess of lifeform for each taxa*context                                                              |
-|aoi                 |sf and data.frame          |Simple feature to define a geographic area of interest.                                                            |
-|filter_aoi          |function                   |Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)                                        |
-|filter_counts       |function                   |Filter any context with less instances than a threshold value                                                      |
-|filter_prop         |function                   |Filter taxa recorded at less than x percent of visits                                                              |
-|filter_spat_rel     |function                   |Filter data frame to specified spatial reliability                                                                 |
-|filter_taxa         |function                   |Clean/Tidy to one row per taxa*Visit                                                                               |
-|filter_text_col     |function                   |Filter a dataframe column on character string(s)                                                                   |
-|find_taxa           |function                   |Find how taxa changed through the cleaning/filtering/tidying process                                               |
-|flor_all            |tbl_df, tbl and data.frame |Example of data combined from several data sources.                                                                |
-|get_gbif_common     |function                   |Find common name from GBIF                                                                                         |
-|get_gbif_tax        |function                   |Get taxonomy from href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF Backbone Taxonomy}. |
-|lufilter            |tbl_df, tbl and data.frame |Dataframe of filtering steps                                                                                       |
-|lurank              |tbl_df, tbl and data.frame |Dataframe of taxonomic ranks                                                                                       |
-|make_cover          |function                   |Make a single (numeric, proportion) cover column from different sorts of                                           |
-|make_effort_mod     |function                   |Distribution of credible values for taxa richness.                                                                 |
-|make_effort_mod_pca |function                   |Model the effect of principal components axes on taxa richness.                                                    |
-|make_env_pca        |function                   |Principal components analysis and various outputs from environmental data                                          |
-|make_ind_status     |function                   |Make indigenous status lookup                                                                                      |
-|make_lifeform       |function                   |Get unique lifeform across taxa, perhaps including further context                                                 |
-|make_taxa_taxonomy  |function                   |Make taxonomy lookups                                                                                              |
-|rec_vis_sit_tax     |function                   |How many records, visits, sites and taxa in a dataframe                                                            |
+```
+#> Error: Problem with `mutate()` column `class`.
+#> i `class = purrr::map_chr(object, ~envFunc::vec_to_sentence(class(get(.))))`.
+#> x lazy-load database 'C:/Users/nwilloughby/Documents/R/win-library/4.0/envClean/R/envClean.rdb' is corrupt
+#> Error in knitr::kable(manuals[, 2:4]): object 'manuals' not found
+```
 
 
 

@@ -712,24 +712,34 @@
                          , cov_type = "cover_mid"
                          ) {
 
-    df %>%
-      dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
-      dplyr::mutate(cover = ifelse(cover == 0,NA,cover)
-                    , cover = ifelse(cover > 100, NA, cover)
-                    , cover = cover/100
-                    ) %>%
-      dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
-      dplyr::left_join(lucov) %>%
-      dplyr::mutate(use_cover = dplyr::if_else(!is.na(cover)
-                                               , cover
-                                               , !!rlang::ensym(cov_type)
-                                               )
-                    ) %>%
-      dplyr::group_by(dplyr::across(tidyselect::any_of(context))
-                      , dplyr::across(!!rlang::ensym(taxa_col))
+
+    suppressWarnings({
+
+      df %>%
+        dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
+        dplyr::mutate(cover = ifelse(cover == 0,NA,cover)
+                      , cover = ifelse(cover > 100, NA, cover)
+                      , cover = cover/100
                       ) %>%
-      dplyr::summarise(use_cover = max(use_cover,na.rm = TRUE)) %>%
-      dplyr::ungroup()
+        dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
+        dplyr::left_join(lucov) %>%
+        dplyr::mutate(use_cover = dplyr::if_else(!is.na(cover)
+                                                 , cover
+                                                 , !!rlang::ensym(cov_type)
+                                                 )
+                      ) %>%
+        dplyr::group_by(dplyr::across(tidyselect::any_of(context))
+                        , dplyr::across(!!rlang::ensym(taxa_col))
+                        ) %>%
+        dplyr::summarise(use_cover = max(use_cover,na.rm = TRUE)
+                         , use_cover = ifelse(is.infinite(use_cover)
+                                              , NA
+                                              , use_cover
+                                              )
+                         ) %>%
+        dplyr::ungroup()
+
+    })
 
   }
 
