@@ -79,20 +79,20 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
 #> Joining, by = c("lat", "long")
 
   flor_aoi
-#> # A tibble: 13,030 x 15
-#>      lat  long nsx    survey_nr data_name site        date       original_name         cover cover_code quad_x quad_y rel_dist month  year
-#>    <dbl> <dbl> <chr>      <dbl> <chr>     <chr>       <date>     <chr>                 <dbl> <chr>       <int>  <int>    <dbl> <int> <int>
-#>  1 -34.5  140. K05689        NA BCM       -2110009959 2013-01-23 Eucalyptus phenax ss~    NA ""             20     45       NA     1  2013
-#>  2 -34.5  140. C03717        NA BCM       -2110009959 2013-01-23 Triodia irritans         NA ""             20     45       NA     1  2013
-#>  3 -34.5  140. Q06164        NA BCM       -2110009959 2013-01-23 Carpobrotus rossii       NA ""             20     45       NA     1  2013
-#>  4 -34.5  140. K01977        NA BCM       -2110009959 2013-01-23 Geijera linearifolia     NA ""             20     45       NA     1  2013
-#>  5 -34.5  140. C01241        NA BCM       -2110009959 2013-01-23 Sclerolaena diacantha    NA ""             20     45       NA     1  2013
-#>  6 -34.5  140. M05882        NA BCM       -2110009959 2013-01-23 Eucalyptus oleosa ss~    NA ""             20     45       NA     1  2013
-#>  7 -34.5  140. Y01472        NA BCM       -2110009959 2013-01-23 Sisymbrium irio          NA ""             20     45       NA     1  2013
-#>  8 -34.5  140. Z04951        NA BCM       -517716896  2006-09-10 Olearia pimeleoides      NA ""             30     30       NA     9  2006
-#>  9 -34.5  140. M05882        NA BCM       -517716896  2006-09-10 Eucalyptus oleosa ss~    NA ""             30     30       NA     9  2006
-#> 10 -34.5  140. E02238        NA BCM       -517716896  2006-09-10 Eucalyptus gracilis      NA ""             30     30       NA     9  2006
-#> # ... with 13,020 more rows
+#> # A tibble: 3,429 x 13
+#>      lat  long data_name site       date       original_name          cover cover_code quad_x quad_y rel_dist month  year
+#>    <dbl> <dbl> <chr>     <chr>      <date>     <chr>                  <dbl> <chr>       <int>  <int>    <dbl> <int> <int>
+#>  1 -34.5  140. BCM       -517716896 2006-09-10 Olearia pimeleoides       NA ""             30     30       NA     9  2006
+#>  2 -34.5  140. BCM       -517716896 2006-09-10 Eucalyptus oleosa ssp.    NA ""             30     30       NA     9  2006
+#>  3 -34.5  140. BCM       -517716896 2006-09-10 Eucalyptus gracilis       NA ""             30     30       NA     9  2006
+#>  4 -34.5  140. BCM       -517716896 2006-09-10 Maireana trichoptera      NA ""             30     30       NA     9  2006
+#>  5 -34.5  140. BCM       -517716896 2006-09-10 Maireana pentatropis      NA ""             30     30       NA     9  2006
+#>  6 -34.5  140. BCM       -517716896 2006-09-10 Santalum murrayanum       NA ""             30     30       NA     9  2006
+#>  7 -34.5  140. BCM       -517716896 2006-09-10 Rhagodia crassifolia      NA ""             30     30       NA     9  2006
+#>  8 -34.5  140. BCM       -517716896 2006-09-10 Eremophila glabra ssp.    NA ""             30     30       NA     9  2006
+#>  9 -34.5  140. BCM       -517716896 2006-09-10 Geijera linearifolia      NA ""             30     30       NA     9  2006
+#> 10 -34.5  140. BCM       -517716896 2006-09-10 Maireana erioclada        NA ""             30     30       NA     9  2006
+#> # ... with 3,419 more rows
 ```
 
 Check that spatial filter worked.

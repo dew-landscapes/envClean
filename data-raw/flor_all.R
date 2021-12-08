@@ -17,12 +17,18 @@
     flor_all <- data.table::fread(path_to_flor) %>%
       tibble::as_tibble()
 
-    aoi <- sf::st_read(path_to_area_of_interest) %>%
-      sf::st_buffer(10000)
+    aoi <- sf::st_read(path_to_area_of_interest)
+
+    aoi_crs <- sf::st_crs(aoi)
+
+    aoi_buf <- aoi %>%
+      sf::st_transform(crs = 3577) %>%
+      sf::st_buffer(10000) %>%
+      sf::st_transform(crs = aoi_crs)
 
     flor_aoi <- flor_all %>%
-      envClean::filter_aoi(aoi
-                           , crs_aoi = sf::st_crs(aoi)
+      envClean::filter_aoi(aoi_buf
+                           , crs_aoi = sf::st_crs(aoi_buf)
                            ) %>%
       dplyr::select(any_of(c("nsx", "survey_nr", keep_cols)))
 
@@ -31,7 +37,7 @@
     flor_all <- flor_aoi_sens %>%
       dplyr::filter(!grepl(TRUE, sens_surv)) %>%
       dplyr::filter(!grepl(TRUE, sens_taxa)) %>%
-      dplyr::select(!matches("sens"))
+      dplyr::select(any_of(keep_cols))
 
     data.table::fwrite(flor_all
                        , path_to_save
