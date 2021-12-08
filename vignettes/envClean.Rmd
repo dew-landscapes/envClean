@@ -170,7 +170,7 @@ Rasterizing the current data is then done via `add_raster_cell`. This function h
 
 ```{r flor_rel_cell}
 
-  flor_cell <- add_raster_cell(aoi_raster
+  flor_cell <- envRaster::add_raster_cell(aoi_raster
                                , flor_rel
                                , add_xy = TRUE
                                , crs_df = 4283

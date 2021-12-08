@@ -34,6 +34,8 @@
                            , target_rank = "species"
                            ){
 
+    lurank <- envClean::lurank
+
     taxa_col <- names(df[taxa_col])
 
     out_file <- paste0(gsub("\\..*","",out_file),".feather")
