@@ -148,18 +148,35 @@
       dplyr::filter(!is.na(!!rlang::ensym(effort_col))
                     , !!ensym(effort_col) >= effort_thresh
                     ) %>%
-      dplyr::distinct(taxa,dplyr::across(tidyselect::all_of(context))) %>%
-      dplyr::count(dplyr::across(tidyselect::all_of(context)),name = "sr") %>%
+      dplyr::distinct(taxa
+                      , dplyr::across(tidyselect::any_of(context))
+                      ) %>%
+      dplyr::count(dplyr::across(tidyselect::any_of(context))
+                   , name = "sr"
+                   ) %>%
       dplyr::inner_join(env_prcomp$pca_res_cell) %>%
-      dplyr::select(!!rlang::ensym(response),everything()) %>%
-      tidyr::pivot_longer(contains("pc"),names_to = "pc") %>%
+      dplyr::select(!!rlang::ensym(response)
+                    , everything()
+                    ) %>%
+      tidyr::pivot_longer(contains("pc")
+                          , names_to = "pc"
+                          ) %>%
       dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
-      dplyr::mutate(cut_pc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
+      dplyr::mutate(cut_pc = purrr::map2(value
+                                         , brks
+                                         , ~cut(.x,breaks=unique(unlist(.y)))
+                                         )
+                    ) %>%
       dplyr::select(-brks) %>%
-      tidyr::pivot_wider(names_from = "pc", values_from = c(value,"cut_pc")) %>%
-      stats::setNames(gsub("value_|pc_","",names(.))) %>%
-      tidyr::unnest(cols = 1:ncol(.))  %>%
-      tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE))
+      tidyr::pivot_wider(names_from = "pc"
+                         , values_from = c(value,"cut_pc")
+                         ) %>%
+      stats::setNames(gsub("value_|pc_"
+                           , ""
+                           , names(.)
+                           )
+                      ) %>%
+      tidyr::unnest(cols = 1:ncol(.))
 
     #--------model-------
 
@@ -179,15 +196,16 @@
       purrr::cross_df() %>%
       tidyr::pivot_longer(1:ncol(.),names_to = "pc") %>%
       dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
-      dplyr::mutate(cut_pc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
+      dplyr::mutate(cut_pc = purrr::map2(value
+                                         , brks
+                                         , ~cut(.x,breaks=unique(unlist(.y)))
+                                         )
+                    ) %>%
       dplyr::select(-brks) %>%
       tidyr::pivot_wider(names_from = "pc", values_from = c(value,"cut_pc")) %>%
       stats::setNames(gsub("value_|pc_","",names(.))) %>%
       tidyr::unnest(cols = 1:ncol(.))  %>%
-      tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE)) %>%
-      dplyr::inner_join(effort_mod$dat_exp %>%
-                          dplyr::distinct(dplyr::across(grep("cut",names(.),value = TRUE)))
-                        )
+      tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE))
 
     effort_mod$mod_pred <- effort_mod$preds %>%
       dplyr::mutate(col = row.names(.)) %>%
@@ -244,7 +262,7 @@
                                                     , colour = cut_pc3
                                                     )
                                                ) +
-      ggplot2::geom_point() +
+      ggplot2::geom_jitter() +
       ggplot2::facet_wrap(~cut_pc2, scales = "free_y") +
       ggplot2::theme(axis.text.x = element_text(angle = 90
                                                 , vjust = 0.5
@@ -267,15 +285,20 @@
 
     #-------cell results-------
 
-    effort_mod$mod_cell_qsize <- df %>%
-      dplyr::left_join(effort_mod$dat_exp) %>%
-      dplyr::distinct(across(any_of(context)),!!rlang::ensym(effort_col))
+    qsize <- df %>%
+      dplyr::distinct(across(any_of(context))
+                      , across(any_of(effort_col))
+                      )
 
-    effort_mod$mod_cell_result <- df %>%
-      dplyr::count(cell,!!rlang::ensym(effort_col),name = "sr") %>%
-      dplyr::inner_join(env_prcomp$pca_res_col %>%
-                          dplyr::select(cell,pc_group,colour)
-                        ) %>%
+    context_sr <- df %>%
+      dplyr::count(across(any_of(context))
+                   , name = "sr"
+                   )
+
+    effort_mod$mod_cell_result <- env_prcomp$pca_res_col %>%
+      dplyr::left_join(qsize) %>%
+      dplyr::inner_join(context_sr) %>%
+      dplyr::select(!matches("^pc")) %>%
       dplyr::inner_join(effort_mod$mod_res) %>%
       dplyr::mutate(keep_hi = sr < extreme_sr_hi
                     , keep_lo = sr > extreme_sr_lo
