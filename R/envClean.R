@@ -38,7 +38,8 @@
 
     taxa_col <- names(df[taxa_col])
 
-    out_file <- paste0(gsub("\\..*","",out_file),".feather")
+    if(tools::file_ext(out_file) == "") out_file <- paste0(out_file, ".feather")
+
     tmp_file <- paste0(gsub(".feather","",out_file),"_temp.feather")
 
     target_sort <- lurank %>%
