@@ -12,6 +12,7 @@ make_effort_mod_pca(
   threshold_hi = 0.05/2,
   effort_col = "qsize",
   effort_thresh = 3 * 3,
+  out_file = NULL,
   ...
 )
 }
@@ -31,6 +32,8 @@ and should be filtered.}
 
 \item{effort_thresh}{Numeric. \code{effort_col} will be filtered below this
 threshold.}
+
+\item{out_file}{Character. Optional path to save output.}
 
 \item{...}{Passed to \code{\link[rstanarm:stan_glm]{rstanarm::stan_glm()}}.}
 }

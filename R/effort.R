@@ -8,6 +8,7 @@
 #' @param axes Numeric. Number of axes to return.
 #' @param cuts Numeric. Number of cuts along pc1. pcn gets cuts/n cuts.
 #' @param int_style Character. Method passed to classInt::classIntervals.
+#' @param out_file Character. Optional path to save output.
 #'
 #' @return List of pca outputs.
 #' @export
@@ -18,6 +19,7 @@
                            , axes = 3
                            , cuts = 20
                            , int_style = "quantile"
+                           , out_file = NULL
                            ) {
 
     env_pca <- list()
@@ -108,6 +110,16 @@
       dplyr::distinct(pc_group,colour) %>%
       dplyr::pull(colour,name = pc_group)
 
+    if(!is.null(out_file)) {
+
+      fs::dir_create(dirname(out_file))
+
+      rio::export(env_pca
+                    , out_file
+                    )
+
+    }
+
     invisible(env_pca)
 
   }
@@ -124,7 +136,9 @@
 #' @param effort_col Character. Name of column with some measure of effort.
 #' @param effort_thresh Numeric. `effort_col` will be filtered below this
 #' threshold.
+#' @param out_file Character. Optional path to save output.
 #' @param ... Passed to [rstanarm::stan_glm()].
+#'
 #'
 #' @return List of model outputs.
 #' @export
@@ -137,6 +151,7 @@
                            , threshold_hi = 0.05/2
                            , effort_col = "qsize"
                            , effort_thresh = 3*3
+                           , out_file = NULL
                            , ...
                            ) {
 
@@ -325,6 +340,16 @@
 
     effort_mod$mod_cell_tab <- effort_mod$mod_cell_result %>%
       dplyr::count(keep_hi,keep_lo,keep_qsize,keep)
+
+    if(!is.null(out_file)) {
+
+      fs::dir_create(dirname(out_file))
+
+      rio::export(effort_mod
+                  , out_file
+                  )
+
+    }
 
     invisible(effort_mod)
 

@@ -9,7 +9,8 @@ make_env_pca(
   context = "cell",
   axes = 3,
   cuts = 20,
-  int_style = "quantile"
+  int_style = "quantile",
+  out_file = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ make_env_pca(
 \item{cuts}{Numeric. Number of cuts along pc1. pcn gets cuts/n cuts.}
 
 \item{int_style}{Character. Method passed to classInt::classIntervals.}
+
+\item{out_file}{Character. Optional path to save output.}
 }
 \value{
 List of pca outputs.
