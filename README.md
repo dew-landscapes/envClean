@@ -131,6 +131,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |filter_spat_rel     |function                   |Filter data frame to specified spatial reliability                                                                 |
 |filter_taxa         |function                   |Clean/Tidy to one row per taxa*Visit                                                                               |
 |filter_text_col     |function                   |Filter a dataframe column on character string(s)                                                                   |
+|find_outliers       |function                   |Find local outliers                                                                                                |
 |find_taxa           |function                   |Find how taxa changed through the cleaning/filtering/tidying process                                               |
 |flor_all            |tbl_df, tbl and data.frame |Example of data combined from several data sources.                                                                |
 |get_gbif_common     |function                   |Find common name from GBIF                                                                                         |

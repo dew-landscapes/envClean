@@ -85,7 +85,7 @@ After many, many iterations, the following workflow has been found to be ok. Onl
 
 ```{r workflow, echo = FALSE}
   
-  kable(envClean::lufilter
+  knitr::kable(envClean::lufilter
         , caption = "Suggested steps in the cleaning process"
         )
 
@@ -109,7 +109,7 @@ In general the process will be referred to as _cleaning_.
 
 Due to the loose definition of [context] (see below), the definitions of site, visit, record and taxa can change through the cleaning process. 
 
-* sites are spatial locations. they may be defined by latitiude, longitude, easting, northing and/or cell. These may be duplicated before exclusive application of context. The are not necessarily defined by all spatial concepts within context at all stages of the cleaning process.
+* sites are spatial locations. they may be defined by latitude, longitude, easting, northing and/or cell. These may be duplicated before exclusive application of context. They are not necessarily defined by all spatial concepts within context at all stages of the cleaning process.
 * visits are sites plus a time, such as year, month, day (or, even hour). Again, until context is applied exclusively, these may be duplicated
 * records are visits plus an observation to some level of the taxonomic hierarchy (refered to simply as 'taxa')
 * taxa refers to some form of taxonomic entity. An entity may be duplicated within a visit before taxonomy is resolved and context is applied exclusively (usually by `filter_taxa`).
