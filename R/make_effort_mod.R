@@ -50,12 +50,31 @@ make_effort_mod <- function(df
   effort_mod$dat_exp <- df %>%
     dplyr::distinct(taxa,dplyr::across(tidyselect::any_of(context))) %>%
     dplyr::count(dplyr::across(tidyselect::all_of(context)),name = "sr") %>%
-    dplyr::select(!!rlang::ensym(y),everything())
+    dplyr::select(!!rlang::ensym(y),everything()) %>%
+    dplyr::filter(across(any_of(cat_cols)
+                         , .fns = ~ !is.na(.x)
+                         )
+                  )
 
 
   #--------model-------
 
   if(isTRUE(is.null(cat_cols))) cat_cols <- 1 # y ~ 1 if there are no variables.
+
+  # Remove category columns if they only have one value
+  remove_cat_cols_levels <- effort_mod$dat_exp %>%
+    dplyr::summarise(across(any_of(cat_cols)
+                            , .fns = ~ n_distinct(.x)
+                            )
+                     ) %>%
+    tidyr::pivot_longer(1:ncol(.)
+                        , names_to = "col"
+                        , values_to = "levels"
+                        ) %>%
+    dplyr::filter(levels <= 1) %>%
+    dplyr::pull(col)
+
+  cat_cols <- cat_cols[!cat_cols %in% remove_cat_cols_levels]
 
   effort_mod$mod <- rstanarm::stan_glm(data = effort_mod$dat_exp
 
@@ -217,7 +236,7 @@ make_effort_mod <- function(df
       ggplot2::facet_wrap(eval(expr(~!!rlang::ensym(gg_fac)))) +
       ggplot2::coord_cartesian(y = c(0,max_y)) +
       ggplot2::scale_colour_identity() +
-      #ggplot2::theme_dark() +
+      ggplot2::theme_dark() +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
 
   }
@@ -237,7 +256,7 @@ make_effort_mod <- function(df
                            ) +
       ggplot2::coord_cartesian(y = c(0,max_y)) +
       ggplot2::scale_colour_identity() +
-      #ggplot2::theme_dark() +
+      ggplot2::theme_dark() +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
 
   }

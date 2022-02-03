@@ -794,7 +794,8 @@
                       ) %>%
       dplyr::filter(!is.na(!!rlang::ensym(dist_col))) %>%
       dplyr::filter(!!rlang::ensym(dist_col) <= dist) %>%
-      dplyr::select(-!!rlang::ensym(dist_col))
+      dplyr::select(-!!rlang::ensym(dist_col)) %>%
+      dplyr::distinct()
 
     df %>%
       dplyr::inner_join(vis_rel)
