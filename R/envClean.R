@@ -307,6 +307,8 @@
                     , everything()
                     )
 
+    res$common[is.na(res$common)] <- ""
+
     rio::export(res
                 , path
                 )
