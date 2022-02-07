@@ -3,7 +3,7 @@
 lufilter <- tibble::tribble(~filter, ~desc,
                     "all", "starting point",
                     "aoi", "area of interest",
-                    "time", "within a specified data range",
+                    "time", "within a specified date range",
                     "cell", "as a byproduct of converting sites to cells",
                     "rel", "spatial reliability",
                     "ann", "non-persistent taxa",
