@@ -80,7 +80,7 @@ make_effort_mod <- function(df
 
                                        , formula = stats::as.formula(paste0(y
                                                                             , " ~ "
-                                                                            , paste0(cat_cols, collapse = "+")
+                                                                            , paste0(cat_cols, collapse = "*")
                                                                             )
                                                                      )
                                        , family = use_family
