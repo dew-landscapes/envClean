@@ -161,10 +161,11 @@ Now that records with dubious spatial precision have been removed, an accuracy t
 
 ```{r aoi_raster}
 
-  aoi_raster <- raster(ext = round(extent(aoi), -3)
+  aoi_raster <- terra::rast(ext = round(extent(aoi), -3)
                       , resolution = 30
-                      , crs = CRS(paste0("+init=epsg:",use_crs))
+                      , crs = paste0("epsg:",use_crs)
                       )
+
 
   aoi_raster
 
