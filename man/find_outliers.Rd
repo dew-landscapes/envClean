@@ -29,7 +29,7 @@ in which to look for outliers.}
 \item{LOOP_lambda}{\code{\link[DDoutlier:LOOP]{DDoutlier::LOOP()}} \code{lambda} argument.}
 
 \item{iqrMult}{Used in \code{quantile(x, probs = 0.75) + iqrMult * IQR(x)}.
-\code{\link[ggplot:geom_boxplot]{ggplot::geom_boxplot()}} default value is \code{1.5}.}
+\code{\link[ggplot2:geom_boxplot]{ggplot2::geom_boxplot()}} default value is \code{1.5}.}
 }
 \value{
 

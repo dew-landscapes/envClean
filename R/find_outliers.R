@@ -9,7 +9,7 @@
 #' @param LOOP_k [DDoutlier::LOOP()] `k` argument.
 #' @param LOOP_lambda [DDoutlier::LOOP()] `lambda` argument.
 #' @param iqrMult Used in `quantile(x, probs = 0.75) + iqrMult * IQR(x)`.
-#' [ggplot::geom_boxplot()] default value is `1.5`.
+#' [ggplot2::geom_boxplot()] default value is `1.5`.
 #'
 #' @return
 #' @export
