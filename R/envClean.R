@@ -950,11 +950,10 @@
         dplyr::mutate(visits = n_distinct(dplyr::across(tidyselect::any_of(context)))) %>%
         dplyr::filter(taxa %in% keep) %>%
         dplyr::count(taxa,visits,name = "records") %>%
-        dplyr::filter(records > 5) %>%
         dplyr::mutate(per = round(100*records/visits,2)) %>%
-        dplyr::filter(visits > min_sites/2) %>%
+        dplyr::filter(records > min_sites/2) %>%
         dplyr::pull(per) %>%
-        min()
+        min(c(., default_per))
 
     } else default_per
 
