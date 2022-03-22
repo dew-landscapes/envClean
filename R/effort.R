@@ -195,9 +195,15 @@
 
     #--------model-------
 
+    pcs <- grep("^pc\\d{1}", names(effort_mod$dat_exp), value = TRUE)
+
     effort_mod$mod <- rstanarm::stan_glm(data = effort_mod$dat_exp
 
-                  , formula = stats::as.formula(paste0(response, " ~ pc1 + pc2 + pc3"))
+                  , formula = stats::as.formula(paste0(response
+                                                       , " ~ "
+                                                       , paste0(pcs, collapse = "+")
+                                                       )
+                                                )
 
                   # Negative binomial
                   , family = rstanarm::neg_binomial_2()
