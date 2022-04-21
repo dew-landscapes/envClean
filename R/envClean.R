@@ -336,6 +336,8 @@
 #' appended to output.
 #' @param lucov Dataframe lookup for cover.
 #' @param lulife Dataframe lookup for lifeform.
+#' @param taxonomy list with named elements `lutaxa` and `taxa_taxonomy`.
+#' Usually resulting from call to `make_taxa_taxonomy`.
 #' @param ... Passed to `\link{envClean}{make_taxa_taxonomy()}`.
 #'
 #' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
@@ -352,6 +354,7 @@
                           , do_ind = FALSE
                           , lucov = NULL
                           , lulife = NULL
+                          , taxonomy = NULL
                           , ...
                           ) {
 
@@ -361,27 +364,25 @@
       dplyr::rename(original_name = !!rlang::ensym(taxa_col))
 
     # run taxa_taxonomy
-    if(!exists("lutaxa")) {
+    if(is.null(taxonomy)) {
 
-      .taxa_col <- taxa_col
+      taxa <- make_taxa_taxonomy(df
+                                 , taxa_col = .taxa_col
+                                 , lifespan_col = if(do_life) "lifespan" else NULL
+                                 , ind_col = if(do_ind) "ind" else NULL
+                                 , ...
+                                 )
 
-      make_taxa_taxonomy(df
-                         , taxa_col = .taxa_col
-                         , lifespan_col = if(do_life) "lifespan" else NULL
-                         , ind_col = if(do_ind) "ind" else NULL
-                         , ...
-                         )
-
-    }
+    } else taxa <- taxonomy
 
     # Use dftaxa as base df from here
     bio_taxa <- df %>%
       dplyr::distinct(!!rlang::ensym(taxa_col)) %>%
       dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
-      dplyr::left_join(lutaxa) %>%
+      dplyr::left_join(taxa$lutaxa) %>%
       dplyr::filter(!is.na(taxa)) %>%
       dplyr::filter(rank <= target_rank) %>%
-      dplyr::left_join(taxa_taxonomy %>%
+      dplyr::left_join(taxa$taxa_taxonomy %>%
                          dplyr::select(taxa
                                        , tidyselect::any_of(taxa_col)
                                        , tidyselect::any_of(context)
@@ -447,11 +448,13 @@
 #' Backbone
 #' @param get_common Logical. Add common name to GBIF taxonomy?
 #'
-#' @return Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
-#' two dataframes are returned to the global environment. One, named
-#' taxa_taxonomy, with unique taxa and associated taxonomic information and two,
-#' named lutaxa, a lookup from unique values in taxa_col to matched taxonomy from
-#' GBIF backbone.
+#' @return named list with elements:
+#'     \item{lutaxa}{dataframe. A lookup from unique values in `taxa_col` to
+#'     matched taxonomy from GBIF backbone}
+#'     \item{taxa_taxonomy}{dataframe with unique taxa and associated taxonomic
+#'     information}
+#'
+#'
 #'
 #' @export
 #'
@@ -468,6 +471,8 @@
                             ) {
 
     .taxa_col = taxa_col
+
+    res <- list()
 
     # Remove dodgy taxonomy
     taxas <- df %>%
@@ -600,8 +605,10 @@
 
     }
 
-    assign("taxa_taxonomy",one,envir = globalenv())
-    assign("lutaxa",two,envir = globalenv())
+    res$lutaxa <- two
+    res$taxa_taxonomy <- one
+
+    return(res)
 
   }
 

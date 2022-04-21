@@ -139,7 +139,7 @@ match genus level records, not species records, such as
     <pre class="usage"><span class='fu'>find_taxa</span><span class='op'>(</span>
   <span class='va'>taxa</span>,
   taxa_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"original_name"</span>, <span class='st'>"taxa"</span><span class='op'>)</span>,
-  lookup_taxa <span class='op'>=</span> <span class='va'>lutaxa</span>,
+  <span class='va'>lookup_taxa</span>,
   filt_df_prefix <span class='op'>=</span> <span class='st'>"flor_"</span>
 <span class='op'>)</span></pre>
 
@@ -205,24 +205,29 @@ created at each step in the filtering process.</p></td>
 <span class='r-in'>  <span class='fu'>envFunc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/envFunc/man/add_time_stamp.html'>add_time_stamp</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Make sure required taxonomy objects are available</span></span>
-<span class='r-in'><span class='fu'><a href='make_taxa_taxonomy.html'>make_taxa_taxonomy</a></span><span class='op'>(</span>df <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>original_name <span class='op'>=</span> <span class='va'>use_taxa</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_taxa_taxonomy.html'>make_taxa_taxonomy</a></span><span class='op'>(</span>df <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>original_name <span class='op'>=</span> <span class='va'>use_taxa</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Eucalyptus gracilis"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required namespace: feather</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus", "species", "class")</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus",</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> "species", "class")</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Filter taxonomy</span></span>
 <span class='r-in'>  <span class='co'># As lutaxa only contains `use_taxa`, this removes all other taxa</span></span>
 <span class='r-in'>  <span class='co'># Normally, you'd have a row in lutaxa for every taxa</span></span>
 <span class='r-in'><span class='va'>flor_taxa</span> <span class='op'>&lt;-</span> <span class='va'>flor_recent</span> <span class='op'><a href='%>%.html'>%&gt;%</a></span></span>
-<span class='r-in'>  <span class='fu'><a href='filter_taxa.html'>filter_taxa</a></span><span class='op'>(</span>context <span class='op'>=</span> <span class='va'>context</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='filter_taxa.html'>filter_taxa</a></span><span class='op'>(</span>context <span class='op'>=</span> <span class='va'>context</span></span>
+<span class='r-in'>              , taxonomy <span class='op'>=</span> <span class='va'>taxa</span></span>
+<span class='r-in'>              <span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "taxa"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># How did records of 'taxa' change through the filtering?</span></span>
-<span class='r-in'><span class='fu'>find_taxa</span><span class='op'>(</span>taxa <span class='op'>=</span> <span class='va'>use_taxa</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>find_taxa</span><span class='op'>(</span>taxa <span class='op'>=</span> <span class='va'>use_taxa</span></span>
+<span class='r-in'>          , lookup_taxa <span class='op'>=</span> <span class='va'>taxa</span><span class='op'>$</span><span class='va'>lutaxa</span></span>
+<span class='r-in'>          <span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 0 x 6</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># ... with 6 variables: name &lt;chr&gt;, obj &lt;list&gt;, has_stamp &lt;lgl&gt;, nrow &lt;dbl&gt;,</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   ctime &lt;???&gt;, summary &lt;chr&gt;</span></span>

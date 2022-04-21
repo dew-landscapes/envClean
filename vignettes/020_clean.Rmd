@@ -27,7 +27,9 @@ vignette: >
 
 ```{r setup, warning = FALSE}
 
-  pacs <- c("knitr", "envClean", "envReport"
+  pacs <- c("knitr"
+            , "envClean"
+            , "envReport"
             , "envFunc", "fs", "purrr"
             , "dplyr", "sf", "tibble"
             , "tmap", "raster", "rstanarm"
@@ -41,13 +43,13 @@ vignette: >
               )
 
   #  Load data
-  flor_all <- tibble::as_tibble(flor_all)
+  flor_all <- tibble::as_tibble(envClean::flor_all)
   
   # What crs to use for maps?
   use_crs <- 3577 # actually an epsg code. see epsg.io
   
   # set area of interest coordinate reference system
-  aoi <- aoi %>%
+  aoi <- envClean::aoi %>%
     sf::st_transform(crs = use_crs)
   
 ```
@@ -193,32 +195,34 @@ Rasterizing the current data is then done via `add_raster_cell`. This function h
 
 Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the [GBIF taxonomy backbone](https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c) provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.
 
-Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This creates two objects that are loaded to the global environment:
+Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This returns a list with two objects:
 
 * `lutaxa.` This is a simple lookup from the original name provided to the taxa to use in place of that name. Thus, `taxa` is likely to be duplicated
 * `taxa_taxonomy` provides the full taxonomic hierarchy for each `taxa` in the `lutaxa` object. The column `taxa` should not have any duplicates. The output can also include lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to `make_taxa_taxonomy`.
 
 ```{r make_taxa_taxonomy}
 
-  make_taxa_taxonomy(flor_cell
-                     , save_luGBIF = path("vignettes","luGBIF.feather")
+  taxa <-  make_taxa_taxonomy(flor_cell
+                     , save_luGBIF = path("luGBIF.feather")
                      )
+
+  
 
 ```
 
-`lutaxa` is returned to the global environment.
+A look at `lutaxa`.
 
 ```{r lutaxa}
 
-  lutaxa
+  taxa$lutaxa
 
 ```
 
-as is `taxa_taxonomy`
+and `taxa_taxonomy`
 
 ```{r taxa_taxonomy}
 
-  taxa_taxonomy
+  taxa$taxa_taxonomy
 
 ```
 
@@ -237,6 +241,7 @@ Thus the output of applying `filter_taxa` is to generate a single record for eac
                           , context = context
                           , do_cov = TRUE
                           , lucov = envEcosystems::lucover
+                          , taxonomy = taxa
                           ) %>%
     add_time_stamp()
 
@@ -389,7 +394,9 @@ It can often be useful to trace the results for a single taxa through the filter
 
 ```{r find_taxa}
 
-  find_taxa(taxa = "Eucalyptus incrassata")
+  find_taxa(taxa = "Eucalyptus incrassata"
+            , lookup_taxa = taxa$lutaxa
+            )
 
 ```
 

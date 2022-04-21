@@ -7,7 +7,7 @@
 find_taxa(
   taxa,
   taxa_cols = c("original_name", "taxa"),
-  lookup_taxa = lutaxa,
+  lookup_taxa,
   filt_df_prefix = "flor_"
 )
 }
@@ -63,14 +63,18 @@ flor_recent <- flor_single \%>\%
   envFunc::add_time_stamp()
 
 # Make sure required taxonomy objects are available
-make_taxa_taxonomy(df = data.frame(original_name = use_taxa))
+taxa <- make_taxa_taxonomy(df = data.frame(original_name = use_taxa))
 
 # Filter taxonomy
   # As lutaxa only contains `use_taxa`, this removes all other taxa
   # Normally, you'd have a row in lutaxa for every taxa
 flor_taxa <- flor_recent \%>\%
-  filter_taxa(context = context)
+  filter_taxa(context = context
+              , taxonomy = taxa
+              )
 
 # How did records of 'taxa' change through the filtering?
-find_taxa(taxa = use_taxa)
+find_taxa(taxa = use_taxa
+          , lookup_taxa = taxa$lutaxa
+          )
 }

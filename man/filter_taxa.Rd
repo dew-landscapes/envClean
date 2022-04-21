@@ -15,6 +15,7 @@ filter_taxa(
   do_ind = FALSE,
   lucov = NULL,
   lulife = NULL,
+  taxonomy = NULL,
   ...
 )
 }
@@ -42,6 +43,9 @@ appended to output.}
 \item{lucov}{Dataframe lookup for cover.}
 
 \item{lulife}{Dataframe lookup for lifeform.}
+
+\item{taxonomy}{list with named elements \code{lutaxa} and \code{taxa_taxonomy}.
+Usually resulting from call to \code{make_taxa_taxonomy}.}
 
 \item{...}{Passed to \verb{\link{envClean}{make_taxa_taxonomy()}}.}
 }

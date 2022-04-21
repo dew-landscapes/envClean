@@ -17,7 +17,7 @@
 #' @example examples/find_taxa.R
 find_taxa <- function(taxa
                       , taxa_cols = c("original_name", "taxa")
-                      , lookup_taxa = lutaxa
+                      , lookup_taxa
                       , filt_df_prefix = "flor_"
                       ) {
 

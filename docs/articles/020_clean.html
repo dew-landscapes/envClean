@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Thursday, 24 March, 2022</h4>
+            <h4 class="date">Thursday, 21 April, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -97,7 +97,9 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">pacs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"knitr"</span>, <span class="st">"envClean"</span>, <span class="st">"envReport"</span>
+  <span class="va">pacs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"knitr"</span>
+            , <span class="st">"envClean"</span>
+            , <span class="st">"envReport"</span>
             , <span class="st">"envFunc"</span>, <span class="st">"fs"</span>, <span class="st">"purrr"</span>
             , <span class="st">"dplyr"</span>, <span class="st">"sf"</span>, <span class="st">"tibble"</span>
             , <span class="st">"tmap"</span>, <span class="st">"raster"</span>, <span class="st">"rstanarm"</span>
@@ -111,13 +113,13 @@
               <span class="op">)</span>
 
   <span class="co">#  Load data</span>
-  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">flor_all</span><span class="op">)</span>
+  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/flor_all.html">flor_all</a></span><span class="op">)</span>
   
   <span class="co"># What crs to use for maps?</span>
   <span class="va">use_crs</span> <span class="op">&lt;-</span> <span class="fl">3577</span> <span class="co"># actually an epsg code. see epsg.io</span>
   
   <span class="co"># set area of interest coordinate reference system</span>
-  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="va">aoi</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/aoi.html">aoi</a></span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span>
   </code></pre></div>
 <div id="area-of-interest" class="section level1">
@@ -280,7 +282,7 @@
 <h2 class="hasAnchor">
 <a href="#make-taxonomy" class="anchor"></a>Make taxonomy</h2>
 <p>Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF taxonomy backbone</a> provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.</p>
-<p>Reconciling taxonomy can be done with the <code>make_taxa_taxonomy</code> function. This creates two objects that are loaded to the global environment:</p>
+<p>Reconciling taxonomy can be done with the <code>make_taxa_taxonomy</code> function. This returns a list with two objects:</p>
 <ul>
 <li>
 <code>lutaxa.</code> This is a simple lookup from the original name provided to the taxa to use in place of that name. Thus, <code>taxa</code> is likely to be duplicated</li>
@@ -289,44 +291,276 @@
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
-                     , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="st">"vignettes"</span>,<span class="st">"luGBIF.feather"</span><span class="op">)</span>
-                     <span class="op">)</span></code></pre></div>
-<p><code>lutaxa</code> is returned to the global environment.</p>
+  <span class="va">taxa</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
+                     , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="st">"luGBIF.feather"</span><span class="op">)</span>
+                     <span class="op">)</span>
+<span class="co">#&gt; [1] "Acacia acanthoclada acanthoclada"</span>
+<span class="co">#&gt; [1] "Acacia acanthoclada subsp. acanthoclada"</span>
+<span class="co">#&gt; [1] "Acacia ancistrophylla lissophylla"</span>
+<span class="co">#&gt; [1] "Acacia ligulata"</span>
+<span class="co">#&gt; [1] "Acacia nyssophylla"</span>
+<span class="co">#&gt; [1] "Acacia rigens"</span>
+<span class="co">#&gt; [1] "Acacia sclerophylla sclerophylla"</span>
+<span class="co">#&gt; [1] "Acacia wilhelmiana"</span>
+<span class="co">#&gt; [1] "Actinobole uliginosum"</span>
+<span class="co">#&gt; [1] "Amphipogon caricinus caricinus"</span>
+<span class="co">#&gt; [1] "Angianthus tomentosus"</span>
+<span class="co">#&gt; [1] "Atriplex"</span>
+<span class="co">#&gt; [1] "Atriplex acutibractea"</span>
+<span class="co">#&gt; [1] "Atriplex acutibractea karoniensis"</span>
+<span class="co">#&gt; [1] "Atriplex acutibractea subsp. karoniensis"</span>
+<span class="co">#&gt; [1] "Atriplex stipitata"</span>
+<span class="co">#&gt; [1] "Austrostipa"</span>
+<span class="co">#&gt; [1] "Austrostipa acrociliata"</span>
+<span class="co">#&gt; [1] "Austrostipa elegantissima"</span>
+<span class="co">#&gt; [1] "Austrostipa hemipogon"</span>
+<span class="co">#&gt; [1] "Austrostipa mollis"</span>
+<span class="co">#&gt; [1] "Austrostipa nitida"</span>
+<span class="co">#&gt; [1] "Austrostipa puberula"</span>
+<span class="co">#&gt; [1] "Austrostipa scabra falcata"</span>
+<span class="co">#&gt; [1] "Austrostipa scabra subsp. falcata"</span>
+<span class="co">#&gt; [1] "Bertya tasmanica subsp. vestita"</span>
+<span class="co">#&gt; [1] "Bertya tasmanica vestita"</span>
+<span class="co">#&gt; [1] "Beyeria lechenaultii"</span>
+<span class="co">#&gt; [1] "Beyeria opaca"</span>
+<span class="co">#&gt; [1] "Billardiera"</span>
+<span class="co">#&gt; [1] "Billardiera cymosa"</span>
+<span class="co">#&gt; [1] "Billardiera cymosa cymosa"</span>
+<span class="co">#&gt; [1] "Billardiera cymosa subsp. cymosa"</span>
+<span class="co">#&gt; [1] "Blennospora drummondii"</span>
+<span class="co">#&gt; [1] "Boronia coerulescens coerulescens"</span>
+<span class="co">#&gt; [1] "Boronia coerulescens subsp. coerulescens"</span>
+<span class="co">#&gt; [1] "Brachyscome"</span>
+<span class="co">#&gt; [1] "Brachyscome ciliaris ciliaris"</span>
+<span class="co">#&gt; [1] "Brachyscome lineariloba"</span>
+<span class="co">#&gt; [1] "Brassica tournefortii"</span>
+<span class="co">#&gt; [1] "Bromus rubens"</span>
+<span class="co">#&gt; [1] "Calandrinia eremaea"</span>
+<span class="co">#&gt; [1] "Callitris verrucosa"</span>
+<span class="co">#&gt; [1] "Calotis"</span>
+<span class="co">#&gt; [1] "Calotis hispidula"</span>
+<span class="co">#&gt; [1] "Carpobrotus"</span>
+<span class="co">#&gt; [1] "Carpobrotus rossii"</span>
+<span class="co">#&gt; [1] "Cassia sturtii"</span>
+<span class="co">#&gt; [1] "Cassinia arcuata"</span>
+<span class="co">#&gt; [1] "Cassytha melantha"</span>
+<span class="co">#&gt; [1] "Centaurea melitensis"</span>
+<span class="co">#&gt; [1] "Centaurium tenuiflorum"</span>
+<span class="co">#&gt; [1] "Centipeda cunninghamii"</span>
+<span class="co">#&gt; [1] "Chenopodium desertorum desertorum"</span>
+<span class="co">#&gt; [1] "Chenopodium desertorum microphyllum"</span>
+<span class="co">#&gt; [1] "Chenopodium desertorum rectum"</span>
+<span class="co">#&gt; [1] "Chenopodium desertorum subsp. desertorum"</span>
+<span class="co">#&gt; [1] "Chenopodium desertorum subsp. microphyllum"</span>
+<span class="co">#&gt; [1] "Chenopodium desertorum subsp. rectum"</span>
+<span class="co">#&gt; [1] "Chondrilla juncea"</span>
+<span class="co">#&gt; [1] "Chrysocephalum apiculatum"</span>
+<span class="co">#&gt; [1] "Conyza bonariensis"</span>
+<span class="co">#&gt; [1] "Cratystylis conocephala"</span>
+<span class="co">#&gt; [1] "Cryptandra"</span>
+<span class="co">#&gt; [1] "Cryptandra amara"</span>
+<span class="co">#&gt; [1] "Cryptandra amara amara"</span>
+<span class="co">#&gt; [1] "Cryptandra propinqua"</span>
+<span class="co">#&gt; [1] "Cryptandra tomentosa"</span>
+<span class="co">#&gt; [1] "Cucumis myriocarpus myriocarpus"</span>
+<span class="co">#&gt; [1] "Dampiera lanceolata"</span>
+<span class="co">#&gt; [1] "Dampiera lanceolata lanceolata"</span>
+<span class="co">#&gt; [1] "Dampiera rosmarinifolia"</span>
+<span class="co">#&gt; [1] "Dianella revoluta revoluta"</span>
+<span class="co">#&gt; [1] "Dodonaea bursariifolia"</span>
+<span class="co">#&gt; [1] "Dodonaea hexandra"</span>
+<span class="co">#&gt; [1] "Dodonaea stenozyga"</span>
+<span class="co">#&gt; [1] "Dodonaea viscosa angustissima"</span>
+<span class="co">#&gt; [1] "Dodonaea viscosa subsp. angustissima"</span>
+<span class="co">#&gt; [1] "Dysphania cristata"</span>
+<span class="co">#&gt; [1] "Dysphania pumilio"</span>
+<span class="co">#&gt; [1] "Enchylaena tomentosa"</span>
+<span class="co">#&gt; [1] "Enchylaena tomentosa tomentosa"</span>
+<span class="co">#&gt; [1] "Eremophila crassifolia"</span>
+<span class="co">#&gt; [1] "Eremophila deserti"</span>
+<span class="co">#&gt; [1] "Eremophila glabra"</span>
+<span class="co">#&gt; [1] "Eremophila glabra glabra"</span>
+<span class="co">#&gt; [1] "Eremophila glabra subsp. glabra"</span>
+<span class="co">#&gt; [1] "Eriochiton sclerolaenoides"</span>
+<span class="co">#&gt; [1] "Eucalyptus brachycalyx"</span>
+<span class="co">#&gt; [1] "Eucalyptus dumosa"</span>
+<span class="co">#&gt; [1] "Eucalyptus foecunda"</span>
+<span class="co">#&gt; [1] "Eucalyptus gracilis"</span>
+<span class="co">#&gt; [1] "Eucalyptus incrassata"</span>
+<span class="co">#&gt; [1] "Eucalyptus leptophylla"</span>
+<span class="co">#&gt; [1] "Eucalyptus oleosa"</span>
+<span class="co">#&gt; [1] "Eucalyptus oleosa oleosa"</span>
+<span class="co">#&gt; [1] "Eucalyptus oleosa subsp. oleosa"</span>
+<span class="co">#&gt; [1] "Eucalyptus porosa"</span>
+<span class="co">#&gt; [1] "Eucalyptus socialis"</span>
+<span class="co">#&gt; [1] "Eucalyptus socialis socialis"</span>
+<span class="co">#&gt; [1] "Eucalyptus socialis subsp. socialis"</span>
+<span class="co">#&gt; [1] "Euphorbia"</span>
+<span class="co">#&gt; [1] "Euphorbia terracina"</span>
+<span class="co">#&gt; [1] "Eutaxia microphylla"</span>
+<span class="co">#&gt; [1] "Exocarpos aphyllus"</span>
+<span class="co">#&gt; [1] "Exocarpos sparteus"</span>
+<span class="co">#&gt; [1] "Gazania linearis"</span>
+<span class="co">#&gt; [1] "Geijera linearifolia"</span>
+<span class="co">#&gt; [1] "Glischrocaryon behrii"</span>
+<span class="co">#&gt; [1] "Gonocarpus elatus"</span>
+<span class="co">#&gt; [1] "Goodenia"</span>
+<span class="co">#&gt; [1] "Goodenia connata"</span>
+<span class="co">#&gt; [1] "Goodenia pinnatifida"</span>
+<span class="co">#&gt; [1] "Goodenia robusta"</span>
+<span class="co">#&gt; [1] "Goodenia varia"</span>
+<span class="co">#&gt; [1] "Grevillea huegelii"</span>
+<span class="co">#&gt; [1] "Grevillea pterosperma"</span>
+<span class="co">#&gt; [1] "Halgania andromedifolia"</span>
+<span class="co">#&gt; [1] "Halgania cyanea"</span>
+<span class="co">#&gt; [1] "Haloragis"</span>
+<span class="co">#&gt; [1] "Helichrysum"</span>
+<span class="co">#&gt; [1] "Helichrysum leucopsideum"</span>
+<span class="co">#&gt; [1] "Heliotropium europaeum"</span>
+<span class="co">#&gt; [1] "Hibbertia crinita"</span>
+<span class="co">#&gt; [1] "Hibbertia virgata"</span>
+<span class="co">#&gt; [1] "Hybanthus floribundus"</span>
+<span class="co">#&gt; [1] "Hysterobaeckea behrii"</span>
+<span class="co">#&gt; [1] "Lasiopetalum behrii"</span>
+<span class="co">#&gt; [1] "Lawrencia squamata"</span>
+<span class="co">#&gt; [1] "Leptospermum coriaceum"</span>
+<span class="co">#&gt; [1] "Lomandra effusa"</span>
+<span class="co">#&gt; [1] "Lomandra leucocephala robusta"</span>
+<span class="co">#&gt; [1] "Lomandra leucocephala subsp. robusta"</span>
+<span class="co">#&gt; [1] "Maireana"</span>
+<span class="co">#&gt; [1] "Maireana brevifolia"</span>
+<span class="co">#&gt; [1] "Maireana enchylaenoides"</span>
+<span class="co">#&gt; [1] "Maireana erioclada"</span>
+<span class="co">#&gt; [1] "Maireana pentatropis"</span>
+<span class="co">#&gt; [1] "Maireana radiata"</span>
+<span class="co">#&gt; [1] "Maireana rohrlachii"</span>
+<span class="co">#&gt; [1] "Maireana sedifolia"</span>
+<span class="co">#&gt; [1] "Maireana trichoptera"</span>
+<span class="co">#&gt; [1] "Medicago polymorpha"</span>
+<span class="co">#&gt; [1] "Melaleuca acuminata acuminata"</span>
+<span class="co">#&gt; [1] "Melaleuca acuminata subsp. acuminata"</span>
+<span class="co">#&gt; [1] "Melaleuca lanceolata"</span>
+<span class="co">#&gt; [1] "Microcybe multiflora multiflora"</span>
+<span class="co">#&gt; [1] "Microcybe multiflora subsp. multiflora"</span>
+<span class="co">#&gt; [1] "Millotia muelleri"</span>
+<span class="co">#&gt; [1] "Millotia tenuifolia tenuifolia"</span>
+<span class="co">#&gt; [1] "Minuartia mediterranea"</span>
+<span class="co">#&gt; [1] "Myoporum platycarpum"</span>
+<span class="co">#&gt; [1] "Myoporum platycarpum perbellum"</span>
+<span class="co">#&gt; [1] "Myoporum platycarpum platycarpum"</span>
+<span class="co">#&gt; [1] "Myoporum platycarpum subsp. platycarpum"</span>
+<span class="co">#&gt; [1] "Nicotiana goodspeedii"</span>
+<span class="co">#&gt; [1] "Olearia"</span>
+<span class="co">#&gt; [1] "Olearia lepidophylla"</span>
+<span class="co">#&gt; [1] "Olearia magniflora"</span>
+<span class="co">#&gt; [1] "Olearia minor"</span>
+<span class="co">#&gt; [1] "Olearia muelleri"</span>
+<span class="co">#&gt; [1] "Olearia passerinoides passerinoides"</span>
+<span class="co">#&gt; [1] "Olearia passerinoides subsp. passerinoides"</span>
+<span class="co">#&gt; [1] "Olearia pimeleoides"</span>
+<span class="co">#&gt; [1] "Opercularia scabrida"</span>
+<span class="co">#&gt; [1] "Ozothamnus decurrens"</span>
+<span class="co">#&gt; [1] "Pelargonium australe"</span>
+<span class="co">#&gt; [1] "Pentameris airoides airoides"</span>
+<span class="co">#&gt; [1] "Pentameris airoides subsp. airoides"</span>
+<span class="co">#&gt; [1] "Phebalium bullatum"</span>
+<span class="co">#&gt; [1] "Pigea floribunda"</span>
+<span class="co">#&gt; [1] "Pimelea trichostachya"</span>
+<span class="co">#&gt; [1] "Pittosporum angustifolium"</span>
+<span class="co">#&gt; [1] "Podolepis jaceoides"</span>
+<span class="co">#&gt; [1] "Podolepis tepperi"</span>
+<span class="co">#&gt; [1] "Podotheca angustifolia"</span>
+<span class="co">#&gt; [1] "Polycalymma stuartii"</span>
+<span class="co">#&gt; [1] "Prostanthera aspalathoides"</span>
+<span class="co">#&gt; [1] "Prostanthera serpyllifolia microphylla"</span>
+<span class="co">#&gt; [1] "Prostanthera serpyllifolia subsp. microphylla"</span>
+<span class="co">#&gt; [1] "Ptilotus"</span>
+<span class="co">#&gt; [1] "Ptilotus seminudus"</span>
+<span class="co">#&gt; [1] "Rhagodia"</span>
+<span class="co">#&gt; [1] "Rhagodia crassifolia"</span>
+<span class="co">#&gt; [1] "Rhagodia preissii preissii"</span>
+<span class="co">#&gt; [1] "Rhagodia preissii subsp. preissii"</span>
+<span class="co">#&gt; [1] "Rhodanthe pygmaea"</span>
+<span class="co">#&gt; [1] "Roepera apiculata"</span>
+<span class="co">#&gt; [1] "Roepera aurantiaca aurantiaca"</span>
+<span class="co">#&gt; [1] "Roepera eremaea"</span>
+<span class="co">#&gt; [1] "Roepera glauca"</span>
+<span class="co">#&gt; [1] "Roepera ovata"</span>
+<span class="co">#&gt; [1] "Roepera reticulata"</span>
+<span class="co">#&gt; [1] "Rytidosperma"</span>
+<span class="co">#&gt; [1] "Rytidosperma caespitosum"</span>
+<span class="co">#&gt; [1] "Rytidosperma setaceum"</span>
+<span class="co">#&gt; [1] "Salsola australis"</span>
+<span class="co">#&gt; [1] "Salvia verbenaca vernalis"</span>
+<span class="co">#&gt; [1] "Santalum acuminatum"</span>
+<span class="co">#&gt; [1] "Santalum murrayanum"</span>
+<span class="co">#&gt; [1] "Scaevola spinescens"</span>
+<span class="co">#&gt; [1] "Sclerolaena diacantha"</span>
+<span class="co">#&gt; [1] "Sclerolaena parviflora"</span>
+<span class="co">#&gt; [1] "Senecio pinnatifolius"</span>
+<span class="co">#&gt; [1] "Senna"</span>
+<span class="co">#&gt; [1] "Senna artemisioides filifolia"</span>
+<span class="co">#&gt; [1] "Senna artemisioides petiolaris"</span>
+<span class="co">#&gt; [1] "Senna artemisioides subsp. filifolia"</span>
+<span class="co">#&gt; [1] "Senna artemisioides zygophylla"</span>
+<span class="co">#&gt; [1] "Spyridium subochreatum"</span>
+<span class="co">#&gt; [1] "Stenopetalum sphaerocarpum"</span>
+<span class="co">#&gt; [1] "Templetonia rossii"</span>
+<span class="co">#&gt; [1] "Teucrium racemosum"</span>
+<span class="co">#&gt; [1] "Thysanotus baueri"</span>
+<span class="co">#&gt; [1] "Thysanotus patersonii"</span>
+<span class="co">#&gt; [1] "Tragus australianus"</span>
+<span class="co">#&gt; [1] "Tribulus terrestris"</span>
+<span class="co">#&gt; [1] "Triodia"</span>
+<span class="co">#&gt; [1] "Triodia irritans"</span>
+<span class="co">#&gt; [1] "Triodia scariosa"</span>
+<span class="co">#&gt; [1] "Triraphis mollis"</span>
+<span class="co">#&gt; [1] "Verbena supina supina"</span>
+<span class="co">#&gt; [1] "Vittadinia cervicularis cervicularis"</span>
+<span class="co">#&gt; [1] "Vittadinia cuneata cuneata"</span>
+<span class="co">#&gt; [1] "Vittadinia dissecta hirta"</span>
+<span class="co">#&gt; [1] "Vittadinia gracilis"</span>
+<span class="co">#&gt; [1] "Vittadinia megacephala"</span>
+<span class="co">#&gt; [1] "Vulpia muralis"</span>
+<span class="co">#&gt; [1] "Vulpia myuros f. myuros"</span>
+<span class="co">#&gt; [1] "Wahlenbergia luteola"</span>
+<span class="co">#&gt; [1] "Westringia rigida"</span>
+<span class="co">#&gt; [1] "Zygophyllum aurantiacum"</span></code></pre></div>
+<p>A look at <code>lutaxa</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">lutaxa</span>
+  <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
 <span class="co">#&gt; # A tibble: 345 x 3</span>
-<span class="co">#&gt;    original_name                                taxa                 rank      </span>
-<span class="co">#&gt;    &lt;chr&gt;                                        &lt;chr&gt;                &lt;ord&gt;     </span>
-<span class="co">#&gt;  1 Ptilotus R.Br.                               Ptilotus             genus     </span>
-<span class="co">#&gt;  2 Olearia Moench                               Olearia              genus     </span>
-<span class="co">#&gt;  3 Gonocarpus elatus (A.Cunn. ex Fenzl) Orchard Gonocarpus elatus    species   </span>
-<span class="co">#&gt;  4 Dodonaea hexandra F.Muell.                   Dodonaea hexandra    species   </span>
-<span class="co">#&gt;  5 Zygophyllum aurantiacum (NC)                 Roepera aurantiaca   subspecies</span>
-<span class="co">#&gt;  6 Westringia rigida                            Westringia rigida    species   </span>
-<span class="co">#&gt;  7 Westringia rigida R.Br.                      Westringia rigida    species   </span>
-<span class="co">#&gt;  8 Wahlenbergia luteola                         Wahlenbergia luteola species   </span>
-<span class="co">#&gt;  9 Wahlenbergia luteola P.J.Sm.                 Wahlenbergia luteola species   </span>
-<span class="co">#&gt; 10 Vulpia myuros f. myuros                      Vulpia myuros        species   </span>
+<span class="co">#&gt;    original_name                             taxa                   rank      </span>
+<span class="co">#&gt;    &lt;chr&gt;                                     &lt;chr&gt;                  &lt;ord&gt;     </span>
+<span class="co">#&gt;  1 Zygophyllum aurantiacum (NC)              Roepera aurantiaca     subspecies</span>
+<span class="co">#&gt;  2 Westringia rigida                         Westringia rigida      species   </span>
+<span class="co">#&gt;  3 Westringia rigida R.Br.                   Westringia rigida      species   </span>
+<span class="co">#&gt;  4 Wahlenbergia luteola                      Wahlenbergia luteola   species   </span>
+<span class="co">#&gt;  5 Wahlenbergia luteola P.J.Sm.              Wahlenbergia luteola   species   </span>
+<span class="co">#&gt;  6 Vulpia myuros f. myuros                   Vulpia myuros          species   </span>
+<span class="co">#&gt;  7 Vulpia muralis                            Vulpia muralis         species   </span>
+<span class="co">#&gt;  8 Vulpia muralis (Kunth) Nees               Vulpia muralis         species   </span>
+<span class="co">#&gt;  9 Vittadinia megacephala                    Vittadinia megacephala species   </span>
+<span class="co">#&gt; 10 Vittadinia megacephala (Benth.) J.M.Black Vittadinia megacephala species   </span>
 <span class="co">#&gt; # ... with 335 more rows</span></code></pre></div>
-<p>as is <code>taxa_taxonomy</code></p>
+<p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">taxa_taxonomy</span>
+  <span class="va">taxa</span><span class="op">$</span><span class="va">taxa_taxonomy</span>
 <span class="co">#&gt; # A tibble: 192 x 8</span>
-<span class="co">#&gt;    taxa                   kingdom phylum       order  family genus class species</span>
-<span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  </span>
-<span class="co">#&gt;  1 Ptilotus               Plantae Tracheophyta Caryo~ Amara~ Ptil~ Magn~ &lt;NA&gt;   </span>
-<span class="co">#&gt;  2 Olearia                Plantae Tracheophyta Aster~ Aster~ Olea~ Magn~ &lt;NA&gt;   </span>
-<span class="co">#&gt;  3 Gonocarpus elatus      Plantae Tracheophyta Saxif~ Halor~ Gono~ Magn~ Gonoca~</span>
-<span class="co">#&gt;  4 Dodonaea hexandra      Plantae Tracheophyta Sapin~ Sapin~ Dodo~ Magn~ Dodona~</span>
-<span class="co">#&gt;  5 Roepera aurantiaca     Plantae Tracheophyta Zygop~ Zygop~ Roep~ Magn~ Roeper~</span>
-<span class="co">#&gt;  6 Westringia rigida      Plantae Tracheophyta Lamia~ Lamia~ West~ Magn~ Westri~</span>
-<span class="co">#&gt;  7 Wahlenbergia luteola   Plantae Tracheophyta Aster~ Campa~ Wahl~ Magn~ Wahlen~</span>
-<span class="co">#&gt;  8 Vulpia myuros          Plantae Tracheophyta Poales Poace~ Vulp~ Lili~ Vulpia~</span>
-<span class="co">#&gt;  9 Vulpia muralis         Plantae Tracheophyta Poales Poace~ Vulp~ Lili~ Vulpia~</span>
-<span class="co">#&gt; 10 Vittadinia megacephala Plantae Tracheophyta Aster~ Aster~ Vitt~ Magn~ Vittad~</span>
+<span class="co">#&gt;    taxa                    kingdom phylum  order  family  genus  species   class</span>
+<span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;</span>
+<span class="co">#&gt;  1 Roepera aurantiaca      Plantae Trache~ Zygop~ Zygoph~ Roepe~ Roepera ~ Magn~</span>
+<span class="co">#&gt;  2 Westringia rigida       Plantae Trache~ Lamia~ Lamiac~ Westr~ Westring~ Magn~</span>
+<span class="co">#&gt;  3 Wahlenbergia luteola    Plantae Trache~ Aster~ Campan~ Wahle~ Wahlenbe~ Magn~</span>
+<span class="co">#&gt;  4 Vulpia myuros           Plantae Trache~ Poales Poaceae Vulpia Vulpia m~ Lili~</span>
+<span class="co">#&gt;  5 Vulpia muralis          Plantae Trache~ Poales Poaceae Vulpia Vulpia m~ Lili~</span>
+<span class="co">#&gt;  6 Vittadinia megacephala  Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
+<span class="co">#&gt;  7 Vittadinia gracilis     Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
+<span class="co">#&gt;  8 Vittadinia dissecta     Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
+<span class="co">#&gt;  9 Vittadinia cuneata      Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
+<span class="co">#&gt; 10 Vittadinia cervicularis Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
 <span class="co">#&gt; # ... with 182 more rows</span></code></pre></div>
 </div>
 <div id="filter-taxonomy" class="section level2">
@@ -342,6 +576,7 @@
                           , context <span class="op">=</span> <span class="va">context</span>
                           , do_cov <span class="op">=</span> <span class="cn">TRUE</span>
                           , lucov <span class="op">=</span> <span class="fu">envEcosystems</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/envEcosystems/man/lucover.html">lucover</a></span>
+                          , taxonomy <span class="op">=</span> <span class="va">taxa</span>
                           <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 
@@ -448,9 +683,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.298 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.296 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.594 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.307 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.332 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.639 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -474,8 +709,8 @@
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; Chain 2:  Elapsed Time: 0.302 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.324 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.626 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:                0.32 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.622 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -498,9 +733,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.301 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.288 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.589 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.299 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.306 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.605 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -523,9 +758,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.308 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.302 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.61 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.32 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.328 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.648 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -644,15 +879,15 @@
 <span class="co">#&gt; # A tibble: 9 x 10</span>
 <span class="co">#&gt;   name    obj     has_stamp  nrow ctime                taxa records visits sites</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;  &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3396 2022-03-24 16:29:18   408    3396    211    20</span>
-<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3396 2022-03-24 16:29:18   408    3396      1    20</span>
-<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2271 2022-03-24 16:29:19   346    2271     65    11</span>
-<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2271 2022-03-24 16:29:23   346    2271     62    11</span>
-<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        832 2022-03-24 16:29:23   174     832     62    10</span>
-<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        825 2022-03-24 16:29:24   174     825     55    10</span>
-<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        788 2022-03-24 16:29:27   172     788     54    10</span>
-<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        608 2022-03-24 16:29:27    60     608     52    10</span>
-<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        526 2022-03-24 16:29:27    60     526     52    10</span>
+<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3396 2022-04-21 13:13:26   408    3396    211    20</span>
+<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3396 2022-04-21 13:13:26   408    3396      1    20</span>
+<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2271 2022-04-21 13:13:27   346    2271     65    11</span>
+<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2271 2022-04-21 13:13:31   346    2271     62    11</span>
+<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        832 2022-04-21 13:15:14   174     832     62    10</span>
+<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        825 2022-04-21 13:15:15   174     825     55    10</span>
+<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        788 2022-04-21 13:15:18   172     788     54    10</span>
+<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        608 2022-04-21 13:15:18    60     608     52    10</span>
+<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        526 2022-04-21 13:15:18    60     526     52    10</span>
 <span class="co">#&gt; # ... with 1 more variable: geometry &lt;GEOMETRY [°]&gt;</span>&gt;</code></pre></div>
 </div>
 <div id="what-happened-to-x" class="section level1">
@@ -661,19 +896,21 @@
 <p>It can often be useful to trace the results for a single taxa through the filtering process. How did, say, <em>Eucalyptus incrassata</em> fare through the process?</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span>
+            , lookup_taxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
+            <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 6</span>
 <span class="co">#&gt;   name        obj              has_stamp  nrow ctime               summary      </span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
-<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3396 2022-03-24 16:29:18 Eucalyptus i~</span>
-<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3396 2022-03-24 16:29:18 Eucalyptus i~</span>
-<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2271 2022-03-24 16:29:19 Eucalyptus i~</span>
-<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2271 2022-03-24 16:29:23 Eucalyptus i~</span>
-<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        832 2022-03-24 16:29:23 Eucalyptus i~</span>
-<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        825 2022-03-24 16:29:24 Eucalyptus i~</span>
-<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        788 2022-03-24 16:29:27 Eucalyptus i~</span>
-<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        608 2022-03-24 16:29:27 Eucalyptus i~</span>
-<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        526 2022-03-24 16:29:27 Eucalyptus i~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3396 2022-04-21 13:13:26 Eucalyptus i~</span>
+<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3396 2022-04-21 13:13:26 Eucalyptus i~</span>
+<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2271 2022-04-21 13:13:27 Eucalyptus i~</span>
+<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2271 2022-04-21 13:13:31 Eucalyptus i~</span>
+<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        832 2022-04-21 13:15:14 Eucalyptus i~</span>
+<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        825 2022-04-21 13:15:15 Eucalyptus i~</span>
+<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        788 2022-04-21 13:15:18 Eucalyptus i~</span>
+<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        608 2022-04-21 13:15:18 Eucalyptus i~</span>
+<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        526 2022-04-21 13:15:18 Eucalyptus i~</span></code></pre></div>
 </div>
 <div id="conclusion" class="section level1">
 <h1 class="hasAnchor">

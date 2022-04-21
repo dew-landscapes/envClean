@@ -39,11 +39,11 @@ Backbone}
 \item{get_common}{Logical. Add common name to GBIF taxonomy?}
 }
 \value{
-Dataframe with applied taxonomy from GBIF Taxonony Backbone. Also,
-two dataframes are returned to the global environment. One, named
-taxa_taxonomy, with unique taxa and associated taxonomic information and two,
-named lutaxa, a lookup from unique values in taxa_col to matched taxonomy from
-GBIF backbone.
+named list with elements:
+\item{lutaxa}{dataframe. A lookup from unique values in \code{taxa_col} to
+matched taxonomy from GBIF backbone}
+\item{taxa_taxonomy}{dataframe with unique taxa and associated taxonomic
+information}
 }
 \description{
 Make taxonomy lookups

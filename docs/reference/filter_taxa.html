@@ -143,6 +143,7 @@
   do_ind <span class='op'>=</span> <span class='cn'>FALSE</span>,
   lucov <span class='op'>=</span> <span class='cn'>NULL</span>,
   lulife <span class='op'>=</span> <span class='cn'>NULL</span>,
+  taxonomy <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -192,6 +193,11 @@ appended to output.</p></td>
     <tr>
       <th>lulife</th>
       <td><p>Dataframe lookup for lifeform.</p></td>
+    </tr>
+    <tr>
+      <th>taxonomy</th>
+      <td><p>list with named elements <code>lutaxa</code> and <code>taxa_taxonomy</code>.
+Usually resulting from call to <code>make_taxa_taxonomy</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
