@@ -163,7 +163,7 @@
                       , !!ensym(effort_col) >= effort_thresh
                       )
 
-    }
+    } else df
 
     effort_mod <- list()
 
