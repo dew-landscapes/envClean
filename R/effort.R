@@ -133,9 +133,10 @@
 #' @param threshold_lo,threshold_hi Numeric between 0 and 1 specifying the
 #' threshold above/below which richness is excessively above or below 'normal'
 #' and should be filtered.
-#' @param effort_col Character. Name of column with some measure of effort.
-#' @param effort_thresh Numeric. `effort_col` will be filtered below this
-#' threshold.
+#' @param effort_col Character (or `NULL`). Name of column with some measure of
+#' effort. If `NULL`, all contexts will be used.
+#' @param effort_thresh Numeric. `effort_col` (if used) will be filtered below
+#' this threshold.
 #' @param out_file Character. Optional path to save output.
 #' @param ... Passed to [rstanarm::stan_glm()].
 #'
@@ -155,43 +156,49 @@
                            , ...
                            ) {
 
+    df <- if(!is.null(effort_col)) {
+
+      df %>%
+        dplyr::filter(!is.na(!!rlang::ensym(effort_col))
+                      , !!ensym(effort_col) >= effort_thresh
+                      )
+
+    }
+
     effort_mod <- list()
 
     response <- "sr"
 
     effort_mod$dat_exp <- df %>%
-      dplyr::filter(!is.na(!!rlang::ensym(effort_col))
-                    , !!ensym(effort_col) >= effort_thresh
-                    ) %>%
-      dplyr::distinct(taxa
-                      , dplyr::across(tidyselect::any_of(context))
+        dplyr::distinct(taxa
+                        , dplyr::across(tidyselect::any_of(context))
+                        ) %>%
+        dplyr::count(dplyr::across(tidyselect::any_of(context))
+                     , name = "sr"
+                     ) %>%
+        dplyr::inner_join(env_prcomp$pca_res_cell) %>%
+        dplyr::select(!!rlang::ensym(response)
+                      , everything()
                       ) %>%
-      dplyr::count(dplyr::across(tidyselect::any_of(context))
-                   , name = "sr"
-                   ) %>%
-      dplyr::inner_join(env_prcomp$pca_res_cell) %>%
-      dplyr::select(!!rlang::ensym(response)
-                    , everything()
-                    ) %>%
-      tidyr::pivot_longer(contains("pc")
-                          , names_to = "pc"
-                          ) %>%
-      dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
-      dplyr::mutate(cut_pc = purrr::map2(value
-                                         , brks
-                                         , ~cut(.x,breaks=unique(unlist(.y)))
-                                         )
-                    ) %>%
-      dplyr::select(-brks) %>%
-      tidyr::pivot_wider(names_from = "pc"
-                         , values_from = c(value,"cut_pc")
-                         ) %>%
-      stats::setNames(gsub("value_|pc_"
-                           , ""
-                           , names(.)
-                           )
+        tidyr::pivot_longer(contains("pc")
+                            , names_to = "pc"
+                            ) %>%
+        dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
+        dplyr::mutate(cut_pc = purrr::map2(value
+                                           , brks
+                                           , ~cut(.x,breaks=unique(unlist(.y)))
+                                           )
                       ) %>%
-      tidyr::unnest(cols = 1:ncol(.))
+        dplyr::select(-brks) %>%
+        tidyr::pivot_wider(names_from = "pc"
+                           , values_from = c(value,"cut_pc")
+                           ) %>%
+        stats::setNames(gsub("value_|pc_"
+                             , ""
+                             , names(.)
+                             )
+                        ) %>%
+        tidyr::unnest(cols = 1:ncol(.))
 
     #--------model-------
 

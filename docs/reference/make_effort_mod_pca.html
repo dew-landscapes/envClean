@@ -168,12 +168,13 @@ and should be filtered.</p></td>
     </tr>
     <tr>
       <th>effort_col</th>
-      <td><p>Character. Name of column with some measure of effort.</p></td>
+      <td><p>Character (or <code>NULL</code>). Name of column with some measure of
+effort. If <code>NULL</code>, all contexts will be used.</p></td>
     </tr>
     <tr>
       <th>effort_thresh</th>
-      <td><p>Numeric. <code>effort_col</code> will be filtered below this
-threshold.</p></td>
+      <td><p>Numeric. <code>effort_col</code> (if used) will be filtered below
+this threshold.</p></td>
     </tr>
     <tr>
       <th>out_file</th>

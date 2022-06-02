@@ -28,10 +28,11 @@ to a 'cell'.}
 threshold above/below which richness is excessively above or below 'normal'
 and should be filtered.}
 
-\item{effort_col}{Character. Name of column with some measure of effort.}
+\item{effort_col}{Character (or \code{NULL}). Name of column with some measure of
+effort. If \code{NULL}, all contexts will be used.}
 
-\item{effort_thresh}{Numeric. \code{effort_col} will be filtered below this
-threshold.}
+\item{effort_thresh}{Numeric. \code{effort_col} (if used) will be filtered below
+this threshold.}
 
 \item{out_file}{Character. Optional path to save output.}
 
