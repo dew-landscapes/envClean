@@ -236,16 +236,12 @@
       tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE))
 
     effort_mod$mod_pred <- effort_mod$preds %>%
-      dplyr::mutate(col = row.names(.)) %>%
-      dplyr::left_join(tibble::as_tibble(rstanarm::posterior_predict(effort_mod$mod
-                                                   , newdata = .
-                                                   , re.form = NA
-                                                   )
-                                 ) %>%
-                         tibble::rownames_to_column(var = "row") %>%
-                         tidyr::gather(col,value,2:ncol(.))
-                       ) %>%
-      (function(x) dplyr::bind_cols(x %>% dplyr::select(-value),sr = as.numeric(x$value)))
+      tidybayes::add_predicted_draws(effort_mod$mod
+                                     #, ndraws = draws
+                                     , re_formula = NA
+                                     , value = response
+                                     ) %>%
+      dplyr::ungroup()
 
 
      #------residuals--------
@@ -313,26 +309,34 @@
 
     #-------cell results-------
 
-    qsize <- df %>%
-      dplyr::distinct(across(any_of(context))
-                      , across(any_of(effort_col))
-                      )
+    if(!is.null(effort_col)) {
 
-    context_sr <- df %>%
-      dplyr::count(across(any_of(context))
-                   , name = "sr"
-                   )
+      eff <- df %>%
+        dplyr::distinct(across(any_of(context))
+                        , across(any_of(effort_col))
+                        )
+
+    }
+
 
     effort_mod$mod_cell_result <- env_prcomp$pca_res_col %>%
-      dplyr::left_join(qsize) %>%
-      dplyr::inner_join(context_sr) %>%
+      {if(!is.null(effort_col)) (.) %>% dplyr::left_join(eff) else (.)} %>%
+      dplyr::inner_join(effort_mod$dat_exp) %>%
       dplyr::select(!matches("^pc")) %>%
       dplyr::inner_join(effort_mod$mod_res) %>%
       dplyr::mutate(keep_hi = sr < extreme_sr_hi
                     , keep_lo = sr > extreme_sr_lo
-                    , keep_qsize = !(!!rlang::ensym(effort_col) == 0 | is.na(!!rlang::ensym(effort_col)))
+                    , keep_qsize = if(!is.null(effort_col)) {
+
+                      !({{effort_col}} == 0 | is.na({{effort_col}}))
+
+                    } else {
+
+                      FALSE
+
+                    }
                     , keep = as.logical(keep_hi*keep_lo)
-                    , keep = if_else(!keep,keep_qsize,keep)
+                    , keep = if_else(!keep, keep_qsize, keep)
                     ) %>%
       dplyr::mutate(colour = if_else(keep,"black",colour))
 
