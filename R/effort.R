@@ -146,17 +146,17 @@
 #'
 #' @examples
   make_effort_mod_pca <- function(df
-                           , env_prcomp
-                           , context = "cell"
-                           , threshold_lo = 0.05/2
-                           , threshold_hi = 0.05/2
-                           , effort_col = "qsize"
-                           , effort_thresh = 3*3
-                           , out_file = NULL
-                           , ...
-                           ) {
+                                  , env_prcomp
+                                  , context = "cell"
+                                  , threshold_lo = 0.05/2
+                                  , threshold_hi = 0.05/2
+                                  , effort_col = "qsize"
+                                  , effort_thresh = 3*3
+                                  , out_file = NULL
+                                  , ...
+                                  ) {
 
-    df <- if(!is.null(effort_col)) {
+    df_for_mod <- if(!is.null(effort_col)) {
 
       df %>%
         dplyr::filter(!is.na(!!rlang::ensym(effort_col))
@@ -169,7 +169,15 @@
 
     response <- "sr"
 
-    effort_mod$dat_exp <- df %>%
+    effort_mod$dat_all <- df %>%
+      dplyr::distinct(taxa
+                      , dplyr::across(tidyselect::any_of(context))
+                      ) %>%
+      dplyr::count(dplyr::across(tidyselect::any_of(context))
+                   , name = "sr"
+                   )
+
+    effort_mod$dat_exp <- df_for_mod %>%
         dplyr::distinct(taxa
                         , dplyr::across(tidyselect::any_of(context))
                         ) %>%
@@ -318,24 +326,19 @@
 
     }
 
+    is_there_an_effort_col <- !is.null(effort_col)
 
     effort_mod$mod_cell_result <- env_prcomp$pca_res_col %>%
       {if(!is.null(effort_col)) (.) %>% dplyr::left_join(eff) else (.)} %>%
-      dplyr::inner_join(effort_mod$dat_exp) %>%
+      dplyr::inner_join(effort_mod$dat_all) %>%
       dplyr::select(!matches("^pc")) %>%
-      dplyr::inner_join(effort_mod$mod_res) %>%
+      dplyr::left_join(effort_mod$mod_res) %>%
       dplyr::mutate(keep_hi = sr < extreme_sr_hi
                     , keep_lo = sr > extreme_sr_lo
-                    , keep_qsize = if(!is.null(effort_col)) {
-
-                      !({{effort_col}} == 0 | is.na({{effort_col}}))
-
-                    } else {
-
-                      FALSE
-
-                    }
-                    , keep = as.logical(keep_hi*keep_lo)
+                    , keep_qsize = FALSE
+                    ) %>%
+      {if(is_there_an_effort_col) (.) %>% dplyr::mutate(keep_qsize = !(!!ensym(effort_col) == 0 | is.na(!!ensym(effort_col)))) else (.)} %>%
+      dplyr::mutate(keep = as.logical(keep_hi*keep_lo)
                     , keep = if_else(!keep, keep_qsize, keep)
                     ) %>%
       dplyr::mutate(colour = if_else(keep,"black",colour))
