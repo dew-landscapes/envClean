@@ -34,7 +34,7 @@ Load `envClean`
 ```r
 library("envClean")
 #> Warning in FUN(X[[i]], ...): restarting interrupted promise evaluation
-#> Warning in FUN(X[[i]], ...): internal error -3 in R_decompress1
+#> Warning in FUN(X[[i]], ...): internal error -5 in R_decompress1
 #> Error in FUN(X[[i]], ...): lazy-load database 'C:/Users/nwilloughby/Documents/R/win-library/4.0/envClean/data/Rdata.rdb' is corrupt
 ```
 
