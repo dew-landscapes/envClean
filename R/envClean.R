@@ -183,12 +183,12 @@
       dplyr::left_join(lurank, by = c("key" = "rank")) %>%
       dplyr::filter(sort == max(sort)) %>%
       dplyr::pull(value) %>%
-      rgbif::name_usage(data="vernacularNames")
+      rgbif::name_usage() #data="vernacularNames")
 
     df <- common_names$data %>%
       dplyr::select(tidyselect::any_of(c("vernacularName","language","preferred")))
 
-    has_any <- nrow(df) > 0
+    has_any <- ncol(df) > 0
 
     has_preferred <- if("preferred" %in% names(df)) sum(df$preferred, na.rm = TRUE) > 0 else FALSE
 
@@ -236,10 +236,8 @@
     } else if(has_any) {
 
       df %>%
-        dplyr::count(language,vernacularName) %>%
-        dplyr::arrange(desc(n)
-                       , language
-                       ) %>%
+        dplyr::count(vernacularName) %>%
+        dplyr::arrange(desc(n)) %>%
         dplyr::slice(1) %>%
         dplyr::pull(vernacularName) %>%
         `[` (1)
