@@ -111,14 +111,18 @@
 
         print(paste0(counter
                      , ": "
-                     , taxas$searched_name[i]
+                     , i
                      )
               )
 
         tax_gbif <- rgbif::name_backbone(i, kingdom = king_type) %>%
           dplyr::mutate(searched_name = i)
 
-        tax_gbif <- if(sum(grepl("acceptedUsageKey",names(tax_gbif)))>0) {
+        tax_gbif <- if(sum(grepl("acceptedUsageKey"
+                                 , names(tax_gbif)
+                                 )
+                           ) > 0
+                       ) {
 
           rgbif::name_usage(tax_gbif$acceptedUsageKey)$data %>%
             dplyr::mutate(matchType = "Synonym") %>%
