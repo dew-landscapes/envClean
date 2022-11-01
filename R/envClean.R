@@ -14,6 +14,8 @@
 #' @param do_common Logical. If TRUE, also get common names. Takes much longer.
 #' @param target_rank Character. Default is 'species'. At what level of the
 #' taxonomic hierarchy are results desired.
+#' @param remove_strings Character. Any strings to extract from the original
+#' names before searching.
 #'
 #' @return Dataframe of unique taxa names, other columns defining
 #' taxonomic hierarchy and, optionally, common names.
@@ -32,6 +34,18 @@
                            , king_type = "Plantae"
                            , do_common = FALSE
                            , target_rank = "species"
+                           , remove_strings = c("\\s*\\(.*\\)"
+                                                , "\\'"
+                                                , "\\?"
+                                                , " spp\\."
+                                                ,  "ssp\\."
+                                                , " sp\\."
+                                                , " var\\."
+                                                #, " ex"
+                                                , " [A-Z].*"
+                                                , "#"
+                                                , "\\s^"
+                                                )
                            ){
 
     lurank <- envClean::lurank
@@ -61,16 +75,27 @@
       dplyr::distinct() %>%
       dplyr::pull()
 
-    taxa <- tibble::tibble(original_name = setdiff(to_check,already_done)) %>%
-      dplyr::filter(!grepl("BOLD:.*\\d{4}",original_name)
+
+    taxa <- tibble::tibble(original_name = setdiff(to_check, already_done)) %>%
+      dplyr::filter(!grepl("BOLD:.*\\d{4}"
+                           , original_name
+                           )
                     , !is.na(original_name)
                     ) %>%
-      dplyr::mutate(searched_name = gsub("\\s*\\(.*\\).*|\\'|\\?| spp\\.| sp\\.| ssp\\.| var\\.| ex| [A-Z].*|#|\\s^"
-                                        ,""
-                                        ,original_name
-                                        )
-      , searched_name = gsub(" x .*$| X .*$","",searched_name)
-      , searched_name = gsub("\\s{2,}"," ",searched_name)
+      dplyr::mutate(searched_name = gsub(paste0(remove_strings
+                                                , collapse = "|"
+                                                )
+                                         , ""
+                                         , original_name
+                                         )
+      , searched_name = gsub(" x .*$| X .*$"
+                             , ""
+                             , searched_name
+                             )
+      , searched_name = gsub("\\s{2,}"
+                             , " "
+                             , searched_name
+                             )
       , searched_name = stringr::str_squish(searched_name)
       )
 
@@ -78,11 +103,17 @@
       dplyr::distinct(searched_name) %>%
       dplyr::arrange(searched_name)
 
+    counter <- 1
+
     if(length(taxas$searched_name)>0){
 
       for (i in taxas$searched_name){
 
-        print(i)
+        print(paste0(counter
+                     , ": "
+                     , taxas$searched_name[i]
+                     )
+              )
 
         tax_gbif <- rgbif::name_backbone(i, kingdom = king_type) %>%
           dplyr::mutate(searched_name = i)
@@ -133,6 +164,8 @@
                       )
 
         }
+
+        counter <- counter + 1
 
       }
 

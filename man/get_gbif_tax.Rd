@@ -10,7 +10,9 @@ get_gbif_tax(
   out_file = tempfile(),
   king_type = "Plantae",
   do_common = FALSE,
-  target_rank = "species"
+  target_rank = "species",
+  remove_strings = c("\\\\s*\\\\(.*\\\\)", "\\\\'", "\\\\?", " spp\\\\.", "ssp\\\\.",
+    " sp\\\\.", " var\\\\.", " [A-Z].*", "#", "\\\\s^")
 )
 }
 \arguments{
@@ -27,6 +29,9 @@ retrieving names can take some time.}
 
 \item{target_rank}{Character. Default is 'species'. At what level of the
 taxonomic hierarchy are results desired.}
+
+\item{remove_strings}{Character. Any strings to extract from the original
+names before searching.}
 }
 \value{
 Dataframe of unique taxa names, other columns defining
