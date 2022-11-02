@@ -289,7 +289,7 @@
                               ) {
 
     df <- rio::import(path) %>%
-      as_tibble()
+      tibble::as_tibble()
 
     any_done <- "common" %in% names(df)
 
@@ -297,11 +297,11 @@
 
       todo <- df %>%
         dplyr::filter(is.na(common)) %>%
-        dplyr::distinct(!!ensym(key_col)) %>%
-        dplyr::filter(!is.na(!!ensym(key_col)))
+        dplyr::distinct(!!rlang::ensym(key_col)) %>%
+        dplyr::filter(!is.na(!!rlang::ensym(key_col)))
 
       done <- df %>%
-        dplyr::select(!!ensym(key_col), common) %>%
+        dplyr::select(!!rlang::ensym(key_col), common) %>%
         dplyr::filter(!is.na(common)
                       , common != "<NA>"
                       )
@@ -309,16 +309,16 @@
     } else {
 
       todo <- df %>%
-        dplyr::distinct(!!ensym(key_col)) %>%
-        dplyr::filter(!is.na(!!ensym(key_col)))
+        dplyr::distinct(!!rlang::ensym(key_col)) %>%
+        dplyr::filter(!is.na(!!rlang::ensym(key_col)))
 
-      done <- tibble(key_col = 1, common = "Animalia")
+      done <- tibble::tibble(key_col = 1, common = "Animalia")
 
       }
 
     common_name_df <- todo %>%
       #(if(testing) {. %>% dplyr::sample_n(5)} else {.}) %>%
-      dplyr::mutate(common = purrr::map_chr(!!ensym(key_col)
+      dplyr::mutate(common = purrr::map_chr(!!rlang::ensym(key_col)
                                             , envClean::get_gbif_common
                                             )
                     )
@@ -509,7 +509,9 @@
 
     .taxa_col = taxa_col
 
-    res <- list()
+    res <- list
+
+    lurank <- envClean::lurank
 
     # Remove dodgy taxonomy
     taxas <- df %>%
@@ -532,7 +534,7 @@
                         ) %>%
       dplyr::mutate(rank = tolower(rank)
                     , rank = factor(rank
-                                    , levels = levels(envClean::lurank$rank)
+                                    , levels = levels(lurank$rank)
                                     , ordered = TRUE
                                     )
                     )
@@ -642,6 +644,7 @@
 
     }
 
+    res <- list()
     res$lutaxa <- two
     res$taxa_taxonomy <- one
 
