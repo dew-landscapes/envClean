@@ -284,7 +284,9 @@
   }
 
   # Add common name to existing taxonomic data frame
-  add_gbif_common <- function(path = "out/luGBIF.feather") {
+  add_gbif_common <- function(path = "out/luGBIF.feather"
+                              , key_col = "speciesKey"
+                              ) {
 
     df <- rio::import(path) %>%
       as_tibble()
@@ -295,11 +297,11 @@
 
       todo <- df %>%
         dplyr::filter(is.na(common)) %>%
-        dplyr::distinct(usageKey) %>%
-        dplyr::filter(!is.na(usageKey))
+        dplyr::distinct(!!ensym(key_col)) %>%
+        dplyr::filter(!is.na(!!ensym(key_col)))
 
       done <- df %>%
-        dplyr::select(usageKey, common) %>%
+        dplyr::select(!!ensym(key_col), common) %>%
         dplyr::filter(!is.na(common)
                       , common != "<NA>"
                       )
@@ -307,16 +309,16 @@
     } else {
 
       todo <- df %>%
-        dplyr::distinct(usageKey) %>%
-        dplyr::filter(!is.na(usageKey))
+        dplyr::distinct(!!ensym(key_col)) %>%
+        dplyr::filter(!is.na(!!ensym(key_col)))
 
-      done <- tibble(usageKey = 1, common = "Animalia")
+      done <- tibble(key_col = 1, common = "Animalia")
 
       }
 
     common_name_df <- todo %>%
       #(if(testing) {. %>% dplyr::sample_n(5)} else {.}) %>%
-      dplyr::mutate(common = purrr::map_chr(usageKey
+      dplyr::mutate(common = purrr::map_chr(!!ensym(key_col)
                                             , envClean::get_gbif_common
                                             )
                     )
