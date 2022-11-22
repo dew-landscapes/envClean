@@ -64,3 +64,18 @@
 #' }
 "lurank"
 
+#' Manual taxonomic fixes
+#'
+#' Use on results from `envClean::make_taxa_taxonomy`.
+#'
+#' @format A data frame with `r nrow(taxonomy_fixes)` rows and `r ncol(taxonomy_fixes)`
+#' variables:
+#' \describe{
+#'   \item{resolved_to}{Character. Taxa retrieved by `rgbif::name_backbone`,
+#'   usually run within `envClean::make_taxa_taxonomy`}
+#'   \item{prefer}{Character. Preferred taxon to use instead of `resolved_to`.}
+#'   \item{note}{Character. Currently has mostly common names.}
+#'   ...
+#' }
+"taxonomy_fixes"
+

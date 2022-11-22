@@ -11,7 +11,7 @@
 
   lapply(codes,source)
 
-  datas <- ls(pattern = "lu|flor_all|aoi")
+  datas <- ls(pattern = "lu|flor_all|aoi|taxonomy_fixes")
 
   do.call(save, c(lapply(datas,as.name), file = "data/data.rda"))
 
