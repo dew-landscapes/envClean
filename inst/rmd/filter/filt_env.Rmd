@@ -1,0 +1,9 @@
+### Context has any `NA` environmental data
+
+Environmental data was obtained for each context with floristic information using the `get_env_data` function in the `envRaster` package `r cite_package("envRaster")`. This function relied heavily on the `extract` function in the `terra` package `r cite_package("terra")`. 
+
+Contexts that had an `NA` value in _any_ of the [environmental layers](#envDataSources) were removed.
+
+`r data_filter$filter_text[i]`
+
+<br>

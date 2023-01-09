@@ -1,0 +1,62 @@
+### Area of interest
+
+Records from the data sources were limited to those within `r aoi_fullname` plus a `r poly_buf/1000` km buffer using the `filter_aoi` function in the `envClean` package `r cite_package("envClean")`.
+
+The combined floristic data for the area of interest contained `r format(nrow(filt_report_data),big.mark=",")` records of `r format(n_distinct(filt_report_data$original_name),big.mark=",")` taxa from `r format(filt_report_data %>% dplyr::distinct(across(any_of(report_cols))) %>% nrow(),big.mark=",")` visits to `r format(filt_report_data %>% dplyr::distinct(across(any_of(site_cols))) %>% nrow(),big.mark=",")` locations.
+
+#### Summary of data within the area of interest
+
+* surveys with the most _locations_ were (in order):
+    + `r filt_report_data %>% dplyr::distinct(survey, lat, long) %>% dplyr::count(survey) %>% dplyr::arrange(desc(n)) %>% dplyr::slice(1:5) %>% dplyr::mutate(text = paste0(survey, " (",n,")")) %>% dplyr::pull(text) %>% paste0(collapse = "\n    + ")`
+* years with the most _locations_ were (in order):
+    + `r filt_report_data %>% dplyr::distinct(year, lat, long) %>% dplyr::count(year) %>% dplyr::arrange(desc(n)) %>% dplyr::slice(1:5) %>% dplyr::mutate(text = paste0(year, " (",n,")")) %>% dplyr::pull(text) %>% paste0(collapse = "\n    + ")`
+* month with the most _locations_ were (in order):
+    + `r filt_report_data %>% dplyr::distinct(month, lat, long) %>% dplyr::count(month) %>% dplyr::arrange(desc(n)) %>% dplyr::slice(1:5) %>% dplyr::mutate(text = paste0(month.abb[month], " (",n,")")) %>% dplyr::pull(text) %>% paste0(collapse = "\n    + ")`
+
+Of the records:
+
+* `r round(100*sum(!is.na(filt_report_data$ind))/nrow(filt_report_data),1)`% had some form of indigenous status recorded
+* `r round(100*sum(!is.na(filt_report_data$lifespan))/nrow(filt_report_data),1)`% had some form of lifespan recorded
+* `r round(100*sum(!is.na(filt_report_data$lifeform))/nrow(filt_report_data),1)`% had some form of lifeform recorded
+
+Table \@ref(tab:datanameAOI) shows the data sources contributing to the area of interest data.
+
+Table \@ref(tab:surveysAOI) shows the surveys contributing to the area of interest data.
+
+<br>
+
+```{r datanameAOI}
+
+  kable(filt_report_data %>%
+          dplyr::distinct(data_name, across(any_of(visit_cols))) %>%
+          dplyr::group_by(data_name) %>%
+          dplyr::summarise(n = n())
+          , caption = paste0("Data sources contributing records after the cleaning process. Numbers represent contexts ("
+                             , vec_to_sentence(visit_cols)
+                             , ")"
+                             )
+        ) %>%
+    kableExtra::kable_styling("striped")
+
+```
+
+<br>
+
+```{r surveysAOI}
+
+  kable(filt_report_data %>%
+          dplyr::filter(!is.na(survey)) %>%
+          dplyr::distinct(data_name, survey, across(any_of(visit_cols))) %>%
+          dplyr::group_by(survey, data_name) %>%
+          dplyr::summarise(n = n()) %>%
+          tidyr::pivot_wider(names_from = "data_name", values_from = "n")
+          , caption = paste0("Surveys contributing records after the cleaning process. Numbers represent contexts ("
+                             , vec_to_sentence(visit_cols)
+                             , ")"
+                             )
+        ) %>%
+    kableExtra::kable_styling("striped")
+        
+```
+
+<br>

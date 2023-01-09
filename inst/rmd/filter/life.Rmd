@@ -1,0 +1,13 @@
+### Lifeform
+
+Plant lifeforms were assigned in the following manner:
+
+* if a field-based lifeform was available for a record, that was used
+* if there was no field-based lifeform, the most frequent lifeform for that taxa within [pca groups] was assigned
+* if there was still no lifeform, the most frequent lifeform across all records of a taxa was assigned
+
+This was done using the `add_lifeform` function in the `envClean` package `r cite_package("envClean")`.
+
+`r data_filter$filter_text[i]`
+
+<br>
