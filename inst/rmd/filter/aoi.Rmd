@@ -2,7 +2,7 @@
 
 Records from the data sources were limited to those within `r aoi_fullname` plus a `r poly_buf/1000` km buffer using the `filter_aoi` function in the `envClean` package `r cite_package("envClean")`.
 
-The combined floristic data for the area of interest contained `r format(nrow(filt_report_data),big.mark=",")` records of `r format(n_distinct(filt_report_data$original_name),big.mark=",")` taxa from `r format(filt_report_data %>% dplyr::distinct(across(any_of(report_cols))) %>% nrow(),big.mark=",")` visits to `r format(filt_report_data %>% dplyr::distinct(across(any_of(site_cols))) %>% nrow(),big.mark=",")` locations.
+The combined floristic data for the area of interest contained `r format(nrow(filt_report_data),big.mark=",")` records of `r format(n_distinct(filt_report_data$original_name),big.mark=",")` taxa from `r format(filt_report_data %>% dplyr::distinct(across(any_of(report_cols))) %>% nrow(),big.mark=",")` visits to `r format(filt_report_data %>% dplyr::distinct(across(any_of(geo_cols))) %>% nrow(),big.mark=",")` locations.
 
 #### Summary of data within the area of interest
 
@@ -16,8 +16,6 @@ The combined floristic data for the area of interest contained `r format(nrow(fi
 Of the records:
 
 * `r round(100*sum(!is.na(filt_report_data$ind))/nrow(filt_report_data),1)`% had some form of indigenous status recorded
-* `r round(100*sum(!is.na(filt_report_data$lifespan))/nrow(filt_report_data),1)`% had some form of lifespan recorded
-* `r round(100*sum(!is.na(filt_report_data$lifeform))/nrow(filt_report_data),1)`% had some form of lifeform recorded
 
 Table \@ref(tab:datanameAOI) shows the data sources contributing to the area of interest data.
 
@@ -35,8 +33,7 @@ Table \@ref(tab:surveysAOI) shows the surveys contributing to the area of intere
                              , vec_to_sentence(visit_cols)
                              , ")"
                              )
-        ) %>%
-    kableExtra::kable_styling("striped")
+        )
 
 ```
 
@@ -54,8 +51,7 @@ Table \@ref(tab:surveysAOI) shows the surveys contributing to the area of intere
                              , vec_to_sentence(visit_cols)
                              , ")"
                              )
-        ) %>%
-    kableExtra::kable_styling("striped")
+        )
         
 ```
 

@@ -1,8 +1,8 @@
 ### Proportion cover
 
-```{r bio_bdbsa}
+```{r flor_bdbsa}
 
-  bio_bdbsa <- bio_aoi %>%
+  flor_bdbsa <- flor_aoi %>%
     dplyr::filter(data_name == "BDBSA")
 
 ```
@@ -11,7 +11,7 @@ During import from the original data sources (proportion) cover was derived in d
 
 * for BDBSA, the `COVCODE` or `COVER` fields were used
   + `COVCODE` stores a modified Braun-Blanquet [@RN4265] cover value (see table \@ref(tab:bbCover))
-  + `COVER`, which was rarely used (`r round(100*sum(bio_aoi$cover > 0 & bio_aoi$cover <= 100,na.rm=TRUE)/nrow(bio_aoi),1)`% of records), stores a percentage cover value
+  + `COVER`, which was rarely used (`r round(100*sum(flor_aoi$cover > 0 & flor_aoi$cover <= 100,na.rm=TRUE)/nrow(flor_aoi),1)`% of records), stores a percentage cover value
 * for TERN, the proportion of sampling points that were a taxa
 * for ALIS, each crown separation ratio was mapped to a Braun-Blanquet cover value then treated as per BDBSA COVCODE (see table \@ref(tab:csrCover))
 * for BCM, no cover estimates were available at taxa level (cover estimates were recorded for structural layers only)
@@ -38,8 +38,7 @@ If all taxa within a context required their cover estimate to be assigned as a s
                   , Description = cover_description
                   , `Proportion cover value used` = !!ensym(cov_type)
                   ) %>%
-    kable(caption = "Translation of recorded Braun-Blanquet values to proportion cover values used") %>%
-    kableExtra::kable_styling("striped")
+    kable(caption = "Translation of recorded Braun-Blanquet values to proportion cover values used")
 
 ```
 
@@ -52,8 +51,8 @@ If all taxa within a context required their cover estimate to be assigned as a s
                   , Description = CSR_Description
                   , `Braun-Blanquet value used` = COVCODE
                   ) %>%
-    kable(caption = "Translation of recorded crown separation ratio to modified Braun-Blanquet values") %>%
-    kableExtra::kable_styling("striped")
+    kable(caption = "Translation of recorded crown separation ratio to modified Braun-Blanquet values")
+
 
 ```
 

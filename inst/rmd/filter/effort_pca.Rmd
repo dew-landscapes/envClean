@@ -1,0 +1,208 @@
+
+(ref:extremeSRModPC2) Taxa richness as a function of the second principal component (PC2). For details see Figure \@ref(fig:extremeSRModPC1).
+
+
+### Context effort
+
+The aggregated data set contained records of taxa in contexts collected by almost any method imaginable. The effort any observer(s) put into time and taxonomy at each spatial location was unknown. In some cases the effort put into spatial extent was available as a quadrat size.
+
+Given that effort matters when documenting ecology [e.g. @RN2377], in an attempt to remove the most seriously under- and over-sampled contexts the following process was implemented via the `make_effort_mod_pca` function in the `envClean` package `r cite_package("envClean")`.
+
+Taxa richness was modelled as a function of the first `r numbers2words(pca_axes)` principal components (see [pca groups]) using data from all contexts with recorded quadrat size. Data exploration, model and model diagnostics are provided in the [appendix][taxa richness analysis]. The model was then used to predict credible upper and lower bounds for taxa richness within each pca group. Any context with taxa richness outside those bounds was removed. Lower and upper bounds were set at the `r 100*extreme_sr_lo` and `r 100*extreme_sr_hi` percentiles. Contexts with a quadrat size were not removed, irrespective of their taxa richness. Table \@ref(tab:srContextTab) and Figure \@ref(fig:srContextPlot) show the results of this analysis for each context.
+
+Figure \@ref(fig:extremeSRModPC1) shows the thresholds for groups based only on the __first__ principal component. Note that these are theoretical, as the distribution and thresholds ignore the other principal components used. Figure \@ref(fig:extremeSRModPC2) shows the same information but for the __second__ principal component. Figure \@ref(fig:extremeSRMap) maps where sites with taxa richness too high or too low were removed.
+
+`r data_filter$filter_text[i]`
+
+<br>
+
+```{r srContextTab}
+
+  kable(effort_mod$mod_cell_tab
+        , caption = "Tally of contexts kept or removed as a result of the combination of taxa richness analysis and quadrat size"
+        )
+
+```
+
+<br>
+
+```{r srContextPlot, fig.height = 9, fig.cap = "Contexts removed due to too high or low taxa richness. Retained contexts are black. Removed contexts are coloured by their full [PCA groups]"}
+
+  effort_mod$mod_cell_plot
+
+```
+
+<br>
+
+```{r extremeSRModPC1, fig.height = 8, fig.cap = paste0("Taxa richness as a function of the first principal component (PC1), showing the probability (shading) of obtaining a taxa richness at each grouping along PC1 and the thresholds (dotted lines and boxed labels) of taxa richness for removal of that context. Note that within the analysis, the first ",numbers2words(pca_axes)," pca groups were used (not just the first PC displayed here). The x-axis shows the full range of taxa richness in the original data")}
+
+  p <- ggplot(effort_mod$mod_pred, aes(sr,cut_pc1,fill = 0.5-abs(0.5-..ecdf..)))+
+    ggridges::stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
+    scale_fill_viridis_c(name = "Probability") +
+    labs(x = "Taxa richness"
+         , y = "PC1 group"
+         )
+
+  extremeLo <- ggplot_build(p) %>%
+    purrr::pluck("data",1) %>%
+    dplyr::group_by(group) %>%
+    dplyr::filter(density == max(density)) %>%
+    dplyr::ungroup() %>%
+    dplyr::bind_cols(effort_mod$mod_pred %>%
+                       dplyr::group_by(cut_pc1) %>%
+                       dplyr::summarise(extremeSR = quantile(sr, extreme_sr_lo))
+                     )
+  
+  extremeHi <- ggplot_build(p) %>%
+    purrr::pluck("data",1) %>%
+    dplyr::group_by(group) %>%
+    dplyr::filter(density == max(density)) %>%
+    dplyr::ungroup() %>%
+    dplyr::bind_cols(effort_mod$mod_pred %>%
+                       dplyr::group_by(cut_pc1) %>%
+                       dplyr::summarise(extremeSR = quantile(sr, 1-extreme_sr_hi))
+                     )
+
+  p + 
+    geom_segment(data = extremeLo
+                 , aes(x = extremeSR
+                     , y = ymin
+                     , xend = extremeSR
+                     , yend = ymin + 1
+                     , fill = NULL
+                     )
+                 , colour = "red"
+                 , linetype = 2
+                 ) +
+    geom_segment(data = extremeHi
+                 , aes(x = extremeSR
+                     , y = ymin
+                     , xend = extremeSR
+                     , yend = ymin + 1
+                     , fill = NULL
+                     )
+                 , colour = "red"
+                 , linetype = 2
+                 ) +
+    geom_label(data = extremeLo
+              , aes(x = extremeSR
+                    , y = ymin + 0.5
+                    , label = round(extremeSR, 0)
+                    , fill = NULL
+                    )
+              , hjust = -0.5
+              ) +
+    geom_label(data = extremeHi
+              , aes(x = extremeSR
+                    , y = ymin + 0.5
+                    , label = round(extremeSR, 0)
+                    , fill = NULL
+                    )
+              , hjust = -0.5
+              )
+  
+```
+
+<br>
+
+```{r extremeSRModPC2, fig.height = 8, fig.cap = "(ref:extremeSRModPC2)"}
+
+  p <- ggplot(effort_mod$mod_pred, aes(sr,cut_pc2,fill = 0.5-abs(0.5-..ecdf..)))+
+    ggridges::stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
+    scale_fill_viridis_c(name = "Probability") +
+    labs(x = "Taxa richness"
+         , y = "PC2 group"
+         )
+
+  extremeLo <- ggplot_build(p) %>%
+    purrr::pluck("data",1) %>%
+    dplyr::group_by(group) %>%
+    dplyr::filter(density == max(density)) %>%
+    dplyr::ungroup() %>%
+    dplyr::bind_cols(effort_mod$mod_pred %>%
+                       dplyr::group_by(cut_pc2) %>%
+                       dplyr::summarise(extremeSR = quantile(sr, extreme_sr_lo))
+                     )
+  
+  extremeHi <- ggplot_build(p) %>%
+    purrr::pluck("data",1) %>%
+    dplyr::group_by(group) %>%
+    dplyr::filter(density == max(density)) %>%
+    dplyr::ungroup() %>%
+    dplyr::bind_cols(effort_mod$mod_pred %>%
+                       dplyr::group_by(cut_pc2) %>%
+                       dplyr::summarise(extremeSR = quantile(sr, 1-extreme_sr_hi))
+                     )
+
+  p + 
+    geom_segment(data = extremeLo
+                 , aes(x = extremeSR
+                     , y = ymin
+                     , xend = extremeSR
+                     , yend = ymin + 1
+                     , fill = NULL
+                     )
+                 , colour = "red"
+                 , linetype = 2
+                 ) +
+    geom_segment(data = extremeHi
+                 , aes(x = extremeSR
+                     , y = ymin
+                     , xend = extremeSR
+                     , yend = ymin + 1
+                     , fill = NULL
+                     )
+                 , colour = "red"
+                 , linetype = 2
+                 ) +
+    geom_label(data = extremeLo
+              , aes(x = extremeSR
+                    , y = ymin + 0.5
+                    , label = round(extremeSR, 0)
+                    , fill = NULL
+                    )
+              , hjust = -0.5
+              ) +
+    geom_label(data = extremeHi
+              , aes(x = extremeSR
+                    , y = ymin + 0.5
+                    , label = round(extremeSR, 0)
+                    , fill = NULL
+                    )
+              , hjust = -0.5
+              )
+  
+```
+
+<br>
+
+```{r extremeSRMap, fig.cap = "Sites removed due to extremes of taxa richness"}
+
+  remove_effort <- effort_mod$mod_cell_result %>%
+    dplyr::filter(!keep_hi|!keep_lo) %>%
+    dplyr::mutate(Removed = if_else(keep_hi,"Too low","Too high")) %>%
+    dplyr::left_join(flor_cell %>%
+                       dplyr::distinct(cell,lat,long)
+                     ) %>%
+    sf::st_as_sf(coords = c("long","lat")
+                 , crs = 4283
+                 )
+
+  tm_shape(ibra_sub_aoi
+           , bbox = st_bbox(aoi)
+           ) +
+    tm_fill(col = "IBRA_SUB_N") +
+  tm_shape(sa) +
+    tm_borders() +
+  tm_shape(remove_effort) +
+    tm_dots(col = "Removed"
+            , palette = c("white","darkblue")
+            ) +
+    tm_layout(legend.outside = TRUE
+              , legend.outside.position = "left"
+              , legend.bg.color = "grey"
+              )
+
+```
+
+<br>

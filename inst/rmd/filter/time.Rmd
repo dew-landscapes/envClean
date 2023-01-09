@@ -1,0 +1,7 @@
+### Date range of interest
+
+Records were limited to those with observation dates after `r min_year`.
+
+`r data_filter$filter_text[i]`
+
+<br>
