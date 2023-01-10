@@ -12,7 +12,8 @@ status.}
 
 \item{taxa_col}{Character. Name of column with taxa.}
 
-\item{ind_col}{Character. Name of column with indigenous status}
+\item{ind_col}{Character. Name of column with indigenous status (assumed to
+be, largely, \code{Y} or \code{N}).}
 }
 \value{
 Dataframe with unique taxa and their indigenous status.
