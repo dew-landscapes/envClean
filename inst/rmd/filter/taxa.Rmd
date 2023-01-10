@@ -29,7 +29,7 @@ The [appendix] Table \@ref(tab:taxonomy) maps names retrieved from data sources 
 ```{r taxHier}
 
   kable(lutaxa %>%
-          dplyr::inner_join(bio_aoi %>%
+          dplyr::inner_join(filt_summary$obj[[1]] %>%
                               dplyr::count(original_name, name = "records")
                             ) %>%
           dplyr::group_by(rank) %>%
