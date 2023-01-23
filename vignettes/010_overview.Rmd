@@ -5,7 +5,7 @@ author:
 - Nigel Willoughby
 date: "`r format(Sys.time(), '%A, %d %B, %Y')`"
 output: rmarkdown::html_vignette
-bibliography: ["packages.bib", "refs.bib", "gbif.bib"]
+bibliography: ["packages.bib", "refs.bib"]
 vignette: >
   %\VignetteIndexEntry{Overview}
   %\VignetteEngine{knitr::rmarkdown}
