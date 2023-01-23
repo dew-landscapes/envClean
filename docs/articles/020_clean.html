@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Wednesday, 11 January, 2023</h4>
+            <h4 class="date">Monday, 23 January, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -122,11 +122,19 @@
   <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/aoi.html">aoi</a></span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span>
   </code></pre></div>
+<div id="data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#data" class="anchor"></a>Data</h1>
+<p>Here, we’ll start with combined floristic data (called <code>flor_all</code>) from the mallee in South Australia. This data set is provided with <code>envClean</code> and is a small subset of a <a href="https://www.gbif.org/">GBIF</a> occurrence download <span class="citation">(<span class="citeproc-not-found" data-reference-id="GBIFRef_6"><strong>???</strong></span>)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+</div>
 <div id="area-of-interest" class="section level1">
 <h1 class="hasAnchor">
 <a href="#area-of-interest" class="anchor"></a>Area of interest</h1>
 <p>Usually this is a geographic and/or taxonomic area of interest. An example area overlapping <code>flor_all</code> is provided in <code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code> allows plotting them together.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># Create simple feature from flor_all</span>
   <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -143,7 +151,7 @@
     <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="020_clean_files/figure-html/aoi-1.png" width="700"></p>
 <p>Filtering <code>flor_all</code> to <code>aoi</code> is done with <code>filter_aoi</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># Filter area of interest</span>
   <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_aoi.html">filter_aoi</a></span><span class="op">(</span><span class="va">flor_all</span>
@@ -154,26 +162,25 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_aoi</span>
-<span class="co">#&gt; # A tibble: 3,396 x 13</span>
-<span class="co">#&gt;      lat  long data_name site   date       original_name cover cover_code quad_x</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus g~    NA "2"            30</span>
-<span class="co">#&gt;  2 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus o~    NA "2"            30</span>
-<span class="co">#&gt;  3 -34.6  140. BDBSA     216    1990-07-12 Brassica tou~    NA "T"            30</span>
-<span class="co">#&gt;  4 -34.6  140. BDBSA     216    1990-07-12 Beyeria opaca    NA "T"            30</span>
-<span class="co">#&gt;  5 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus s~    NA "T"            30</span>
-<span class="co">#&gt;  6 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus b~    NA "1"            30</span>
-<span class="co">#&gt;  7 -34.6  140. BDBSA     216    1990-07-12 Myoporum pla~    NA "T"            30</span>
-<span class="co">#&gt;  8 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus d~    NA "1"            30</span>
-<span class="co">#&gt;  9 -34.6  140. BDBSA     216    1990-07-12 Melaleuca la~    NA "T"            30</span>
-<span class="co">#&gt; 10 -34.6  140. EGIS      SUP20~ 1990-07-12 Eucalyptus g~    NA ""             NA</span>
-<span class="co">#&gt; # ... with 3,386 more rows, and 4 more variables: quad_y &lt;int&gt;, rel_dist &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   month &lt;int&gt;, year &lt;int&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 5,537 x 9</span>
+<span class="co">#&gt;      lat  long data_name site   date       original_name  rel_metres month  year</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 -34.5  140. GBIF      16374~ 2007-10-18 Strepera vers~        500    10  2007</span>
+<span class="co">#&gt;  2 -34.5  140. GBIF      16374~ 2007-10-18 Acanthiza uro~        500    10  2007</span>
+<span class="co">#&gt;  3 -34.5  140. GBIF      16374~ 2007-10-18 Daphoenositta~        500    10  2007</span>
+<span class="co">#&gt;  4 -34.6  140. GBIF      16375~ 2011-01-18 Drymodes brun~        500     1  2011</span>
+<span class="co">#&gt;  5 -34.6  140. GBIF      16375~ 2011-12-03 Lichenostomus~        500    12  2011</span>
+<span class="co">#&gt;  6 -34.6  140. GBIF      16375~ 2015-04-27 Aphelocephala~        500     4  2015</span>
+<span class="co">#&gt;  7 -34.6  140. GBIF      16375~ 2011-12-04 Drymodes brun~        500    12  2011</span>
+<span class="co">#&gt;  8 -34.6  140. GBIF      16375~ 2011-01-18 Microeca fasc~        500     1  2011</span>
+<span class="co">#&gt;  9 -34.6  140. GBIF      16375~ 2011-02-09 Pomatostomus ~        500     2  2011</span>
+<span class="co">#&gt; 10 -34.6  140. GBIF      16375~ 2015-04-29 Acanthiza chr~        500     4  2015</span>
+<span class="co">#&gt; # ... with 5,527 more rows</span></code></pre></div>
 <p>Check that spatial filter worked.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># Create sf from flor_aoi</span>
-  <span class="va">flor_aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_aoi</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+  <span class="va">aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_aoi</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>
                  , crs <span class="op">=</span> <span class="fl">4326</span>
                  <span class="op">)</span>
@@ -183,7 +190,7 @@
            , bbox <span class="op">=</span> <span class="fu">st_bbox</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
            <span class="op">)</span> <span class="op">+</span>
     <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">flor_aoi_sf</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi_sf</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="020_clean_files/figure-html/flor_aoi-1.png" width="700"></p>
 </div>
@@ -196,14 +203,14 @@
 <h2 class="hasAnchor">
 <a href="#precision" class="anchor"></a>Precision</h2>
 <p>Records with precision less than threshold are filtered using <code>filter_spat_rel</code>. This takes a dataframe (<code>df</code>) as its first argument, in this case <code>flor_aoi</code>. <code>dist_col</code> specifies the column in <code>df</code> that contains the precision estimates. <code>dist</code> provides the threshold above which to filter. If there are data sources (or any other columns in <code>df</code>) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument <code>over_ride</code>. This takes a named list, where names need to match the columns in <code>df</code>. Any levels within the columns provided in <code>over_ride</code> will not be filtered, irrespective of the values in <code>dist_col</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span>, <span class="st">"cell"</span><span class="op">)</span>
 
   <span class="va">include_data_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ALIS"</span>,<span class="st">"BCM"</span>,<span class="st">"NVB"</span>,<span class="st">"TERN"</span><span class="op">)</span>
 
   <span class="va">flor_rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_spat_rel.html">filter_spat_rel</a></span><span class="op">(</span><span class="va">flor_aoi</span>
-                              , dist_col <span class="op">=</span> <span class="st">"rel_dist"</span>
+                              , dist_col <span class="op">=</span> <span class="st">"rel_metres"</span>
                               , dist <span class="op">=</span> <span class="fl">100</span>
                               , context <span class="op">=</span> <span class="va">context</span>
                               , over_ride <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data_name <span class="op">=</span> <span class="va">include_data_name</span><span class="op">)</span>
@@ -212,29 +219,28 @@
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_rel</span>
-<span class="co">#&gt; # A tibble: 2,271 x 13</span>
-<span class="co">#&gt;      lat  long data_name site   date       original_name cover cover_code quad_x</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus g~    NA "2"            30</span>
-<span class="co">#&gt;  2 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus o~    NA "2"            30</span>
-<span class="co">#&gt;  3 -34.6  140. BDBSA     216    1990-07-12 Brassica tou~    NA "T"            30</span>
-<span class="co">#&gt;  4 -34.6  140. BDBSA     216    1990-07-12 Beyeria opaca    NA "T"            30</span>
-<span class="co">#&gt;  5 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus s~    NA "T"            30</span>
-<span class="co">#&gt;  6 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus b~    NA "1"            30</span>
-<span class="co">#&gt;  7 -34.6  140. BDBSA     216    1990-07-12 Myoporum pla~    NA "T"            30</span>
-<span class="co">#&gt;  8 -34.6  140. BDBSA     216    1990-07-12 Eucalyptus d~    NA "1"            30</span>
-<span class="co">#&gt;  9 -34.6  140. BDBSA     216    1990-07-12 Melaleuca la~    NA "T"            30</span>
-<span class="co">#&gt; 10 -34.6  140. EGIS      SUP20~ 1990-07-12 Eucalyptus g~    NA ""             NA</span>
-<span class="co">#&gt; # ... with 2,261 more rows, and 4 more variables: quad_y &lt;int&gt;, rel_dist &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   month &lt;int&gt;, year &lt;int&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 2,240 x 9</span>
+<span class="co">#&gt;      lat  long data_name site   date       original_name  rel_metres month  year</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 -34.5  140. GBIF      16381~ 2006-11-20 Dromaius nova~         50    11  2006</span>
+<span class="co">#&gt;  2 -34.5  140. GBIF      16381~ 2006-10-27 Colluricincla~         50    10  2006</span>
+<span class="co">#&gt;  3 -34.5  140. GBIF      16381~ 2006-11-14 Pardalotus pu~         50    11  2006</span>
+<span class="co">#&gt;  4 -34.5  140. GBIF      16381~ 2006-11-14 Anthochaera c~         50    11  2006</span>
+<span class="co">#&gt;  5 -34.5  140. GBIF      16381~ 2006-10-27 Pardalotus pu~         50    10  2006</span>
+<span class="co">#&gt;  6 -34.5  140. GBIF      16381~ 2006-11-14 Gymnorhina ti~         50    11  2006</span>
+<span class="co">#&gt;  7 -34.5  140. GBIF      16381~ 2006-11-14 Corvus corono~         50    11  2006</span>
+<span class="co">#&gt;  8 -34.5  140. GBIF      16381~ 2006-10-27 Strepera vers~         50    10  2006</span>
+<span class="co">#&gt;  9 -34.5  140. GBIF      16381~ 2006-10-27 Dromaius nova~         50    10  2006</span>
+<span class="co">#&gt; 10 -34.5  140. GBIF      16381~ 2006-11-20 Anthochaera c~         50    11  2006</span>
+<span class="co">#&gt; # ... with 2,230 more rows</span></code></pre></div>
 </div>
 <div id="rasterize" class="section level2">
 <h2 class="hasAnchor">
 <a href="#rasterize" class="anchor"></a>Rasterize</h2>
 <p>Now that records with dubious spatial precision have been removed, an accuracy threshold is adpoted by rasterizing remaining records into the cells of <code>aoi_raster</code>, created here.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">aoi_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html">rast</a></span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu">extent</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>
+  <span class="va">aoi_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html">rast</a></span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html">ext</a></span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>
                       , resolution <span class="op">=</span> <span class="fl">30</span>
                       , crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"epsg:"</span>,<span class="va">use_crs</span><span class="op">)</span>
                       <span class="op">)</span>
@@ -247,7 +253,7 @@
 <span class="co">#&gt; extent      : 723000, 732000, -3800000, -3788990  (xmin, xmax, ymin, ymax)</span>
 <span class="co">#&gt; coord. ref. : GDA94 / Australian Albers (EPSG:3577)</span></code></pre></div>
 <p>Rasterizing the current data is then done via <code>add_raster_cell</code>. This function has the argument <code>add_xy</code> which will add the centroid of the cell back to the data frame using the same names as the original <code>x</code> and <code>y</code> columns. Alternatively, the <code>x</code> and <code>y</code> columns will be lost from the returned data frame, replaced with <code>cell</code>, the raster cell id.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">flor_cell</span> <span class="op">&lt;-</span> <span class="fu">envRaster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/envRaster/man/add_raster_cell.html">add_raster_cell</a></span><span class="op">(</span><span class="va">aoi_raster</span>
                                , <span class="va">flor_rel</span>
@@ -258,21 +264,20 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_cell</span>
-<span class="co">#&gt; # A tibble: 2,271 x 14</span>
-<span class="co">#&gt;     cell  long   lat data_name site  date       original_name   cover cover_code</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;date&gt;     &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;     </span>
-<span class="co">#&gt;  1  7340  140. -34.5 BDBSA     26610 2006-10-18 Westringia rig~    NA T         </span>
-<span class="co">#&gt;  2  7340  140. -34.5 BDBSA     26610 2006-10-18 Maireana trich~    NA T         </span>
-<span class="co">#&gt;  3  7340  140. -34.5 BDBSA     26610 2006-10-18 Maireana penta~    NA T         </span>
-<span class="co">#&gt;  4  7340  140. -34.5 BDBSA     26610 2006-10-18 Olearia muelle~    NA N         </span>
-<span class="co">#&gt;  5  7340  140. -34.5 BDBSA     26610 2006-10-18 Geijera linear~    NA N         </span>
-<span class="co">#&gt;  6  7340  140. -34.5 BDBSA     26610 2006-10-18 Halgania andro~    NA N         </span>
-<span class="co">#&gt;  7  7340  140. -34.5 BDBSA     26610 2006-10-18 Rhagodia crass~    NA N         </span>
-<span class="co">#&gt;  8  7340  140. -34.5 BDBSA     26610 2006-10-18 Ptilotus semin~    NA N         </span>
-<span class="co">#&gt;  9  7340  140. -34.5 BDBSA     26610 2006-10-18 Austrostipa ac~    NA N         </span>
-<span class="co">#&gt; 10  7340  140. -34.5 BDBSA     26610 2006-10-18 Eucalyptus gra~    NA 2         </span>
-<span class="co">#&gt; # ... with 2,261 more rows, and 5 more variables: quad_x &lt;int&gt;, quad_y &lt;int&gt;,</span>
-<span class="co">#&gt; #   rel_dist &lt;dbl&gt;, month &lt;int&gt;, year &lt;int&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 2,240 x 10</span>
+<span class="co">#&gt;     cell  long   lat data_name site   date       original_name  rel_metres month</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  3925  140. -34.5 GBIF      16297~ 1999-04-03 Petroica good~        100     4</span>
+<span class="co">#&gt;  2  3925  140. -34.5 GBIF      16252~ 2000-09-21 Gymnorhina ti~        100     9</span>
+<span class="co">#&gt;  3  3925  140. -34.5 GBIF      16225~ 1999-05-15 Acanthiza nana        100     5</span>
+<span class="co">#&gt;  4  3925  140. -34.5 GBIF      16294~ 2000-09-21 Pardalotus st~        100     9</span>
+<span class="co">#&gt;  5  3925  140. -34.5 GBIF      16244~ 2000-07-16 Cinclosoma ca~        100     7</span>
+<span class="co">#&gt;  6  3925  140. -34.5 GBIF      16278~ 2015-05-21 Gavicalis vir~        100     5</span>
+<span class="co">#&gt;  7  3925  140. -34.5 GBIF      16225~ 2015-05-21 Acanthiza nana        100     5</span>
+<span class="co">#&gt;  8  3925  140. -34.5 GBIF      16291~ 2000-09-21 Pachycephala ~        100     9</span>
+<span class="co">#&gt;  9  3925  140. -34.5 GBIF      16297~ 2000-09-21 Petroica good~        100     9</span>
+<span class="co">#&gt; 10  3925  140. -34.5 GBIF      16296~ 1999-04-13 Petrochelidon~        100     4</span>
+<span class="co">#&gt; # ... with 2,230 more rows, and 1 more variable: year &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="taxonomy" class="section level1">
@@ -289,83 +294,83 @@
 <li>
 <code>taxa_taxonomy</code> provides the full taxonomic hierarchy for each <code>taxa</code> in the <code>lutaxa</code> object. The column <code>taxa</code> should not have any duplicates. The output can also include lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to <code>make_taxa_taxonomy</code>.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">taxa</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
-                     , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="st">"luGBIF.feather"</span><span class="op">)</span>
-                     <span class="op">)</span>
-
-  </code></pre></div>
-<p>A look at <code>lutaxa</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
-<span class="co">#&gt; # A tibble: 345 x 3</span>
-<span class="co">#&gt;    original_name                             taxa                   rank      </span>
-<span class="co">#&gt;    &lt;chr&gt;                                     &lt;chr&gt;                  &lt;ord&gt;     </span>
-<span class="co">#&gt;  1 Zygophyllum aurantiacum (NC)              Roepera aurantiaca     subspecies</span>
-<span class="co">#&gt;  2 Westringia rigida                         Westringia rigida      species   </span>
-<span class="co">#&gt;  3 Westringia rigida R.Br.                   Westringia rigida      species   </span>
-<span class="co">#&gt;  4 Wahlenbergia luteola                      Wahlenbergia luteola   species   </span>
-<span class="co">#&gt;  5 Wahlenbergia luteola P.J.Sm.              Wahlenbergia luteola   species   </span>
-<span class="co">#&gt;  6 Vulpia myuros f. myuros                   Vulpia myuros          species   </span>
-<span class="co">#&gt;  7 Vulpia muralis                            Vulpia muralis         species   </span>
-<span class="co">#&gt;  8 Vulpia muralis (Kunth) Nees               Vulpia muralis         species   </span>
-<span class="co">#&gt;  9 Vittadinia megacephala                    Vittadinia megacephala species   </span>
-<span class="co">#&gt; 10 Vittadinia megacephala (Benth.) J.M.Black Vittadinia megacephala species   </span>
-<span class="co">#&gt; # ... with 335 more rows</span></code></pre></div>
-<p>and <code>taxa_taxonomy</code></p>
+  <span class="va">taxa</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
+                              , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html">path</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="op">)</span>
+                                                            , <span class="st">"inst"</span>
+                                                            , <span class="st">"luGBIF.feather"</span>
+                                                            <span class="op">)</span>
+                                                   <span class="op">)</span>
+                              <span class="op">)</span></code></pre></div>
+<p>A look at <code>lutaxa</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+  <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
+<span class="co">#&gt; # A tibble: 237 x 3</span>
+<span class="co">#&gt;    original_name          taxa                   rank   </span>
+<span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;                  &lt;ord&gt;  </span>
+<span class="co">#&gt;  1 Zosterops lateralis    Plantae                kingdom</span>
+<span class="co">#&gt;  2 Walsholaria muelleri   Walsholaria muelleri   species</span>
+<span class="co">#&gt;  3 Walsholaria magniflora Walsholaria magniflora species</span>
+<span class="co">#&gt;  4 Vittadinia dissecta    Vittadinia dissecta    species</span>
+<span class="co">#&gt;  5 Vittadinia cuneata     Vittadinia cuneata     species</span>
+<span class="co">#&gt;  6 Varanus gouldii        Plantae                kingdom</span>
+<span class="co">#&gt;  7 Tyto javanica          Plantae                kingdom</span>
+<span class="co">#&gt;  8 Todiramphus sanctus    Plantae                kingdom</span>
+<span class="co">#&gt;  9 Tiliqua rugosa         Plantae                kingdom</span>
+<span class="co">#&gt; 10 Tachyglossus aculeatus Plantae                kingdom</span>
+<span class="co">#&gt; # ... with 227 more rows</span></code></pre></div>
+<p>and <code>taxa_taxonomy</code></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
   <span class="va">taxa</span><span class="op">$</span><span class="va">taxa_taxonomy</span>
-<span class="co">#&gt; # A tibble: 192 x 8</span>
-<span class="co">#&gt;    taxa                    kingdom phylum  order  family  genus  species   class</span>
-<span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;</span>
-<span class="co">#&gt;  1 Roepera aurantiaca      Plantae Trache~ Zygop~ Zygoph~ Roepe~ Roepera ~ Magn~</span>
-<span class="co">#&gt;  2 Westringia rigida       Plantae Trache~ Lamia~ Lamiac~ Westr~ Westring~ Magn~</span>
-<span class="co">#&gt;  3 Wahlenbergia luteola    Plantae Trache~ Aster~ Campan~ Wahle~ Wahlenbe~ Magn~</span>
-<span class="co">#&gt;  4 Vulpia myuros           Plantae Trache~ Poales Poaceae Vulpia Vulpia m~ Lili~</span>
-<span class="co">#&gt;  5 Vulpia muralis          Plantae Trache~ Poales Poaceae Vulpia Vulpia m~ Lili~</span>
-<span class="co">#&gt;  6 Vittadinia megacephala  Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt;  7 Vittadinia gracilis     Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt;  8 Vittadinia dissecta     Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt;  9 Vittadinia cuneata      Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt; 10 Vittadinia cervicularis Plantae Trache~ Aster~ Astera~ Vitta~ Vittadin~ Magn~</span>
-<span class="co">#&gt; # ... with 182 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 131 x 8</span>
+<span class="co">#&gt;    taxa                     kingdom phylum  order  family  genus  species  class</span>
+<span class="co">#&gt;    &lt;chr&gt;                    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;</span>
+<span class="co">#&gt;  1 Plantae                  Plantae &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt; </span>
+<span class="co">#&gt;  2 Walsholaria muelleri     Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
+<span class="co">#&gt;  3 Walsholaria magniflora   Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
+<span class="co">#&gt;  4 Vittadinia dissecta      Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
+<span class="co">#&gt;  5 Vittadinia cuneata       Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
+<span class="co">#&gt;  6 Senna artemisioides      Plantae Trache~ Fabal~ Fabace~ Senna  Senna a~ Magn~</span>
+<span class="co">#&gt;  7 Senecio pinnatifolius    Plantae Trache~ Aster~ Astera~ Senec~ Senecio~ Magn~</span>
+<span class="co">#&gt;  8 Sabulina mediterranea    Plantae Trache~ Caryo~ Caryop~ Sabul~ Sabulin~ Magn~</span>
+<span class="co">#&gt;  9 Rytidosperma caespitosum Plantae Trache~ Poales Poaceae Rytid~ Rytidos~ Lili~</span>
+<span class="co">#&gt; 10 Rumicastrum eremaeum     Plantae Trache~ Caryo~ Montia~ Rumic~ Rumicas~ Magn~</span>
+<span class="co">#&gt; # ... with 121 more rows</span></code></pre></div>
 </div>
 <div id="filter-taxonomy" class="section level2">
 <h2 class="hasAnchor">
 <a href="#filter-taxonomy" class="anchor"></a>Filter taxonomy</h2>
 <p>Cleaning to a single taxonomy is now possible sing <code>lutaxa</code> and <code>taxa_taxonomy</code>.</p>
 <p>At this point, the <a href="#context">context</a> is also <em>exclusively</em> applied.</p>
-<p>Thus the output of applying <code>filter_taxa</code> is to generate a single record for each taxa within each context. Further, by providing <code>do_cov</code> and <code>lucov</code> to <code>filter_taxa</code>, a single, field-based estimate of cover (if available) is generated for each record, including reconciling the different methods of recording cover: cover (a percentage); and cover_code (ordinal scale based on Braun-Blanquet <span class="citation">(Braun-Blanquet 1932)</span> cover-abundance scale). An attempt will also be made to provide a single value for any <code>extra_cols</code> but this will fail if there are values within any of <code>extra_cols</code> that are not equivalent within a taxa and context.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>Thus the output of applying <code>filter_taxa</code> is to generate a single record for each taxa within each context. An attempt will also be made to provide a single value for any <code>extra_cols</code> but this will fail to provide a unique result if there are values within any of <code>extra_cols</code> that are not equivalent within a taxa and context.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa</a></span><span class="op">(</span><span class="va">flor_cell</span>
                           , taxa_col <span class="op">=</span> <span class="st">"original_name"</span>
                           , context <span class="op">=</span> <span class="va">context</span>
-                          , do_cov <span class="op">=</span> <span class="cn">TRUE</span>
-                          , lucov <span class="op">=</span> <span class="fu">envEcosystems</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/envEcosystems/man/lucover.html">lucover</a></span>
                           , taxonomy <span class="op">=</span> <span class="va">taxa</span>
                           <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_taxa</span>
-<span class="co">#&gt; # A tibble: 832 x 7</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Westringia rigida     0.015</span>
-<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westringia rigida     0.015</span>
-<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westringia rigida     0.015</span>
-<span class="co">#&gt;  6  2006    10 -34.5  140. 19607 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westringia rigida     0.015</span>
-<span class="co">#&gt;  8  2006    10 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt;  9  1990     4 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt; 10  1990     4 -34.5  140. 39512 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 822 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 694 x 6</span>
+<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Maireana radiata    </span>
+<span class="co">#&gt;  2  2006    10 -34.6  140. 95018 Maireana radiata    </span>
+<span class="co">#&gt;  3  2006    10 -34.5  140.  7340 Roepera glauca      </span>
+<span class="co">#&gt;  4  1990     5 -34.5  140. 18098 Roepera glauca      </span>
+<span class="co">#&gt;  5  1990     6 -34.6  140. 80157 Roepera glauca      </span>
+<span class="co">#&gt;  6  2006    10 -34.6  140. 83038 Roepera glauca      </span>
+<span class="co">#&gt;  7  2006    10 -34.6  140. 84812 Roepera glauca      </span>
+<span class="co">#&gt;  8  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
+<span class="co">#&gt;  9  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
+<span class="co">#&gt; 10  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
+<span class="co">#&gt; # ... with 684 more rows</span></code></pre></div>
 </div>
 </div>
 <div id="singletons" class="section level1">
@@ -374,7 +379,7 @@
 <p>An implicit assumption in collation of data sources is usually that records were a list of taxa collected at a specific spatial location (and date). In many cases this assumption proves incorrect. For example, records may be related to, say, tree health monitoring where no other taxa were concurrently recorded.</p>
 <p>Thus, filtering ‘singleton’ sites (a site with only a single taxa was recorded) is often prudent.</p>
 <p>This will also inadvertently filter legitimate single taxa lists. For example, some areas of samphire or mangroves may have only a single taxa recorded within a survey site. As always, it depends on the goal of any particular analysis whether this trade-off will be worthwhile.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
   <span class="co"># Filter singletons</span>
   <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span><span class="va">flor_taxa</span>
@@ -385,20 +390,20 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_single</span>
-<span class="co">#&gt; # A tibble: 825 x 7</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Westringia rigida     0.015</span>
-<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westringia rigida     0.015</span>
-<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westringia rigida     0.015</span>
-<span class="co">#&gt;  6  2006    10 -34.5  140. 19607 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westringia rigida     0.015</span>
-<span class="co">#&gt;  8  2006    10 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt;  9  1990     4 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt; 10  1990     4 -34.5  140. 39512 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 815 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 692 x 6</span>
+<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Maireana radiata    </span>
+<span class="co">#&gt;  2  2006    10 -34.6  140. 95018 Maireana radiata    </span>
+<span class="co">#&gt;  3  2006    10 -34.5  140.  7340 Roepera glauca      </span>
+<span class="co">#&gt;  4  1990     5 -34.5  140. 18098 Roepera glauca      </span>
+<span class="co">#&gt;  5  1990     6 -34.6  140. 80157 Roepera glauca      </span>
+<span class="co">#&gt;  6  2006    10 -34.6  140. 83038 Roepera glauca      </span>
+<span class="co">#&gt;  7  2006    10 -34.6  140. 84812 Roepera glauca      </span>
+<span class="co">#&gt;  8  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
+<span class="co">#&gt;  9  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
+<span class="co">#&gt; 10  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
+<span class="co">#&gt; # ... with 682 more rows</span></code></pre></div>
 </div>
 <div id="effort" class="section level1">
 <h1 class="hasAnchor">
@@ -426,7 +431,7 @@
 <li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra">IBRA</a> Subregions</li>
 </ul>
 <p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020; Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># run model</span>
   <span class="va">effort_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_effort_mod.html">make_effort_mod</a></span><span class="op">(</span><span class="va">flor_single</span>
@@ -453,15 +458,15 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.319 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.341 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.66 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.241 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.235 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.476 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 2: Gradient evaluation took 0.001 seconds</span>
+<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
 <span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; Chain 2: </span>
@@ -478,15 +483,15 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.319 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.322 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.641 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.235 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.253 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.488 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: Gradient evaluation took 0.001 seconds</span>
-<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
+<span class="co">#&gt; Chain 3: Gradient evaluation took 0 seconds</span>
+<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
 <span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; Chain 3: </span>
@@ -503,9 +508,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.302 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.344 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.646 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.226 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.245 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.471 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -528,9 +533,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.302 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.325 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.627 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.234 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.261 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.495 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -543,26 +548,26 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_effort</span>
-<span class="co">#&gt; # A tibble: 788 x 7</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Westringia rigida     0.015</span>
-<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westringia rigida     0.015</span>
-<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westringia rigida     0.015</span>
-<span class="co">#&gt;  6  2006    10 -34.5  140. 19607 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westringia rigida     0.015</span>
-<span class="co">#&gt;  8  2006    10 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt;  9  1990     4 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt; 10  1990     4 -34.5  140. 39512 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 778 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 688 x 6</span>
+<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Maireana radiata    </span>
+<span class="co">#&gt;  2  2006    10 -34.6  140. 95018 Maireana radiata    </span>
+<span class="co">#&gt;  3  2006    10 -34.5  140.  7340 Roepera glauca      </span>
+<span class="co">#&gt;  4  1990     5 -34.5  140. 18098 Roepera glauca      </span>
+<span class="co">#&gt;  5  1990     6 -34.6  140. 80157 Roepera glauca      </span>
+<span class="co">#&gt;  6  2006    10 -34.6  140. 83038 Roepera glauca      </span>
+<span class="co">#&gt;  7  2006    10 -34.6  140. 84812 Roepera glauca      </span>
+<span class="co">#&gt;  8  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
+<span class="co">#&gt;  9  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
+<span class="co">#&gt; 10  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
+<span class="co">#&gt; # ... with 678 more rows</span></code></pre></div>
 </div>
 <div id="proportion-of-sites-at-which-a-taxa-occurs" class="section level1">
 <h1 class="hasAnchor">
 <a href="#proportion-of-sites-at-which-a-taxa-occurs" class="anchor"></a>Proportion of sites at which a taxa occurs</h1>
 <p>When clustering biological data, it is often useful to exclude rare taxa from the data set. <code>filter_prop</code> allows filtering such taxa.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
   <span class="co"># Filter taxa recorded at less than 5% of contexts</span>
   <span class="va">flor_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_prop.html">filter_prop</a></span><span class="op">(</span><span class="va">flor_effort</span>
@@ -573,26 +578,26 @@
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_prop</span>
-<span class="co">#&gt; # A tibble: 608 x 7</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Westringia rigida     0.015</span>
-<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westringia rigida     0.015</span>
-<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westringia rigida     0.015</span>
-<span class="co">#&gt;  6  2006    10 -34.5  140. 19607 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westringia rigida     0.015</span>
-<span class="co">#&gt;  8  2006    10 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt;  9  1990     4 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt; 10  1990     4 -34.5  140. 39512 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 598 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 607 x 6</span>
+<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Roepera glauca      </span>
+<span class="co">#&gt;  2  1990     5 -34.5  140. 18098 Roepera glauca      </span>
+<span class="co">#&gt;  3  1990     6 -34.6  140. 80157 Roepera glauca      </span>
+<span class="co">#&gt;  4  2006    10 -34.6  140. 83038 Roepera glauca      </span>
+<span class="co">#&gt;  5  2006    10 -34.6  140. 84812 Roepera glauca      </span>
+<span class="co">#&gt;  6  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
+<span class="co">#&gt;  7  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
+<span class="co">#&gt;  8  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
+<span class="co">#&gt;  9  2006    10 -34.5  140. 19607 Beyeria lechenaultii</span>
+<span class="co">#&gt; 10  2006    10 -34.5  140. 22287 Beyeria lechenaultii</span>
+<span class="co">#&gt; # ... with 597 more rows</span></code></pre></div>
 </div>
 <div id="time" class="section level1">
 <h1 class="hasAnchor">
 <a href="#time" class="anchor"></a>Time</h1>
 <p>So far, all contexts year, month, lat, long or cell have been kept. It may be desirable to keep only the most recent contexts. Just use <code>dplyr</code>…</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">flor_recent</span> <span class="op">&lt;-</span> <span class="va">flor_prop</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">any_of</span><span class="op">(</span><span class="va">context</span><span class="op">[</span><span class="op">!</span><span class="va">context</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -604,26 +609,26 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_recent</span>
-<span class="co">#&gt; # A tibble: 526 x 7</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa              use_cover</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Westringia rigida     0.015</span>
-<span class="co">#&gt;  2  2006    10 -34.5  140. 12659 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  3  1990     5 -34.5  140. 18098 Westringia rigida     0.015</span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18722 Westringia rigida     0.015</span>
-<span class="co">#&gt;  5  1990     5 -34.5  140. 19039 Westringia rigida     0.015</span>
-<span class="co">#&gt;  6  2006    10 -34.5  140. 19607 Westringia rigida     0.01 </span>
-<span class="co">#&gt;  7  1990     6 -34.5  140. 34485 Westringia rigida     0.015</span>
-<span class="co">#&gt;  8  2006    10 -34.5  140. 37410 Westringia rigida     0.015</span>
-<span class="co">#&gt;  9  2006    10 -34.5  140. 39512 Westringia rigida     0.025</span>
-<span class="co">#&gt; 10  1990     7 -34.6  140. 64597 Westringia rigida     0.015</span>
-<span class="co">#&gt; # ... with 516 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 536 x 6</span>
+<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Roepera glauca      </span>
+<span class="co">#&gt;  2  1990     5 -34.5  140. 18098 Roepera glauca      </span>
+<span class="co">#&gt;  3  2006    10 -34.6  140. 83038 Roepera glauca      </span>
+<span class="co">#&gt;  4  2006    10 -34.6  140. 84812 Roepera glauca      </span>
+<span class="co">#&gt;  5  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
+<span class="co">#&gt;  6  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
+<span class="co">#&gt;  7  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
+<span class="co">#&gt;  8  2006    10 -34.5  140. 19607 Beyeria lechenaultii</span>
+<span class="co">#&gt;  9  2006    10 -34.5  140. 22287 Beyeria lechenaultii</span>
+<span class="co">#&gt; 10  2006    10 -34.5  140. 37727 Beyeria lechenaultii</span>
+<span class="co">#&gt; # ... with 526 more rows</span></code></pre></div>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Filtering summary</h1>
 <p>A little care naming objects enables easily capturing the results of the cleaning process. The function <code>rec_vis_sit_tax</code> summarises the taxa, records, visits and sites in each <code>flor_</code> data frame.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
   <span class="va">filt_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"flor_"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>, value <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
@@ -646,54 +651,48 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">filt_summary</span>
-<span class="co">#&gt; # A tibble: 9 x 10</span>
+<span class="co">#&gt; # A tibble: 8 x 9</span>
 <span class="co">#&gt;   name    obj     has_stamp  nrow ctime                taxa records visits sites</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;  &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       3396 2023-01-11 07:44:58   408    3396     20   211</span>
-<span class="co">#&gt; 2 flor_a~ &lt;sf [3~ TRUE       3396 2023-01-11 07:44:58   408    3396     20     1</span>
-<span class="co">#&gt; 3 flor_r~ &lt;tibbl~ TRUE       2271 2023-01-11 07:45:00   346    2271     11    65</span>
-<span class="co">#&gt; 4 flor_c~ &lt;tibbl~ TRUE       2271 2023-01-11 07:45:04   346    2271     11    62</span>
-<span class="co">#&gt; 5 flor_t~ &lt;tibbl~ TRUE        832 2023-01-11 07:45:04   174     832     10    62</span>
-<span class="co">#&gt; 6 flor_s~ &lt;tibbl~ TRUE        825 2023-01-11 07:45:05   174     825     10    55</span>
-<span class="co">#&gt; 7 flor_e~ &lt;tibbl~ TRUE        788 2023-01-11 07:45:08   172     788     10    54</span>
-<span class="co">#&gt; 8 flor_p~ &lt;tibbl~ TRUE        608 2023-01-11 07:45:08    60     608     10    52</span>
-<span class="co">#&gt; 9 flor_r~ &lt;tibbl~ TRUE        526 2023-01-11 07:45:08    60     526     10    52</span>
-<span class="co">#&gt; # ... with 1 more variable: geometry &lt;GEOMETRY [°]&gt;</span>&gt;</code></pre></div>
+<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       5537 2023-01-23 16:17:06   381    5537    132   410</span>
+<span class="co">#&gt; 2 flor_r~ &lt;tibbl~ TRUE       2240 2023-01-23 16:17:07   237    2240     56    91</span>
+<span class="co">#&gt; 3 flor_c~ &lt;tibbl~ TRUE       2240 2023-01-23 16:17:11   237    2240     56    88</span>
+<span class="co">#&gt; 4 flor_t~ &lt;tibbl~ TRUE        694 2023-01-23 16:17:12   129     694      8    38</span>
+<span class="co">#&gt; 5 flor_s~ &lt;tibbl~ TRUE        692 2023-01-23 16:17:12   128     692      7    36</span>
+<span class="co">#&gt; 6 flor_e~ &lt;tibbl~ TRUE        688 2023-01-23 16:17:14   127     688      7    35</span>
+<span class="co">#&gt; 7 flor_p~ &lt;tibbl~ TRUE        607 2023-01-23 16:17:14    70     607      7    35</span>
+<span class="co">#&gt; 8 flor_r~ &lt;tibbl~ TRUE        536 2023-01-23 16:17:14    70     536      7    35</span></code></pre></div>
 </div>
 <div id="what-happened-to-x" class="section level1">
 <h1 class="hasAnchor">
 <a href="#what-happened-to-x" class="anchor"></a>What happened to x?</h1>
 <p>It can often be useful to trace the results for a single taxa through the filtering process. How did, say, <em>Eucalyptus incrassata</em> fare through the process?</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span>
             , lookup_taxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
             <span class="op">)</span>
-<span class="co">#&gt; # A tibble: 9 x 6</span>
+<span class="co">#&gt; # A tibble: 8 x 6</span>
 <span class="co">#&gt;   name        obj              has_stamp  nrow ctime               summary      </span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
-<span class="co">#&gt; 1 flor_aoi    &lt;tibble [2 x 2]&gt; TRUE       3396 2023-01-11 07:44:58 Eucalyptus i~</span>
-<span class="co">#&gt; 2 flor_aoi_sf &lt;sf [2 x 3]&gt;     TRUE       3396 2023-01-11 07:44:58 Eucalyptus i~</span>
-<span class="co">#&gt; 3 flor_rel    &lt;tibble [2 x 2]&gt; TRUE       2271 2023-01-11 07:45:00 Eucalyptus i~</span>
-<span class="co">#&gt; 4 flor_cell   &lt;tibble [2 x 2]&gt; TRUE       2271 2023-01-11 07:45:04 Eucalyptus i~</span>
-<span class="co">#&gt; 5 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        832 2023-01-11 07:45:04 Eucalyptus i~</span>
-<span class="co">#&gt; 6 flor_single &lt;tibble [1 x 2]&gt; TRUE        825 2023-01-11 07:45:05 Eucalyptus i~</span>
-<span class="co">#&gt; 7 flor_effort &lt;tibble [1 x 2]&gt; TRUE        788 2023-01-11 07:45:08 Eucalyptus i~</span>
-<span class="co">#&gt; 8 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        608 2023-01-11 07:45:08 Eucalyptus i~</span>
-<span class="co">#&gt; 9 flor_recent &lt;tibble [1 x 2]&gt; TRUE        526 2023-01-11 07:45:08 Eucalyptus i~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_aoi    &lt;tibble [1 x 2]&gt; TRUE       5537 2023-01-23 16:17:06 Eucalyptus i~</span>
+<span class="co">#&gt; 2 flor_rel    &lt;tibble [1 x 2]&gt; TRUE       2240 2023-01-23 16:17:07 Eucalyptus i~</span>
+<span class="co">#&gt; 3 flor_cell   &lt;tibble [1 x 2]&gt; TRUE       2240 2023-01-23 16:17:11 Eucalyptus i~</span>
+<span class="co">#&gt; 4 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        694 2023-01-23 16:17:12 Eucalyptus i~</span>
+<span class="co">#&gt; 5 flor_single &lt;tibble [1 x 2]&gt; TRUE        692 2023-01-23 16:17:12 Eucalyptus i~</span>
+<span class="co">#&gt; 6 flor_effort &lt;tibble [1 x 2]&gt; TRUE        688 2023-01-23 16:17:14 Eucalyptus i~</span>
+<span class="co">#&gt; 7 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        607 2023-01-23 16:17:14 Eucalyptus i~</span>
+<span class="co">#&gt; 8 flor_recent &lt;tibble [1 x 2]&gt; TRUE        536 2023-01-23 16:17:14 Eucalyptus i~</span></code></pre></div>
 </div>
 <div id="conclusion" class="section level1">
 <h1 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h1>
-<p>After ingesting data from a range of sources (BDBSA, EGIS and GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 3396 records were cleaned, tidied and filtered to 526 records.</p>
+<p>After ingesting data from a range of sources (GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 5537 records were cleaned, tidied and filtered to 536 records.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
-<div id="ref-RN4265">
-<p>Braun-Blanquet, J. 1932. <em>Plant sociology. The study of plant communities.</em> Book. 1st ed.</p>
-</div>
 <div id="ref-rstanarm2018">
 <p>Brilleman, SL, MJ Crowther, M Moreno-Betancur, J Buros Novik, and R Wolfe. 2018. “Joint Longitudinal and Time-to-Event Models via Stan.” <a href="https://github.com/stan-dev/stancon_talks/">https://github.com/stan-dev/stancon_talks/</a>.</p>
 </div>

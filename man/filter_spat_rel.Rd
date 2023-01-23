@@ -6,7 +6,7 @@
 \usage{
 filter_spat_rel(
   df,
-  dist_col = "rel_dist",
+  dist_col = "rel_metres",
   dist = 50,
   context,
   over_ride = NULL

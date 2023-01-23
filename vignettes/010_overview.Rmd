@@ -5,7 +5,7 @@ author:
 - Nigel Willoughby
 date: "`r format(Sys.time(), '%A, %d %B, %Y')`"
 output: rmarkdown::html_vignette
-bibliography: ["packages.bib", "refs.bib"]
+bibliography: ["packages.bib", "refs.bib", "gbif.bib"]
 vignette: >
   %\VignetteIndexEntry{Overview}
   %\VignetteEngine{knitr::rmarkdown}
@@ -109,22 +109,22 @@ In general the process will be referred to as _cleaning_.
 
 ### Site/visit/record/taxa
 
-Due to the loose definition of [context] (see below), the definitions of site, visit, record and taxa can change through the cleaning process. 
+Due to the loose definition of [context](#context) (see below), the definitions of site, visit, record and taxa can change through the cleaning process. 
 
 * sites are spatial locations. they may be defined by latitude, longitude, easting, northing and/or cell. These may be duplicated before exclusive application of context. They are not necessarily defined by all spatial concepts within context at all stages of the cleaning process.
 * visits are sites plus a time, such as year, month, day (or, even hour). Again, until context is applied exclusively, these may be duplicated
 * records are visits plus an observation to some level of the taxonomic hierarchy (refered to simply as 'taxa')
 * taxa refers to some form of taxonomic entity. An entity may be duplicated within a visit before taxonomy is resolved and context is applied exclusively (usually by `filter_taxa`).
 
-### Context
+### Context and binning {#context}
 
 Context is usually defined by two scales of particular interest: space (location) and time. It is possible, but often not desirable, to assign other concepts to `context` too (e.g. say, data source).
 
-Throughout the series of `env`Packages the concept of _context_ is used extensively, and at least currently, somewhat loosely.
+Throughout the series of `env` packages the concept of _context_ is used extensively, and at least currently, somewhat loosely. Context is also related to `binning`: lumping records into spatial and or temporal 'bins'. Later in the cleaning process, spatial and temporal bins are likely to define the context.
 
-With respect to 'loosely': context may be defined by, say, `c("lat", "long", "cell", "year", "month")`. At various stages through the cleaning process not every one of those variables may be applicable. After running `add_raster_cell` the variable `lat` and `long` may be removed (depending on the `add_xy` argument). However `context` can still be used in full in cleaning steps (via the consistent use of `tidyselect::any_of` in `envClean` functions).
+With respect to 'loosely': context may be defined by, say, `c("lat", "long", "cell", "year", "month")`. At various stages through the cleaning process not every one of those variables may be applicable. After running `add_raster_cell` (to assign a spatial bin) the variable `lat` and `long` may be removed (depending on the `add_xy` argument). However `context` can still be used in full in cleaning steps (via the consistent use of `tidyselect::any_of` in `envClean` functions).
 
-Note that `context` is first applied _exclusively_ only when taxonomy is filtered (see examples below). Another way to say this: extraneous fields/columns beyond `context` are maintained until taxonomy is filtered. However, even at that point, extra columns can be specified (see [Filter taxonomy]). Thus, if a cleaning process does not include `filter_taxa`, running, say, `dplyr::distinct(across(any_of(context)))` may be useful.
+Note that `context` is only applied _exclusively_ only when `filter_taxa` is run (see examples below). Thus: extraneous fields/columns beyond `context` are maintained until taxonomy is filtered (unless they are provided via the various arguments to `filter_taxa`); and no claim is made regarding the uniqueness of 'records' until this step in the process. Thus, if a cleaning process does not include `filter_taxa`, running, say, `dplyr::distinct(across(any_of(context)))` may be useful.
 
 ```{r context_example}
 
@@ -174,13 +174,5 @@ There are two (possibly three) main coordinate reference systems (crs) to worry 
 ## Import
 
 Querying and uniting disparate data sources into a single data set is a challenge in its own right. See [envImport](https://github.com/Acanthiza/envImport) for tools to assist there. Once you've imported and combined all your data, read on.
-
-Here, we'll start with combined floristic data (called `flor_all`) from the mallee in South Australia. This data set is provided with `envClean`.
-
-```{r flor_all}
-
-  flor_all <- flor_all %>% tibble::as_tibble()
-
-```
 
 ## References

@@ -66,6 +66,16 @@ vignette: >
 
 ```
 
+# Data
+
+Here, we'll start with combined floristic data (called `flor_all`) from the mallee in South Australia. This data set is provided with `envClean` and is a small subset of a [GBIF](https://www.gbif.org/) occurrence download [@GBIFRef_6].
+
+```{r flor_all}
+
+  flor_all <- flor_all %>% tibble::as_tibble()
+
+```
+
 # Area of interest
 
 Usually this is a geographic and/or taxonomic area of interest. An example area overlapping `flor_all` is provided in `aoi`. Converting `flor_all` to `sf` allows plotting them together.
@@ -109,7 +119,7 @@ Check that spatial filter worked.
 ```{r flor_aoi}
 
   # Create sf from flor_aoi
-  flor_aoi_sf <- flor_aoi %>%
+  aoi_sf <- flor_aoi %>%
     sf::st_as_sf(coords = c("long", "lat")
                  , crs = 4326
                  )
@@ -119,7 +129,7 @@ Check that spatial filter worked.
            , bbox = st_bbox(flor_all_sf)
            ) +
     tm_polygons() +
-  tm_shape(flor_aoi_sf) +
+  tm_shape(aoi_sf) +
     tm_dots()
 
 ```
@@ -145,7 +155,7 @@ Records with precision less than threshold are filtered using `filter_spat_rel`.
   include_data_name <- c("ALIS","BCM","NVB","TERN")
 
   flor_rel <- filter_spat_rel(flor_aoi
-                              , dist_col = "rel_dist"
+                              , dist_col = "rel_metres"
                               , dist = 100
                               , context = context
                               , over_ride = list(data_name = include_data_name)
@@ -163,7 +173,7 @@ Now that records with dubious spatial precision have been removed, an accuracy t
 
 ```{r aoi_raster}
 
-  aoi_raster <- terra::rast(ext = round(extent(aoi), -3)
+  aoi_raster <- terra::rast(ext = round(terra::ext(aoi), -3)
                       , resolution = 30
                       , crs = paste0("epsg:",use_crs)
                       )
@@ -203,10 +213,12 @@ Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This re
 ```{r make_taxa_taxonomy}
 
   taxa <-  make_taxa_taxonomy(flor_cell
-                     , save_luGBIF = path("luGBIF.feather")
-                     )
-
-  
+                              , save_luGBIF = path(fs::path(here::here()
+                                                            , "inst"
+                                                            , "luGBIF.feather"
+                                                            )
+                                                   )
+                              )
 
 ```
 
@@ -232,15 +244,13 @@ Cleaning to a single taxonomy is now possible sing `lutaxa` and `taxa_taxonomy`.
 
 At this point, the [context](#context) is also _exclusively_ applied.
 
-Thus the output of applying `filter_taxa` is to generate a single record for each taxa within each context. Further, by providing `do_cov` and `lucov` to `filter_taxa`, a single, field-based estimate of cover (if available) is generated for each record, including reconciling the different methods of recording cover: cover (a percentage); and cover_code (ordinal scale based on Braun-Blanquet [@RN4265] cover-abundance scale). An attempt will also be made to provide a single value for any `extra_cols` but this will fail if there are values within any of `extra_cols` that are not equivalent within a taxa and context.
+Thus the output of applying `filter_taxa` is to generate a single record for each taxa within each context. An attempt will also be made to provide a single value for any `extra_cols` but this will fail to provide a unique result if there are values within any of `extra_cols` that are not equivalent within a taxa and context.
 
 ```{r filt_tax}
 
   flor_taxa <- filter_taxa(flor_cell
                           , taxa_col = "original_name"
                           , context = context
-                          , do_cov = TRUE
-                          , lucov = envEcosystems::lucover
                           , taxonomy = taxa
                           ) %>%
     add_time_stamp()

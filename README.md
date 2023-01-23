@@ -79,20 +79,20 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
 #> Joining, by = c("lat", "long")
 
   flor_aoi
-#> # A tibble: 3,396 x 13
-#>      lat  long data_name site      date       original_name             cover cover_code quad_x quad_y rel_dist month  year
-#>    <dbl> <dbl> <chr>     <chr>     <date>     <chr>                     <int> <chr>       <int>  <int>    <dbl> <int> <int>
-#>  1 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus gracilis          NA "2"            30     30      100     7  1990
-#>  2 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus oleosa (NC)       NA "2"            30     30      100     7  1990
-#>  3 -34.6  140. BDBSA     216       1990-07-12 Brassica tournefortii        NA "T"            30     30      100     7  1990
-#>  4 -34.6  140. BDBSA     216       1990-07-12 Beyeria opaca                NA "T"            30     30      100     7  1990
-#>  5 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus socialis (NC)     NA "T"            30     30      100     7  1990
-#>  6 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus brachycalyx       NA "1"            30     30      100     7  1990
-#>  7 -34.6  140. BDBSA     216       1990-07-12 Myoporum platycarpum (NC)    NA "T"            30     30      100     7  1990
-#>  8 -34.6  140. BDBSA     216       1990-07-12 Eucalyptus dumosa            NA "1"            30     30      100     7  1990
-#>  9 -34.6  140. BDBSA     216       1990-07-12 Melaleuca lanceolata         NA "T"            30     30      100     7  1990
-#> 10 -34.6  140. EGIS      SUP2006-2 1990-07-12 Eucalyptus gracilis          NA ""             NA     NA      100     7  1990
-#> # ... with 3,386 more rows
+#> # A tibble: 5,537 x 9
+#>      lat  long data_name site       date       original_name              rel_metres month  year
+#>    <dbl> <dbl> <fct>     <chr>      <date>     <chr>                           <dbl> <dbl> <dbl>
+#>  1 -34.5  140. GBIF      1637403098 2007-10-18 Strepera versicolor               500    10  2007
+#>  2 -34.5  140. GBIF      1637403107 2007-10-18 Acanthiza uropygialis             500    10  2007
+#>  3 -34.5  140. GBIF      1637403109 2007-10-18 Daphoenositta chrysoptera         500    10  2007
+#>  4 -34.6  140. GBIF      1637578374 2011-01-18 Drymodes brunneopygia             500     1  2011
+#>  5 -34.6  140. GBIF      1637579190 2011-12-03 Lichenostomus cratitius           500    12  2011
+#>  6 -34.6  140. GBIF      1637590718 2015-04-27 Aphelocephala leucopsis           500     4  2015
+#>  7 -34.6  140. GBIF      1637578340 2011-12-04 Drymodes brunneopygia             500    12  2011
+#>  8 -34.6  140. GBIF      1637578521 2011-01-18 Microeca fascinans                500     1  2011
+#>  9 -34.6  140. GBIF      1637578690 2011-02-09 Pomatostomus superciliosus        500     2  2011
+#> 10 -34.6  140. GBIF      1637590476 2015-04-29 Acanthiza chrysorrhoa             500     4  2015
+#> # ... with 5,527 more rows
 ```
 
 Check that spatial filter worked.

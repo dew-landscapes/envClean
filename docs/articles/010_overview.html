@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Wednesday, 11 January, 2023</h4>
+            <h4 class="date">Monday, 23 January, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/010_overview.Rmd"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
@@ -251,11 +251,11 @@
 <a href="#filtercleantidy" class="anchor"></a>Filter/clean/tidy</h3>
 <p><code>envClean</code>, helps with implementing:</p>
 <ul>
-<li>filtering: remove rows of a data frame. These may be entirely legitimate observations but it is desirable to remove them for the purposes of a downstream analysis. For example, a <a href="#context">context</a> with only one (legitimate) record may not meet the expectations of an analysis that within each <a href="#context">context</a> there is a list of taxa recorded.</li>
+<li>filtering: remove rows of a data frame. These may be entirely legitimate observations but it is desirable to remove them for the purposes of a downstream analysis. For example, a [context] with only one (legitimate) record may not meet the expectations of an analysis that within each [context] there is a list of taxa recorded.</li>
 <li>cleaning: remove observations to reduce the risk that spurious observations are included in downstream analysis. For example, two different data sources may contain the same observation. Most analyses will perform better when records duplicated within a context are removed.</li>
 <li>tidying: as per <a href="https://www.jstatsoft.org/article/view/v059i10">tidy data</a> <span class="citation">(Wickham 2014)</span> where each variable is a column and each observation is a unique row.</li>
 </ul>
-<p>In practice these tasks are often blurred within each of the functions. For example <code>filter_taxa</code> cleans taxonomic names and tidies the data set with respect to any <a href="#context">context</a> specified.</p>
+<p>In practice these tasks are often blurred within each of the functions. For example <code>filter_taxa</code> cleans taxonomic names and tidies the data set with respect to any [context] specified.</p>
 <p>In general the process will be referred to as <em>cleaning</em>.</p>
 </div>
 <div id="sitevisitrecordtaxa" class="section level3">
@@ -271,11 +271,11 @@
 </div>
 <div id="context" class="section level3">
 <h3 class="hasAnchor">
-<a href="#context" class="anchor"></a>Context</h3>
+<a href="#context" class="anchor"></a>Context and binning</h3>
 <p>Context is usually defined by two scales of particular interest: space (location) and time. It is possible, but often not desirable, to assign other concepts to <code>context</code> too (e.g. say, data source).</p>
-<p>Throughout the series of <code>env</code>Packages the concept of <em>context</em> is used extensively, and at least currently, somewhat loosely.</p>
-<p>With respect to ‘loosely’: context may be defined by, say, <code>c("lat", "long", "cell", "year", "month")</code>. At various stages through the cleaning process not every one of those variables may be applicable. After running <code>add_raster_cell</code> the variable <code>lat</code> and <code>long</code> may be removed (depending on the <code>add_xy</code> argument). However <code>context</code> can still be used in full in cleaning steps (via the consistent use of <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">tidyselect::any_of</a></code> in <code>envClean</code> functions).</p>
-<p>Note that <code>context</code> is first applied <em>exclusively</em> only when taxonomy is filtered (see examples below). Another way to say this: extraneous fields/columns beyond <code>context</code> are maintained until taxonomy is filtered. However, even at that point, extra columns can be specified (see [Filter taxonomy]). Thus, if a cleaning process does not include <code>filter_taxa</code>, running, say, <code>dplyr::distinct(across(any_of(context)))</code> may be useful.</p>
+<p>Throughout the series of <code>env</code> packages the concept of <em>context</em> is used extensively, and at least currently, somewhat loosely. Context is also related to <code>binning</code>: lumping records into spatial and or temporal ‘bins’. Later in the cleaning process, spatial and temporal bins are likely to define the context.</p>
+<p>With respect to ‘loosely’: context may be defined by, say, <code>c("lat", "long", "cell", "year", "month")</code>. At various stages through the cleaning process not every one of those variables may be applicable. After running <code>add_raster_cell</code> (to assign a spatial bin) the variable <code>lat</code> and <code>long</code> may be removed (depending on the <code>add_xy</code> argument). However <code>context</code> can still be used in full in cleaning steps (via the consistent use of <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">tidyselect::any_of</a></code> in <code>envClean</code> functions).</p>
+<p>Note that <code>context</code> is only applied <em>exclusively</em> only when <code>filter_taxa</code> is run (see examples below). Thus: extraneous fields/columns beyond <code>context</code> are maintained until taxonomy is filtered (unless they are provided via the various arguments to <code>filter_taxa</code>); and no claim is made regarding the uniqueness of ‘records’ until this step in the process. Thus, if a cleaning process does not include <code>filter_taxa</code>, running, say, <code>dplyr::distinct(across(any_of(context)))</code> may be useful.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="co"># Simple context example</span>
@@ -341,10 +341,6 @@
 <h2 class="hasAnchor">
 <a href="#import" class="anchor"></a>Import</h2>
 <p>Querying and uniting disparate data sources into a single data set is a challenge in its own right. See <a href="https://github.com/Acanthiza/envImport">envImport</a> for tools to assist there. Once you’ve imported and combined all your data, read on.</p>
-<p>Here, we’ll start with combined floristic data (called <code>flor_all</code>) from the mallee in South Australia. This data set is provided with <code>envClean</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">

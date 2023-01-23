@@ -2,20 +2,21 @@
   library(magrittr)
   library(envClean)
 
-  path_to_save <- "data-raw/flor_all.csv"
+  path_to_save <- "data-raw/flor_all.rds"
 
-  path_to_flor <- "../../projects/envEco/out/MDD02_50_current/runs/2021-10-28-1024/flor_all.csv"
+  path_to_flor <- "../../data/point/bio_all.rds"
 
   path_to_area_of_interest <- "data-raw/shp/Bakara_smaller.shp"
 
   if(file.exists(path_to_flor) & file.exists(path_to_area_of_interest) & make_new_flor) {
 
     keep_cols <- c("lat", "long", "data_name", "site", "date", "original_name"
-                   , "cover", "cover_code", "quad_x", "quad_y", "rel_dist", "month", "year"
+                   , "rel_metres", "month", "year"
                    )
 
-    flor_all <- data.table::fread(path_to_flor) %>%
-      tibble::as_tibble()
+    flor_all <- rio::import(path_to_flor
+                            , setclass = "tibble"
+                            )
 
     aoi <- sf::st_read(path_to_area_of_interest)
 
@@ -27,6 +28,7 @@
       sf::st_transform(crs = aoi_crs)
 
     flor_aoi <- flor_all %>%
+      dplyr::filter(data_name %in% c("TERN", "GBIF")) %>%
       envClean::filter_aoi(aoi_buf
                            , crs_aoi = sf::st_crs(aoi_buf)
                            ) %>%
@@ -40,10 +42,10 @@
       dplyr::filter(!grepl(TRUE, sens_taxa)) %>%
       dplyr::select(any_of(keep_cols))
 
-    data.table::fwrite(flor_all
-                       , path_to_save
-                       )
+    rio::export(flor_all
+                , path_to_save
+                )
 
-  } else flor_all <- data.table::fread(path_to_save) %>% tibble::as.tibble()
+  } else flor_all <- rio::import(path_to_save)
 
 
