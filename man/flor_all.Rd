@@ -28,8 +28,9 @@ variables:
 flor_all
 }
 \description{
-Example resulting from munging several different data sources (\code{data_name})
-into one tidy data set. This is the sort of starting point where \code{envClean}
-tools can help.
+Example GBIF occurrence data set \insertCite{GBIFRef_1,GBIFRef_6}{envClean}.
+}
+\references{
+\insertAllCited{}
 }
 \keyword{datasets}

@@ -1,7 +1,0 @@
-### Date range of interest
-
-Records were limited to those with observation dates after `r abs_min_year`.
-
-`r data_filter$filter_text[i]`
-
-<br>

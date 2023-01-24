@@ -87,7 +87,7 @@ After many, many iterations, the following workflow has been found to be ok. Onl
 
 ```{r workflow, echo = FALSE}
   
-  knitr::kable(envClean::lufilter
+  knitr::kable(envClean::luclean
         , caption = "Suggested steps in the cleaning process"
         )
 

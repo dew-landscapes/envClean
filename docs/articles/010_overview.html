@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 24 January, 2023</h4>
+            <h4 class="date">Wednesday, 25 January, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/010_overview.Rmd"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
@@ -139,13 +139,8 @@
 <p>After many, many iterations, the following workflow has been found to be ok. Only ok. There is no awesome when cleaning large, unstructured data.</p>
 <table class="table">
 <caption>Suggested steps in the cleaning process</caption>
-<colgroup>
-<col width="18%">
-<col width="76%">
-<col width="5%">
-</colgroup>
 <thead><tr class="header">
-<th align="left">filter</th>
+<th align="left">clean</th>
 <th align="left">desc</th>
 <th align="right">order</th>
 </tr></thead>
@@ -156,48 +151,48 @@
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left">aoi</td>
-<td align="left">area of interest</td>
+<td align="left">tem_range</td>
+<td align="left">within a date range</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">time (temporal bin)</td>
-<td align="left">within a specified date range</td>
+<td align="left">tem_bin</td>
+<td align="left">assigning dates to temporal bins</td>
 <td align="right">2</td>
 </tr>
 <tr class="even">
-<td align="left">cell (spatial bin)</td>
-<td align="left">as a byproduct of converting sites to cells</td>
+<td align="left">tem_rel</td>
+<td align="left">temporal reliability</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
-<td align="left">rel</td>
-<td align="left">spatial reliability</td>
+<td align="left">geo_range</td>
+<td align="left">within a geographic area</td>
 <td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">geo_bin</td>
+<td align="left">assigning locations to spatial bins</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">geo_rel</td>
+<td align="left">spatial reliability</td>
+<td align="right">6</td>
 </tr>
 <tr class="even">
 <td align="left">ann</td>
 <td align="left">non-persistent taxa</td>
-<td align="right">5</td>
+<td align="right">7</td>
 </tr>
 <tr class="odd">
 <td align="left">taxa</td>
-<td align="left">taxonomy</td>
-<td align="right">6</td>
+<td align="left">align taxonomy and resolve any taxonomic duplication within bins</td>
+<td align="right">8</td>
 </tr>
 <tr class="even">
 <td align="left">single</td>
 <td align="left">singletons</td>
-<td align="right">7</td>
-</tr>
-<tr class="odd">
-<td align="left">geo</td>
-<td align="left">as a byproduct of assigning all contexts to a geographic area</td>
-<td align="right">8</td>
-</tr>
-<tr class="even">
-<td align="left">filt_env</td>
-<td align="left">as a byproduct of filtering cells with any <code>NA</code> value for an environmental variable</td>
 <td align="right">9</td>
 </tr>
 <tr class="odd">

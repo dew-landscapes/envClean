@@ -136,7 +136,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |flor_all            |tbl_df, tbl and data.frame |Example of data combined from several data sources.                                                                |
 |get_gbif_common     |function                   |Find common name from GBIF                                                                                         |
 |get_gbif_tax        |function                   |Get taxonomy from href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF Backbone Taxonomy}. |
-|lufilter            |tbl_df, tbl and data.frame |Dataframe of filtering steps                                                                                       |
+|luclean             |tbl_df, tbl and data.frame |Dataframe of cleaning steps                                                                                        |
 |lurank              |tbl_df, tbl and data.frame |Dataframe of taxonomic ranks                                                                                       |
 |make_aoi            |function                   |Create an 'area of interest'                                                                                       |
 |make_cover          |function                   |Make a single (numeric, proportion) cover column from different sorts of                                           |

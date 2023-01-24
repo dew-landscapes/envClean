@@ -13,9 +13,7 @@
 
 #' Example of data combined from several data sources.
 #'
-#' Example resulting from munging several different data sources (`data_name`)
-#' into one tidy data set. This is the sort of starting point where `envClean`
-#' tools can help.
+#' Example GBIF occurrence data set \insertCite{GBIFRef_1,GBIFRef_6}{envClean}.
 #'
 #' @format A data frame with `r nrow(flor_all)` rows and `r ncol(flor_all)`
 #' variables:
@@ -35,20 +33,22 @@
 #'   \item{year}{Year component of `date`.}
 #'   ...
 #' }
+#' @references
+#'   \insertAllCited{}
 "flor_all"
 
-#' Dataframe of filtering steps
+#' Dataframe of cleaning steps
 #'
 #'
-#' @format A data frame with `r nrow(lufilter)` rows and `r ncol(lufilter)`
+#' @format A data frame with `r nrow(luclean)` rows and `r ncol(luclean)`
 #' variables:
 #' \describe{
-#'   \item{filter}{Character short name for filtering step.}
+#'   \item{clean}{Character short name for cleaning step.}
 #'   \item{desc}{Phrase describing filtering step.}
 #'   \item{order}{Suggested order}
 #'   ...
 #' }
-"lufilter"
+"luclean"
 
 #' Dataframe of taxonomic ranks
 #'

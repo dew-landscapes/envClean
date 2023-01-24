@@ -1,9 +1,0 @@
-### Context has more than three outlier taxa
-
-Contexts with more than three taxa that were local outliers in environmental space were removed.
-
-Taxa with records in more than `r prop_taxa_cont*100`% of contexts were included in outlier analysis implemented via the `find_outliers` function in the package `envClean` `r cite_package("envClean")`. `find_outliers` used the functions `lof()` in the package `dbscan` `r cite_package("dbscan")` and `LOOP` in the package `DDoutlier` `r cite_package("DDoutlier")` to assess the likelihood of a record of a taxa being an outlier relative to the rest of that taxas distribution against the [environmental data](#envDataSources). Outliers along the `lof` and `LOOP` variables were identified by being more than `r iqrMult` times the inter-quartile range above or below the inter-quartile range. Both `lof` and `LOOP` needed to identify a record as being an outlier to flag that taxa as an outlier for that context. Three outlier taxa within a context were required before a context was filtered from the dataset.
-
-`r data_filter$filter_text[i]`
-
-<br>
