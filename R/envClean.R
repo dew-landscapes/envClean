@@ -156,6 +156,7 @@
 
           rio::export(tax_gbif %>%
                         dplyr::bind_rows(rio::import(tmp_file)) %>%
+                        dplyr::distinct() %>%  # hack to prevent duplication. really need to find where it is coming from.
                         dplyr::select(1,2,taxa,everything())
                       , tmp_file
                       )
@@ -179,6 +180,7 @@
         dplyr::group_by(original_name) %>%
         dplyr::filter(stamp == max(stamp)) %>%
         dplyr::ungroup() %>%
+        dplyr::distinct() %>% # hack to prevent duplication. really need to find where it is coming from.
         rio::export(out_file)
 
       file.remove(tmp_file)
