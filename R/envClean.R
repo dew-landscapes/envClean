@@ -52,9 +52,9 @@
 
     taxa_col <- names(df[taxa_col])
 
-    if(tools::file_ext(out_file) == "") out_file <- paste0(out_file, ".feather")
+    if(tools::file_ext(out_file) == "") out_file <- paste0(out_file, ".rds")
 
-    tmp_file <- paste0(gsub(".feather","",out_file),"_temp.feather")
+    tmp_file <- paste0(gsub(".rds","",out_file),"_temp.rds")
 
     target_sort <- lurank %>%
       dplyr::filter(rank == target_rank) %>%
@@ -68,7 +68,7 @@
       dplyr::distinct(original_name) %>%
       dplyr::pull()
 
-    already_done <- c(get0("already_done_01"),get0("already_done_02"))
+    already_done <- c(get0("already_done_01"), get0("already_done_02"))
 
     to_check <- df %>%
       dplyr::select(tidyselect::all_of(taxa_col)) %>%
@@ -105,7 +105,7 @@
 
     counter <- 1
 
-    if(length(taxas$searched_name)>0){
+    if(length(taxas$searched_name) > 0){
 
       for (i in taxas$searched_name){
 
@@ -138,10 +138,18 @@
         }
 
         tax_gbif$taxa <- tax_gbif %>%
-          tidyr::pivot_longer(where(is.numeric),names_to = "key") %>%
-          dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))) %>%
+          tidyr::pivot_longer(where(is.numeric), names_to = "key") %>%
+          dplyr::mutate(key = purrr::map_chr(key
+                                             , ~ gsub("Key"
+                                                      , ""
+                                                      , .
+                                                      )
+                                             )
+                        ) %>%
           dplyr::filter(key %in% lurank$rank) %>%
-          dplyr::left_join(lurank, by = c("key" = "rank")) %>%
+          dplyr::left_join(lurank
+                           , by = c("key" = "rank")
+                           ) %>%
           dplyr::filter(sort <= target_sort) %>%
           dplyr::filter(sort == max(sort)) %>%
           dplyr::select(tolower(lurank$rank[lurank$sort == .$sort])) %>%
@@ -157,14 +165,22 @@
           rio::export(tax_gbif %>%
                         dplyr::bind_rows(rio::import(tmp_file)) %>%
                         dplyr::distinct() %>%  # hack to prevent duplication. really need to find where it is coming from.
-                        dplyr::select(1,2,taxa,everything())
+                        dplyr::select(1
+                                      , 2
+                                      , taxa
+                                      , everything()
+                                      )
                       , tmp_file
                       )
 
         } else {
 
           rio::export(tax_gbif %>%
-                          dplyr::select(1,2,taxa,everything())
+                          dplyr::select(1
+                                        , 2
+                                        , taxa
+                                        , everything()
+                                        )
                       , tmp_file
                       )
 
@@ -286,7 +302,7 @@
   }
 
   # Add common name to existing taxonomic data frame
-  add_gbif_common <- function(path = "out/luGBIF.feather"
+  add_gbif_common <- function(path = "out/luGBIF.rds"
                               , key_col = "speciesKey"
                               ) {
 
