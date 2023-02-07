@@ -104,7 +104,7 @@
                                               )
                     , searched_name = stringr::str_squish(searched_name)
                     ) %>%
-      dplyr::filter(is.na(as.numeric(gsub("\\s+"
+      dplyr::filter(is.na(as.numeric(gsub("[^[[:alnum:]]+"
                                           , ""
                                           , !!rlang::ensym(taxa_col)
                                           )
