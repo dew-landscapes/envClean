@@ -137,10 +137,7 @@
   taxa_col <span class='op'>=</span> <span class='st'>"original_name"</span>,
   lifespan_col <span class='op'>=</span> <span class='cn'>NULL</span>,
   ind_col <span class='op'>=</span> <span class='cn'>NULL</span>,
-  poor_filt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dead"</span>, <span class='st'>"unverified"</span><span class='op'>)</span>,
-  save_luGBIF <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>,
-  king <span class='op'>=</span> <span class='st'>"Plantae"</span>,
-  get_common <span class='op'>=</span> <span class='cn'>FALSE</span>
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -165,24 +162,8 @@ information.</p></td>
 status of taxa in taxa_col.</p></td>
     </tr>
     <tr>
-      <th>poor_filt</th>
-      <td><p>Character. Any taxa names to grep out of the taxa column.
-(e.g. c("annual form", "unverified")).</p></td>
-    </tr>
-    <tr>
-      <th>save_luGBIF</th>
-      <td><p>Character. Path to file containing desired taxonomy to use.
-This is usually the output from gfbif_tax(). If this does not exist it will
-be created (as tempfile) by get_gbif_tax().</p></td>
-    </tr>
-    <tr>
-      <th>king</th>
-      <td><p>Character. Kingdom to search preferentially in GBIF Taxonomy
-Backbone</p></td>
-    </tr>
-    <tr>
-      <th>get_common</th>
-      <td><p>Logical. Add common name to GBIF taxonomy?</p></td>
+      <th>...</th>
+      <td><p>Passed to <code><a href='get_gbif_tax.html'>envClean::get_gbif_tax</a></code></p></td>
     </tr>
     </table>
 

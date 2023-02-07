@@ -11,8 +11,10 @@ get_gbif_tax(
   king_type = "Plantae",
   do_common = FALSE,
   target_rank = "species",
+  remove_taxa = c("BOLD:.*\\\\d{4}", "dead", "unverified", "annual herb",
+    "annual grass"),
   remove_strings = c("\\\\s*\\\\(.*\\\\)", "\\\\'", "\\\\?", " spp\\\\.", "ssp\\\\.",
-    " sp\\\\.", " var\\\\.", " [A-Z].*", "#", "\\\\s^")
+    " sp\\\\.", " var\\\\.", " [A-Z].*", "#", "\\\\s^", " x .*$| X .*$")
 )
 }
 \arguments{
@@ -30,8 +32,11 @@ retrieving names can take some time.}
 \item{target_rank}{Character. Default is 'species'. At what level of the
 taxonomic hierarchy are results desired.}
 
-\item{remove_strings}{Character. Any strings to extract from the original
-names before searching.}
+\item{remove_taxa}{Character. Regular expressions to be matched. These will
+be filtered before searching.}
+
+\item{remove_strings}{Character. Regular expressions to be matched. These
+will be removed from the string before searching.}
 }
 \value{
 Dataframe of unique taxa names, other columns defining

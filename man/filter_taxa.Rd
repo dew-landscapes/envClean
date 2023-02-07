@@ -9,13 +9,13 @@ filter_taxa(
   taxa_col = "original_name",
   context,
   extra_cols = NULL,
-  target_rank = "species",
   do_cov = FALSE,
   do_life = FALSE,
   do_ind = FALSE,
   lucov = NULL,
   lulife = NULL,
   taxonomy = NULL,
+  target_rank = "species",
   ...
 )
 }
@@ -27,9 +27,6 @@ filter_taxa(
 \item{context}{Character. Name of columns defining context.}
 
 \item{extra_cols}{Character. Name of any extra columns to keep.}
-
-\item{target_rank}{Character. Name of level in taxonomic hierarchy that names
-should be retrieved from, if possible.}
 
 \item{do_cov}{Logical. Should cover (needs to be supplied in df) be appended
 to output.}
@@ -47,7 +44,10 @@ appended to output.}
 \item{taxonomy}{list with named elements \code{lutaxa} and \code{taxa_taxonomy}.
 Usually resulting from call to \code{make_taxa_taxonomy}.}
 
-\item{...}{Passed to \verb{\link{envClean}{make_taxa_taxonomy()}}.}
+\item{target_rank}{Character. Default is 'species'. At what level of the
+taxonomic hierarchy are results desired.}
+
+\item{...}{Passed to \code{envClean::make_taxa_taxonomy}.}
 }
 \value{
 Dataframe with columns taxa, visit column(s) and, if used, extracols.

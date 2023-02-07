@@ -147,8 +147,10 @@ function <code>name_backbone</code>.</p>
   king_type <span class='op'>=</span> <span class='st'>"Plantae"</span>,
   do_common <span class='op'>=</span> <span class='cn'>FALSE</span>,
   target_rank <span class='op'>=</span> <span class='st'>"species"</span>,
+  remove_taxa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BOLD:.*\\d{4}"</span>, <span class='st'>"dead"</span>, <span class='st'>"unverified"</span>, <span class='st'>"annual herb"</span>,
+    <span class='st'>"annual grass"</span><span class='op'>)</span>,
   remove_strings <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"\\s*\\(.*\\)"</span>, <span class='st'>"\\'"</span>, <span class='st'>"\\?"</span>, <span class='st'>" spp\\."</span>, <span class='st'>"ssp\\."</span>,
-    <span class='st'>" sp\\."</span>, <span class='st'>" var\\."</span>, <span class='st'>" [A-Z].*"</span>, <span class='st'>"#"</span>, <span class='st'>"\\s^"</span><span class='op'>)</span>
+    <span class='st'>" sp\\."</span>, <span class='st'>" var\\."</span>, <span class='st'>" [A-Z].*"</span>, <span class='st'>"#"</span>, <span class='st'>"\\s^"</span>, <span class='st'>" x .*$| X .*$"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -181,9 +183,14 @@ retrieving names can take some time.</p></td>
 taxonomic hierarchy are results desired.</p></td>
     </tr>
     <tr>
+      <th>remove_taxa</th>
+      <td><p>Character. Regular expressions to be matched. These will
+be filtered before searching.</p></td>
+    </tr>
+    <tr>
       <th>remove_strings</th>
-      <td><p>Character. Any strings to extract from the original
-names before searching.</p></td>
+      <td><p>Character. Regular expressions to be matched. These
+will be removed from the string before searching.</p></td>
     </tr>
     </table>
 
@@ -202,17 +209,12 @@ R package version 3.6.0, <a href='https://CRAN.R-project.org/package=rgbif'>http
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='fu'>get_gbif_tax</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>spp <span class='op'>=</span> <span class='st'>"Eucalyptus viminalis"</span><span class='op'>)</span>, taxa_col <span class='op'>=</span> <span class='st'>"spp"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>NAs introduced by coercion</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "1: Eucalyptus viminalis"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 26</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   original_name  searched_name taxa  usageKey scientificName canonicalName rank </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> Eucalyptus vi~ Eucalyptus v~ Euca~  3<span style='text-decoration: underline;'>177</span>112 Eucalyptus vi~ Eucalyptus v~ SPEC~</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># ... with 19 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   species &lt;chr&gt;, kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   synonym &lt;lgl&gt;, class &lt;chr&gt;, stamp &lt;dttm&gt;</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in dplyr::group_by(., original_name):</span> Must group by variables found in `.data`.</span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'>x</span> Column `original_name` is not found.</span>
 <span class='r-in'></span>
 </pre>
   </div>

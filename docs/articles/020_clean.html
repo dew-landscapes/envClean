@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Monday, 06 February, 2023</h4>
+            <h4 class="date">Wednesday, 08 February, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -162,20 +162,20 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_aoi</span>
-<span class="co">#&gt; # A tibble: 5,537 x 9</span>
+<span class="co">#&gt; # A tibble: 1,419 x 9</span>
 <span class="co">#&gt;      lat  long data_name site   date       original_name  rel_metres month  year</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.5  140. GBIF      16374~ 2007-10-18 Strepera vers~        500    10  2007</span>
-<span class="co">#&gt;  2 -34.5  140. GBIF      16374~ 2007-10-18 Acanthiza uro~        500    10  2007</span>
-<span class="co">#&gt;  3 -34.5  140. GBIF      16374~ 2007-10-18 Daphoenositta~        500    10  2007</span>
-<span class="co">#&gt;  4 -34.6  140. GBIF      16375~ 2011-01-18 Drymodes brun~        500     1  2011</span>
-<span class="co">#&gt;  5 -34.6  140. GBIF      16375~ 2011-12-03 Lichenostomus~        500    12  2011</span>
-<span class="co">#&gt;  6 -34.6  140. GBIF      16375~ 2015-04-27 Aphelocephala~        500     4  2015</span>
-<span class="co">#&gt;  7 -34.6  140. GBIF      16375~ 2011-12-04 Drymodes brun~        500    12  2011</span>
-<span class="co">#&gt;  8 -34.6  140. GBIF      16375~ 2011-01-18 Microeca fasc~        500     1  2011</span>
-<span class="co">#&gt;  9 -34.6  140. GBIF      16375~ 2011-02-09 Pomatostomus ~        500     2  2011</span>
-<span class="co">#&gt; 10 -34.6  140. GBIF      16375~ 2015-04-29 Acanthiza chr~        500     4  2015</span>
-<span class="co">#&gt; # ... with 5,527 more rows</span></code></pre></div>
+<span class="co">#&gt;  1 -34.5  140. GBIF      25739~ 2020-02-22 Eremophila gl~        500     2  2020</span>
+<span class="co">#&gt;  2 -34.5  140. GBIF      39027~ 2022-08-14 Triodia scari~         NA     8  2022</span>
+<span class="co">#&gt;  3 -34.5  140. GBIF      39023~ 2022-08-14 Beyeria leche~         NA     8  2022</span>
+<span class="co">#&gt;  4 -34.5  140. GBIF      39020~ 2022-08-14 Walsholaria m~         NA     8  2022</span>
+<span class="co">#&gt;  5 -34.5  140. GBIF      30588~ 2019-09-01 Triodia scari~        564     9  2019</span>
+<span class="co">#&gt;  6 -34.5  140. GBIF      30587~ 2019-09-01 Westringia ri~        564     9  2019</span>
+<span class="co">#&gt;  7 -34.5  140. GBIF      39021~ 2022-08-14 Phebalium bul~         NA     8  2022</span>
+<span class="co">#&gt;  8 -34.5  140. GBIF      39026~ 2022-08-14 Acacia rigens          NA     8  2022</span>
+<span class="co">#&gt;  9 -34.5  140. GBIF      39020~ 2022-08-14 Exocarpos aph~         NA     8  2022</span>
+<span class="co">#&gt; 10 -34.5  140. GBIF      39233~ 2022-08-14 Maireana radi~         NA     8  2022</span>
+<span class="co">#&gt; # ... with 1,409 more rows</span></code></pre></div>
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -219,20 +219,20 @@
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_rel</span>
-<span class="co">#&gt; # A tibble: 2,240 x 9</span>
+<span class="co">#&gt; # A tibble: 696 x 9</span>
 <span class="co">#&gt;      lat  long data_name site   date       original_name  rel_metres month  year</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.5  140. GBIF      16381~ 2006-11-20 Dromaius nova~         50    11  2006</span>
-<span class="co">#&gt;  2 -34.5  140. GBIF      16381~ 2006-10-27 Colluricincla~         50    10  2006</span>
-<span class="co">#&gt;  3 -34.5  140. GBIF      16381~ 2006-11-14 Pardalotus pu~         50    11  2006</span>
-<span class="co">#&gt;  4 -34.5  140. GBIF      16381~ 2006-11-14 Anthochaera c~         50    11  2006</span>
-<span class="co">#&gt;  5 -34.5  140. GBIF      16381~ 2006-10-27 Pardalotus pu~         50    10  2006</span>
-<span class="co">#&gt;  6 -34.5  140. GBIF      16381~ 2006-11-14 Gymnorhina ti~         50    11  2006</span>
-<span class="co">#&gt;  7 -34.5  140. GBIF      16381~ 2006-11-14 Corvus corono~         50    11  2006</span>
-<span class="co">#&gt;  8 -34.5  140. GBIF      16381~ 2006-10-27 Strepera vers~         50    10  2006</span>
-<span class="co">#&gt;  9 -34.5  140. GBIF      16381~ 2006-10-27 Dromaius nova~         50    10  2006</span>
-<span class="co">#&gt; 10 -34.5  140. GBIF      16381~ 2006-11-20 Anthochaera c~         50    11  2006</span>
-<span class="co">#&gt; # ... with 2,230 more rows</span></code></pre></div>
+<span class="co">#&gt;  1 -34.6  140. GBIF      10854~ 2006-10-20 Enchylaena to~         50    10  2006</span>
+<span class="co">#&gt;  2 -34.6  140. GBIF      10853~ 1990-06-07 Walsholaria m~        100     6  1990</span>
+<span class="co">#&gt;  3 -34.6  140. GBIF      10854~ 2006-10-20 Walsholaria m~         50    10  2006</span>
+<span class="co">#&gt;  4 -34.6  140. GBIF      10853~ 1990-06-07 Roepera apicu~        100     6  1990</span>
+<span class="co">#&gt;  5 -34.6  140. GBIF      10853~ 1990-06-07 Sclerolaena d~        100     6  1990</span>
+<span class="co">#&gt;  6 -34.6  140. GBIF      10854~ 2006-10-20 Eucalyptus gr~         50    10  2006</span>
+<span class="co">#&gt;  7 -34.6  140. GBIF      10853~ 1990-06-07 Eucalyptus gr~        100     6  1990</span>
+<span class="co">#&gt;  8 -34.6  140. GBIF      10854~ 2006-10-20 Maireana erio~         50    10  2006</span>
+<span class="co">#&gt;  9 -34.6  140. GBIF      10853~ 1990-06-07 Dodonaea sten~        100     6  1990</span>
+<span class="co">#&gt; 10 -34.6  140. GBIF      10853~ 1990-06-07 Eucalyptus ol~        100     6  1990</span>
+<span class="co">#&gt; # ... with 686 more rows</span></code></pre></div>
 </div>
 <div id="rasterize" class="section level2">
 <h2 class="hasAnchor">
@@ -264,20 +264,20 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_cell</span>
-<span class="co">#&gt; # A tibble: 2,240 x 10</span>
+<span class="co">#&gt; # A tibble: 696 x 10</span>
 <span class="co">#&gt;     cell  long   lat data_name site   date       original_name  rel_metres month</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  3925  140. -34.5 GBIF      16297~ 1999-04-03 Petroica good~        100     4</span>
-<span class="co">#&gt;  2  3925  140. -34.5 GBIF      16252~ 2000-09-21 Gymnorhina ti~        100     9</span>
-<span class="co">#&gt;  3  3925  140. -34.5 GBIF      16225~ 1999-05-15 Acanthiza nana        100     5</span>
-<span class="co">#&gt;  4  3925  140. -34.5 GBIF      16294~ 2000-09-21 Pardalotus st~        100     9</span>
-<span class="co">#&gt;  5  3925  140. -34.5 GBIF      16244~ 2000-07-16 Cinclosoma ca~        100     7</span>
-<span class="co">#&gt;  6  3925  140. -34.5 GBIF      16278~ 2015-05-21 Gavicalis vir~        100     5</span>
-<span class="co">#&gt;  7  3925  140. -34.5 GBIF      16225~ 2015-05-21 Acanthiza nana        100     5</span>
-<span class="co">#&gt;  8  3925  140. -34.5 GBIF      16291~ 2000-09-21 Pachycephala ~        100     9</span>
-<span class="co">#&gt;  9  3925  140. -34.5 GBIF      16297~ 2000-09-21 Petroica good~        100     9</span>
-<span class="co">#&gt; 10  3925  140. -34.5 GBIF      16296~ 1999-04-13 Petrochelidon~        100     4</span>
-<span class="co">#&gt; # ... with 2,230 more rows, and 1 more variable: year &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;  1  7340  140. -34.5 GBIF      10854~ 2006-10-18 Maireana radi~         50    10</span>
+<span class="co">#&gt;  2  7340  140. -34.5 GBIF      10854~ 2006-10-18 Roepera glauca         50    10</span>
+<span class="co">#&gt;  3  7340  140. -34.5 GBIF      10854~ 2006-10-18 Beyeria leche~         50    10</span>
+<span class="co">#&gt;  4  7340  140. -34.5 GBIF      10854~ 2006-10-18 Melaleuca lan~         50    10</span>
+<span class="co">#&gt;  5  7340  140. -34.5 GBIF      10854~ 2006-10-18 Sclerolaena p~         50    10</span>
+<span class="co">#&gt;  6  7340  140. -34.5 GBIF      10854~ 2006-10-18 Maireana erio~         50    10</span>
+<span class="co">#&gt;  7  7340  140. -34.5 GBIF      10854~ 2006-10-18 Eucalyptus ol~         50    10</span>
+<span class="co">#&gt;  8  7340  140. -34.5 GBIF      10854~ 2006-10-18 Westringia ri~         50    10</span>
+<span class="co">#&gt;  9  7340  140. -34.5 GBIF      10854~ 2006-10-18 Maireana pent~         50    10</span>
+<span class="co">#&gt; 10  7340  140. -34.5 GBIF      10854~ 2006-10-18 Walsholaria m~         50    10</span>
+<span class="co">#&gt; # ... with 686 more rows, and 1 more variable: year &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="taxonomy" class="section level1">
@@ -297,48 +297,44 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_cell</span>
-                              , save_luGBIF <span class="op">=</span> <span class="fu">path</span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html">path</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="op">)</span>
-                                                            , <span class="st">"inst"</span>
-                                                            , <span class="st">"luGBIF.feather"</span>
-                                                            <span class="op">)</span>
-                                                   <span class="op">)</span>
+                              , out_file <span class="op">=</span> <span class="st">"inst/luGBIF.rds"</span>
                               <span class="op">)</span></code></pre></div>
 <p>A look at <code>lutaxa</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
-<span class="co">#&gt; # A tibble: 237 x 3</span>
-<span class="co">#&gt;    original_name          taxa                   rank   </span>
-<span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;                  &lt;ord&gt;  </span>
-<span class="co">#&gt;  1 Zosterops lateralis    Plantae                kingdom</span>
-<span class="co">#&gt;  2 Walsholaria muelleri   Walsholaria muelleri   species</span>
-<span class="co">#&gt;  3 Walsholaria magniflora Walsholaria magniflora species</span>
-<span class="co">#&gt;  4 Vittadinia dissecta    Vittadinia dissecta    species</span>
-<span class="co">#&gt;  5 Vittadinia cuneata     Vittadinia cuneata     species</span>
-<span class="co">#&gt;  6 Varanus gouldii        Plantae                kingdom</span>
-<span class="co">#&gt;  7 Tyto javanica          Plantae                kingdom</span>
-<span class="co">#&gt;  8 Todiramphus sanctus    Plantae                kingdom</span>
-<span class="co">#&gt;  9 Tiliqua rugosa         Plantae                kingdom</span>
-<span class="co">#&gt; 10 Tachyglossus aculeatus Plantae                kingdom</span>
-<span class="co">#&gt; # ... with 227 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 236 x 4</span>
+<span class="co">#&gt;    taxa                     searched_name            original_name        rank  </span>
+<span class="co">#&gt;    &lt;chr&gt;                    &lt;chr&gt;                    &lt;chr&gt;                &lt;ord&gt; </span>
+<span class="co">#&gt;  1 Walsholaria muelleri     Walsholaria muelleri     Walsholaria muelleri speci~</span>
+<span class="co">#&gt;  2 Walsholaria magniflora   Walsholaria magniflora   Walsholaria magnifl~ speci~</span>
+<span class="co">#&gt;  3 Vittadinia dissecta      Vittadinia dissecta      Vittadinia dissecta  speci~</span>
+<span class="co">#&gt;  4 Vittadinia cuneata       Vittadinia cuneata       Vittadinia cuneata   speci~</span>
+<span class="co">#&gt;  5 Senna artemisioides      Senna artemisioides      Senna artemisioides  speci~</span>
+<span class="co">#&gt;  6 Senecio pinnatifolius    Senecio pinnatifolius    Senecio pinnatifoli~ speci~</span>
+<span class="co">#&gt;  7 Sabulina mediterranea    Sabulina mediterranea    Sabulina mediterran~ speci~</span>
+<span class="co">#&gt;  8 Rytidosperma caespitosum Rytidosperma caespitosum Rytidosperma caespi~ speci~</span>
+<span class="co">#&gt;  9 Rumicastrum eremaeum     Rumicastrum eremaeum     Rumicastrum eremaeum speci~</span>
+<span class="co">#&gt; 10 Roepera aurantiaca       Roepera aurantiaca       Roepera aurantiaca   speci~</span>
+<span class="co">#&gt; # ... with 226 more rows</span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa</span><span class="op">$</span><span class="va">taxa_taxonomy</span>
-<span class="co">#&gt; # A tibble: 131 x 8</span>
+<span class="co">#&gt; # A tibble: 129 x 8</span>
 <span class="co">#&gt;    taxa                     kingdom phylum  order  family  genus  species  class</span>
 <span class="co">#&gt;    &lt;chr&gt;                    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt;  1 Plantae                  Plantae &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt; </span>
-<span class="co">#&gt;  2 Walsholaria muelleri     Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
-<span class="co">#&gt;  3 Walsholaria magniflora   Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
-<span class="co">#&gt;  4 Vittadinia dissecta      Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
-<span class="co">#&gt;  5 Vittadinia cuneata       Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
-<span class="co">#&gt;  6 Senna artemisioides      Plantae Trache~ Fabal~ Fabace~ Senna  Senna a~ Magn~</span>
-<span class="co">#&gt;  7 Senecio pinnatifolius    Plantae Trache~ Aster~ Astera~ Senec~ Senecio~ Magn~</span>
-<span class="co">#&gt;  8 Sabulina mediterranea    Plantae Trache~ Caryo~ Caryop~ Sabul~ Sabulin~ Magn~</span>
-<span class="co">#&gt;  9 Rytidosperma caespitosum Plantae Trache~ Poales Poaceae Rytid~ Rytidos~ Lili~</span>
-<span class="co">#&gt; 10 Rumicastrum eremaeum     Plantae Trache~ Caryo~ Montia~ Rumic~ Rumicas~ Magn~</span>
-<span class="co">#&gt; # ... with 121 more rows</span></code></pre></div>
+<span class="co">#&gt;  1 Walsholaria muelleri     Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
+<span class="co">#&gt;  2 Walsholaria magniflora   Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
+<span class="co">#&gt;  3 Vittadinia dissecta      Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
+<span class="co">#&gt;  4 Vittadinia cuneata       Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
+<span class="co">#&gt;  5 Senna artemisioides      Plantae Trache~ Fabal~ Fabace~ Senna  Senna a~ Magn~</span>
+<span class="co">#&gt;  6 Senecio pinnatifolius    Plantae Trache~ Aster~ Astera~ Senec~ Senecio~ Magn~</span>
+<span class="co">#&gt;  7 Sabulina mediterranea    Plantae Trache~ Caryo~ Caryop~ Sabul~ Sabulin~ Magn~</span>
+<span class="co">#&gt;  8 Rytidosperma caespitosum Plantae Trache~ Poales Poaceae Rytid~ Rytidos~ Lili~</span>
+<span class="co">#&gt;  9 Rumicastrum eremaeum     Plantae Trache~ Caryo~ Montia~ Rumic~ Rumicas~ Magn~</span>
+<span class="co">#&gt; 10 Roepera aurantiaca       Plantae Trache~ Zygop~ Zygoph~ Roepe~ Roepera~ Magn~</span>
+<span class="co">#&gt; # ... with 119 more rows</span></code></pre></div>
 </div>
 <div id="filter-taxonomy" class="section level2">
 <h2 class="hasAnchor">
@@ -458,9 +454,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.246 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.239 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.485 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.241 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.25 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.491 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -483,9 +479,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.227 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.224 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.451 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.24 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.243 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.483 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -508,9 +504,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.235 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.253 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.488 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.245 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.227 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.472 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -533,9 +529,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.239 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.258 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.497 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.243 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.219 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.462 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -654,14 +650,14 @@
 <span class="co">#&gt; # A tibble: 8 x 9</span>
 <span class="co">#&gt;   name    obj     has_stamp  nrow ctime                taxa records visits sites</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;  &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       5537 2023-02-06 12:25:47   381    5537    132   410</span>
-<span class="co">#&gt; 2 flor_r~ &lt;tibbl~ TRUE       2240 2023-02-06 12:25:49   237    2240     56    91</span>
-<span class="co">#&gt; 3 flor_c~ &lt;tibbl~ TRUE       2240 2023-02-06 12:25:52   237    2240     56    88</span>
-<span class="co">#&gt; 4 flor_t~ &lt;tibbl~ TRUE        694 2023-02-06 12:25:53   129     694      8    38</span>
-<span class="co">#&gt; 5 flor_s~ &lt;tibbl~ TRUE        692 2023-02-06 12:25:53   128     692      7    36</span>
-<span class="co">#&gt; 6 flor_e~ &lt;tibbl~ TRUE        692 2023-02-06 12:25:56   128     692      7    36</span>
-<span class="co">#&gt; 7 flor_p~ &lt;tibbl~ TRUE        612 2023-02-06 12:25:56    71     612      7    36</span>
-<span class="co">#&gt; 8 flor_r~ &lt;tibbl~ TRUE        541 2023-02-06 12:25:56    71     541      7    36</span></code></pre></div>
+<span class="co">#&gt; 1 flor_a~ &lt;tibbl~ TRUE       1419 2023-02-08 06:44:48   213    1419     24   141</span>
+<span class="co">#&gt; 2 flor_r~ &lt;tibbl~ TRUE        696 2023-02-08 06:44:50   130     696      8    40</span>
+<span class="co">#&gt; 3 flor_c~ &lt;tibbl~ TRUE        696 2023-02-08 06:44:53   130     696      8    38</span>
+<span class="co">#&gt; 4 flor_t~ &lt;tibbl~ TRUE        694 2023-02-08 06:44:54   129     694      8    38</span>
+<span class="co">#&gt; 5 flor_s~ &lt;tibbl~ TRUE        692 2023-02-08 06:44:54   128     692      7    36</span>
+<span class="co">#&gt; 6 flor_e~ &lt;tibbl~ TRUE        692 2023-02-08 06:44:56   128     692      7    36</span>
+<span class="co">#&gt; 7 flor_p~ &lt;tibbl~ TRUE        612 2023-02-08 06:44:57    71     612      7    36</span>
+<span class="co">#&gt; 8 flor_r~ &lt;tibbl~ TRUE        541 2023-02-08 06:44:57    71     541      7    36</span></code></pre></div>
 </div>
 <div id="what-happened-to-x" class="section level1">
 <h1 class="hasAnchor">
@@ -675,19 +671,19 @@
 <span class="co">#&gt; # A tibble: 8 x 6</span>
 <span class="co">#&gt;   name        obj              has_stamp  nrow ctime               summary      </span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;        </span>
-<span class="co">#&gt; 1 flor_aoi    &lt;tibble [1 x 2]&gt; TRUE       5537 2023-02-06 12:25:47 Eucalyptus i~</span>
-<span class="co">#&gt; 2 flor_rel    &lt;tibble [1 x 2]&gt; TRUE       2240 2023-02-06 12:25:49 Eucalyptus i~</span>
-<span class="co">#&gt; 3 flor_cell   &lt;tibble [1 x 2]&gt; TRUE       2240 2023-02-06 12:25:52 Eucalyptus i~</span>
-<span class="co">#&gt; 4 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        694 2023-02-06 12:25:53 Eucalyptus i~</span>
-<span class="co">#&gt; 5 flor_single &lt;tibble [1 x 2]&gt; TRUE        692 2023-02-06 12:25:53 Eucalyptus i~</span>
-<span class="co">#&gt; 6 flor_effort &lt;tibble [1 x 2]&gt; TRUE        692 2023-02-06 12:25:56 Eucalyptus i~</span>
-<span class="co">#&gt; 7 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        612 2023-02-06 12:25:56 Eucalyptus i~</span>
-<span class="co">#&gt; 8 flor_recent &lt;tibble [1 x 2]&gt; TRUE        541 2023-02-06 12:25:56 Eucalyptus i~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_aoi    &lt;tibble [1 x 2]&gt; TRUE       1419 2023-02-08 06:44:48 Eucalyptus i~</span>
+<span class="co">#&gt; 2 flor_rel    &lt;tibble [1 x 2]&gt; TRUE        696 2023-02-08 06:44:50 Eucalyptus i~</span>
+<span class="co">#&gt; 3 flor_cell   &lt;tibble [1 x 2]&gt; TRUE        696 2023-02-08 06:44:53 Eucalyptus i~</span>
+<span class="co">#&gt; 4 flor_taxa   &lt;tibble [1 x 2]&gt; TRUE        694 2023-02-08 06:44:54 Eucalyptus i~</span>
+<span class="co">#&gt; 5 flor_single &lt;tibble [1 x 2]&gt; TRUE        692 2023-02-08 06:44:54 Eucalyptus i~</span>
+<span class="co">#&gt; 6 flor_effort &lt;tibble [1 x 2]&gt; TRUE        692 2023-02-08 06:44:56 Eucalyptus i~</span>
+<span class="co">#&gt; 7 flor_prop   &lt;tibble [1 x 2]&gt; TRUE        612 2023-02-08 06:44:57 Eucalyptus i~</span>
+<span class="co">#&gt; 8 flor_recent &lt;tibble [1 x 2]&gt; TRUE        541 2023-02-08 06:44:57 Eucalyptus i~</span></code></pre></div>
 </div>
-<div id="conclusion" class="section level1">
+<div id="summary-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#conclusion" class="anchor"></a>Conclusion</h1>
-<p>After ingesting data from a range of sources (GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 5537 records were cleaned, tidied and filtered to 541 records.</p>
+<a href="#summary-1" class="anchor"></a>Summary</h1>
+<p>After ingesting data from a range of sources (GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 1419 records were cleaned, tidied and filtered to 541 records.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

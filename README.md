@@ -79,20 +79,20 @@ Filtering `flor_all` to `aoi` is done with `filter_aoi`.
 #> Joining, by = c("lat", "long")
 
   flor_aoi
-#> # A tibble: 5,537 x 9
-#>      lat  long data_name site       date       original_name              rel_metres month  year
-#>    <dbl> <dbl> <fct>     <chr>      <date>     <chr>                           <dbl> <dbl> <dbl>
-#>  1 -34.5  140. GBIF      1637403098 2007-10-18 Strepera versicolor               500    10  2007
-#>  2 -34.5  140. GBIF      1637403107 2007-10-18 Acanthiza uropygialis             500    10  2007
-#>  3 -34.5  140. GBIF      1637403109 2007-10-18 Daphoenositta chrysoptera         500    10  2007
-#>  4 -34.6  140. GBIF      1637578374 2011-01-18 Drymodes brunneopygia             500     1  2011
-#>  5 -34.6  140. GBIF      1637579190 2011-12-03 Lichenostomus cratitius           500    12  2011
-#>  6 -34.6  140. GBIF      1637590718 2015-04-27 Aphelocephala leucopsis           500     4  2015
-#>  7 -34.6  140. GBIF      1637578340 2011-12-04 Drymodes brunneopygia             500    12  2011
-#>  8 -34.6  140. GBIF      1637578521 2011-01-18 Microeca fascinans                500     1  2011
-#>  9 -34.6  140. GBIF      1637578690 2011-02-09 Pomatostomus superciliosus        500     2  2011
-#> 10 -34.6  140. GBIF      1637590476 2015-04-29 Acanthiza chrysorrhoa             500     4  2015
-#> # ... with 5,527 more rows
+#> # A tibble: 1,419 x 9
+#>      lat  long data_name site       date       original_name          rel_metres month  year
+#>    <dbl> <dbl> <fct>     <chr>      <date>     <chr>                       <dbl> <dbl> <dbl>
+#>  1 -34.5  140. GBIF      2573957849 2020-02-22 Eremophila glabra             500     2  2020
+#>  2 -34.5  140. GBIF      3902768443 2022-08-14 Triodia scariosa               NA     8  2022
+#>  3 -34.5  140. GBIF      3902326597 2022-08-14 Beyeria lechenaultii           NA     8  2022
+#>  4 -34.5  140. GBIF      3902042262 2022-08-14 Walsholaria magniflora         NA     8  2022
+#>  5 -34.5  140. GBIF      3058875475 2019-09-01 Triodia scariosa              564     9  2019
+#>  6 -34.5  140. GBIF      3058756300 2019-09-01 Westringia rigida             564     9  2019
+#>  7 -34.5  140. GBIF      3902151141 2022-08-14 Phebalium bullatum             NA     8  2022
+#>  8 -34.5  140. GBIF      3902634058 2022-08-14 Acacia rigens                  NA     8  2022
+#>  9 -34.5  140. GBIF      3902018286 2022-08-14 Exocarpos aphyllus             NA     8  2022
+#> 10 -34.5  140. GBIF      3923355578 2022-08-14 Maireana radiata               NA     8  2022
+#> # ... with 1,409 more rows
 ```
 
 Check that spatial filter worked.

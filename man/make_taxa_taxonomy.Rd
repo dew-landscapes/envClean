@@ -9,10 +9,7 @@ make_taxa_taxonomy(
   taxa_col = "original_name",
   lifespan_col = NULL,
   ind_col = NULL,
-  poor_filt = c("dead", "unverified"),
-  save_luGBIF = tempfile(),
-  king = "Plantae",
-  get_common = FALSE
+  ...
 )
 }
 \arguments{
@@ -26,17 +23,7 @@ information.}
 \item{ind_col}{Character. Optional name of columns containing indigenous
 status of taxa in taxa_col.}
 
-\item{poor_filt}{Character. Any taxa names to grep out of the taxa column.
-(e.g. c("annual form", "unverified")).}
-
-\item{save_luGBIF}{Character. Path to file containing desired taxonomy to use.
-This is usually the output from gfbif_tax(). If this does not exist it will
-be created (as tempfile) by get_gbif_tax().}
-
-\item{king}{Character. Kingdom to search preferentially in GBIF Taxonomy
-Backbone}
-
-\item{get_common}{Logical. Add common name to GBIF taxonomy?}
+\item{...}{Passed to \code{envClean::get_gbif_tax}}
 }
 \value{
 named list with elements:

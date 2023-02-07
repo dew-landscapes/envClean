@@ -151,7 +151,9 @@ Note that `context` is only applied _exclusively_ only when `filter_taxa` is run
       
   # filter taxa - context applied exclusively
   flor_taxa <- flor_example %>%
-    filter_taxa(context = context)
+    filter_taxa(context = context
+                , king_type = "Plantae"
+                )
   
   # one row
   flor_taxa

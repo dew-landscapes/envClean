@@ -137,13 +137,13 @@
   taxa_col <span class='op'>=</span> <span class='st'>"original_name"</span>,
   <span class='va'>context</span>,
   extra_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
-  target_rank <span class='op'>=</span> <span class='st'>"species"</span>,
   do_cov <span class='op'>=</span> <span class='cn'>FALSE</span>,
   do_life <span class='op'>=</span> <span class='cn'>FALSE</span>,
   do_ind <span class='op'>=</span> <span class='cn'>FALSE</span>,
   lucov <span class='op'>=</span> <span class='cn'>NULL</span>,
   lulife <span class='op'>=</span> <span class='cn'>NULL</span>,
   taxonomy <span class='op'>=</span> <span class='cn'>NULL</span>,
+  target_rank <span class='op'>=</span> <span class='st'>"species"</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -165,11 +165,6 @@
     <tr>
       <th>extra_cols</th>
       <td><p>Character. Name of any extra columns to keep.</p></td>
-    </tr>
-    <tr>
-      <th>target_rank</th>
-      <td><p>Character. Name of level in taxonomic hierarchy that names
-should be retrieved from, if possible.</p></td>
     </tr>
     <tr>
       <th>do_cov</th>
@@ -200,8 +195,13 @@ appended to output.</p></td>
 Usually resulting from call to <code>make_taxa_taxonomy</code>.</p></td>
     </tr>
     <tr>
+      <th>target_rank</th>
+      <td><p>Character. Default is 'species'. At what level of the
+taxonomic hierarchy are results desired.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Passed to <code>\link{envClean}{make_taxa_taxonomy()}</code>.</p></td>
+      <td><p>Passed to <code><a href='make_taxa_taxonomy.html'>envClean::make_taxa_taxonomy</a></code>.</p></td>
     </tr>
     </table>
 

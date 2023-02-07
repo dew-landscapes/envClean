@@ -16,7 +16,9 @@
 
     flor_all <- rio::import(path_to_flor
                             , setclass = "tibble"
-                            )
+                            ) %>%
+      dplyr::filter(kingdom == "Plantae") %>%
+      dplyr::filter(data_name %in% c("TERN", "GBIF"))
 
     aoi <- sf::st_read(path_to_area_of_interest)
 
@@ -28,7 +30,7 @@
       sf::st_transform(crs = aoi_crs)
 
     flor_aoi <- flor_all %>%
-      dplyr::filter(data_name %in% c("TERN", "GBIF")) %>%
+      dplyr::filter(kingdom == "Plantae") %>%
       envClean::filter_aoi(aoi_buf
                            , crs_aoi = sf::st_crs(aoi_buf)
                            ) %>%
@@ -37,7 +39,6 @@
     flor_aoi_sens <- envImport::flag_sens_records(flor_aoi, nsx_col = "nsx", surv_col = "survey_nr")
 
     flor_all <- flor_aoi_sens %>%
-      dplyr::filter(data_name != "BCM") %>%
       dplyr::filter(!grepl(TRUE, sens_surv)) %>%
       dplyr::filter(!grepl(TRUE, sens_taxa)) %>%
       dplyr::select(any_of(keep_cols))
