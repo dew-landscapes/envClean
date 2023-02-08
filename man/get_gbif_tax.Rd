@@ -12,7 +12,7 @@ get_gbif_tax(
   do_common = FALSE,
   target_rank = "species",
   remove_taxa = c("BOLD:.*\\\\d{4}", "dead", "unverified", "annual herb",
-    "annual grass"),
+    "annual grass", "[[:alpha:]]{1}\\\\d{5,}", "^[[:alpha:]]{1,3}$"),
   remove_strings = c("\\\\s*\\\\(.*\\\\)", "\\\\'", "\\\\?", " spp\\\\.", "ssp\\\\.",
     " sp\\\\.", " var\\\\.", " [A-Z].*", "#", "\\\\s^", " x .*$| X .*$")
 )

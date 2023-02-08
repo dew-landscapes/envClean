@@ -41,6 +41,8 @@
                                              , "unverified"
                                              , "annual herb"
                                              , "annual grass"
+                                             , "[[:alpha:]]{1}\\d{5,}"
+                                             , "^[[:alpha:]]{1,3}$"
                                              )
                            , remove_strings = c("\\s*\\(.*\\)"
                                                 , "\\'"
@@ -110,7 +112,10 @@
                                           )
                                      )
                           )
-                    ) # remove names that contain only digits
+                    , is.na(as.numeric(lubridate::dmy(!!rlang::ensym(taxa_col))))
+                    , !is.na(!!rlang::ensym(taxa_col))
+                    , !is.na(searched_name)
+                    ) # remove names that contain only digits or dates
 
 
     taxas <- tibble::tibble(searched_name = setdiff(to_check$searched_name
@@ -228,7 +233,14 @@
     }
 
     rio::import(out_file) %>%
-      tibble::as_tibble()
+      tibble::as_tibble() %>%
+      # hack to ensure anything searched can also be an 'original_name'
+      dplyr::bind_rows(rio::import(out_file) %>%
+                         tibble::as_tibble() %>%
+                         dplyr::mutate(original_name = searched_name) %>%
+                         dplyr::distinct()
+                       ) %>%
+      dplyr::distinct()
 
   }
 
