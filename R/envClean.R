@@ -132,7 +132,11 @@
       for (i in taxas$searched_name){
 
         print(paste0(counter
-                     , ": "
+                     , " of "
+                     , nrow(taxas)
+                     , " ("
+                     , 100 * counter / nrow(taxas)
+                     , "%) : "
                      , i
                      )
               )
@@ -179,6 +183,24 @@
           dplyr::select(tolower(lurank$rank[lurank$sort == .$sort])) %>%
           dplyr::pull()
 
+        if(do_common) {
+
+          use_key <- tax_gbif[grep("Key", names(tax_gbif))] %>%
+            setNames(gsub("Key", "", names(.))) %>%
+            dplyr::select(tidyselect::any_of(lurank$rank[lurank$rank >= target_rank])) %>%
+            tidyr::pivot_longer(1:ncol(.)
+                                , names_to = "rank"
+                                , values_to = "key"
+                                ) %>%
+            dplyr::mutate(row = dplyr::row_number()) %>%
+            dplyr::filter(!is.na(key)) %>%
+            dplyr::filter(row == max(row)) %>%
+            dplyr::pull(key)
+
+          tax_gbif$common <- get_gbif_common(use_key)
+
+        }
+
         tax_gbif$stamp <- Sys.time()
 
         tax_gbif <- taxas %>%
@@ -223,12 +245,6 @@
         rio::export(out_file)
 
       file.remove(tmp_file)
-
-    }
-
-    if(do_common) {
-
-      add_gbif_common(out_file)
 
     }
 
