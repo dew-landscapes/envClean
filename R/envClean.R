@@ -135,8 +135,8 @@
                      , " of "
                      , nrow(taxas)
                      , " ("
-                     , 100 * counter / nrow(taxas)
-                     , "%) : "
+                     , round(100 * counter / nrow(taxas), 1)
+                     , "%): "
                      , i
                      )
               )
