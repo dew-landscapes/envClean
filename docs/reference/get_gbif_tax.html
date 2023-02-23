@@ -150,7 +150,7 @@ function <code>name_backbone</code>.</p>
   remove_taxa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BOLD:.*\\d{4}"</span>, <span class='st'>"dead"</span>, <span class='st'>"unverified"</span>, <span class='st'>"annual herb"</span>,
     <span class='st'>"annual grass"</span>, <span class='st'>"[[:alpha:]]{1}\\d{5,}"</span>, <span class='st'>"^[[:alpha:]]{1,3}$"</span><span class='op'>)</span>,
   remove_strings <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"\\s*\\(.*\\)"</span>, <span class='st'>"\\'"</span>, <span class='st'>"\\?"</span>, <span class='st'>" spp\\."</span>, <span class='st'>"ssp\\."</span>,
-    <span class='st'>" sp\\."</span>, <span class='st'>" var\\."</span>, <span class='st'>" [A-Z].*"</span>, <span class='st'>"#"</span>, <span class='st'>"\\s^"</span>, <span class='st'>" x .*$| X .*$"</span><span class='op'>)</span>
+    <span class='st'>" sp\\."</span>, <span class='st'>" var\\."</span>, <span class='st'>"subsp\\."</span>, <span class='st'>" [A-Z].*"</span>, <span class='st'>"#"</span>, <span class='st'>"\\s^"</span>, <span class='st'>" x .*$| X .*$"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -214,8 +214,15 @@ R package version 3.6.0, <a href='https://CRAN.R-project.org/package=rgbif'>http
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "1 of 1 (100%): Eucalyptus viminalis"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in dplyr::group_by(., original_name):</span> Must group by variables found in `.data`.</span>
-<span class='r-err co'><span class='r-pr'>#&gt;</span> <span style='color: #BB0000;'>x</span> Column `original_name` is not found.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 27</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   searched_name   usageKey taxa     scientificName   canonicalName  rank  status</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> Eucalyptus vim~  3<span style='text-decoration: underline;'>177</span>112 Eucalyp~ Eucalyptus vimi~ Eucalyptus vi~ SPEC~ ACCEP~</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># ... with 20 more variables: confidence &lt;int&gt;, matchType &lt;chr&gt;, kingdom &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;, species &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;, orderKey &lt;int&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;, synonym &lt;lgl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   class &lt;chr&gt;, stamp &lt;dttm&gt;, spp &lt;chr&gt;, original_name &lt;chr&gt;</span></span>
 <span class='r-in'></span>
 </pre>
   </div>

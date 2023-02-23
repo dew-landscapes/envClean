@@ -14,7 +14,7 @@ get_gbif_tax(
   remove_taxa = c("BOLD:.*\\\\d{4}", "dead", "unverified", "annual herb",
     "annual grass", "[[:alpha:]]{1}\\\\d{5,}", "^[[:alpha:]]{1,3}$"),
   remove_strings = c("\\\\s*\\\\(.*\\\\)", "\\\\'", "\\\\?", " spp\\\\.", "ssp\\\\.",
-    " sp\\\\.", " var\\\\.", " [A-Z].*", "#", "\\\\s^", " x .*$| X .*$")
+    " sp\\\\.", " var\\\\.", "subsp\\\\.", " [A-Z].*", "#", "\\\\s^", " x .*$| X .*$")
 )
 }
 \arguments{

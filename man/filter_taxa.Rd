@@ -50,7 +50,7 @@ taxonomic hierarchy are results desired.}
 \item{...}{Passed to \code{envClean::make_taxa_taxonomy}.}
 }
 \value{
-Dataframe with columns taxa, visit column(s) and, if used, extracols.
+Dataframe with columns taxa, context and, if used, extracols.
 }
 \description{
 Includes running of taxa_taxonomy(), if lutaxa does not already exist.

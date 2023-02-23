@@ -51,6 +51,7 @@
                                                 ,  "ssp\\."
                                                 , " sp\\."
                                                 , " var\\."
+                                                , "subsp\\."
                                                 #, " ex"
                                                 , " [A-Z].*"
                                                 , "#"
@@ -97,12 +98,12 @@
                            , !!rlang::ensym(taxa_col)
                            )
                     ) %>%
-      dplyr::mutate(searched_name = !!rlang::ensym(taxa_col)
+      dplyr::mutate(original_name = !!rlang::ensym(taxa_col)
                     , searched_name = gsub(paste0(remove_strings
                                                     , collapse = "|"
                                                     )
                                               , ""
-                                              , searched_name
+                                              , original_name
                                               )
                     , searched_name = stringr::str_squish(searched_name)
                     ) %>%
@@ -250,7 +251,7 @@
 
     rio::import(out_file) %>%
       tibble::as_tibble() %>%
-      # hack to ensure anything searched can also be an 'original_name'
+      # hack to ensure any searched_name can also be an 'original_name'
       dplyr::bind_rows(rio::import(out_file) %>%
                          tibble::as_tibble() %>%
                          dplyr::mutate(original_name = searched_name) %>%
@@ -443,7 +444,7 @@
 #' @param target_rank Character. Default is 'species'. At what level of the
 #' taxonomic hierarchy are results desired.
 #'
-#' @return Dataframe with columns taxa, visit column(s) and, if used, extracols.
+#' @return Dataframe with columns taxa, context and, if used, extracols.
 #' @export
 #'
 #' @examples
@@ -466,7 +467,7 @@
     .taxa_col = taxa_col
 
     df <- df %>%
-      dplyr::rename(original_name = !!rlang::ensym(taxa_col))
+      dplyr::mutate(original_name = !!rlang::ensym(taxa_col))
 
     # run taxa_taxonomy
     if(is.null(taxonomy)) {
@@ -487,17 +488,10 @@
 
     # Use dftaxa as base df from here
     bio_taxa <- df %>%
-      dplyr::distinct(!!rlang::ensym(taxa_col)) %>%
-      dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
+      dplyr::distinct(original_name) %>%
       dplyr::left_join(taxa$lutaxa) %>%
       dplyr::filter(!is.na(taxa)) %>%
       dplyr::filter(rank <= target_rank) %>%
-      dplyr::left_join(taxa$taxa_taxonomy %>%
-                         dplyr::select(taxa
-                                       , tidyselect::any_of(taxa_col)
-                                       , tidyselect::any_of(context)
-                                       )
-                       ) %>%
       dplyr::inner_join(df) %>%
       dplyr::select(tidyselect::any_of(context)
                     , taxa
@@ -537,6 +531,8 @@
       {if(do_cov) (.) %>% dplyr::left_join(bio_taxa_cov) else (.)} %>%
       {if(do_life) (.) %>% dplyr::left_join(bio_taxa_life) else (.)}
 
+    return(bio_taxa)
+
   }
 
 
@@ -572,14 +568,12 @@
 
     eval(substitute(alist(...)))
 
-
-
     .taxa_col = taxa_col
 
     res <- list
 
     taxas <- df %>%
-      dplyr::distinct(dplyr::across(tidyselect::any_of(taxa_col)))
+      dplyr::distinct(!!rlang::ensym(taxa_col))
 
     # GBIF taxonomy
     zero <- taxas %>%
@@ -587,13 +581,10 @@
                    , ...
 
                    # TESTING
-                   #, out_file = out_file
-                   #, king_type = "Animalia"
-                   #, do_common = TRUE
+                   # , out_file = out_file
+                   # , king_type = "Animalia"
+                   # , do_common = TRUE
                    ) %>%
-      dplyr::inner_join(taxas %>%
-                          dplyr::rename(searched_name = 1)
-                        ) %>%
       dplyr::mutate(rank = tolower(rank)
                     , rank = factor(rank
                                     , levels = levels(lurank$rank)
@@ -616,7 +607,7 @@
       dplyr::select(-n)
 
     keep_dups <- dups %>%
-      #dplyr::filter(kingdom == king_type) %>%
+      {if(grepl("common", names(.))) (.) %>% dplyr::filter(!is.na(common)) else (.)} %>%
       dplyr::group_by(taxa) %>%
       dplyr::slice(1) %>%
       dplyr::ungroup()
