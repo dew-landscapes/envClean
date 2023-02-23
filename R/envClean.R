@@ -607,7 +607,7 @@
       dplyr::select(-n)
 
     keep_dups <- dups %>%
-      {if(grepl("common", names(.))) (.) %>% dplyr::filter(!is.na(common)) else (.)} %>%
+      {if("common" %in% names(.)) (.) %>% dplyr::filter(!is.na(common)) else (.)} %>%
       dplyr::group_by(taxa) %>%
       dplyr::slice(1) %>%
       dplyr::ungroup()
