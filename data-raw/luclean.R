@@ -19,7 +19,8 @@
                              "life", "as a byproduct of assigning all records of a taxa a lifeform",
                              "cov", "as a byproduct of assigning all records of a taxa a cover value",
                              "recent", "the most recent visit to a cell",
-                             "tidy", "last check for singleton sites"
+                             "lists", "add list length",
+                             "filt_list_df", "filter occurrence data to a set of critera"
                              ) %>%
     dplyr::mutate(order = dplyr::row_number() - 1) %>%
     dplyr::arrange(order)
