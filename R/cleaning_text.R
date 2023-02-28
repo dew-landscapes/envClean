@@ -99,17 +99,15 @@ cleaning_text <- function(prefix = "bio_"
     dplyr::mutate(obj = purrr::map(name
                             , get
                             )
-                  , nrow = purrr::map_dbl(obj
-                                 , nrow
-                                 )
                   , ctime = purrr::map(obj
                               , attr
                               , "ctime"
                               )
+                  , n = purrr::map_dbl(obj, nrow)
                   ) %>%
     tidyr::unnest(cols = c(ctime)) %>%
     dplyr::arrange(ctime
-                   , desc(nrow)
+                   , desc(n)
                    ) %>%
     dplyr::mutate(clean = gsub(prefix
                                , ""
@@ -118,30 +116,32 @@ cleaning_text <- function(prefix = "bio_"
                   , summary = purrr::map(obj
                                          , rec_vis_sit_tax
                                          , ...
-                                         # , site_cols = settings_data$geo_cols
-                                         # , visit_cols = settings_data$full_context_cols
-                                         # , taxa_cols = settings_data$taxa_cols
+                                         # , site_cols = site_cols
+                                         # , visit_cols = visit_cols
+                                         # , taxa_cols = taxa_cols
                                          )
                   ) %>%
     tidyr::unnest(cols = c(summary)) %>%
     dplyr::left_join(luclean) %>%
     dplyr::mutate(row = dplyr::row_number()
                   , dplyr::across(where(is.numeric)
+                                    , ~ format(.x
+                                               , big.mark = ","
+                                               , trim = TRUE
+                                               )
+                                  , .names = "text_{.col}"
+                                  )
+                  , dplyr::across(where(is.numeric)
                                   , ~ lag(.x)
                                   , .names = "lag_{.col}"
                                   )
-                  , dplyr::across(where(is.numeric)
-                                  , ~ format(.x
-                                             , big.mark = ","
-                                             , trim = TRUE
-                                             )
-                                  )
+
                   ) %>%
-    dplyr::mutate(text = purrr::pmap_chr(.l = list(row = .data$row
-                                                 , taxa = .data$taxa
-                                                 , records = .data$records
-                                                 , visits = .data$visits
-                                                 , sites = .data$sites
+    dplyr::mutate(text = purrr::pmap_chr(.l = list(row = .data$text_row
+                                                 , taxa = .data$text_taxa
+                                                 , records = .data$text_records
+                                                 , visits = .data$text_visits
+                                                 , sites = .data$text_sites
                                                  , desc = .data$desc
                                                  , lag_taxa = .data$lag_taxa
                                                  , lag_records = .data$lag_records
@@ -176,9 +176,10 @@ cleaning_text <- function(prefix = "bio_"
 
   df <- df %>%
     dplyr::select(! c(where(is.list)
-                      , tidyselect::starts_with("lag_")
+                      , tidyselect::matches("lag_|text_")
                       )
                   )
+
 
   return(df)
 

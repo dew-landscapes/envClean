@@ -413,6 +413,6 @@ It can often be useful to trace the results for a single taxa through the filter
 
 # Summary
 
-After ingesting data from a range of sources (`r vec_to_sentence(unique(flor_all$data_name))`) the `envClean` functions helped clean the data ready for further analysis. The original `r filt_summary[1,"nrow"]` records were cleaned, tidied and filtered to `r filt_summary[nrow(filt_summary),"nrow"]` records.
+After ingesting data from a range of sources (`r vec_to_sentence(unique(flor_all$data_name))`) the `envClean` functions helped clean the data ready for further analysis. The original `r filt_summary[1,"records"]` records were cleaned, tidied and filtered to `r filt_summary[nrow(filt_summary),"records"]` records.
 
 # References
