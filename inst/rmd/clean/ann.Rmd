@@ -1,0 +1,7 @@
+### Annual taxa
+
+Annual taxa were removed using the `filter_text_col` function in the `envClean` package `r cite_package("envClean")` returning only taxa with [flora attributes] `lifespan` known to be `P` (perennial). Thus, taxa with unknown (`U`) `lifespan` were also filtered.
+
+`r data_filter$filter_text[i]`
+
+<br>

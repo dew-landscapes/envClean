@@ -1,0 +1,7 @@
+### Add list length
+
+Taxa richness (length of the list) was appended to each context using the function `add_list_length` in the `envTrend` package `r cite_package("envTrend")`.
+
+`r if(settings_data$use_zeroes == TRUE) paste0(At the same time, taxa not recorded were added to the list based on )`
+
+<br>

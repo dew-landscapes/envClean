@@ -1,0 +1,7 @@
+### Important data was `NA`
+
+Some contextual information was considered too important to be missing. If any record had a value of `NA` in any of the columns - `r sort(unique(full_context_cols))` - it was removed.
+
+`r data_filter$filter_text[i]`
+
+<br>

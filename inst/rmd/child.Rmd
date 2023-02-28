@@ -1,0 +1,19 @@
+
+```{r {{childID}}, include = FALSE}
+
+  tempID <- "{{childID}}"
+
+```
+
+```{r data{{childID}}}
+  
+  dat <- filt_summary %>%
+    dplyr::filter(childID == tempID)
+
+```
+
+## ``r dat$clean``
+
+`r dat$text`
+
+<br>

@@ -870,7 +870,7 @@
 #' @export
 #'
 #' @examples
-  filter_spat_rel <- function(df
+  filter_geo_rel <- function(df
                               , dist_col = "rel_metres"
                               , dist = 50
                               , context
@@ -925,7 +925,7 @@
 #' @export
 #'
 #' @examples
-  filter_aoi <- function(df
+  filter_geo_range <- function(df
                          , use_aoi
                          , x = "long"
                          , y = "lat"

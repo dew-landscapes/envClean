@@ -1,0 +1,7 @@
+### Temporal bin
+
+The year component of the date for each record became a temporal bin.
+
+`r data_filter$filter_text[i]`
+
+<br>

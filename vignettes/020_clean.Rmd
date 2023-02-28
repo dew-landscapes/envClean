@@ -98,33 +98,33 @@ Usually this is a geographic and/or taxonomic area of interest. An example area 
 
 ```
 
-Filtering `flor_all` to `aoi` is done with `filter_aoi`.
+Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
 
-```{r flor_all_aoi}
+```{r flor_geo_range}
 
   # Filter area of interest
-  flor_aoi <- filter_aoi(flor_all
+  flor_geo_range <- filter_geo_range(flor_all
                          , use_aoi = aoi
                          , crs_aoi = st_crs(aoi)
                          ) %>%
     add_time_stamp()
 
   # Have a look at results
-  flor_aoi
+  flor_geo_range
 
 ```
 
 Check that spatial filter worked.
 
-```{r flor_aoi}
+```{r flor_geo_range_map}
 
-  # Create sf from flor_aoi
-  aoi_sf <- flor_aoi %>%
+  # Create sf from flor_geo_range
+  aoi_sf <- flor_geo_range %>%
     sf::st_as_sf(coords = c("long", "lat")
                  , crs = 4326
                  )
 
-  # Plot flor_aoi along with aoi (using the same extent/bbox as the previous plot)
+  # Plot flor_geo_range along with aoi (using the same extent/bbox as the previous plot)
   tm_shape(aoi
            , bbox = st_bbox(flor_all_sf)
            ) +
@@ -146,15 +146,15 @@ The original time scale probably suggests accuracy to day, or perhaps even hour,
 
 ## Precision
 
-Records with precision less than threshold are filtered using `filter_spat_rel`. This takes a dataframe (`df`) as its first argument, in this case `flor_aoi`. `dist_col` specifies the column in `df` that contains the precision estimates. `dist` provides the threshold above which to filter. If there are data sources (or any other columns in `df`) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument `over_ride`. This takes a named list, where names need to match the columns in `df`. Any levels within the columns provided in `over_ride` will not be filtered, irrespective of the values in `dist_col`.
+Records with precision less than threshold are filtered using `filter_geo_rel`. This takes a dataframe (`df`) as its first argument, in this case `flor_geo_range`. `dist_col` specifies the column in `df` that contains the precision estimates. `dist` provides the threshold above which to filter. If there are data sources (or any other columns in `df`) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument `over_ride`. This takes a named list, where names need to match the columns in `df`. Any levels within the columns provided in `over_ride` will not be filtered, irrespective of the values in `dist_col`.
 
-```{r flor_aoi_rel}
+```{r flor_geo_rel}
 
   context <- c("year", "month", "lat", "long", "cell")
 
   include_data_name <- c("ALIS","BCM","NVB","TERN")
 
-  flor_rel <- filter_spat_rel(flor_aoi
+  flor_geo_rel <- filter_geo_rel(flor_geo_range
                               , dist_col = "rel_metres"
                               , dist = 100
                               , context = context
@@ -163,7 +163,7 @@ Records with precision less than threshold are filtered using `filter_spat_rel`.
     add_time_stamp()
   
   # Have a look at results
-  flor_rel
+  flor_geo_rel
 
 ```
 
@@ -185,17 +185,17 @@ Now that records with dubious spatial precision have been removed, an accuracy t
 
 Rasterizing the current data is then done via `add_raster_cell`. This function has the argument `add_xy` which will add the centroid of the cell back to the data frame using the same names as the original `x` and `y` columns. Alternatively, the `x` and `y` columns will be lost from the returned data frame, replaced with `cell`, the raster cell id.
 
-```{r flor_rel_cell}
+```{r flor_geo_bin}
 
-  flor_cell <- envRaster::add_raster_cell(aoi_raster
-                               , flor_rel
+  flor_geo_bin <- envRaster::add_raster_cell(aoi_raster
+                               , flor_geo_rel
                                , add_xy = TRUE
                                , crs_df = 4283
                                ) %>%
     add_time_stamp()
 
   # Have a look at results
-  flor_cell
+  flor_geo_bin
 
 ```
 
@@ -212,7 +212,7 @@ Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This re
 
 ```{r make_taxa_taxonomy}
 
-  taxa <-  make_taxa_taxonomy(flor_cell
+  taxa <-  make_taxa_taxonomy(flor_geo_bin
                               , out_file = "inst/luGBIF.rds"
                               )
 
@@ -244,7 +244,7 @@ Thus the output of applying `filter_taxa` is to generate a single record for eac
 
 ```{r filt_tax}
 
-  flor_taxa <- filter_taxa(flor_cell
+  flor_taxa <- filter_taxa(flor_geo_bin
                           , taxa_col = "original_name"
                           , context = context
                           , taxonomy = taxa
@@ -366,33 +366,38 @@ So far, all contexts `r vec_to_sentence(context, end = "or")` have been kept. It
 
 # Filtering summary {#summary}
 
-A little care naming objects enables easily capturing the results of the cleaning process. The function `rec_vis_sit_tax` summarises the taxa, records, visits and sites in each `flor_` data frame.
+A little care naming objects enables easily capturing the results of the cleaning process. The function `cleaning_text` summarises the taxa, records, visits and sites in each `flor_` data frame.
 
 ```{r filt_summary}
   
-  filt_summary <- ls(pattern = "flor_") %>%
-    tibble::enframe(name = NULL, value = "name") %>%
-    dplyr::mutate(obj = map(name,get)
-                  , has_stamp = map_lgl(obj,~"ctime" %in% names(attributes(.)))
-                  ) %>%
-    dplyr::filter(has_stamp) %>%
-    dplyr::mutate(nrow = map_dbl(obj, nrow)) %>%
-    dplyr::mutate(ctime = map(obj,attr,"ctime")) %>%
-    tidyr::unnest(cols = c(ctime)) %>%
-    dplyr::arrange(desc(nrow),ctime) %>%
-    dplyr::mutate(summary = map(obj
-                                , rec_vis_sit_tax
+  filt_summary <- cleaning_text(prefix = "flor_"
+                                , save_ends = FALSE
                                 , site_cols = c("cell", "lat", "long")
                                 , visit_cols = c("month", "year")
                                 , taxa_cols = c("taxa", "original_name")
                                 )
-                  ) %>%
-    tidyr::unnest(cols = c(summary))
 
-  # Have a look at results
-  filt_summary
+  
+```
+
+```{r child_rmd}
+
+  out <- NULL
+
+  # this loops through child.Rmd, generating the results for each report card
+
+  for (i in filt_summary$childID) {
+    
+    childID <- i
+    
+    out = c(out, knit_expand("inst/rmd/child.Rmd"))
+    
+  }
 
 ```
+
+`r if(!is.null(out)) paste(knit(text = out), collapse = '\n')`
+
 
 # What happened to x?
 

@@ -1,0 +1,29 @@
+### Filter lists
+
+```{r filtListDfSettings}
+
+  missing_stuff <- setdiff(names(formals(envTrend::filter_list_df))
+                   , names(settings_data)
+                   )
+
+  if(missing_stuff > 0) {
+    
+    settings_data <- c(settings_data
+                       , formals(envTrend::filter_list_df)[names(formals(envTrend::filter_list_df)) %in% missing_stuff]
+                       )
+    
+  }
+
+```
+
+In order to run the [individual taxa models], a taxa needed to meet certain criteria.
+
+* the minimum allowable maximum length of a list on which a taxa was recorded was set at `r settings_data$shortest_max`
+* the minimum allowable number of occurrences for a taxa was set at `r settings_data$min_occurrences`
+* the minimum allowable years with occurrence was set at `r settings_data$min_years`
+* the minimum allowable span between years was set at `r settings_data$min_span`
+* the minimum allowable maximum year with a record was set as `r settings_data$max_year`.'
+
+Taxa that did not meet any of these criteria were filtered using the `filt_list_df` function from the `envTrend` package (`r cite_package("envTrend"))`. Where a taxa was removed, it did not alter the information for any other taxa (i.e. say, the list length was not reduced by one where such a taxa was removed).
+
+<br>

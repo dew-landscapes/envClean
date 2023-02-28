@@ -15,6 +15,8 @@ rec_vis_sit_tax <- function(df
                             , taxa_cols
                             ) {
 
+  visit_cols <- unique(c(site_cols, visit_cols))
+
   df %>%
     dplyr::summarise(taxa = n_distinct(across(any_of(taxa_cols)))
                      , records = nrow(.)

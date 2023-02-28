@@ -1,0 +1,5 @@
+### Assigning to a geographic area
+
+All contexts were intersected with the geographic areas defined by `r use_geo_name` using the `st_intersection` function in the `sf` package `r cite_package("sf")`.
+
+<br>

@@ -135,28 +135,15 @@
 <p>Filtering <code>flor_all</code> to <code>aoi</code> is done with <code>filter_aoi</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/filter_aoi.html">filter_aoi</a></span><span class="op">(</span><span class="va">flor_all</span>
+  <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu">filter_aoi</span><span class="op">(</span><span class="va">flor_all</span>
                          , use_aoi <span class="op">=</span> <span class="va">aoi</span>
                          , crs_aoi <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>
                          <span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">envFunc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = c("lat", "long")</span>
+<span class="co">#&gt; Error in filter_aoi(flor_all, use_aoi = aoi, crs_aoi = sf::st_crs(aoi)): could not find function "filter_aoi"</span>
 
   <span class="va">flor_aoi</span>
-<span class="co">#&gt; # A tibble: 1,419 x 9</span>
-<span class="co">#&gt;      lat  long data_name site       date       original_name          rel_metres month  year</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;                       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.5  140. GBIF      2573957849 2020-02-22 Eremophila glabra             500     2  2020</span>
-<span class="co">#&gt;  2 -34.5  140. GBIF      3902768443 2022-08-14 Triodia scariosa               NA     8  2022</span>
-<span class="co">#&gt;  3 -34.5  140. GBIF      3902326597 2022-08-14 Beyeria lechenaultii           NA     8  2022</span>
-<span class="co">#&gt;  4 -34.5  140. GBIF      3902042262 2022-08-14 Walsholaria magniflora         NA     8  2022</span>
-<span class="co">#&gt;  5 -34.5  140. GBIF      3058875475 2019-09-01 Triodia scariosa              564     9  2019</span>
-<span class="co">#&gt;  6 -34.5  140. GBIF      3058756300 2019-09-01 Westringia rigida             564     9  2019</span>
-<span class="co">#&gt;  7 -34.5  140. GBIF      3902151141 2022-08-14 Phebalium bullatum             NA     8  2022</span>
-<span class="co">#&gt;  8 -34.5  140. GBIF      3902634058 2022-08-14 Acacia rigens                  NA     8  2022</span>
-<span class="co">#&gt;  9 -34.5  140. GBIF      3902018286 2022-08-14 Exocarpos aphyllus             NA     8  2022</span>
-<span class="co">#&gt; 10 -34.5  140. GBIF      3923355578 2022-08-14 Maireana radiata               NA     8  2022</span>
-<span class="co">#&gt; # ... with 1,409 more rows</span></code></pre></div>
+<span class="co">#&gt; Error in eval(expr, envir, enclos): object 'flor_aoi' not found</span></code></pre></div>
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -164,14 +151,15 @@
     <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>
                  , crs <span class="op">=</span> <span class="fl">4326</span>
                  <span class="op">)</span>
+<span class="co">#&gt; Error in sf::st_as_sf(., coords = c("long", "lat"), crs = 4326): object 'flor_aoi' not found</span>
 
   <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">aoi</span>
            , bbox <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html">st_bbox</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
            <span class="op">)</span> <span class="op">+</span>
     <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">flor_aoi_sf</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-flor_aoi-1.png" title="plot of chunk flor_aoi" alt="plot of chunk flor_aoi" width="100%"></p>
+    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_symbols.html">tm_dots</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Error in as.list.environment(environment()): object 'flor_aoi_sf' not found</span></code></pre></div>
 </div>
 <div id="what-else-is-in-envclean" class="section level2">
 <h2 class="hasAnchor">
@@ -180,9 +168,9 @@
 <p>The following functions and data sets are provided in <code>envClean</code>. See <a href="https://acanthiza.github.io/envClean/" class="uri">https://acanthiza.github.io/envClean/</a> for more examples.</p>
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="16%">
-<col width="70%">
+<col width="17%">
+<col width="15%">
+<col width="66%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">object</th>
@@ -191,132 +179,137 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">add_cover</td>
+<td align="left"><code>envFunc::add_cover</code></td>
 <td align="left">function</td>
 <td align="left">Generate best guess of cover for each taxa*context</td>
 </tr>
 <tr class="even">
-<td align="left">add_lifeform</td>
+<td align="left"><code>envFunc::add_lifeform</code></td>
 <td align="left">function</td>
 <td align="left">Generate best guess of lifeform for each taxa*context</td>
 </tr>
 <tr class="odd">
-<td align="left">aoi</td>
+<td align="left"><code>envFunc::aoi</code></td>
 <td align="left">sf and data.frame</td>
 <td align="left">Simple feature to define a geographic area of interest.</td>
 </tr>
 <tr class="even">
-<td align="left">filter_aoi</td>
+<td align="left"><code>envFunc::cleaning_text</code></td>
 <td align="left">function</td>
-<td align="left">Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)</td>
+<td align="left">Write a sentence describing change in taxa, records, visits and sites between</td>
 </tr>
 <tr class="odd">
-<td align="left">filter_counts</td>
+<td align="left"><code>envFunc::filter_counts</code></td>
 <td align="left">function</td>
 <td align="left">Filter any context with less instances than a threshold value</td>
 </tr>
 <tr class="even">
-<td align="left">filter_prop</td>
+<td align="left"><code>envFunc::filter_geo_range</code></td>
 <td align="left">function</td>
-<td align="left">Filter taxa recorded at less than x percent of visits</td>
+<td align="left">Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)</td>
 </tr>
 <tr class="odd">
-<td align="left">filter_spat_rel</td>
+<td align="left"><code>envFunc::filter_geo_rel</code></td>
 <td align="left">function</td>
 <td align="left">Filter data frame to specified spatial reliability</td>
 </tr>
 <tr class="even">
-<td align="left">filter_taxa</td>
+<td align="left"><code>envFunc::filter_prop</code></td>
+<td align="left">function</td>
+<td align="left">Filter taxa recorded at less than x percent of visits</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envFunc::filter_taxa</code></td>
 <td align="left">function</td>
 <td align="left">Clean/Tidy to one row per taxa*Visit</td>
 </tr>
-<tr class="odd">
-<td align="left">filter_text_col</td>
+<tr class="even">
+<td align="left"><code>envFunc::filter_text_col</code></td>
 <td align="left">function</td>
 <td align="left">Filter a dataframe column on character string(s)</td>
 </tr>
-<tr class="even">
-<td align="left">find_outliers</td>
+<tr class="odd">
+<td align="left"><code>envFunc::find_outliers</code></td>
 <td align="left">function</td>
 <td align="left">Find local outliers</td>
 </tr>
-<tr class="odd">
-<td align="left">find_taxa</td>
+<tr class="even">
+<td align="left"><code>envFunc::find_taxa</code></td>
 <td align="left">function</td>
 <td align="left">Find how taxa changed through the cleaning/filtering/tidying process</td>
 </tr>
-<tr class="even">
-<td align="left">flor_all</td>
+<tr class="odd">
+<td align="left"><code>envFunc::flor_all</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Example of data combined from several data sources.</td>
 </tr>
-<tr class="odd">
-<td align="left">get_gbif_common</td>
+<tr class="even">
+<td align="left"><code>envFunc::get_gbif_common</code></td>
 <td align="left">function</td>
 <td align="left">Find common name from GBIF</td>
 </tr>
-<tr class="even">
-<td align="left">get_gbif_tax</td>
+<tr class="odd">
+<td align="left"><code>envFunc::get_gbif_tax</code></td>
 <td align="left">function</td>
 <td align="left">Get taxonomy from href{<a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c" class="uri">https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c</a>}{GBIF Backbone Taxonomy}.</td>
 </tr>
-<tr class="odd">
-<td align="left">luclean</td>
+<tr class="even">
+<td align="left"><code>envFunc::luclean</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Dataframe of cleaning steps</td>
 </tr>
-<tr class="even">
-<td align="left">lurank</td>
+<tr class="odd">
+<td align="left"><code>envFunc::lurank</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Dataframe of taxonomic ranks</td>
 </tr>
-<tr class="odd">
-<td align="left">make_aoi</td>
+<tr class="even">
+<td align="left"><code>envFunc::make_aoi</code></td>
 <td align="left">function</td>
 <td align="left">Create an ‘area of interest’</td>
 </tr>
-<tr class="even">
-<td align="left">make_cover</td>
+<tr class="odd">
+<td align="left"><code>envFunc::make_cover</code></td>
 <td align="left">function</td>
 <td align="left">Make a single (numeric, proportion) cover column from different sorts of</td>
 </tr>
-<tr class="odd">
-<td align="left">make_effort_mod</td>
+<tr class="even">
+<td align="left"><code>envFunc::make_effort_mod</code></td>
 <td align="left">function</td>
 <td align="left">Distribution of credible values for taxa richness.</td>
 </tr>
-<tr class="even">
-<td align="left">make_effort_mod_pca</td>
+<tr class="odd">
+<td align="left"><code>envFunc::make_effort_mod_pca</code></td>
 <td align="left">function</td>
 <td align="left">Model the effect of principal components axes on taxa richness.</td>
 </tr>
-<tr class="odd">
-<td align="left">make_env_pca</td>
+<tr class="even">
+<td align="left"><code>envFunc::make_env_pca</code></td>
 <td align="left">function</td>
 <td align="left">Principal components analysis and various outputs from environmental data</td>
 </tr>
-<tr class="even">
-<td align="left">make_ind_status</td>
+<tr class="odd">
+<td align="left"><code>envFunc::make_ind_status</code></td>
 <td align="left">function</td>
 <td align="left">Make indigenous status lookup</td>
 </tr>
-<tr class="odd">
-<td align="left">make_lifeform</td>
+<tr class="even">
+<td align="left"><code>envFunc::make_lifeform</code></td>
 <td align="left">function</td>
 <td align="left">Get unique lifeform across taxa, perhaps including further context</td>
 </tr>
-<tr class="even">
-<td align="left">make_taxa_taxonomy</td>
+<tr class="odd">
+<td align="left"><code>envFunc::make_taxa_taxonomy</code></td>
 <td align="left">function</td>
 <td align="left">Make taxonomy lookups</td>
 </tr>
-<tr class="odd">
-<td align="left">rec_vis_sit_tax</td>
+<tr class="even">
+<td align="left"><code>envFunc::rec_vis_sit_tax</code></td>
 <td align="left">function</td>
 <td align="left">How many records, visits, sites and taxa in a dataframe</td>
 </tr>
-<tr class="even">
-<td align="left">taxonomy_fixes</td>
+<tr class="odd">
+<td align="left"><code>envFunc::taxonomy_fixes</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Manual taxonomic fixes</td>
 </tr>

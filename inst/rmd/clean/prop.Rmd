@@ -1,0 +1,32 @@
+### Percentage of sites
+
+```{r kept}
+
+  kept <- flor_prop %>%
+    dplyr::mutate(cells = n_distinct(across(all_of(visit_cols)))) %>%
+    dplyr::filter(taxa %in% keep_taxa) %>%
+    dplyr::count(taxa,cells) %>%
+    dplyr::mutate(per = round(100*n/cells,2))
+
+  min_per_kept <- min(kept$per)
+
+
+```
+
+In order for a taxa to be retained, it needed to be present in more than `r min_per_kept`% of contexts (or `r round(nrow(flor_prop %>% dplyr::distinct(across(any_of(visit_cols)))) * min_per_kept/100,0)` contexts). This percentage was determined by looking for the minimum value required to include several key structural species with few contexts (e.g. `r vec_to_sentence(paste0("_",kept$taxa,"_"))`. See Table \@ref(tab:sitePerFilterTaxa)).
+
+Filtering was done with the `filter_prop` function in the `envClean` package `r cite_package("envClean")`.
+
+`r data_filter$filter_text[i]`
+
+<br>
+
+```{r sitePerFilterTaxa}
+
+   kept %>%
+    dplyr::select(Taxa = taxa,  contexts = n, `_Percentage_ of sites` = per) %>%
+    kable(caption = "Number and percentage of contexts at which several key taxa were recorded")
+
+```
+
+<br>

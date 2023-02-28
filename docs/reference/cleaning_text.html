@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filter data frame to specified spatial reliability — filter_spat_rel • envClean</title>
+<title>Write a sentence describing change in taxa, records, visits and sites between
+two cleaning steps — cleaning_text • envClean</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="Filter data frame to specified spatial reliability — filter_spat_rel" />
-<meta property="og:description" content="Filter data frame to specified spatial reliability" />
+<meta property="og:title" content="Write a sentence describing change in taxa, records, visits and sites between
+two cleaning steps — cleaning_text" />
+<meta property="og:description" content="Write a sentence describing change in taxa, records, visits and sites between
+two cleaning steps" />
 
 
 
@@ -123,56 +126,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filter data frame to specified spatial reliability</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envClean/blob/master/R/envClean.R'><code>R/envClean.R</code></a></small>
-    <div class="hidden name"><code>filter_spat_rel.Rd</code></div>
+    <h1>Write a sentence describing change in taxa, records, visits and sites between
+two cleaning steps</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Acanthiza/envClean/blob/master/R/cleaning_text.R'><code>R/cleaning_text.R</code></a></small>
+    <div class="hidden name"><code>cleaning_text.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Filter data frame to specified spatial reliability</p>
+    <p>Write a sentence describing change in taxa, records, visits and sites between
+two cleaning steps</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter_spat_rel</span><span class='op'>(</span>
-  <span class='va'>df</span>,
-  dist_col <span class='op'>=</span> <span class='st'>"rel_metres"</span>,
-  dist <span class='op'>=</span> <span class='fl'>50</span>,
-  <span class='va'>context</span>,
-  over_ride <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cleaning_text</span><span class='op'>(</span>prefix <span class='op'>=</span> <span class='st'>"bio_"</span>, save_ends <span class='op'>=</span> <span class='cn'>TRUE</span>, save_dir <span class='op'>=</span> <span class='st'>"out"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>Dataframe.</p></td>
+      <th>prefix</th>
+      <td><p>Character. Prefix used to name objects during the cleaning
+process</p></td>
     </tr>
     <tr>
-      <th>dist_col</th>
-      <td><p>Character. Name of the column containing the spatial
-reliability.</p></td>
+      <th>save_ends</th>
+      <td><p>Character. Path to save objects to if <code>save_ends == TRUE</code></p></td>
     </tr>
     <tr>
-      <th>dist</th>
-      <td><p>Numeric. Filter spatial reliability greater than this value. In
-the same units as <code>dist_col</code>.</p></td>
-    </tr>
-    <tr>
-      <th>context</th>
-      <td><p>Character. column names defining the context.</p></td>
-    </tr>
-    <tr>
-      <th>over_ride</th>
-      <td><p>Named list. List names must be the same as column names. Any
-names in <code>over_ride</code> will be matched to column names in <code>df</code> and any values
-in that list element will not be filtered (on spatial reliability).</p></td>
+      <th>...</th>
+      <td><p>Passed to <code><a href='rec_vis_sit_tax.html'>envClean::rec_vis_sit_tax()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe with records of greater than <code>dist</code> filtered. Filtering is
-done at <code>context</code> level.</p>
+    
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -1,0 +1,63 @@
+
+### Context effort
+
+The aggregated data set contained records of taxa in contexts collected by almost any method imaginable. The effort any observer(s) put into time and taxonomy at each spatial location was unknown. In some cases the effort put into spatial extent was available as a quadrat size.
+
+Given that effort matters when documenting ecology [e.g. @RN2377], in an attempt to remove the most seriously under- and over-sampled contexts the following process was implemented via the `make_effort_mod` function in the `envClean` package `r cite_package("envClean")`.
+
+Taxa richness was modelled as a function of `r attr(effort_mod$mod$terms, "term.labels")` . Data exploration, model and model diagnostics are provided in the [appendix][taxa richness analysis]. The model was then used to predict credible upper and lower bounds for taxa richness within each level of `r attr(effort_mod$mod$terms, "term.labels")`. Any context with taxa richness outside those bounds was removed. Lower and upper bounds were set at the `r 100*extreme_sr_lo` and `r 100*extreme_sr_hi` percentiles. Contexts with a quadrat size were not removed, irrespective of their taxa richness. Table \@ref(tab:srContextTab) and Figure \@ref(fig:srContextPlot) show the results of this analysis for each context.
+
+Figure \@ref(fig:extremeSRModPC1) shows the thresholds for groups based only on the __first__ principal component. Note that these are theoretical, as the distribution and thresholds ignore the other principal components used. Figure \@ref(fig:extremeSRModPC2) shows the same information but for the __second__ principal component. Figure \@ref(fig:extremeSRMap) maps where sites with taxa richness too high or too low were removed.
+
+`r data_filter$filter_text[i]`
+
+<br>
+
+```{r srContextTab}
+
+  kable(effort_mod$mod_cell_tab
+        , caption = "Tally of contexts kept or removed as a result of the combination of taxa richness analysis and quadrat size"
+        )
+
+```
+
+<br>
+
+```{r srContextPlot, fig.height = 9, fig.cap = "Contexts removed due to too high or low taxa richness. Retained contexts are black. Removed contexts are coloured by their full [PCA groups]"}
+
+  effort_mod$mod_cell_plot
+
+```
+
+<br>
+
+```{r extremeSRMap, fig.cap = "Sites removed due to extremes of taxa richness"}
+
+  remove_effort <- effort_mod$mod_cell_result %>%
+    dplyr::filter(!keep_hi|!keep_lo) %>%
+    dplyr::mutate(Removed = if_else(keep_hi,"Too low","Too high")) %>%
+    dplyr::left_join(bio_cell %>%
+                       dplyr::distinct(grid_s, lat, long)
+                     ) %>%
+    sf::st_as_sf(coords = c("long","lat")
+                 , crs = 4283
+                 )
+
+  tm_shape(ibra_sub_aoi
+           , bbox = st_bbox(aoi)
+           ) +
+    tm_fill(col = "IBRA_SUB_N") +
+  tm_shape(sa) +
+    tm_borders() +
+  tm_shape(remove_effort) +
+    tm_dots(col = "Removed"
+            , palette = c("white","darkblue")
+            ) +
+    tm_layout(legend.outside = TRUE
+              , legend.outside.position = "left"
+              , legend.bg.color = "grey"
+              )
+
+```
+
+<br>
