@@ -1,19 +1,19 @@
 
-```{r {{childID}}, include = FALSE}
+```{r this{{childID}}}
 
   tempID <- "{{childID}}"
 
 ```
 
 ```{r data{{childID}}}
-  
-  dat <- filt_summary %>%
+
+  dat <- clean_summary %>%
     dplyr::filter(childID == tempID)
 
 ```
 
-## ``r dat$clean``
+## ``r dat$clean[1]``
 
-`r dat$text`
+`r paste0(dat$text[1], " ", dat$context_text[1])`
 
 <br>

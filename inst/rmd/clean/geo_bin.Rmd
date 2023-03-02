@@ -4,6 +4,6 @@ A raster was created covering the geographic range of the data with resolution o
 
 If a record was inside the area of interest but outside of raster cells, it was removed.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>

@@ -72,7 +72,8 @@ Here, we'll start with combined floristic data (called `flor_all`) from the mall
 
 ```{r flor_all}
 
-  flor_all <- flor_all %>% tibble::as_tibble()
+  flor_all <- flor_all %>%
+    tibble::as_tibble()
 
 ```
 
@@ -364,19 +365,18 @@ So far, all contexts `r vec_to_sentence(context, end = "or")` have been kept. It
 
 ```
 
-# Filtering summary {#summary}
+# Cleaning summary {#summary}
 
 A little care naming objects enables easily capturing the results of the cleaning process. The function `cleaning_text` summarises the taxa, records, visits and sites in each `flor_` data frame.
 
-```{r filt_summary}
+```{r clean_summary}
   
-  filt_summary <- cleaning_text(prefix = "flor_"
+  clean_summary <- cleaning_text(prefix = "flor_"
                                 , save_ends = FALSE
                                 , site_cols = c("cell", "lat", "long")
                                 , visit_cols = c("month", "year")
                                 , taxa_cols = c("taxa", "original_name")
                                 )
-
   
 ```
 
@@ -386,7 +386,7 @@ A little care naming objects enables easily capturing the results of the cleanin
 
   # this loops through child.Rmd, generating the results for each report card
 
-  for (i in filt_summary$childID) {
+  for (i in clean_summary$childID) {
     
     childID <- i
     
@@ -413,6 +413,6 @@ It can often be useful to trace the results for a single taxa through the filter
 
 # Summary
 
-After ingesting data from a range of sources (`r vec_to_sentence(unique(flor_all$data_name))`) the `envClean` functions helped clean the data ready for further analysis. The original `r filt_summary[1,"records"]` records were cleaned, tidied and filtered to `r filt_summary[nrow(filt_summary),"records"]` records.
+After ingesting data from a range of sources (`r vec_to_sentence(unique(flor_all$data_name))`) the `envClean` functions helped clean the data ready for further analysis. The original `r clean_summary[1,"records"]` records were cleaned, tidied and filtered to `r clean_summary[nrow(clean_summary),"records"]` records.
 
 # References

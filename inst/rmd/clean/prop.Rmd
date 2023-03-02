@@ -17,7 +17,7 @@ In order for a taxa to be retained, it needed to be present in more than `r min_
 
 Filtering was done with the `filter_prop` function in the `envClean` package `r cite_package("envClean")`.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>
 

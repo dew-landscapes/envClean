@@ -12,7 +12,7 @@ Taxa richness was modelled as a function of the first `r numbers2words(pca_axes)
 
 Figure \@ref(fig:extremeSRModPC1) shows the thresholds for groups based only on the __first__ principal component. Note that these are theoretical, as the distribution and thresholds ignore the other principal components used. Figure \@ref(fig:extremeSRModPC2) shows the same information but for the __second__ principal component. Figure \@ref(fig:extremeSRMap) maps where sites with taxa richness too high or too low were removed.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>
 

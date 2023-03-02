@@ -11,6 +11,6 @@ In preparing for the analysis of South Australian ecosystems, spatial areas that
 
 These relocated records had their [BDBSA](#bdbsa) location and spatial reliability adjusted so that they passed the spatial reliability filtering.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>

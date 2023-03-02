@@ -4,6 +4,6 @@ Environmental data was obtained for each context with floristic information usin
 
 Contexts that had an `NA` value in _any_ of the [environmental layers](#envDataSources) were removed.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>

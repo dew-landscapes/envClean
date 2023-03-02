@@ -490,6 +490,7 @@
     bio_taxa <- df %>%
       dplyr::distinct(original_name) %>%
       dplyr::left_join(taxa$lutaxa) %>%
+      dplyr::left_join(taxa$taxa_taxonomy) %>%
       dplyr::filter(!is.na(taxa)) %>%
       dplyr::filter(rank <= target_rank) %>%
       dplyr::inner_join(df) %>%

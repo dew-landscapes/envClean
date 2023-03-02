@@ -20,7 +20,7 @@ The taxa used in analyses were always binomial (taxa recorded at taxonomic level
 
 At the same time as the analysis-wide taxonomy was applied (by `filter_taxa`), any duplication of cover and lifeform for a taxa in a context was resolved, leaving only a single record of each taxa within a context.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 The [appendix] Table \@ref(tab:taxonomyApp) maps names retrieved from data sources to those used in analyses.
 

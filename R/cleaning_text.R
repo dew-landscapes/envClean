@@ -19,6 +19,10 @@ cleaning_text <- function(prefix = "bio_"
                           , ...
                           ) {
 
+  dots <- list(...)
+
+  eval(substitute(alist(...)))
+
   test_func_01 <- function(obj_name) {
 
     "data.frame" %in% class(get(obj_name))
@@ -71,7 +75,7 @@ cleaning_text <- function(prefix = "bio_"
              , lag_visits
              , " to "
              , visits
-             , ", the number of sites from "
+             , ", and the number of sites from "
              , lag_sites
              , " to "
              , sites
@@ -79,6 +83,66 @@ cleaning_text <- function(prefix = "bio_"
              )
 
         }
+
+    }
+
+  }
+
+  make_context_text <- function(df
+                                , lag_df
+                                , contexts
+                                ) {
+
+    df_con <- contexts[contexts %in% names(df)]
+
+    df_con_lag <- contexts[contexts %in% names(lag_df)]
+
+    con_added <- setdiff(df_con, df_con_lag)
+    con_lost <- setdiff(df_con_lag, df_con)
+
+    if(is.null(lag_df)) {
+
+      text <- paste0("At the start of the cleaning process context was defined by "
+                     , envFunc::vec_to_sentence(paste0("`"
+                                                       , df_con
+                                                       , sep = "`"
+                                                       )
+                                                )
+                     )
+
+    } else {
+
+      text <- paste0("At this stage of the cleaning process context was defined by "
+                     , envFunc::vec_to_sentence(paste0("`"
+                                                       , df_con
+                                                       , sep = "`"
+                                                       )
+                                                )
+                     , "."
+                     , if(length(con_added) > 0) " "
+                     , if(length(con_added) > 0) {
+                       paste0(envFunc::vec_to_sentence(paste0("`"
+                                                              , con_added
+                                                              , sep = "`"
+                                                              )
+                                                       )
+                              , if(length(con_added) > 1) " were" else " was"
+                              , " added"
+                              , if(length(con_lost) > 0) " and " else "."
+                              )
+                     }
+                     , if(length(con_added) == 0 & length(con_lost) > 0) " "
+                     , if(length(con_lost) > 0) {
+                       paste0(envFunc::vec_to_sentence(paste0("`"
+                                                              , con_lost
+                                                              , sep = "`"
+                                                              )
+                                                       )
+                              , if(length(con_lost) > 1) " were" else " was"
+                              , " removed."
+                              )
+                       }
+                     )
 
     }
 
@@ -109,7 +173,15 @@ cleaning_text <- function(prefix = "bio_"
     dplyr::arrange(ctime
                    , desc(n)
                    ) %>%
-    dplyr::mutate(clean = gsub(prefix
+    dplyr::mutate(context_text = purrr::map2(obj
+                                             , lag(obj)
+                                             , make_context_text
+                                             , contexts = unique(c(dots$site_cols
+                                                                   , dots$visit_cols
+                                                                   )
+                                                                 )
+                                             )
+                  , clean = gsub(prefix
                                , ""
                                , name
                                )
@@ -121,7 +193,7 @@ cleaning_text <- function(prefix = "bio_"
                                          # , taxa_cols = taxa_cols
                                          )
                   ) %>%
-    tidyr::unnest(cols = c(summary)) %>%
+    tidyr::unnest(cols = c(context_text, summary)) %>%
     dplyr::left_join(luclean) %>%
     dplyr::mutate(row = dplyr::row_number()
                   , dplyr::across(where(is.numeric)
@@ -132,12 +204,13 @@ cleaning_text <- function(prefix = "bio_"
                                   , .names = "text_{.col}"
                                   )
                   , dplyr::across(where(is.numeric)
-                                  , ~ lag(.x)
+                                  , ~ format(lag(.x)
+                                             , big.mark = ","
+                                             , trim = TRUE
+                                             )
                                   , .names = "lag_{.col}"
                                   )
-
-                  ) %>%
-    dplyr::mutate(text = purrr::pmap_chr(.l = list(row = .data$text_row
+                  , text = purrr::pmap_chr(.l = list(row = .data$text_row
                                                  , taxa = .data$text_taxa
                                                  , records = .data$text_records
                                                  , visits = .data$text_visits
@@ -176,7 +249,7 @@ cleaning_text <- function(prefix = "bio_"
 
   df <- df %>%
     dplyr::select(! c(where(is.list)
-                      , tidyselect::matches("lag_|text_")
+                      , tidyselect::matches("^lag_|^text_")
                       )
                   )
 

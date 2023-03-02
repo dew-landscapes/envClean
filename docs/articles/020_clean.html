@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Wednesday, 01 March, 2023</h4>
+            <h4 class="date">Thursday, 02 March, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -128,7 +128,8 @@
 <p>Here, we’ll start with combined floristic data (called <code>flor_all</code>) from the mallee in South Australia. This data set is provided with <code>envClean</code> and is a small subset of a <a href="https://www.gbif.org/">GBIF</a> occurrence download <span class="citation">(GBIF.Org 2022)</span>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="area-of-interest" class="section level1">
 <h1 class="hasAnchor">
@@ -454,9 +455,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.246 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.226 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.472 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.25 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.236 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.486 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -479,9 +480,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.237 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.243 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.48 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.243 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.245 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.488 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -504,9 +505,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.238 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.252 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.49 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.243 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.246 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.489 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -529,9 +530,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.249 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.259 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.508 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.251 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.277 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.528 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -622,11 +623,11 @@
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
-<a href="#summary" class="anchor"></a>Filtering summary</h1>
+<a href="#summary" class="anchor"></a>Cleaning summary</h1>
 <p>A little care naming objects enables easily capturing the results of the cleaning process. The function <code>cleaning_text</code> summarises the taxa, records, visits and sites in each <code>flor_</code> data frame.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  
-  <span class="va">filt_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cleaning_text.html">cleaning_text</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"flor_"</span>
+  <span class="va">clean_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cleaning_text.html">cleaning_text</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"flor_"</span>
                                 , save_ends <span class="op">=</span> <span class="cn">FALSE</span>
                                 , site_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cell"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span><span class="op">)</span>
                                 , visit_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span>
@@ -641,7 +642,7 @@
 
   <span class="co"># this loops through child.Rmd, generating the results for each report card</span>
 
-  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">filt_summary</span><span class="op">$</span><span class="va">childID</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">clean_summary</span><span class="op">$</span><span class="va">childID</span><span class="op">)</span> <span class="op">{</span>
     
     <span class="va">childID</span> <span class="op">&lt;-</span> <span class="va">i</span>
     
@@ -649,91 +650,115 @@
     
   <span class="op">}</span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeorange"</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 <div id="geo_range" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geo_range" class="anchor"></a><code>geo_range</code>
 </h2>
-<p>The initial data set contained 213 taxa, 1,419 records, 146 visits, and 141 sites.</p>
+<p>The initial data set contained 213 taxa, 1,419 records, 146 visits, and 141 sites. At the start of the cleaning process context was defined by <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code></p>
 <p><br></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeorel"</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="geo_rel" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geo_rel" class="anchor"></a><code>geo_rel</code>
 </h2>
-<p>The cleaning step ‘spatial reliability’ took the number of taxa from 213 to 130, the number of records from 1419 to 696, the number of visits from 146 to 45, the number of sites from 141 to 40.</p>
+<p>The cleaning step ‘spatial reliability’ took the number of taxa from 213 to 130, the number of records from 1,419 to 696, the number of visits from 146 to 45, and the number of sites from 141 to 40. At this stage of the cleaning process context was defined by <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeobin"</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="geo_bin" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geo_bin" class="anchor"></a><code>geo_bin</code>
 </h2>
-<p>This step in the cleaning process did not remove any records.</p>
+<p>This step in the cleaning process did not remove any records. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>. <code>cell</code> was added.</p>
 <p><br></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"flortaxa"</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="taxa" class="section level2">
 <h2 class="hasAnchor">
 <a href="#taxa" class="anchor"></a><code>taxa</code>
 </h2>
-<p>The cleaning step ‘align taxonomy and resolve any taxonomic duplication within bins’ took the number of taxa from 130 to 129, the number of records from 696 to 694, the number of visits from 45 to 45, the number of sites from 38 to 38.</p>
+<p>The cleaning step ‘align taxonomy and resolve any taxonomic duplication within bins’ took the number of taxa from 130 to 129, the number of records from 696 to 694, the number of visits from 45 to 45, and the number of sites from 38 to 38. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florsingle"</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="single" class="section level2">
 <h2 class="hasAnchor">
 <a href="#single" class="anchor"></a><code>single</code>
 </h2>
-<p>The cleaning step ‘singletons’ took the number of taxa from 129 to 128, the number of records from 694 to 692, the number of visits from 45 to 43, the number of sites from 38 to 36.</p>
+<p>The cleaning step ‘singletons’ took the number of taxa from 129 to 128, the number of records from 694 to 692, the number of visits from 45 to 43, and the number of sites from 38 to 36. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"floreffort"</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="effort-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#effort-1" class="anchor"></a><code>effort</code>
 </h2>
-<p>This step in the cleaning process did not remove any records.</p>
+<p>This step in the cleaning process did not remove any records. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florprop"</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="prop" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prop" class="anchor"></a><code>prop</code>
 </h2>
-<p>The cleaning step ‘proportion of sites’ took the number of taxa from 128 to 71, the number of records from 692 to 612, the number of visits from 43 to 43, the number of sites from 36 to 36.</p>
+<p>The cleaning step ‘proportion of sites’ took the number of taxa from 128 to 71, the number of records from 692 to 612, the number of visits from 43 to 43, and the number of sites from 36 to 36. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">filt_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florrecent"</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="recent" class="section level2">
 <h2 class="hasAnchor">
 <a href="#recent" class="anchor"></a><code>recent</code>
 </h2>
-<p>The cleaning step ‘the most recent visit to a cell’ took the number of taxa from 71 to 71, the number of records from 612 to 541, the number of visits from 43 to 36, the number of sites from 36 to 36.</p>
+<p>The cleaning step ‘the most recent visit to a cell’ took the number of taxa from 71 to 71, the number of records from 612 to 541, the number of visits from 43 to 36, and the number of sites from 36 to 36. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 </div>
 </div>
@@ -741,7 +766,7 @@
 <h1 class="hasAnchor">
 <a href="#what-happened-to-x" class="anchor"></a>What happened to x?</h1>
 <p>It can often be useful to trace the results for a single taxa through the filtering process. How did, say, <em>Eucalyptus incrassata</em> fare through the process?</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span>
             , lookup_taxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
@@ -749,14 +774,14 @@
 <span class="co">#&gt; # A tibble: 8 x 6</span>
 <span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-03-01 10:13:25 Eucalyptu~</span>
-<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-01 10:13:26 Eucalyptu~</span>
-<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-01 10:13:30 Eucalyptu~</span>
-<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-03-01 10:13:31 Eucalyptu~</span>
-<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-01 10:13:31 Eucalyptu~</span>
-<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-01 10:13:33 Eucalyptu~</span>
-<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-03-01 10:13:34 Eucalyptu~</span>
-<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-03-01 10:13:34 Eucalyptu~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-03-02 15:02:24 Eucalyptu~</span>
+<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-02 15:02:26 Eucalyptu~</span>
+<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-02 15:02:29 Eucalyptu~</span>
+<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-03-02 15:02:30 Eucalyptu~</span>
+<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-02 15:02:30 Eucalyptu~</span>
+<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-02 15:02:33 Eucalyptu~</span>
+<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-03-02 15:02:33 Eucalyptu~</span>
+<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-03-02 15:02:33 Eucalyptu~</span></code></pre></div>
 </div>
 <div id="summary-1" class="section level1">
 <h1 class="hasAnchor">

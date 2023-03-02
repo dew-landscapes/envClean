@@ -27,7 +27,7 @@ This was done using the `make_cover` function in the `envClean` package `r cite_
       
 If all taxa within a context required their cover estimate to be assigned as a small value, that context was removed.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
       
 <br>
 

@@ -2,6 +2,6 @@
 
 The final filtering was to take the most recent 'visit' to a cell by filtering the maximum year in which a cell had records.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>

@@ -8,6 +8,6 @@ Plant lifeforms were assigned in the following manner:
 
 This was done using the `add_lifeform` function in the `envClean` package `r cite_package("envClean")`.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>

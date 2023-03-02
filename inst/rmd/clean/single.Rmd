@@ -6,6 +6,6 @@ Thus, any context with only a single taxa was filtered, using the `filter_counts
 
 This filtering will have unavoidably filtered legitimate single taxa contexts. For example, some areas of samphire or mangroves may contain only a single taxa.
 
-`r data_filter$filter_text[i]`
+`r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
 <br>
