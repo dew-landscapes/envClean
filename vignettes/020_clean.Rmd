@@ -206,16 +206,18 @@ Rasterizing the current data is then done via `add_raster_cell`. This function h
 
 Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the [GBIF taxonomy backbone](https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c) provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.
 
-Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This returns a list with two objects:
+Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This returns a list with the following objects:
 
-* `lutaxa.` This is a simple lookup from the original name provided to the taxa to use in place of that name. Thus, `taxa` is likely to be duplicated
-* `taxa_taxonomy` provides the full taxonomic hierarchy for each `taxa` in the `lutaxa` object. The column `taxa` should not have any duplicates. The output can also include lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to `make_taxa_taxonomy`.
+* `raw`: results from `rgbif::name_backbone()` with a few extras.
+* `lutaxa`: a simple lookup from the original name provided to the `taxa` to use in place of that name. Thus, `taxa` is likely to be duplicated
+* `taxonomy`: provides the full taxonomic hierarchy for each unique `taxa` in `lutaxa`. The column `taxa` in `taxonomy` should not have any duplicates. The output can also include lifeform, lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to `make_taxonomy`.
+* `common`: the result of an attempt to find a common name for each `taxa` in `taxonomy`. Split from `taxonomy` as it seemed impossible to manage duplication.
 
 ```{r make_taxa_taxonomy}
 
-  taxa <-  make_taxa_taxonomy(flor_geo_bin
-                              , out_file = "inst/luGBIF.rds"
-                              )
+  taxa <- make_taxonomy(flor_geo_bin
+                        , out_file = "inst/luGBIF.rds"
+                        )
 
 ```
 
@@ -231,7 +233,7 @@ and `taxa_taxonomy`
 
 ```{r taxa_taxonomy}
 
-  taxa$taxa_taxonomy
+  taxa$taxonomy
 
 ```
 

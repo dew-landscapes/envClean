@@ -148,11 +148,14 @@ Note that `context` is only applied _exclusively_ only when `filter_taxa` is run
   
   # two rows
   flor_single
+  
+  # make taxonomy lookups
+  taxonomy <- make_taxonomy(flor_single)
       
   # filter taxa - context applied exclusively
   flor_taxa <- flor_example %>%
     filter_taxa(context = context
-                , king_type = "Plantae"
+                , taxonomy = taxonomy
                 )
   
   # one row

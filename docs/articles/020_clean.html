@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Thursday, 02 March, 2023</h4>
+            <h4 class="date">Monday, 20 March, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -288,54 +288,58 @@
 <h2 class="hasAnchor">
 <a href="#make-taxonomy" class="anchor"></a>Make taxonomy</h2>
 <p>Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF taxonomy backbone</a> provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.</p>
-<p>Reconciling taxonomy can be done with the <code>make_taxa_taxonomy</code> function. This returns a list with two objects:</p>
+<p>Reconciling taxonomy can be done with the <code>make_taxa_taxonomy</code> function. This returns a list with the following objects:</p>
 <ul>
 <li>
-<code>lutaxa.</code> This is a simple lookup from the original name provided to the taxa to use in place of that name. Thus, <code>taxa</code> is likely to be duplicated</li>
+<code>raw</code>: results from <code><a href="https://docs.ropensci.org/rgbif/reference/name_backbone.html">rgbif::name_backbone()</a></code> with a few extras.</li>
 <li>
-<code>taxa_taxonomy</code> provides the full taxonomic hierarchy for each <code>taxa</code> in the <code>lutaxa</code> object. The column <code>taxa</code> should not have any duplicates. The output can also include lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to <code>make_taxa_taxonomy</code>.</li>
+<code>lutaxa</code>: a simple lookup from the original name provided to the <code>taxa</code> to use in place of that name. Thus, <code>taxa</code> is likely to be duplicated</li>
+<li>
+<code>taxonomy</code>: provides the full taxonomic hierarchy for each unique <code>taxa</code> in <code>lutaxa</code>. The column <code>taxa</code> in <code>taxonomy</code> should not have any duplicates. The output can also include lifeform, lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to <code>make_taxonomy</code>.</li>
+<li>
+<code>common</code>: the result of an attempt to find a common name for each <code>taxa</code> in <code>taxonomy</code>. Split from <code>taxonomy</code> as it seemed impossible to manage duplication.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">taxa</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/make_taxa_taxonomy.html">make_taxa_taxonomy</a></span><span class="op">(</span><span class="va">flor_geo_bin</span>
-                              , out_file <span class="op">=</span> <span class="st">"inst/luGBIF.rds"</span>
-                              <span class="op">)</span></code></pre></div>
+  <span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_geo_bin</span>
+                        , out_file <span class="op">=</span> <span class="st">"inst/luGBIF.rds"</span>
+                        <span class="op">)</span></code></pre></div>
 <p>A look at <code>lutaxa</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
-<span class="co">#&gt; # A tibble: 579 x 4</span>
+<span class="co">#&gt; # A tibble: 131 x 4</span>
 <span class="co">#&gt;    taxa                   searched_name          original_name          rank   </span>
 <span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;                  &lt;chr&gt;                  &lt;ord&gt;  </span>
-<span class="co">#&gt;  1 Plantae                Zosterops lateralis    Zosterops lateralis    kingdom</span>
+<span class="co">#&gt;  1 Westringia rigida      Westringia rigida      Westringia rigida      species</span>
 <span class="co">#&gt;  2 Walsholaria muelleri   Walsholaria muelleri   Walsholaria muelleri   species</span>
 <span class="co">#&gt;  3 Walsholaria magniflora Walsholaria magniflora Walsholaria magniflora species</span>
 <span class="co">#&gt;  4 Vittadinia dissecta    Vittadinia dissecta    Vittadinia dissecta    species</span>
 <span class="co">#&gt;  5 Vittadinia cuneata     Vittadinia cuneata     Vittadinia cuneata     species</span>
-<span class="co">#&gt;  6 Plantae                Varanus gouldii        Varanus gouldii        kingdom</span>
-<span class="co">#&gt;  7 Plantae                Tyto javanica          Tyto javanica          kingdom</span>
-<span class="co">#&gt;  8 Plantae                Todiramphus sanctus    Todiramphus sanctus    kingdom</span>
-<span class="co">#&gt;  9 Plantae                Tiliqua rugosa         Tiliqua rugosa         kingdom</span>
-<span class="co">#&gt; 10 Plantae                Tachyglossus aculeatus Tachyglossus aculeatus kingdom</span>
-<span class="co">#&gt; # ... with 569 more rows</span></code></pre></div>
+<span class="co">#&gt;  6 Triodia scariosa       Triodia scariosa       Triodia scariosa       species</span>
+<span class="co">#&gt;  7 Triodia irritans       Triodia irritans       Triodia irritans       species</span>
+<span class="co">#&gt;  8 Thysanotus patersonii  Thysanotus patersonii  Thysanotus patersonii  species</span>
+<span class="co">#&gt;  9 Thysanotus baueri      Thysanotus baueri      Thysanotus baueri      species</span>
+<span class="co">#&gt; 10 Templetonia rossii     Templetonia rossii     Templetonia rossii     species</span>
+<span class="co">#&gt; # ... with 121 more rows</span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-  <span class="va">taxa</span><span class="op">$</span><span class="va">taxa_taxonomy</span>
-<span class="co">#&gt; # A tibble: 197 x 8</span>
-<span class="co">#&gt;    taxa                     kingdom phylum  order  family  genus  species  class</span>
-<span class="co">#&gt;    &lt;chr&gt;                    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt;  1 Plantae                  Plantae &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt; </span>
-<span class="co">#&gt;  2 Walsholaria muelleri     Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
-<span class="co">#&gt;  3 Walsholaria magniflora   Plantae Trache~ Aster~ Astera~ Walsh~ Walshol~ Magn~</span>
-<span class="co">#&gt;  4 Vittadinia dissecta      Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
-<span class="co">#&gt;  5 Vittadinia cuneata       Plantae Trache~ Aster~ Astera~ Vitta~ Vittadi~ Magn~</span>
-<span class="co">#&gt;  6 Senna artemisioides      Plantae Trache~ Fabal~ Fabace~ Senna  Senna a~ Magn~</span>
-<span class="co">#&gt;  7 Senecio pinnatifolius    Plantae Trache~ Aster~ Astera~ Senec~ Senecio~ Magn~</span>
-<span class="co">#&gt;  8 Sabulina mediterranea    Plantae Trache~ Caryo~ Caryop~ Sabul~ Sabulin~ Magn~</span>
-<span class="co">#&gt;  9 Rytidosperma caespitosum Plantae Trache~ Poales Poaceae Rytid~ Rytidos~ Lili~</span>
-<span class="co">#&gt; 10 Rumicastrum eremaeum     Plantae Trache~ Caryo~ Montia~ Rumic~ Rumicas~ Magn~</span>
-<span class="co">#&gt; # ... with 187 more rows</span></code></pre></div>
+  <span class="va">taxa</span><span class="op">$</span><span class="va">taxonomy</span>
+<span class="co">#&gt; # A tibble: 130 x 9</span>
+<span class="co">#&gt;    taxa                   kingdom phylum order family genus species class best_key</span>
+<span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt;</span>
+<span class="co">#&gt;  1 Westringia rigida      Plantae Trach~ Lami~ Lamia~ West~ Westri~ Magn~  7307131</span>
+<span class="co">#&gt;  2 Walsholaria muelleri   Plantae Trach~ Aste~ Aster~ Wals~ Walsho~ Magn~ 10844030</span>
+<span class="co">#&gt;  3 Walsholaria magniflora Plantae Trach~ Aste~ Aster~ Wals~ Walsho~ Magn~ 10888366</span>
+<span class="co">#&gt;  4 Vittadinia dissecta    Plantae Trach~ Aste~ Aster~ Vitt~ Vittad~ Magn~  3138910</span>
+<span class="co">#&gt;  5 Vittadinia cuneata     Plantae Trach~ Aste~ Aster~ Vitt~ Vittad~ Magn~  3138897</span>
+<span class="co">#&gt;  6 Triodia scariosa       Plantae Trach~ Poal~ Poace~ Trio~ Triodi~ Lili~  4116962</span>
+<span class="co">#&gt;  7 Triodia irritans       Plantae Trach~ Poal~ Poace~ Trio~ Triodi~ Lili~  4117582</span>
+<span class="co">#&gt;  8 Thysanotus patersonii  Plantae Trach~ Aspa~ Aspar~ Thys~ Thysan~ Lili~  5304110</span>
+<span class="co">#&gt;  9 Thysanotus baueri      Plantae Trach~ Aspa~ Aspar~ Thys~ Thysan~ Lili~  5304114</span>
+<span class="co">#&gt; 10 Templetonia rossii     Plantae Trach~ Faba~ Fabac~ Temp~ Temple~ Magn~  8279290</span>
+<span class="co">#&gt; # ... with 120 more rows</span></code></pre></div>
 </div>
 <div id="filter-taxonomy" class="section level2">
 <h2 class="hasAnchor">
@@ -437,8 +441,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 0.001 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
 <span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; Chain 1: </span>
@@ -455,9 +459,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.25 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.236 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.486 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.259 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.24 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.499 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -480,9 +484,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.243 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.245 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.488 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.242 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.244 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.486 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -505,15 +509,15 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.243 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.246 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.489 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.246 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.234 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.48 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span class="co">#&gt; Chain 4: Gradient evaluation took 0.001 seconds</span>
+<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
 <span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 4: </span>
 <span class="co">#&gt; Chain 4: </span>
@@ -530,9 +534,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.251 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.277 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.528 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.246 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.274 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.52 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -774,14 +778,14 @@
 <span class="co">#&gt; # A tibble: 8 x 6</span>
 <span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-03-02 15:02:24 Eucalyptu~</span>
-<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-02 15:02:26 Eucalyptu~</span>
-<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-02 15:02:29 Eucalyptu~</span>
-<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-03-02 15:02:30 Eucalyptu~</span>
-<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-02 15:02:30 Eucalyptu~</span>
-<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-02 15:02:33 Eucalyptu~</span>
-<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-03-02 15:02:33 Eucalyptu~</span>
-<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-03-02 15:02:33 Eucalyptu~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-03-20 18:16:35 Eucalyptu~</span>
+<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-20 18:16:36 Eucalyptu~</span>
+<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-20 18:16:40 Eucalyptu~</span>
+<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-03-20 18:16:41 Eucalyptu~</span>
+<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-20 18:16:41 Eucalyptu~</span>
+<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-20 18:16:44 Eucalyptu~</span>
+<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-03-20 18:16:44 Eucalyptu~</span>
+<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-03-20 18:16:44 Eucalyptu~</span></code></pre></div>
 </div>
 <div id="summary-1" class="section level1">
 <h1 class="hasAnchor">

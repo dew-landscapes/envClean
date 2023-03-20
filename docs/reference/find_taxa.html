@@ -205,14 +205,8 @@ created at each step in the filtering process.</p></td>
 <span class='r-in'>  <span class='fu'>envFunc</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/envFunc/man/add_time_stamp.html'>add_time_stamp</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Make sure required taxonomy objects are available</span></span>
-<span class='r-in'><span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_taxa_taxonomy.html'>make_taxa_taxonomy</a></span><span class='op'>(</span>df <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>original_name <span class='op'>=</span> <span class='va'>use_taxa</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>NAs introduced by coercion</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>All formats failed to parse. No formats found.</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "1 of 1 (100%): Eucalyptus gracilis"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "searched_name"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = c("taxa", "kingdom", "phylum", "order", "family", "genus",</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> "species", "class")</span>
+<span class='r-in'><span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='fu'>make_taxa_taxonomy</span><span class='op'>(</span>df <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>original_name <span class='op'>=</span> <span class='va'>use_taxa</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in make_taxa_taxonomy(df = data.frame(original_name = use_taxa)):</span> could not find function "make_taxa_taxonomy"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Filter taxonomy</span></span>
 <span class='r-in'>  <span class='co'># As lutaxa only contains `use_taxa`, this removes all other taxa</span></span>
@@ -221,17 +215,13 @@ created at each step in the filtering process.</p></td>
 <span class='r-in'>  <span class='fu'><a href='filter_taxa.html'>filter_taxa</a></span><span class='op'>(</span>context <span class='op'>=</span> <span class='va'>context</span></span>
 <span class='r-in'>              , taxonomy <span class='op'>=</span> <span class='va'>taxa</span></span>
 <span class='r-in'>              <span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "taxa"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "original_name"</span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in is.data.frame(y):</span> object 'taxa' not found</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># How did records of 'taxa' change through the filtering?</span></span>
 <span class='r-in'><span class='fu'>find_taxa</span><span class='op'>(</span>taxa <span class='op'>=</span> <span class='va'>use_taxa</span></span>
 <span class='r-in'>          , lookup_taxa <span class='op'>=</span> <span class='va'>taxa</span><span class='op'>$</span><span class='va'>lutaxa</span></span>
 <span class='r-in'>          <span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 0 x 6</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># ... with 6 variables: name &lt;chr&gt;, obj &lt;list&gt;, has_stamp &lt;lgl&gt;, nrow &lt;dbl&gt;,</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   ctime &lt;???&gt;, summary &lt;chr&gt;</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in dplyr::filter(., if_any(any_of(taxa_cols), ~grepl(find_string,     .))):</span> object 'taxa' not found</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
