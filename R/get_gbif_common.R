@@ -1,6 +1,8 @@
 
   get_gbif_common <- function(key) {
 
+    lurank <- envClean::lurank
+
     common_names <- rgbif::name_usage(key)$data %>%
       dplyr::select(contains("Key")) %>%
       dplyr::select(where(is.numeric)) %>%

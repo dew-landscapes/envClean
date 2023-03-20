@@ -61,7 +61,7 @@
 
     # setup ------
 
-    res <- list()
+    res <- if(file.exists(out_file)) rio::import(out_file) else list()
 
     lurank <- envClean::lurank
 
@@ -82,7 +82,7 @@
       dplyr::filter(rank == target_rank) %>%
       dplyr::pull(sort)
 
-    already_done_01 <- if(file.exists(out_file)) rio::import(out_file)$raw %>%
+    already_done_01 <- if(file.exists(out_file)) res$raw %>%
       dplyr::distinct(searched_name) %>%
       dplyr::pull()
 
@@ -229,10 +229,9 @@
 
       }
 
-
       # Clean up results
       res$raw <- rio::import(tmp_file) %>%
-        {if(!file.exists(out_file)) (.) else (.) %>% dplyr::bind_rows()} %>%
+        {if(!file.exists(out_file)) (.) else (.) %>% dplyr::bind_rows(rio::import(out_file)$raw)} %>%
         dplyr::group_by(original_name) %>%
         dplyr::filter(stamp == max(stamp)) %>%
         dplyr::ungroup()
@@ -244,8 +243,7 @@
     }
 
     # res$raw ------
-    res$raw <- rio::import(out_file)$raw %>%
-      tibble::as_tibble() %>%
+    res$raw <- res$raw %>%
       # hack to ensure any searched_name can also be an 'original_name'
       dplyr::bind_rows((.) %>%
                          tibble::as_tibble() %>%
@@ -372,21 +370,19 @@
 
     }
 
-    common_check <- rio::import(out_file)
-
     # res$common -------
     if(do_common) {
 
-      if("common" %in% names(common_check)){
+      if("common" %in% names(res)){
 
-        old_common <- common_check$common %>%
+        old_common <- res$common %>%
           dplyr::filter(searched)
 
       }
 
       new_common <- res$taxonomy %>%
         dplyr::distinct(taxa, best_key) %>%
-        {if(exists("old_common")) (.) %>% dplyr::anti_join(old_common) else (.)}%>%
+        {if(exists("old_common")) (.) %>% dplyr::anti_join(old_common) else (.)} %>%
         dplyr::mutate(common = purrr::map_chr(best_key
                                               , get_gbif_common
                                               )
