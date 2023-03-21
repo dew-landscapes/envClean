@@ -215,8 +215,10 @@ Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This re
 
 ```{r make_taxa_taxonomy}
 
+  taxonomy_file <- "inst/luGBIF.rds"
+
   taxa <- make_taxonomy(flor_geo_bin
-                        , out_file = "inst/luGBIF.rds"
+                        , out_file = taxonomy_file
                         )
 
 ```

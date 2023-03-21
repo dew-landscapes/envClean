@@ -3,16 +3,28 @@
 #' Make taxonomy lookups
 #'
 #' @param df Dataframe with taxa column.
-#' @param lifespan_col Character. Optional name of column containing lifespan
-#' information.
-#' @param ind_col Character. Optional name of columns containing indigenous
-#' status of taxa in taxa_col.
+#' @param taxa_col Character. Name of column with taxa names
+#' @param out_file Character. Path to save results to. Saving is iterative as
+#' retrieving names can take some time.
+#' @param king_type Character. Kingdom type (i.e. Plantae, Animalia etc.)
+#' @param target_rank Character. Default is 'species'. At what level of the
+#' taxonomic hierarchy are results desired.
 #' @param do_common Logical. If true, an attempt will be made to find a common
 #' name. Common name matches are attempted at `target_rank` (or higher taxonomic
 #' rank if no taxa was matched at `target_rank` for the name supplied in
 #' `taxa_col`). `target_rank` is supplied in `...` to`envClean::get_gbif_tax()`.
 #' `envClean::get_gbif_tax`.
-#' @param ... Passed to `envClean::get_gbif_tax()`
+#' @param limit Logical. If true, the output taxonomy will be limited to the
+#' input names in `taxa_col`. Otherwise, any taxa in `out_file` will be
+#' returned.
+#' @param lifespan_col Character. Optional name of column containing lifespan
+#' information.
+#' @param ind_col Character. Optional name of columns containing indigenous
+#' status of taxa in taxa_col.
+#' @param remove_taxa Character. Regular expressions to be matched. These will
+#' be filtered before searching.
+#' @param remove_strings Character. Regular expressions to be matched. These
+#' will be removed from the string before searching.
 #'
 #' @return named list with elements:
 #'     \item{raw}{Dataframe. Results from `envClean::get_gbif_tax()`}
@@ -29,11 +41,13 @@
 #'
   make_taxonomy <- function(df
                             , taxa_col = "original_name"
-                            , lifespan_col = NULL
-                            , ind_col = NULL
                             , out_file = tempfile()
                             , king_type = "Plantae"
                             , target_rank = "species"
+                            , do_common = TRUE
+                            , limit = TRUE
+                            , lifespan_col = NULL
+                            , ind_col = NULL
                             , remove_taxa = c("BOLD:.*\\d{4}"
                                               , "dead"
                                               , "unverified"
@@ -56,7 +70,6 @@
                                                  , "\\s^"
                                                  , " x .*$| X .*$"
                                                  )
-                            , do_common = TRUE
                             ) {
 
     # setup ------
@@ -394,9 +407,47 @@
 
     }
 
+
+    # export -------
+
     rio::export(res
                 , out_file
                 )
+
+
+    # limit------
+
+    if(limit) {
+
+      raw <- res$raw %>%
+        dplyr::inner_join(df %>%
+                            dplyr::distinct(!!rlang::ensym(taxa_col))
+                          , by = c("original_name" = taxa_col)
+                          )
+
+      lutaxa <- res$lutaxa %>%
+        dplyr::inner_join(df %>%
+                            dplyr::distinct(!!rlang::ensym(taxa_col))
+                          , by = c("original_name" = taxa_col)
+                          )
+
+      taxonomy <- res$taxonomy %>%
+        dplyr::inner_join(lutaxa %>%
+                            dplyr::distinct(taxa)
+                          )
+
+      common <- res$common %>%
+        dplyr::inner_join(lutaxa %>%
+                            dplyr::distinct(taxa)
+                          )
+
+      res <- list(raw = raw
+                  , lutaxa = lutaxa
+                  , taxonomy = taxonomy
+                  , common = common
+                  )
+
+    }
 
     return(res)
 

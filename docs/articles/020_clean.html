@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 21 March, 2023</h4>
+            <h4 class="date">Wednesday, 22 March, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -301,14 +301,16 @@
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+  <span class="va">taxonomy_file</span> <span class="op">&lt;-</span> <span class="st">"inst/luGBIF.rds"</span>
+
   <span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_geo_bin</span>
-                        , out_file <span class="op">=</span> <span class="st">"inst/luGBIF.rds"</span>
+                        , out_file <span class="op">=</span> <span class="va">taxonomy_file</span>
                         <span class="op">)</span></code></pre></div>
 <p>A look at <code>lutaxa</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
-<span class="co">#&gt; # A tibble: 131 x 4</span>
+<span class="co">#&gt; # A tibble: 130 x 4</span>
 <span class="co">#&gt;    taxa                   searched_name          original_name          rank   </span>
 <span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;                  &lt;chr&gt;                  &lt;ord&gt;  </span>
 <span class="co">#&gt;  1 Westringia rigida      Westringia rigida      Westringia rigida      species</span>
@@ -321,7 +323,7 @@
 <span class="co">#&gt;  8 Thysanotus patersonii  Thysanotus patersonii  Thysanotus patersonii  species</span>
 <span class="co">#&gt;  9 Thysanotus baueri      Thysanotus baueri      Thysanotus baueri      species</span>
 <span class="co">#&gt; 10 Templetonia rossii     Templetonia rossii     Templetonia rossii     species</span>
-<span class="co">#&gt; # ... with 121 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 120 more rows</span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -441,8 +443,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 0.001 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 0 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
 <span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; Chain 1: </span>
@@ -459,9 +461,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.238 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.26 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.498 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.23 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.23 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.46 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -484,9 +486,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.236 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.265 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.501 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.248 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.26 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.508 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -509,9 +511,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.241 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.235 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.476 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.236 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.243 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.479 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -534,9 +536,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.239 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.249 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.488 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.224 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.238 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.462 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -778,14 +780,14 @@
 <span class="co">#&gt; # A tibble: 8 x 6</span>
 <span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-03-21 08:34:07 Eucalyptu~</span>
-<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-21 08:34:08 Eucalyptu~</span>
-<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-21 08:34:12 Eucalyptu~</span>
-<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-03-21 08:34:13 Eucalyptu~</span>
-<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-21 08:34:13 Eucalyptu~</span>
-<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-21 08:34:16 Eucalyptu~</span>
-<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-03-21 08:34:16 Eucalyptu~</span>
-<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-03-21 08:34:16 Eucalyptu~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-03-22 09:29:12 Eucalyptu~</span>
+<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-22 09:29:13 Eucalyptu~</span>
+<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-03-22 09:29:17 Eucalyptu~</span>
+<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-03-22 09:29:18 Eucalyptu~</span>
+<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-22 09:29:18 Eucalyptu~</span>
+<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-03-22 09:29:20 Eucalyptu~</span>
+<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-03-22 09:29:21 Eucalyptu~</span>
+<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-03-22 09:29:21 Eucalyptu~</span></code></pre></div>
 </div>
 <div id="summary-1" class="section level1">
 <h1 class="hasAnchor">

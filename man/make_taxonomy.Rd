@@ -7,26 +7,31 @@
 make_taxonomy(
   df,
   taxa_col = "original_name",
-  lifespan_col = NULL,
-  ind_col = NULL,
   out_file = tempfile(),
   king_type = "Plantae",
   target_rank = "species",
+  do_common = TRUE,
+  limit = TRUE,
+  lifespan_col = NULL,
+  ind_col = NULL,
   remove_taxa = c("BOLD:.*\\\\d{4}", "dead", "unverified", "annual herb",
     "annual grass", "[[:alpha:]]{1}\\\\d{5,}", "^[[:alpha:]]{1,3}$"),
   remove_strings = c("\\\\s*\\\\(.*\\\\)", "\\\\'", "\\\\?", " spp\\\\.", "ssp\\\\.",
-    " sp\\\\.", " var\\\\.", "subsp\\\\.", " [A-Z].*", "#", "\\\\s^", " x .*$| X .*$"),
-  do_common = TRUE
+    " sp\\\\.", " var\\\\.", "subsp\\\\.", " [A-Z].*", "#", "\\\\s^", " x .*$| X .*$")
 )
 }
 \arguments{
 \item{df}{Dataframe with taxa column.}
 
-\item{lifespan_col}{Character. Optional name of column containing lifespan
-information.}
+\item{taxa_col}{Character. Name of column with taxa names}
 
-\item{ind_col}{Character. Optional name of columns containing indigenous
-status of taxa in taxa_col.}
+\item{out_file}{Character. Path to save results to. Saving is iterative as
+retrieving names can take some time.}
+
+\item{king_type}{Character. Kingdom type (i.e. Plantae, Animalia etc.)}
+
+\item{target_rank}{Character. Default is 'species'. At what level of the
+taxonomic hierarchy are results desired.}
 
 \item{do_common}{Logical. If true, an attempt will be made to find a common
 name. Common name matches are attempted at \code{target_rank} (or higher taxonomic
@@ -34,7 +39,21 @@ rank if no taxa was matched at \code{target_rank} for the name supplied in
 \code{taxa_col}). \code{target_rank} is supplied in \code{...} to\code{envClean::get_gbif_tax()}.
 \code{envClean::get_gbif_tax}.}
 
-\item{...}{Passed to \code{envClean::get_gbif_tax()}}
+\item{limit}{Logical. If true, the output taxonomy will be limited to the
+input names in \code{taxa_col}. Otherwise, any taxa in \code{out_file} will be
+returned.}
+
+\item{lifespan_col}{Character. Optional name of column containing lifespan
+information.}
+
+\item{ind_col}{Character. Optional name of columns containing indigenous
+status of taxa in taxa_col.}
+
+\item{remove_taxa}{Character. Regular expressions to be matched. These will
+be filtered before searching.}
+
+\item{remove_strings}{Character. Regular expressions to be matched. These
+will be removed from the string before searching.}
 }
 \value{
 named list with elements:
