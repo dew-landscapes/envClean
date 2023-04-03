@@ -1,6 +1,7 @@
 
   # these taxa appeared to be duplicated after cleaning with gbif taxonomy backbone.
-  # swap `original_name` to `prefer` before feeding to make_taxa_taxonomy
+  # now includes other fixes...
+  # swap `original_name` to `prefer` before feeding to make_taxonomy
 
   taxonomy_fixes <- tibble::tribble(
     ~resolved_to, ~prefer, ~note,
@@ -13,5 +14,7 @@
     "Psephotellus varius", "Psephotus varius", "Mulga Parrot",
     "Glossopsitta porphyrocephala", "Parvipsitta porphyrocephala", "Purple-crowned Lorikeet",
     "Aegintha temporalis", "Neochmia temporalis", "Red-browed Finch",
-    "Pandion cristatus", "Pandion haliaetus", "Osprey"
+    "Pandion cristatus", "Pandion haliaetus", "Osprey",
+    "Anthus novaeseelandiae", "Anthus australis", "Australian Pipit",
+    "Pachycephala pectoralis", "Pachycephala fuliginosa", "Western Whistler"
   )
