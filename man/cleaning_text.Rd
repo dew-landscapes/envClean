@@ -11,7 +11,10 @@ cleaning_text(prefix = "bio_", save_ends = TRUE, save_dir = "out", ...)
 \item{prefix}{Character. Prefix used to name objects during the cleaning
 process}
 
-\item{save_ends}{Character. Path to save objects to if \code{save_ends == TRUE}}
+\item{save_ends}{Logical. Save the first and last data frames created by the
+cleaning process?}
+
+\item{save_dir}{Character. Path to save objects to if \code{save_ends == TRUE}}
 
 \item{...}{Passed to \code{envClean::rec_vis_sit_tax()}}
 }

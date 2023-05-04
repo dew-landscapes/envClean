@@ -6,7 +6,7 @@
 #' process
 #' @param save_ends Logical. Save the first and last data frames created by the
 #' cleaning process?
-#' @param save_ends Character. Path to save objects to if `save_ends == TRUE`
+#' @param save_dir Character. Path to save objects to if `save_ends == TRUE`
 #' @param ... Passed to `envClean::rec_vis_sit_tax()`
 #'
 #' @return
@@ -56,30 +56,70 @@ cleaning_text <- function(prefix = "bio_"
 
       if(records == lag_records) {
 
-        "This step in the cleaning process did not remove any records."
+        "This step in the cleaning process did not remove any taxa, records, visits or sites."
 
       } else {
+
+      make_text <- function(trvs, lag, now) {
+
+        if(lag > now) {
+
+          paste0("number of "
+                 , trvs
+                 , " from "
+                 , lag
+                 , " to "
+                 , now
+                 )
+
+        } else if (lag < now) {
+
+          paste0("number of "
+                 , trvs
+                 , " from "
+                 , lag
+                 , " to "
+                 , now
+                 , ". An increase was possible due to the addition of further context during this step in the cleaning process."
+                 )
+
+        } else {
+
+          paste0("did not change the number of "
+                 , trvs
+                 , "("
+                 , now
+                 , ")"
+                 )
+
+        }
+
+      }
 
       # make text result
       paste0("The cleaning step '"
              , desc
-             , "' took the number of taxa from "
-             , lag_taxa
-             , " to "
-             , taxa
-             , ", the number of records from "
-             ,  lag_records
-             , " to "
-             , records
-             , ", the number of visits from "
-             , lag_visits
-             , " to "
-             , visits
-             , ", and the number of sites from "
-             , lag_sites
-             , " to "
-             , sites
-             ,"."
+             , "' took the "
+             , make_text("taxa"
+                         , lag_taxa
+                         , taxa
+                         )
+             , ", "
+             , make_text("records"
+                         , lag_records
+                         , records
+                         )
+             , ", "
+             , make_text("visits"
+                         , lag_visits
+                         , visits
+                         )
+             , ", "
+             , make_text("sites"
+                         , lag_sites
+                         , sites
+                         )
+             , "."
              )
 
         }
