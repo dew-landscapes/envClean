@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Thursday, 04 May, 2023</h4>
+            <h4 class="date">Monday, 15 May, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -461,9 +461,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.24 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.236 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.476 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.251 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.228 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.479 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -486,9 +486,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.245 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.233 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.478 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.242 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.262 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.504 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -511,9 +511,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.233 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.25 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.483 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.242 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.239 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.481 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -536,9 +536,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.237 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.233 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.47 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.233 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.238 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.471 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -666,7 +666,7 @@
 <h2 class="hasAnchor">
 <a href="#geo_range" class="anchor"></a><code>geo_range</code>
 </h2>
-<p>The initial data set contained 213 taxa, 1,419 records, 146 visits, and 141 sites. At the start of the cleaning process context was defined by <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code></p>
+<p>The initial data set contained 213 taxa, 1,419 records, 146 visits, and 141 sites. At the start of the cleaning process context was defined by <code>original_name</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code></p>
 <p><br></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -680,7 +680,7 @@
 <h2 class="hasAnchor">
 <a href="#geo_rel" class="anchor"></a><code>geo_rel</code>
 </h2>
-<p>The cleaning step ‘spatial reliability’ took the number of taxa from 213 to 130, number of records from 1,419 to 696. An increase was possible due to the addition of further context during this step in the cleaning process., number of visits from 146 to 45. An increase was possible due to the addition of further context during this step in the cleaning process., number of sites from 141 to 40. An increase was possible due to the addition of further context during this step in the cleaning process.. At this stage of the cleaning process context was defined by <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘spatial reliability’: took the number of taxa from 213 to 130; took the number of records from 1,419 to 696; took the number of visits from 146 to 45; and took the number of sites from 141 to 40. At this stage of the cleaning process context was defined by <code>original_name</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -694,7 +694,7 @@
 <h2 class="hasAnchor">
 <a href="#geo_bin" class="anchor"></a><code>geo_bin</code>
 </h2>
-<p>This step in the cleaning process did not remove any taxa, records, visits or sites. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>. <code>cell</code> was added.</p>
+<p>The cleaning step ‘assigning locations to spatial bins’: did not change the number of taxa (130); did not change the number of records (696); did not change the number of visits (45); and took the number of sites from 40 to 38. At this stage of the cleaning process context was defined by <code>original_name</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>. <code>cell</code> was added.</p>
 <p><br></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -708,7 +708,7 @@
 <h2 class="hasAnchor">
 <a href="#taxa" class="anchor"></a><code>taxa</code>
 </h2>
-<p>The cleaning step ‘align taxonomy and resolve any taxonomic duplication within bins’ took the number of taxa from 130 to 129, number of records from 696 to 694, did not change the number of visits(45), did not change the number of sites(38). At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘align taxonomy and resolve any taxonomic duplication within bins’: took the number of taxa from 130 to 129; took the number of records from 696 to 694; did not change the number of visits (45); and did not change the number of sites (38). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>. <code>taxa</code> was added and <code>original_name</code> was removed.</p>
 <p><br></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -722,7 +722,7 @@
 <h2 class="hasAnchor">
 <a href="#single" class="anchor"></a><code>single</code>
 </h2>
-<p>The cleaning step ‘singletons’ took the number of taxa from 129 to 128, number of records from 694 to 692, number of visits from 45 to 43, number of sites from 38 to 36. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘singletons’: took the number of taxa from 129 to 128; took the number of records from 694 to 692; took the number of visits from 45 to 43; and took the number of sites from 38 to 36. At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -736,7 +736,7 @@
 <h2 class="hasAnchor">
 <a href="#effort-1" class="anchor"></a><code>effort</code>
 </h2>
-<p>This step in the cleaning process did not remove any taxa, records, visits or sites. At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ’context effort did not change the number of taxa (128), records (692), visits (43) or sites (36). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -750,7 +750,7 @@
 <h2 class="hasAnchor">
 <a href="#prop" class="anchor"></a><code>prop</code>
 </h2>
-<p>The cleaning step ‘proportion of sites’ took the number of taxa from 128 to 71. An increase was possible due to the addition of further context during this step in the cleaning process., number of records from 692 to 612, did not change the number of visits(43), did not change the number of sites(36). At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘proportion of sites’: took the number of taxa from 128 to 71; took the number of records from 692 to 612; did not change the number of visits (43); and did not change the number of sites (36). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -764,7 +764,7 @@
 <h2 class="hasAnchor">
 <a href="#recent" class="anchor"></a><code>recent</code>
 </h2>
-<p>The cleaning step ‘the most recent visit to a cell’ took the did not change the number of taxa(71), number of records from 612 to 541, number of visits from 43 to 36, did not change the number of sites(36). At this stage of the cleaning process context was defined by <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘the most recent visit to a cell’: did not change the number of taxa (71); took the number of records from 612 to 541; took the number of visits from 43 to 36; and did not change the number of sites (36). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 </div>
 </div>
@@ -780,14 +780,14 @@
 <span class="co">#&gt; # A tibble: 8 x 6</span>
 <span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-05-04 07:07:07 Eucalyptu~</span>
-<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-05-04 07:07:09 Eucalyptu~</span>
-<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-05-04 07:07:12 Eucalyptu~</span>
-<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-05-04 07:07:13 Eucalyptu~</span>
-<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-05-04 07:07:13 Eucalyptu~</span>
-<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-05-04 07:07:16 Eucalyptu~</span>
-<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-05-04 07:07:16 Eucalyptu~</span>
-<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-05-04 07:07:16 Eucalyptu~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-05-15 11:52:22 Eucalyptu~</span>
+<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-05-15 11:52:23 Eucalyptu~</span>
+<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-05-15 11:52:26 Eucalyptu~</span>
+<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-05-15 11:52:27 Eucalyptu~</span>
+<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-05-15 11:52:27 Eucalyptu~</span>
+<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-05-15 11:52:30 Eucalyptu~</span>
+<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-05-15 11:52:30 Eucalyptu~</span>
+<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-05-15 11:52:30 Eucalyptu~</span></code></pre></div>
 </div>
 <div id="summary-1" class="section level1">
 <h1 class="hasAnchor">

@@ -35,60 +35,87 @@ cleaning_text <- function(prefix = "bio_"
 
   }
 
+  format_big <- function(number) {
+
+    format(number, big.mark = ",")
+
+  }
+
   make_text <- function(row, taxa, records, visits, sites, desc
                         , lag_taxa, lag_records, lag_visits, lag_sites
+                        , step
                         ) {
 
     text <- if(row == 1) {
 
       paste0("The initial data set contained "
-             , taxa
+             , taxa %>% format_big
              , " taxa, "
-             , records
+             , records %>% format_big
              , " records, "
-             , visits
+             , visits %>% format_big
              , " visits, and "
-             , sites
+             , sites %>% format_big
              , " sites."
              )
 
     } else if(row != 1) {
 
-      if(records == lag_records) {
+      if(all(taxa == lag_taxa, records == lag_records, visits == lag_visits, sites == lag_sites)) {
 
-        "This step in the cleaning process did not remove any taxa, records, visits or sites."
+        paste0("The cleaning step '"
+               , desc
+               , " did not change the number of taxa ("
+               , taxa %>% format_big
+               , "), records ("
+               , records %>% format_big
+               , "), visits ("
+               , visits %>% format_big
+               , ") or sites ("
+               , sites %>% format_big
+               , ")."
+               )
 
       } else {
 
-      make_text <- function(trvs, lag, now) {
+      make_text <- function(trvs, lag, now, step) {
 
         if(lag > now) {
 
-          paste0("number of "
+          paste0("took the number of "
                  , trvs
                  , " from "
-                 , lag
+                 , lag %>% format_big
                  , " to "
-                 , now
+                 , now %>% format_big
                  )
 
         } else if (lag < now) {
 
-          paste0("number of "
+          paste0("took the number of "
                  , trvs
                  , " from "
-                 , lag
+                 , lag %>% format_big
                  , " to "
-                 , now
-                 , ". An increase was possible due to the addition of further context during this step in the cleaning process."
+                 , now %>% format_big
+                 , if(step == "bio_lists") {
+
+                   " (an increase was possible due to the addition of pseudo-absences)"
+
+                 } else {
+
+                   " (an increase was possible due to the addition of further context during this step in the cleaning process)"
+
+                 }
+
                  )
 
         } else {
 
           paste0("did not change the number of "
                  , trvs
-                 , "("
-                 , now
+                 , " ("
+                 , now %>% format_big
                  , ")"
                  )
 
@@ -99,25 +126,29 @@ cleaning_text <- function(prefix = "bio_"
       # make text result
       paste0("The cleaning step '"
              , desc
-             , "' took the "
+             , "': "
              , make_text("taxa"
                          , lag_taxa
                          , taxa
+                         , step
                          )
-             , ", "
+             , "; "
              , make_text("records"
                          , lag_records
                          , records
+                         , step
                          )
-             , ", "
+             , "; "
              , make_text("visits"
                          , lag_visits
                          , visits
+                         , step
                          )
-             , ", "
+             , "; and "
              , make_text("sites"
                          , lag_sites
                          , sites
+                         , step
                          )
              , "."
              )
@@ -188,7 +219,7 @@ cleaning_text <- function(prefix = "bio_"
 
   }
 
-  df <- ls(pattern = prefix
+  df_text <- ls(pattern = prefix
            , envir = .GlobalEnv
            ) %>%
     tibble::enframe(name = NULL
@@ -201,8 +232,8 @@ cleaning_text <- function(prefix = "bio_"
                      , test_func = test_func_02
                      ) %>%
     dplyr::mutate(obj = purrr::map(name
-                            , get
-                            )
+                                   , get
+                                   )
                   , ctime = purrr::map(obj
                               , attr
                               , "ctime"
@@ -216,59 +247,51 @@ cleaning_text <- function(prefix = "bio_"
     dplyr::mutate(context_text = purrr::map2(obj
                                              , lag(obj)
                                              , make_context_text
-                                             , contexts = unique(c(dots$site_cols
+                                             , contexts = unique(c(dots$taxa_cols
+                                                                   , dots$site_cols
                                                                    , dots$visit_cols
                                                                    )
                                                                  )
                                              )
                   , clean = gsub(prefix
-                               , ""
-                               , name
-                               )
+                                 , ""
+                                 , name
+                                 )
                   , summary = purrr::map(obj
                                          , rec_vis_sit_tax
                                          , ...
-                                         # , site_cols = site_cols
-                                         # , visit_cols = visit_cols
-                                         # , taxa_cols = taxa_cols
+                                         # , site_cols = dots$site_cols
+                                         # , visit_cols = dots$visit_cols
+                                         # , taxa_cols = dots$taxa_cols
                                          )
                   ) %>%
     tidyr::unnest(cols = c(context_text, summary)) %>%
     dplyr::left_join(luclean) %>%
     dplyr::mutate(row = dplyr::row_number()
                   , dplyr::across(where(is.numeric)
-                                    , ~ format(.x
-                                               , big.mark = ","
-                                               , trim = TRUE
-                                               )
-                                  , .names = "text_{.col}"
-                                  )
-                  , dplyr::across(where(is.numeric)
-                                  , ~ format(lag(.x)
-                                             , big.mark = ","
-                                             , trim = TRUE
-                                             )
+                                  , lag
                                   , .names = "lag_{.col}"
                                   )
-                  , text = purrr::pmap_chr(.l = list(row = .data$text_row
-                                                 , taxa = .data$text_taxa
-                                                 , records = .data$text_records
-                                                 , visits = .data$text_visits
-                                                 , sites = .data$text_sites
-                                                 , desc = .data$desc
-                                                 , lag_taxa = .data$lag_taxa
-                                                 , lag_records = .data$lag_records
-                                                 , lag_visits = .data$lag_visits
-                                                 , lag_sites = .data$lag_sites
-                                                 )
-                                       , .f = make_text
-                                       )
+                  , text = purrr::pmap_chr(.l = list(row = .data$row
+                                                     , taxa = .data$taxa
+                                                     , records = .data$records
+                                                     , visits = .data$visits
+                                                     , sites = .data$sites
+                                                     , desc = .data$desc
+                                                     , lag_taxa = .data$lag_taxa
+                                                     , lag_records = .data$lag_records
+                                                     , lag_visits = .data$lag_visits
+                                                     , lag_sites = .data$lag_sites
+                                                     , step = .data$name
+                                                     )
+                                           , .f = make_text
+                                           )
                   , childID = gsub("[^[:alnum:]]", "", name)
                   )
 
   if(save_ends) {
 
-    to_save <- df %>%
+    to_save <- df_text %>%
       dplyr::slice(1, nrow(.)) %>%
       dplyr::select(name, obj) %>%
       dplyr::mutate(save_path = fs::path(save_dir
@@ -287,14 +310,14 @@ cleaning_text <- function(prefix = "bio_"
 
   }
 
-  df <- df %>%
+  df_text <- df_text %>%
     dplyr::select(! c(where(is.list)
                       , tidyselect::matches("^lag_|^text_")
                       )
                   )
 
 
-  return(df)
+  return(df_text)
 
 }
 
