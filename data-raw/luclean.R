@@ -20,7 +20,7 @@
                              "cov", "as a byproduct of assigning all records of a taxa a cover value",
                              "recent", "the most recent visit to a cell",
                              "lists", "add list length",
-                             "filt_list_df", "filter occurrence data to a set of critera"
+                             "filt_list_df", "filter occurrence data to a set of criteria"
                              ) %>%
     dplyr::mutate(order = dplyr::row_number() - 1) %>%
     dplyr::arrange(order)
