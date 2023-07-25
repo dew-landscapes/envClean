@@ -179,6 +179,7 @@ cleaning_text <- function(prefix = "bio_"
                                                        , sep = "`"
                                                        )
                                                 )
+                     , "."
                      )
 
     } else {
