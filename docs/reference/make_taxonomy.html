@@ -136,16 +136,15 @@
   <span class='va'>df</span>,
   taxa_col <span class='op'>=</span> <span class='st'>"original_name"</span>,
   out_file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>,
-  king_type <span class='op'>=</span> <span class='st'>"Plantae"</span>,
   target_rank <span class='op'>=</span> <span class='st'>"species"</span>,
   do_common <span class='op'>=</span> <span class='cn'>TRUE</span>,
   limit <span class='op'>=</span> <span class='cn'>TRUE</span>,
   lifespan_col <span class='op'>=</span> <span class='cn'>NULL</span>,
   ind_col <span class='op'>=</span> <span class='cn'>NULL</span>,
-  remove_taxa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BOLD:.*\\d{4}"</span>, <span class='st'>"dead"</span>, <span class='st'>"unverified"</span>, <span class='st'>"annual herb"</span>,
-    <span class='st'>"annual grass"</span>, <span class='st'>"[[:alpha:]]{1}\\d{5,}"</span>, <span class='st'>"^[[:alpha:]]{1,3}$"</span>, <span class='st'>"\\?"</span><span class='op'>)</span>,
-  remove_strings <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"\\s*\\(.*\\)"</span>, <span class='st'>"\\'"</span>, <span class='st'>" spp\\."</span>, <span class='st'>"ssp\\."</span>,
-    <span class='st'>" sp\\."</span>, <span class='st'>" var\\."</span>, <span class='st'>"subsp\\."</span>, <span class='st'>" [A-Z].*"</span>, <span class='st'>"#"</span>, <span class='st'>"\\s^"</span>, <span class='st'>" x .*$| X .*$"</span><span class='op'>)</span>
+  remove_taxa <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BOLD:"</span>, <span class='st'>"dead"</span>, <span class='st'>"unverified"</span>, <span class='st'>"annual herb"</span>, <span class='st'>"annual grass"</span>,
+    <span class='st'>"\\?"</span><span class='op'>)</span>,
+  remove_strings <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -161,12 +160,7 @@
     </tr>
     <tr>
       <th>out_file</th>
-      <td><p>Character. Path to save results to. Saving is iterative as
-retrieving names can take some time.</p></td>
-    </tr>
-    <tr>
-      <th>king_type</th>
-      <td><p>Character. Kingdom type (i.e. Plantae, Animalia etc.)</p></td>
+      <td><p>Character. Path to save results to.</p></td>
     </tr>
     <tr>
       <th>target_rank</th>
@@ -178,7 +172,7 @@ taxonomic hierarchy are results desired.</p></td>
       <td><p>Logical. If true, an attempt will be made to find a common
 name. Common name matches are attempted at <code>target_rank</code> (or higher taxonomic
 rank if no taxa was matched at <code>target_rank</code> for the name supplied in
-<code>taxa_col</code>). <code>target_rank</code> is supplied in <code>...</code> to<code>envClean::get_gbif_tax()</code>.
+<code>taxa_col</code>).
 <code>envClean::get_gbif_tax</code>.</p></td>
     </tr>
     <tr>
@@ -206,6 +200,10 @@ be filtered before searching.</p></td>
       <th>remove_strings</th>
       <td><p>Character. Regular expressions to be matched. These
 will be removed from the string before searching.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Arguments passed to <code><a href='https://docs.ropensci.org/rgbif/reference/name_backbone_checklist.html'>rgbif::name_backbone_checklist()</a></code>.</p></td>
     </tr>
     </table>
 

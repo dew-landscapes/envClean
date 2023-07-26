@@ -13,8 +13,7 @@ filter_taxa(
   do_life = FALSE,
   lucov = NULL,
   lulife = NULL,
-  taxonomy,
-  target_rank = "species"
+  taxonomy
 )
 }
 \arguments{
@@ -39,11 +38,11 @@ appended to output.}
 \item{taxonomy}{list with named elements \code{lutaxa} and \code{taxonomy}.
 Usually resulting from call to \code{envClean::make_taxonomy()}.}
 
-\item{target_rank}{Character. Default is 'species'. At what level of the
-taxonomic hierarchy are results desired.}
-
 \item{do_ind}{Logical. Should ind (needs to be supplied in df) be
 appended to output.}
+
+\item{target_rank}{Character. Default is 'species'. At what level of the
+taxonomic hierarchy are results desired.}
 }
 \value{
 Dataframe with columns taxa, context and, possibly, extracols

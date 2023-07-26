@@ -4,15 +4,13 @@
 #'
 #' @param df Dataframe with taxa column.
 #' @param taxa_col Character. Name of column with taxa names
-#' @param out_file Character. Path to save results to. Saving is iterative as
-#' retrieving names can take some time.
-#' @param king_type Character. Kingdom type (i.e. Plantae, Animalia etc.)
+#' @param out_file Character. Path to save results to.
 #' @param target_rank Character. Default is 'species'. At what level of the
 #' taxonomic hierarchy are results desired.
 #' @param do_common Logical. If true, an attempt will be made to find a common
 #' name. Common name matches are attempted at `target_rank` (or higher taxonomic
 #' rank if no taxa was matched at `target_rank` for the name supplied in
-#' `taxa_col`). `target_rank` is supplied in `...` to`envClean::get_gbif_tax()`.
+#' `taxa_col`).
 #' `envClean::get_gbif_tax`.
 #' @param limit Logical. If true, the output taxonomy will be limited to the
 #' input names in `taxa_col`. Otherwise, any taxa in `out_file` will be
@@ -25,6 +23,7 @@
 #' be filtered before searching.
 #' @param remove_strings Character. Regular expressions to be matched. These
 #' will be removed from the string before searching.
+#' @param ... Arguments passed to `rgbif::name_backbone_checklist()`.
 #'
 #' @return named list with elements:
 #'     \item{raw}{Dataframe. Results from `envClean::get_gbif_tax()`}
@@ -42,34 +41,21 @@
   make_taxonomy <- function(df
                             , taxa_col = "original_name"
                             , out_file = tempfile()
-                            , king_type = "Plantae"
+                            #, king_type = "Plantae"
                             , target_rank = "species"
                             , do_common = TRUE
                             , limit = TRUE
                             , lifespan_col = NULL
                             , ind_col = NULL
-                            , remove_taxa = c("BOLD:.*\\d{4}"
+                            , remove_taxa = c("BOLD:"
                                               , "dead"
                                               , "unverified"
                                               , "annual herb"
                                               , "annual grass"
-                                              , "[[:alpha:]]{1}\\d{5,}"
-                                              , "^[[:alpha:]]{1,3}$"
                                               , "\\?"
                                               )
-                            , remove_strings = c("\\s*\\(.*\\)"
-                                                 , "\\'"
-                                                 , " spp\\."
-                                                 ,  "ssp\\."
-                                                 , " sp\\."
-                                                 , " var\\."
-                                                 , "subsp\\."
-                                                 #, " ex"
-                                                 , " [A-Z].*"
-                                                 , "#"
-                                                 , "\\s^"
-                                                 , " x .*$| X .*$"
-                                                 )
+                            , remove_strings = NULL
+                            , ...
                             ) {
 
     # setup ------
@@ -82,24 +68,11 @@
 
     if(tools::file_ext(out_file) == "") out_file <- paste0(out_file, ".rds")
 
-    tmp_file <- paste0(gsub(paste0("\\."
-                                   , tools::file_ext(out_file)
-                                   )
-                            , ""
-                            , out_file
-                            )
-                       , "_temp.rds"
-                       )
-
     target_sort <- lurank %>%
       dplyr::filter(rank == target_rank) %>%
       dplyr::pull(sort)
 
     already_done_01 <- if(file.exists(out_file)) res$raw %>%
-      dplyr::distinct(searched_name) %>%
-      dplyr::pull()
-
-    already_done_02 <- if(file.exists(tmp_file)) rio::import(tmp_file) %>%
       dplyr::distinct(searched_name) %>%
       dplyr::pull()
 
@@ -123,6 +96,7 @@
                                            )
                     , searched_name = stringr::str_squish(searched_name)
                     ) %>%
+      # remove names that contain only NA, blanks, digits or dates
       dplyr::filter(is.na(as.numeric(gsub("[^[[:alnum:]]+"
                                           , ""
                                           , !!rlang::ensym(taxa_col)
@@ -132,7 +106,8 @@
                     , is.na(as.numeric(lubridate::dmy(!!rlang::ensym(taxa_col))))
                     , !is.na(!!rlang::ensym(taxa_col))
                     , !is.na(searched_name)
-                    ) # remove names that contain only digits or dates
+                    , searched_name != ""
+                    )
 
 
     taxas <- tibble::tibble(searched_name = setdiff(to_check$searched_name
@@ -142,168 +117,75 @@
       dplyr::distinct(searched_name) %>%
       dplyr::arrange(searched_name)
 
-    counter <- 1
-
     # name_backbone--------
     if(length(taxas$searched_name) > 0){
 
-      for (i in taxas$searched_name){
+      tax_gbif <- taxas %>%
+        dplyr::inner_join(to_check) %>%
+        dplyr::bind_cols(rgbif::name_backbone_checklist((.) %>% dplyr::rename(name = 1))) %>%
+        dplyr::mutate(stamp = Sys.time())
 
-        print(paste0(counter
-                     , " of "
-                     , nrow(taxas)
-                     , " ("
-                     , round(100 * counter / nrow(taxas), 1)
-                     , "%): "
-                     , i
-                     )
-              )
+      if(file.exists(out_file)) {
 
-        tax_gbif <- rgbif::name_backbone(i
-                                         , kingdom = king_type
-                                         ) %>%
-          dplyr::mutate(searched_name = i)
+        res$raw <- res$raw %>%
+          dplyr::bind_rows(tax_gbif)
 
-        tax_gbif <- if(sum(grepl("acceptedUsageKey"
-                                 , names(tax_gbif)
-                                 )
-                           ) > 0
-                       ) {
+      } else {
 
-          rgbif::name_usage(tax_gbif$acceptedUsageKey)$data %>%
-            dplyr::mutate(matchType = "Synonym") %>%
-            dplyr::rename(usageKey = key
-                          , status = taxonomicStatus
-                          ) %>%
-            dplyr::mutate(searched_name = i)
-
-          } else {
-
-            tax_gbif
-
-          }
-
-        best <- tax_gbif %>%
-          tidyr::pivot_longer(where(is.numeric), names_to = "key") %>%
-          dplyr::mutate(key = purrr::map_chr(key
-                                             , ~ gsub("Key"
-                                                      , ""
-                                                      , .
-                                                      )
-                                             )
-                        ) %>%
-          dplyr::filter(key %in% lurank$rank) %>%
-          dplyr::left_join(lurank
-                           , by = c("key" = "rank")
-                           ) %>%
-          dplyr::filter(sort <= target_sort) %>%
-          dplyr::filter(sort == max(sort))
-
-        tax_gbif$taxa <- best %>%
-          dplyr::select(taxa = tolower(lurank$rank[lurank$sort == .$sort])) %>%
-          dplyr::pull()
-
-        tax_gbif$best_key <- best %>%
-          dplyr::select(value) %>%
-          dplyr::pull()
-
-        tax_gbif$stamp <- Sys.time()
-
-        tax_gbif <- taxas %>%
-          dplyr::inner_join(tax_gbif) %>%
-          dplyr::inner_join(to_check)
-
-        if(file.exists(tmp_file)) {
-
-          rio::export(tax_gbif %>%
-                        dplyr::bind_rows(rio::import(tmp_file)) %>%
-                        dplyr::select(1
-                                      , 2
-                                      , taxa
-                                      , everything()
-                                      )
-                      , tmp_file
-                      )
-
-        } else {
-
-          rio::export(tax_gbif %>%
-                        dplyr::select(1
-                                      , 2
-                                      , taxa
-                                      , everything()
-                                      )
-                      , tmp_file
-                      )
-
-        }
-
-        counter <- counter + 1
+        res$raw <- tax_gbif
 
       }
 
-      # Clean up results
-      res$raw <- rio::import(tmp_file) %>%
-        {if(!file.exists(out_file)) (.) else (.) %>% dplyr::bind_rows(rio::import(out_file)$raw)} %>%
-        dplyr::group_by(original_name) %>%
-        dplyr::filter(stamp == max(stamp)) %>%
-        dplyr::ungroup()
-
-      rio::export(res, out_file)
-
-      file.remove(tmp_file)
-
     }
-
-    # res$raw ------
-    res$raw <- res$raw %>%
-      # hack to ensure any searched_name can also be an 'original_name'
-      dplyr::bind_rows((.) %>%
-                         tibble::as_tibble() %>%
-                         dplyr::mutate(original_name = searched_name) %>%
-                         dplyr::distinct()
-                       ) %>%
-      dplyr::distinct() %>%
-      dplyr::mutate(rank = tolower(rank)
-                    , rank = factor(rank
-                                    , levels = levels(lurank$rank)
-                                    , ordered = TRUE
-                                    )
-                    )
 
     return_taxonomy <- c("taxa"
                          , rgbif::taxrank()
                          , "best_key"
                          )
 
+    # res$lutaxa------
+    res$lutaxa <- res$raw %>%
+      dplyr::mutate(subspecies = dplyr::case_when(rank == "SUBSPECIES" ~ canonicalName
+                                                  , TRUE ~ NA_character_
+                                                  )
+                    ) %>%
+      tidyr::pivot_longer(tidyselect::any_of(rgbif::taxrank())
+                          , names_to = "hierarchy"
+                          ) %>%
+      dplyr::filter(!is.na(value)) %>%
+      dplyr::left_join(lurank
+                       , by = c("hierarchy" = "rank")
+                       ) %>%
+      dplyr::filter(sort <= target_sort) %>%
+      dplyr::group_by(searched_name) %>%
+      dplyr::filter(sort == max(sort)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(best_key = paste0(hierarchy, "Key")
+                    , best_key = dplyr::if_else(grepl("subspecies", best_key)
+                                                , "usageKey"
+                                                , best_key
+                                                )
+                    ) %>%
+      tidyr::pivot_longer(where(is.numeric)
+                          , names_to = "key"
+                          , values_to = "key_value"
+                          ) %>%
+      dplyr::filter(best_key == key) %>%
+      dplyr::select(taxa = canonicalName
+                    , searched_name
+                    , original_name
+                    , rank
+                    , best_key = key_value
+                    ) %>%
+      dplyr::distinct() %>%
+      tibble::as_tibble()
+
     # res$taxonomy-------
     res$taxonomy <- res$raw %>%
+      dplyr::left_join(res$lutaxa) %>%
       dplyr::distinct(dplyr::across(tidyselect::any_of(return_taxonomy))) %>%
       tibble::as_tibble()
 
-    dups <- res$taxonomy %>%
-      dplyr::add_count(taxa) %>%
-      dplyr::filter(n > 1) %>%
-      dplyr::select(-n)
-
-    keep_dups <- dups %>%
-      dplyr::group_by(taxa) %>%
-      dplyr::slice(1) %>%
-      dplyr::ungroup()
-
-    res$taxonomy <- res$taxonomy %>%
-      dplyr::anti_join(dups) %>%
-      dplyr::bind_rows(keep_dups)
-
-    # res$lutaxa------
-    res$lutaxa <- res$raw %>%
-      dplyr::select(taxa
-                      , searched_name
-                      , original_name
-                      , rank
-                      ) %>%
-      dplyr::distinct() %>%
-      tibble::as_tibble()
 
     # lifespan-----
     if(isTRUE(!is.null(lifespan_col))) {
@@ -312,7 +194,7 @@
         dplyr::filter(!is.na(lifespan)) %>%
         dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
         dplyr::left_join(res$lutaxa) %>%
-        dplyr::count(taxa,lifespan) %>%
+        dplyr::count(taxa, lifespan) %>%
         dplyr::group_by(taxa) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::slice(1) %>%
@@ -326,7 +208,7 @@
         dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
         dplyr::left_join(res$lutaxa) %>%
         dplyr::left_join(res$taxonomy) %>%
-        dplyr::count(genus,lifespan) %>%
+        dplyr::count(genus, lifespan) %>%
         dplyr::group_by(genus) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::slice(1) %>%
@@ -340,7 +222,7 @@
         dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
         dplyr::left_join(res$lutaxa) %>%
         dplyr::left_join(res$taxonomy) %>%
-        dplyr::count(family,lifespan) %>%
+        dplyr::count(family, lifespan) %>%
         dplyr::group_by(family) %>%
         dplyr::filter(n == max(n)) %>%
         dplyr::slice(1) %>%

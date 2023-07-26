@@ -1,77 +1,79 @@
 
   get_gbif_common <- function(key) {
 
-    lurank <- envClean::lurank
+    if(is.na(key)) {
 
-    common_names <- rgbif::name_usage(key)$data %>%
-      dplyr::select(contains("Key")) %>%
-      dplyr::select(where(is.numeric)) %>%
-      tidyr::pivot_longer(1:ncol(.),names_to = "key") %>%
-      dplyr::mutate(key = purrr::map_chr(key,~gsub("Key","",.))) %>%
-      dplyr::filter(key %in% lurank$rank) %>%
-      dplyr::left_join(lurank, by = c("key" = "rank")) %>%
-      dplyr::filter(sort == max(sort)) %>%
-      dplyr::pull(value) %>%
-      rgbif::name_usage() #data="vernacularNames")
+      warning(paste0("key = ", key, ". Returning NA"))
 
-    df <- common_names$data %>%
-      dplyr::select(tidyselect::any_of(c("vernacularName","language","preferred")))
+      res <- NA_character_
 
-    has_any <- ncol(df) > 0
+    } else {
 
-    has_preferred <- if("preferred" %in% names(df)) sum(df$preferred, na.rm = TRUE) > 0 else FALSE
+      cn_df <- rgbif::name_usage(key, data = "vernacularNames")$data %>%
+        dplyr::select(tidyselect::any_of(c("vernacularName"
+                                           , "language"
+                                           , "preferred"
+                                           )
+                                         )
+                      )
 
-    has_language <- if("language" %in% names(df)) sum(df$preferred, na.rm = TRUE) > 0 else FALSE
+      has_any <- ncol(cn_df) > 0
 
-    has_preferred_eng <- if(has_preferred) df %>%
-      dplyr::filter(preferred) %>%
-      dplyr::filter(language == "eng") %>%
-      nrow() %>%
-      `>` (0) else FALSE
+      has_preferred <- if("preferred" %in% names(cn_df)) sum(cn_df$preferred, na.rm = TRUE) > 0 else FALSE
 
-    has_eng <- if(has_language) df %>%
-      dplyr::filter(language == "eng") %>%
-      nrow() %>%
-      `>` (0) else FALSE
+      has_language <- if("language" %in% names(cn_df)) sum(cn_df$preferred, na.rm = TRUE) > 0 else FALSE
 
-    res <- if(has_preferred_eng) {
-
-      df %>%
-        dplyr::filter(preferred
-                      , language == "eng"
-                      ) %>%
-        dplyr::pull(vernacularName) %>%
-        unique() %>%
-        sort() %>%
-        paste0(collapse = ", ")
-
-    } else if(has_eng) {
-
-      df %>%
+      has_preferred_eng <- if(has_preferred) cn_df %>%
+        dplyr::filter(preferred) %>%
         dplyr::filter(language == "eng") %>%
-        tidytext::unnest_tokens("common"
-                                , vernacularName
-                                , token = "regex"
-                                , pattern = ",|and"
-                                , collapse = NULL
-                                ) %>%
-        dplyr::mutate(common = gsub("^\\s|\\s$|etc","",common)) %>%
-        dplyr::distinct(common) %>%
-        dplyr::pull(common) %>%
-        unique() %>%
-        sort() %>%
-        paste0(collapse = ", ")
+        nrow() %>%
+        `>` (0) else FALSE
 
-    } else if(has_any) {
+      has_eng <- if(has_language) cn_df %>%
+        dplyr::filter(language == "eng") %>%
+        nrow() %>%
+        `>` (0) else FALSE
 
-      df %>%
-        dplyr::count(vernacularName) %>%
-        dplyr::arrange(desc(n)) %>%
-        dplyr::slice(1) %>%
-        dplyr::pull(vernacularName) %>%
-        `[` (1)
+      res <- if(has_preferred_eng) {
 
-    } else NA
+        cn_df %>%
+          dplyr::filter(preferred
+                        , language == "eng"
+                        ) %>%
+          dplyr::pull(vernacularName) %>%
+          unique() %>%
+          sort() %>%
+          paste0(collapse = ", ")
+
+      } else if(has_eng) {
+
+        cn_df %>%
+          dplyr::filter(language == "eng") %>%
+          tidytext::unnest_tokens("common"
+                                  , vernacularName
+                                  , token = "regex"
+                                  , pattern = ",|and"
+                                  , collapse = NULL
+                                  ) %>%
+          dplyr::mutate(common = gsub("^\\s|\\s$|etc","",common)) %>%
+          dplyr::distinct(common) %>%
+          dplyr::pull(common) %>%
+          unique() %>%
+          sort() %>%
+          paste0(collapse = ", ")
+
+      } else if(has_any) {
+
+        cn_df %>%
+          dplyr::count(vernacularName) %>%
+          dplyr::arrange(desc(n)) %>%
+          dplyr::slice(1) %>%
+          dplyr::pull(vernacularName) %>%
+          `[` (1)
+
+      } else NA_character_
+
+    }
 
     cat(paste0(key
                , ": "

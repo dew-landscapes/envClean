@@ -86,7 +86,7 @@
                         <h4 class="author">Department for Environment and Water</h4>
                         <h4 class="author">Nigel Willoughby</h4>
             
-            <h4 class="date">Tuesday, 25 July, 2023</h4>
+            <h4 class="date">Wednesday, 26 July, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -310,38 +310,38 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
-<span class="co">#&gt; # A tibble: 130 x 4</span>
-<span class="co">#&gt;    taxa                   searched_name          original_name          rank   </span>
-<span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;                  &lt;chr&gt;                  &lt;ord&gt;  </span>
-<span class="co">#&gt;  1 Westringia rigida      Westringia rigida      Westringia rigida      species</span>
-<span class="co">#&gt;  2 Walsholaria muelleri   Walsholaria muelleri   Walsholaria muelleri   species</span>
-<span class="co">#&gt;  3 Walsholaria magniflora Walsholaria magniflora Walsholaria magniflora species</span>
-<span class="co">#&gt;  4 Vittadinia dissecta    Vittadinia dissecta    Vittadinia dissecta    species</span>
-<span class="co">#&gt;  5 Vittadinia cuneata     Vittadinia cuneata     Vittadinia cuneata     species</span>
-<span class="co">#&gt;  6 Triodia scariosa       Triodia scariosa       Triodia scariosa       species</span>
-<span class="co">#&gt;  7 Triodia irritans       Triodia irritans       Triodia irritans       species</span>
-<span class="co">#&gt;  8 Thysanotus patersonii  Thysanotus patersonii  Thysanotus patersonii  species</span>
-<span class="co">#&gt;  9 Thysanotus baueri      Thysanotus baueri      Thysanotus baueri      species</span>
-<span class="co">#&gt; 10 Templetonia rossii     Templetonia rossii     Templetonia rossii     species</span>
-<span class="co">#&gt; # ... with 120 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 129 x 5</span>
+<span class="co">#&gt;    taxa                  searched_name         original_name     rank   best_key</span>
+<span class="co">#&gt;    &lt;chr&gt;                 &lt;chr&gt;                 &lt;chr&gt;             &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Acacia acanthoclada   Acacia acanthoclada   Acacia acanthocl~ SPECI~  2980159</span>
+<span class="co">#&gt;  2 Acacia ancistrophylla Acacia ancistrophylla Acacia ancistrop~ SPECI~  2980674</span>
+<span class="co">#&gt;  3 Acacia nyssophylla    Acacia nyssophylla    Acacia nyssophyl~ SPECI~  2979606</span>
+<span class="co">#&gt;  4 Acacia rigens         Acacia rigens         Acacia rigens     SPECI~  2978525</span>
+<span class="co">#&gt;  5 Acacia sclerophylla   Acacia sclerophylla   Acacia sclerophy~ SPECI~  2979322</span>
+<span class="co">#&gt;  6 Acacia wilhelmiana    Acacia wilhelmiana    Acacia wilhelmia~ SPECI~  2980101</span>
+<span class="co">#&gt;  7 Actinobole uliginosum Actinobole uliginosum Actinobole uligi~ SPECI~  3130497</span>
+<span class="co">#&gt;  8 Amphipogon caricinus  Amphipogon caricinus  Amphipogon caric~ SPECI~  4104775</span>
+<span class="co">#&gt;  9 Atriplex acutibractea Atriplex acutibractea Atriplex acutibr~ SPECI~  7339766</span>
+<span class="co">#&gt; 10 Atriplex stipitata    Atriplex stipitata    Atriplex stipita~ SPECI~  3759563</span>
+<span class="co">#&gt; # ... with 119 more rows</span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
   <span class="va">taxa</span><span class="op">$</span><span class="va">taxonomy</span>
-<span class="co">#&gt; # A tibble: 130 x 9</span>
-<span class="co">#&gt;    taxa                   kingdom phylum order family genus species class best_key</span>
-<span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt;</span>
-<span class="co">#&gt;  1 Westringia rigida      Plantae Trach~ Lami~ Lamia~ West~ Westri~ Magn~  7307131</span>
-<span class="co">#&gt;  2 Walsholaria muelleri   Plantae Trach~ Aste~ Aster~ Wals~ Walsho~ Magn~ 10844030</span>
-<span class="co">#&gt;  3 Walsholaria magniflora Plantae Trach~ Aste~ Aster~ Wals~ Walsho~ Magn~ 10888366</span>
-<span class="co">#&gt;  4 Vittadinia dissecta    Plantae Trach~ Aste~ Aster~ Vitt~ Vittad~ Magn~  3138910</span>
-<span class="co">#&gt;  5 Vittadinia cuneata     Plantae Trach~ Aste~ Aster~ Vitt~ Vittad~ Magn~  3138897</span>
-<span class="co">#&gt;  6 Triodia scariosa       Plantae Trach~ Poal~ Poace~ Trio~ Triodi~ Lili~  4116962</span>
-<span class="co">#&gt;  7 Triodia irritans       Plantae Trach~ Poal~ Poace~ Trio~ Triodi~ Lili~  4117582</span>
-<span class="co">#&gt;  8 Thysanotus patersonii  Plantae Trach~ Aspa~ Aspar~ Thys~ Thysan~ Lili~  5304110</span>
-<span class="co">#&gt;  9 Thysanotus baueri      Plantae Trach~ Aspa~ Aspar~ Thys~ Thysan~ Lili~  5304114</span>
-<span class="co">#&gt; 10 Templetonia rossii     Plantae Trach~ Faba~ Fabac~ Temp~ Temple~ Magn~  8279290</span>
-<span class="co">#&gt; # ... with 120 more rows</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 129 x 9</span>
+<span class="co">#&gt;    kingdom phylum       order          family genus species class taxa  best_key</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2980159</span>
+<span class="co">#&gt;  2 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2980674</span>
+<span class="co">#&gt;  3 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2979606</span>
+<span class="co">#&gt;  4 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2978525</span>
+<span class="co">#&gt;  5 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2979322</span>
+<span class="co">#&gt;  6 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2980101</span>
+<span class="co">#&gt;  7 Plantae Tracheophyta Asterales      Aster~ Acti~ Actino~ Magn~ Acti~  3130497</span>
+<span class="co">#&gt;  8 Plantae Tracheophyta Poales         Poace~ Amph~ Amphip~ Lili~ Amph~  4104775</span>
+<span class="co">#&gt;  9 Plantae Tracheophyta Caryophyllales Amara~ Atri~ Atripl~ Magn~ Atri~  7339766</span>
+<span class="co">#&gt; 10 Plantae Tracheophyta Caryophyllales Amara~ Atri~ Atripl~ Magn~ Atri~  3759563</span>
+<span class="co">#&gt; # ... with 119 more rows</span></code></pre></div>
 </div>
 <div id="filter-taxonomy" class="section level2">
 <h2 class="hasAnchor">
@@ -443,8 +443,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 0.001 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.</span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 0 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
 <span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; Chain 1: </span>
@@ -461,9 +461,9 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.236 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.28 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.516 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.239 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.25 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.489 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
@@ -486,9 +486,9 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.234 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.235 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.469 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.238 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.272 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.51 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
@@ -511,9 +511,9 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.231 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.234 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.465 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.239 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.239 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.478 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
@@ -536,9 +536,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.234 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.24 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.474 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.244 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.248 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.492 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span>
 
   <span class="co"># filter using model results</span>
@@ -551,7 +551,7 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_effort</span>
-<span class="co">#&gt; # A tibble: 692 x 6</span>
+<span class="co">#&gt; # A tibble: 688 x 6</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa                </span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Maireana radiata    </span>
@@ -564,7 +564,7 @@
 <span class="co">#&gt;  8  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
 <span class="co">#&gt;  9  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
 <span class="co">#&gt; 10  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 682 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 678 more rows</span></code></pre></div>
 </div>
 <div id="proportion-of-sites-at-which-a-taxa-occurs" class="section level1">
 <h1 class="hasAnchor">
@@ -581,7 +581,7 @@
   
   <span class="co"># Have a look at results</span>
   <span class="va">flor_prop</span>
-<span class="co">#&gt; # A tibble: 612 x 6</span>
+<span class="co">#&gt; # A tibble: 607 x 6</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa                </span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Roepera glauca      </span>
@@ -594,7 +594,7 @@
 <span class="co">#&gt;  8  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
 <span class="co">#&gt;  9  2006    10 -34.5  140. 19607 Beyeria lechenaultii</span>
 <span class="co">#&gt; 10  2006    10 -34.5  140. 22287 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 602 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 597 more rows</span></code></pre></div>
 </div>
 <div id="time" class="section level1">
 <h1 class="hasAnchor">
@@ -612,7 +612,7 @@
 
   <span class="co"># Have a look at results</span>
   <span class="va">flor_recent</span>
-<span class="co">#&gt; # A tibble: 541 x 6</span>
+<span class="co">#&gt; # A tibble: 536 x 6</span>
 <span class="co">#&gt;     year month   lat  long  cell taxa                </span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
 <span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Roepera glauca      </span>
@@ -625,7 +625,7 @@
 <span class="co">#&gt;  8  2006    10 -34.5  140. 19607 Beyeria lechenaultii</span>
 <span class="co">#&gt;  9  2006    10 -34.5  140. 22287 Beyeria lechenaultii</span>
 <span class="co">#&gt; 10  2006    10 -34.5  140. 37727 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 531 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 526 more rows</span></code></pre></div>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
@@ -736,7 +736,7 @@
 <h2 class="hasAnchor">
 <a href="#effort-1" class="anchor"></a><code>effort</code>
 </h2>
-<p>The cleaning step ’context effort did not change the number of taxa (128), records (692), visits (43) or sites (36). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘context effort’: took the number of taxa from 128 to 127; took the number of records from 692 to 688; took the number of visits from 43 to 42; and took the number of sites from 36 to 35. At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -750,7 +750,7 @@
 <h2 class="hasAnchor">
 <a href="#prop" class="anchor"></a><code>prop</code>
 </h2>
-<p>The cleaning step ‘proportion of sites’: took the number of taxa from 128 to 71; took the number of records from 692 to 612; did not change the number of visits (43); and did not change the number of sites (36). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘proportion of sites’: took the number of taxa from 127 to 70; took the number of records from 688 to 607; did not change the number of visits (42); and did not change the number of sites (35). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -764,7 +764,7 @@
 <h2 class="hasAnchor">
 <a href="#recent" class="anchor"></a><code>recent</code>
 </h2>
-<p>The cleaning step ‘the most recent visit to a cell’: did not change the number of taxa (71); took the number of records from 612 to 541; took the number of visits from 43 to 36; and did not change the number of sites (36). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘the most recent visit to a cell’: did not change the number of taxa (70); took the number of records from 607 to 536; took the number of visits from 42 to 35; and did not change the number of sites (35). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 </div>
 </div>
@@ -780,19 +780,19 @@
 <span class="co">#&gt; # A tibble: 8 x 6</span>
 <span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-07-25 13:59:56 Eucalyptu~</span>
-<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-07-25 13:59:57 Eucalyptu~</span>
-<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-07-25 14:00:01 Eucalyptu~</span>
-<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-07-25 14:00:02 Eucalyptu~</span>
-<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-07-25 14:00:02 Eucalyptu~</span>
-<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        692 2023-07-25 14:00:05 Eucalyptu~</span>
-<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        612 2023-07-25 14:00:05 Eucalyptu~</span>
-<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        541 2023-07-25 14:00:05 Eucalyptu~</span></code></pre></div>
+<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-07-26 15:43:36 Eucalyptu~</span>
+<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-07-26 15:43:37 Eucalyptu~</span>
+<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-07-26 15:43:41 Eucalyptu~</span>
+<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-07-26 15:43:42 Eucalyptu~</span>
+<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-07-26 15:43:42 Eucalyptu~</span>
+<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        688 2023-07-26 15:43:45 Eucalyptu~</span>
+<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        607 2023-07-26 15:43:45 Eucalyptu~</span>
+<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        536 2023-07-26 15:43:45 Eucalyptu~</span></code></pre></div>
 </div>
 <div id="summary-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary-1" class="anchor"></a>Summary</h1>
-<p>After ingesting data from a range of sources (GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 1419 records were cleaned, tidied and filtered to 541 records.</p>
+<p>After ingesting data from a range of sources (GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 1419 records were cleaned, tidied and filtered to 536 records.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

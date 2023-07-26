@@ -37,7 +37,6 @@
                           , lucov = NULL
                           , lulife = NULL
                           , taxonomy
-                          , target_rank = "species"
                           ) {
 
     df <- df %>%
@@ -49,7 +48,6 @@
       dplyr::left_join(taxonomy$lutaxa) %>%
       dplyr::left_join(taxonomy$taxonomy) %>%
       dplyr::filter(!is.na(taxa)) %>%
-      dplyr::filter(rank <= target_rank) %>%
       dplyr::inner_join(df) %>%
       dplyr::select(tidyselect::any_of(context)
                     , taxa
