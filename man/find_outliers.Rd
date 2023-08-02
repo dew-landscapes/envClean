@@ -31,9 +31,6 @@ in which to look for outliers.}
 \item{iqrMult}{Used in \code{quantile(x, probs = 0.75) + iqrMult * IQR(x)}.
 \code{\link[ggplot2:geom_boxplot]{ggplot2::geom_boxplot()}} default value is \code{1.5}.}
 }
-\value{
-
-}
 \description{
 Find local outliers
 }

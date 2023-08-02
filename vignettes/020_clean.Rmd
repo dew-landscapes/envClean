@@ -253,6 +253,7 @@ Thus the output of applying `filter_taxa` is to generate a single record for eac
                           , taxa_col = "original_name"
                           , context = context
                           , taxonomy = taxa
+                          , target_rank = "species"
                           ) %>%
     add_time_stamp()
 

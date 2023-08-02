@@ -13,8 +13,7 @@ make_taxonomy(
   limit = TRUE,
   lifespan_col = NULL,
   ind_col = NULL,
-  remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass",
-    "\\\\?"),
+  remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass", "\\\\?"),
   remove_strings = NULL,
   ...
 )
@@ -65,7 +64,4 @@ common name}
 }
 \description{
 Make taxonomy lookups
-}
-\examples{
-
 }

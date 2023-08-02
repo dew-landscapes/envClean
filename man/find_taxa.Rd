@@ -22,9 +22,6 @@ taxa information.}
 \item{filt_df_prefix}{Character. Prefix used in each of the data frames
 created at each step in the filtering process.}
 }
-\value{
-
-}
 \description{
 \code{find_taxa} does not work hierarchically. For example \emph{Eucalyptus} will only
 match genus level records, not species records, such as

@@ -9,6 +9,7 @@ filter_taxa(
   taxa_col = "original_name",
   context,
   extra_cols = NULL,
+  target_rank = "species",
   do_cov = FALSE,
   do_life = FALSE,
   lucov = NULL,
@@ -17,13 +18,16 @@ filter_taxa(
 )
 }
 \arguments{
-\item{df}{Dataframe to reduce.}
+\item{df}{Dataframe to clean, filter and tidy with respect to taxonomy.}
 
 \item{taxa_col}{Character. Name of column with taxa.}
 
 \item{context}{Character. Name of columns defining context.}
 
 \item{extra_cols}{Character. Name of any extra columns to keep.}
+
+\item{target_rank}{Character. Default is 'species'. At what level of the
+taxonomic hierarchy are results desired.}
 
 \item{do_cov}{Logical. Should cover (needs to be supplied in df) be appended
 to output.}
@@ -35,19 +39,16 @@ appended to output.}
 
 \item{lulife}{Dataframe lookup for lifeform.}
 
-\item{taxonomy}{list with named elements \code{lutaxa} and \code{taxonomy}.
+\item{taxonomy}{list with (at least) named elements \code{lutaxa} and \code{taxonomy}.
 Usually resulting from call to \code{envClean::make_taxonomy()}.}
 
 \item{do_ind}{Logical. Should ind (needs to be supplied in df) be
 appended to output.}
-
-\item{target_rank}{Character. Default is 'species'. At what level of the
-taxonomic hierarchy are results desired.}
 }
 \value{
 Dataframe with columns taxa, context and, possibly, extracols
 , lifeform and cover
 }
 \description{
-Includes running of taxa_taxonomy(), if lutaxa does not already exist.
+Clean/Tidy to one row per taxa*Visit
 }

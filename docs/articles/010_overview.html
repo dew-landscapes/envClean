@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">envClean</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/Acanthiza/envClean/">
+  <a href="https://github.com/Acanthiza/envClean/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -79,16 +75,19 @@
 
       
 
-      </header><script src="010_overview_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview</h1>
-                        <h4 class="author">Department for Environment and Water</h4>
-                        <h4 class="author">Nigel Willoughby</h4>
+                        <h4 data-toc-skip class="author">Department for
+Environment and Water</h4>
+                        <h4 data-toc-skip class="author">Nigel
+Willoughby</h4>
             
-            <h4 class="date">Wednesday, 26 July, 2023</h4>
+            <h4 data-toc-skip class="date">Wednesday, 02 August,
+2023</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/010_overview.Rmd"><code>vignettes/010_overview.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/010_overview.Rmd" class="external-link"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
 
     </div>
@@ -96,49 +95,56 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">pacs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"knitr"</span>
-            , <span class="st">"envClean"</span>
-            , <span class="st">"envReport"</span>
-            , <span class="st">"envFunc"</span>, <span class="st">"fs"</span>, <span class="st">"purrr"</span>
-            , <span class="st">"dplyr"</span>, <span class="st">"sf"</span>, <span class="st">"tibble"</span>
-            , <span class="st">"tmap"</span>, <span class="st">"raster"</span>, <span class="st">"rstanarm"</span>
-            <span class="op">)</span>
-
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">walk</a></span><span class="op">(</span><span class="va">pacs</span>
-              , <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">.</span>
-                                                        , character.only <span class="op">=</span> <span class="cn">TRUE</span>
-                                                        , quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-                                                <span class="op">)</span>
-              <span class="op">)</span>
-
-  <span class="co">#  Load data</span>
-  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/flor_all.html">flor_all</a></span><span class="op">)</span>
-  
-  <span class="co"># What crs to use for maps?</span>
-  <span class="va">use_crs</span> <span class="op">&lt;-</span> <span class="fl">3577</span> <span class="co"># actually an epsg code. see epsg.io</span>
-  
-  <span class="co"># set area of interest coordinate reference system</span>
-  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/aoi.html">aoi</a></span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span>
-  </code></pre></div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">pacs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"knitr"</span></span>
+<span>            , <span class="st">"envClean"</span></span>
+<span>            , <span class="st">"envReport"</span></span>
+<span>            , <span class="st">"envFunc"</span>, <span class="st">"fs"</span>, <span class="st">"purrr"</span></span>
+<span>            , <span class="st">"dplyr"</span>, <span class="st">"sf"</span>, <span class="st">"tibble"</span></span>
+<span>            , <span class="st">"tmap"</span>, <span class="st">"raster"</span>, <span class="st">"rstanarm"</span></span>
+<span>            <span class="op">)</span></span>
+<span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="va">pacs</span></span>
+<span>              , <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">.</span></span>
+<span>                                                        , character.only <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>                                                        , quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                                                <span class="op">)</span></span>
+<span>              <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co">#  Load data</span></span>
+<span>  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/flor_all.html">flor_all</a></span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># What crs to use for maps?</span></span>
+<span>  <span class="va">use_crs</span> <span class="op">&lt;-</span> <span class="fl">3577</span> <span class="co"># actually an epsg code. see epsg.io</span></span>
+<span>  </span>
+<span>  <span class="co"># set area of interest coordinate reference system</span></span>
+<span>  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/aoi.html">aoi</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span></span>
+<span>  </span></code></pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p><code>envClean</code> is not on CRAN.</p>
 <p>Install the development version from GitHub</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"acanthiza/envClean"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"acanthiza/envClean"</span><span class="op">)</span></span></code></pre></div>
 <p>Load <code>envClean</code></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://acanthiza.github.io/envClean/">"envClean"</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://acanthiza.github.io/envClean/" class="external-link">"envClean"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="workflow" class="section level2">
-<h2 class="hasAnchor">
-<a href="#workflow" class="anchor"></a>Suggested workflow</h2>
-<p>After many, many iterations, the following workflow has been found to be ok. Only ok. There is no awesome when cleaning large, unstructured data.</p>
+<div class="section level2">
+<h2 id="workflow">Suggested workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
+</h2>
+<p>After many, many iterations, the following workflow has been found to
+be ok. Only ok. There is no awesome when cleaning large, unstructured
+data.</p>
 <table class="table">
 <caption>Suggested steps in the cleaning process</caption>
+<colgroup>
+<col width="15%">
+<col width="77%">
+<col width="7%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">clean</th>
 <th align="left">desc</th>
@@ -192,7 +198,8 @@
 </tr>
 <tr class="even">
 <td align="left">taxa</td>
-<td align="left">align taxonomy and resolve any taxonomic duplication within bins</td>
+<td align="left">align taxonomy and resolve any taxonomic duplication
+within bins</td>
 <td align="right">9</td>
 </tr>
 <tr class="odd">
@@ -222,12 +229,14 @@
 </tr>
 <tr class="even">
 <td align="left">life</td>
-<td align="left">as a byproduct of assigning all records of a taxa a lifeform</td>
+<td align="left">as a byproduct of assigning all records of a taxa a
+lifeform</td>
 <td align="right">15</td>
 </tr>
 <tr class="odd">
 <td align="left">cov</td>
-<td align="left">as a byproduct of assigning all records of a taxa a cover value</td>
+<td align="left">as a byproduct of assigning all records of a taxa a
+cover value</td>
 <td align="right">16</td>
 </tr>
 <tr class="even">
@@ -248,116 +257,180 @@
 </tbody>
 </table>
 </div>
-<div id="key-concepts" class="section level2">
-<h2 class="hasAnchor">
-<a href="#key-concepts" class="anchor"></a>Key concepts</h2>
-<div id="filtercleantidy" class="section level3">
-<h3 class="hasAnchor">
-<a href="#filtercleantidy" class="anchor"></a>Filter/clean/tidy</h3>
+<div class="section level2">
+<h2 id="key-concepts">Key concepts<a class="anchor" aria-label="anchor" href="#key-concepts"></a>
+</h2>
+<div class="section level3">
+<h3 id="filtercleantidy">Filter/clean/tidy<a class="anchor" aria-label="anchor" href="#filtercleantidy"></a>
+</h3>
 <p><code>envClean</code>, helps with implementing:</p>
 <ul>
-<li>filtering: remove rows of a data frame. These may be entirely legitimate observations but it is desirable to remove them for the purposes of a downstream analysis. For example, a [context] with only one (legitimate) record may not meet the expectations of an analysis that within each [context] there is a list of taxa recorded.</li>
-<li>cleaning: remove observations to reduce the risk that spurious observations are included in downstream analysis. For example, two different data sources may contain the same observation. Most analyses will perform better when records duplicated within a context are removed.</li>
-<li>tidying: as per <a href="https://www.jstatsoft.org/article/view/v059i10">tidy data</a> <span class="citation">(Wickham 2014)</span> where each variable is a column and each observation is a unique row.</li>
+<li>filtering: remove rows of a data frame. These may be entirely
+legitimate observations but it is desirable to remove them for the
+purposes of a downstream analysis. For example, a [context] with only
+one (legitimate) record may not meet the expectations of an analysis
+that within each [context] there is a list of taxa recorded.</li>
+<li>cleaning: remove observations to reduce the risk that spurious
+observations are included in downstream analysis. For example, two
+different data sources may contain the same observation. Most analyses
+will perform better when records duplicated within a context are
+removed.</li>
+<li>tidying: as per <a href="https://www.jstatsoft.org/article/view/v059i10" class="external-link">tidy data</a>
+<span class="citation">(Wickham 2014)</span> where each variable is a
+column and each observation is a unique row.</li>
 </ul>
-<p>In practice these tasks are often blurred within each of the functions. For example <code>filter_taxa</code> cleans taxonomic names and tidies the data set with respect to any [context] specified.</p>
+<p>In practice these tasks are often blurred within each of the
+functions. For example <code>filter_taxa</code> cleans taxonomic names
+and tidies the data set with respect to any [context] specified.</p>
 <p>In general the process will be referred to as <em>cleaning</em>.</p>
 </div>
-<div id="sitevisitrecordtaxa" class="section level3">
-<h3 class="hasAnchor">
-<a href="#sitevisitrecordtaxa" class="anchor"></a>Site/visit/record/taxa</h3>
-<p>Due to the loose definition of <a href="#context">context</a> (see below), the definitions of site, visit, record and taxa can change through the cleaning process.</p>
+<div class="section level3">
+<h3 id="sitevisitrecordtaxa">Site/visit/record/taxa<a class="anchor" aria-label="anchor" href="#sitevisitrecordtaxa"></a>
+</h3>
+<p>Due to the loose definition of <a href="#context">context</a> (see
+below), the definitions of site, visit, record and taxa can change
+through the cleaning process.</p>
 <ul>
-<li>sites are spatial locations. they may be defined by latitude, longitude, easting, northing and/or cell. These may be duplicated before exclusive application of context. They are not necessarily defined by all spatial concepts within context at all stages of the cleaning process.</li>
-<li>visits are sites plus a time, such as year, month, day (or, even hour). Again, until context is applied exclusively, these may be duplicated</li>
-<li>records are visits plus an observation to some level of the taxonomic hierarchy (refered to simply as ‘taxa’)</li>
-<li>taxa refers to some form of taxonomic entity. An entity may be duplicated within a visit before taxonomy is resolved and context is applied exclusively (usually by <code>filter_taxa</code>).</li>
+<li>sites are spatial locations. they may be defined by latitude,
+longitude, easting, northing and/or cell. These may be duplicated before
+exclusive application of context. They are not necessarily defined by
+all spatial concepts within context at all stages of the cleaning
+process.</li>
+<li>visits are sites plus a time, such as year, month, day (or, even
+hour). Again, until context is applied exclusively, these may be
+duplicated</li>
+<li>records are visits plus an observation to some level of the
+taxonomic hierarchy (refered to simply as ‘taxa’)</li>
+<li>taxa refers to some form of taxonomic entity. An entity may be
+duplicated within a visit before taxonomy is resolved and context is
+applied exclusively (usually by <code>filter_taxa</code>).</li>
 </ul>
 </div>
-<div id="context" class="section level3">
-<h3 class="hasAnchor">
-<a href="#context" class="anchor"></a>Context and binning</h3>
-<p>Context is usually defined by two scales of particular interest: space (location) and time. It is possible, but often not desirable, to assign other concepts to <code>context</code> too (e.g. say, data source).</p>
-<p>Throughout the series of <code>env</code> packages the concept of <em>context</em> is used extensively, and at least currently, somewhat loosely. Context is also related to <code>binning</code>: lumping records into spatial and or temporal ‘bins’. Later in the cleaning process, spatial and temporal bins are likely to define the context.</p>
-<p>With respect to ‘loosely’: context may be defined by, say, <code>c("lat", "long", "cell", "year", "month")</code>. At various stages through the cleaning process not every one of those variables may be applicable. After running <code>add_raster_cell</code> (to assign a spatial bin) the variable <code>lat</code> and <code>long</code> may be removed (depending on the <code>add_xy</code> argument). However <code>context</code> can still be used in full in cleaning steps (via the consistent use of <code><a href="https://tidyselect.r-lib.org/reference/all_of.html">tidyselect::any_of</a></code> in <code>envClean</code> functions).</p>
-<p>Note that <code>context</code> is only applied <em>exclusively</em> only when <code>filter_taxa</code> is run (see examples below). Thus: extraneous fields/columns beyond <code>context</code> are maintained until taxonomy is filtered (unless they are provided via the various arguments to <code>filter_taxa</code>); and no claim is made regarding the uniqueness of ‘records’ until this step in the process. Thus, if a cleaning process does not include <code>filter_taxa</code>, running, say, <code>dplyr::distinct(across(any_of(context)))</code> may be useful.</p>
+<div class="section level3">
+<h3 id="context">Context and binning<a class="anchor" aria-label="anchor" href="#context"></a>
+</h3>
+<p>Context is usually defined by two scales of particular interest:
+space (location) and time. It is possible, but often not desirable, to
+assign other concepts to <code>context</code> too (e.g. say, data
+source).</p>
+<p>Throughout the series of <code>env</code> packages the concept of
+<em>context</em> is used extensively, and at least currently, somewhat
+loosely. Context is also related to <code>binning</code>: lumping
+records into spatial and or temporal ‘bins’. Later in the cleaning
+process, spatial and temporal bins are likely to define the context.</p>
+<p>With respect to ‘loosely’: context may be defined by, say,
+<code>c("lat", "long", "cell", "year", "month")</code>. At various
+stages through the cleaning process not every one of those variables may
+be applicable. After running <code>add_raster_cell</code> (to assign a
+spatial bin) the variable <code>lat</code> and <code>long</code> may be
+removed (depending on the <code>add_xy</code> argument). However
+<code>context</code> can still be used in full in cleaning steps (via
+the consistent use of <code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">tidyselect::any_of</a></code> in
+<code>envClean</code> functions).</p>
+<p>Note that <code>context</code> is only applied <em>exclusively</em>
+only when <code>filter_taxa</code> is run (see examples below). Thus:
+extraneous fields/columns beyond <code>context</code> are maintained
+until taxonomy is filtered (unless they are provided via the various
+arguments to <code>filter_taxa</code>); and no claim is made regarding
+the uniqueness of ‘records’ until this step in the process. Thus, if a
+cleaning process does not include <code>filter_taxa</code>, running,
+say, <code>dplyr::distinct(across(any_of(context)))</code> may be
+useful.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># Simple context example</span>
-  <span class="va">flor_example</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
-     <span class="op">~</span><span class="va">data_source</span>, <span class="op">~</span><span class="va">original_name</span>, <span class="op">~</span><span class="va">location</span>, <span class="op">~</span><span class="va">year</span>,
-     <span class="st">"A"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>,
-     <span class="st">"B"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>
-   <span class="op">)</span>
-
-  <span class="va">flor_example</span>
-<span class="co">#&gt; # A tibble: 2 x 4</span>
-<span class="co">#&gt;   data_source original_name         location year </span>
-<span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                 &lt;chr&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1 A           Eucalyptus leucoxylon x        y    </span>
-<span class="co">#&gt; 2 B           Eucalyptus leucoxylon x        y</span>
-
-  <span class="co"># set context </span>
-  <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"location"</span>, <span class="st">"year"</span><span class="op">)</span>
-  
-  <span class="co"># filter singletons - context not applied</span>
-  <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="va">flor_example</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span>context <span class="op">=</span> <span class="va">context</span>
-                  , thresh <span class="op">=</span> <span class="fl">1</span>
-                  <span class="op">)</span>
-  
-  <span class="co"># two rows</span>
-  <span class="va">flor_single</span>
-<span class="co">#&gt; # A tibble: 2 x 4</span>
-<span class="co">#&gt;   data_source original_name         location year </span>
-<span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                 &lt;chr&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1 A           Eucalyptus leucoxylon x        y    </span>
-<span class="co">#&gt; 2 B           Eucalyptus leucoxylon x        y</span>
-  
-  <span class="co"># make taxonomy lookups</span>
-  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span><span class="op">)</span>
-<span class="co">#&gt; 3177019: South Australia Blue Gum</span>
-      
-  <span class="co"># filter taxa - context applied exclusively</span>
-  <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="va">flor_example</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa</a></span><span class="op">(</span>context <span class="op">=</span> <span class="va">context</span>
-                , taxonomy <span class="op">=</span> <span class="va">taxonomy</span>
-                <span class="op">)</span>
-  
-  <span class="co"># one row</span>
-  <span class="va">flor_taxa</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
-<span class="co">#&gt;   location year  taxa                 </span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;                </span>
-<span class="co">#&gt; 1 x        y     Eucalyptus leucoxylon</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="co"># Simple context example</span></span>
+<span>  <span class="va">flor_example</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>     <span class="op">~</span><span class="va">data_source</span>, <span class="op">~</span><span class="va">original_name</span>, <span class="op">~</span><span class="va">location</span>, <span class="op">~</span><span class="va">year</span>,</span>
+<span>     <span class="st">"A"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>,</span>
+<span>     <span class="st">"B"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span></span>
+<span>   <span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">flor_example</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 x 4</span></span></span>
+<span><span class="co">#&gt;   data_source original_name         location year </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon x        y    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon x        y</span></span>
+<span></span>
+<span>  <span class="co"># set context </span></span>
+<span>  <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"location"</span>, <span class="st">"year"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># filter singletons - context not applied</span></span>
+<span>  <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="va">flor_example</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span>context <span class="op">=</span> <span class="va">context</span></span>
+<span>                  , thresh <span class="op">=</span> <span class="fl">1</span></span>
+<span>                  <span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># two rows</span></span>
+<span>  <span class="va">flor_single</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 x 4</span></span></span>
+<span><span class="co">#&gt;   data_source original_name         location year </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon x        y    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon x        y</span></span>
+<span>  </span>
+<span>  <span class="co"># make taxonomy lookups</span></span>
+<span>  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 3177019: South Australia Blue Gum</span></span>
+<span>      </span>
+<span>  <span class="co"># filter taxa - context applied exclusively</span></span>
+<span>  <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="va">flor_example</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa</a></span><span class="op">(</span>context <span class="op">=</span> <span class="va">context</span></span>
+<span>                , taxonomy <span class="op">=</span> <span class="va">taxonomy</span></span>
+<span>                <span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># one row</span></span>
+<span>  <span class="va">flor_taxa</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 x 3</span></span></span>
+<span><span class="co">#&gt;   location year  taxa                 </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> x        y     Eucalyptus leucoxylon</span></span></code></pre></div>
 </div>
-<div id="naming" class="section level3">
-<h3 class="hasAnchor">
-<a href="#naming" class="anchor"></a>Naming</h3>
-<p>By careful use of naming when creating objects during the cleaning process it is possible to create automated summaries of the process. See the <a href="#workflow">workflow</a> section for suggested names for steps in the cleaning process. Within this vignette, the prefix <code>flor_</code> has been added and the function <code>add_time_stamp()</code> has been used to assist ordering the cleaning process <a href="#summary">summary</a>.</p>
+<div class="section level3">
+<h3 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a>
+</h3>
+<p>By careful use of naming when creating objects during the cleaning
+process it is possible to create automated summaries of the process. See
+the <a href="#workflow">workflow</a> section for suggested names for
+steps in the cleaning process. Within this vignette, the prefix
+<code>flor_</code> has been added and the function
+<code>add_time_stamp()</code> has been used to assist ordering the
+cleaning process <a href="#summary">summary</a>.</p>
 </div>
-<div id="coordinate-reference-systems" class="section level3">
-<h3 class="hasAnchor">
-<a href="#coordinate-reference-systems" class="anchor"></a>Coordinate reference systems</h3>
-<p>There are two (possibly three) main coordinate reference systems (crs) to worry about:</p>
+<div class="section level3">
+<h3 id="coordinate-reference-systems">Coordinate reference systems<a class="anchor" aria-label="anchor" href="#coordinate-reference-systems"></a>
+</h3>
+<p>There are two (possibly three) main coordinate reference systems
+(crs) to worry about:</p>
 <ol style="list-style-type: decimal">
-<li>the crs for the original records. If these are in decimal degrees, using <a href="https://epsg.io/">epsg</a> = <a href="https://epsg.io/4283">4283</a> is likely to return the correct crs.</li>
-<li>the crs you’d like to use for most spatial data. Set here (in setup chunk) to <code>use_crs</code> = 3577. It is likely that a projected crs will work best, particularly for buffering, filtering etc.</li>
-<li>the crs for any other spatial data imported to help with cleaning. Try using <code>sf::st_read("random_shape_file.shp") %&gt;% sf::st_tranform(crs = use_crs)</code> to deal with this.</li>
+<li>the crs for the original records. If these are in decimal degrees,
+using <a href="https://epsg.io/" class="external-link">epsg</a> = <a href="https://epsg.io/4283" class="external-link">4283</a> is likely to return the correct
+crs.</li>
+<li>the crs you’d like to use for most spatial data. Set here (in setup
+chunk) to <code>use_crs</code> = 3577. It is likely that a projected crs
+will work best, particularly for buffering, filtering etc.</li>
+<li>the crs for any other spatial data imported to help with cleaning.
+Try using
+<code>sf::st_read("random_shape_file.shp") %&gt;% sf::st_tranform(crs = use_crs)</code>
+to deal with this.</li>
 </ol>
 </div>
 </div>
-<div id="import" class="section level2">
-<h2 class="hasAnchor">
-<a href="#import" class="anchor"></a>Import</h2>
-<p>Querying and uniting disparate data sources into a single data set is a challenge in its own right. See <a href="https://github.com/Acanthiza/envImport">envImport</a> for tools to assist there. Once you’ve imported and combined all your data, read on.</p>
+<div class="section level2">
+<h2 id="import">Import<a class="anchor" aria-label="anchor" href="#import"></a>
+</h2>
+<p>Querying and uniting disparate data sources into a single data set is
+a challenge in its own right. See <a href="https://github.com/Acanthiza/envImport" class="external-link">envImport</a> for tools to
+assist there. Once you’ve imported and combined all your data, read
+on.</p>
 </div>
-<div id="references" class="section level2 unnumbered">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
-<div id="refs" class="references">
-<div id="ref-JSSv059i10">
-<p>Wickham, Hadley. 2014. “Tidy Data.” <em>Journal of Statistical Software</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss.v059.i10">https://doi.org/10.18637/jss.v059.i10</a>.</p>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-JSSv059i10" class="csl-entry">
+Wickham, Hadley. 2014. <span>“Tidy Data.”</span> <em>Journal of
+Statistical Software</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="external-link">https://doi.org/10.18637/jss.v059.i10</a>.
 </div>
 </div>
 </div>
@@ -374,11 +447,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Nigel Willoughby.</p>
+  <p></p>
+<p>Developed by Nigel Willoughby.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -386,6 +461,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -2,14 +2,13 @@
 
 #' Clean/Tidy to one row per taxa*Visit
 #'
-#' Includes running of taxa_taxonomy(), if lutaxa does not already exist.
 #'
-#' @param df Dataframe to reduce.
+#' @param df Dataframe to clean, filter and tidy with respect to taxonomy.
 #' @param taxa_col Character. Name of column with taxa.
 #' @param context Character. Name of columns defining context.
 #' @param extra_cols Character. Name of any extra columns to keep.
-#' @param target_rank Character. Name of level in taxonomic hierarchy that names
-#' should be retrieved from, if possible.
+#' @param target_rank Character. Default is 'species'. At what level of the
+#' taxonomic hierarchy are results desired.
 #' @param do_cov Logical. Should cover (needs to be supplied in df) be appended
 #' to output.
 #' @param do_life Logical. Should lifeform (needs to be supplied in df) be
@@ -18,10 +17,8 @@
 #' appended to output.
 #' @param lucov Dataframe lookup for cover.
 #' @param lulife Dataframe lookup for lifeform.
-#' @param taxonomy list with named elements `lutaxa` and `taxonomy`.
+#' @param taxonomy list with (at least) named elements `lutaxa` and `taxonomy`.
 #' Usually resulting from call to `envClean::make_taxonomy()`.
-#' @param target_rank Character. Default is 'species'. At what level of the
-#' taxonomic hierarchy are results desired.
 #'
 #' @return Dataframe with columns taxa, context and, possibly, extracols
 #' , lifeform and cover
@@ -32,6 +29,7 @@
                           , taxa_col = "original_name"
                           , context
                           , extra_cols = NULL
+                          , target_rank = "species"
                           , do_cov = FALSE
                           , do_life = FALSE
                           , lucov = NULL
@@ -48,6 +46,7 @@
       dplyr::left_join(taxonomy$lutaxa) %>%
       dplyr::left_join(taxonomy$taxonomy) %>%
       dplyr::filter(!is.na(taxa)) %>%
+      dplyr::filter(rank <= target_rank) %>%
       dplyr::inner_join(df) %>%
       dplyr::select(tidyselect::any_of(context)
                     , taxa

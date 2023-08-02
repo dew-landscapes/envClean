@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">envClean</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/Acanthiza/envClean/">
+  <a href="https://github.com/Acanthiza/envClean/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -79,16 +75,19 @@
 
       
 
-      </header><script src="020_clean_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>The full process</h1>
-                        <h4 class="author">Department for Environment and Water</h4>
-                        <h4 class="author">Nigel Willoughby</h4>
+                        <h4 data-toc-skip class="author">Department for
+Environment and Water</h4>
+                        <h4 data-toc-skip class="author">Nigel
+Willoughby</h4>
             
-            <h4 class="date">Wednesday, 26 July, 2023</h4>
+            <h4 data-toc-skip class="date">Wednesday, 02 August,
+2023</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/master/vignettes/020_clean.Rmd"><code>vignettes/020_clean.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/020_clean.Rmd" class="external-link"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
 
     </div>
@@ -96,719 +95,880 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">pacs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"knitr"</span>
-            , <span class="st">"envClean"</span>
-            , <span class="st">"envReport"</span>
-            , <span class="st">"envFunc"</span>, <span class="st">"fs"</span>, <span class="st">"purrr"</span>
-            , <span class="st">"dplyr"</span>, <span class="st">"sf"</span>, <span class="st">"tibble"</span>
-            , <span class="st">"tmap"</span>, <span class="st">"raster"</span>, <span class="st">"rstanarm"</span>
-            <span class="op">)</span>
-
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">walk</a></span><span class="op">(</span><span class="va">pacs</span>
-              , <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">.</span>
-                                                        , character.only <span class="op">=</span> <span class="cn">TRUE</span>
-                                                        , quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-                                                <span class="op">)</span>
-              <span class="op">)</span>
-
-  <span class="co">#  Load data</span>
-  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/flor_all.html">flor_all</a></span><span class="op">)</span>
-  
-  <span class="co"># What crs to use for maps?</span>
-  <span class="va">use_crs</span> <span class="op">&lt;-</span> <span class="fl">3577</span> <span class="co"># actually an epsg code. see epsg.io</span>
-  
-  <span class="co"># set area of interest coordinate reference system</span>
-  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/aoi.html">aoi</a></span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span>
-  </code></pre></div>
-<div id="data" class="section level1">
-<h1 class="hasAnchor">
-<a href="#data" class="anchor"></a>Data</h1>
-<p>Here, we’ll start with combined floristic data (called <code>flor_all</code>) from the mallee in South Australia. This data set is provided with <code>envClean</code> and is a small subset of a <a href="https://www.gbif.org/">GBIF</a> occurrence download <span class="citation">(GBIF.Org 2022)</span>.</p>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">pacs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"knitr"</span></span>
+<span>            , <span class="st">"envClean"</span></span>
+<span>            , <span class="st">"envReport"</span></span>
+<span>            , <span class="st">"envFunc"</span>, <span class="st">"fs"</span>, <span class="st">"purrr"</span></span>
+<span>            , <span class="st">"dplyr"</span>, <span class="st">"sf"</span>, <span class="st">"tibble"</span></span>
+<span>            , <span class="st">"tmap"</span>, <span class="st">"raster"</span>, <span class="st">"rstanarm"</span></span>
+<span>            <span class="op">)</span></span>
+<span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="va">pacs</span></span>
+<span>              , <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">.</span></span>
+<span>                                                        , character.only <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>                                                        , quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                                                <span class="op">)</span></span>
+<span>              <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co">#  Load data</span></span>
+<span>  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/flor_all.html">flor_all</a></span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># What crs to use for maps?</span></span>
+<span>  <span class="va">use_crs</span> <span class="op">&lt;-</span> <span class="fl">3577</span> <span class="co"># actually an epsg code. see epsg.io</span></span>
+<span>  </span>
+<span>  <span class="co"># set area of interest coordinate reference system</span></span>
+<span>  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/aoi.html">aoi</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span></span>
+<span>  </span></code></pre></div>
+<div class="section level2">
+<h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h2>
+<p>Here, we’ll start with combined floristic data (called
+<code>flor_all</code>) from the mallee in South Australia. This data set
+is provided with <code>envClean</code> and is a small subset of a <a href="https://www.gbif.org/" class="external-link">GBIF</a> occurrence download <span class="citation">(GBIF.Org 2022)</span>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="area-of-interest" class="section level1">
-<h1 class="hasAnchor">
-<a href="#area-of-interest" class="anchor"></a>Area of interest</h1>
-<p>Usually this is a geographic and/or taxonomic area of interest. An example area overlapping <code>flor_all</code> is provided in <code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code> allows plotting them together.</p>
+<div class="section level2">
+<h2 id="area-of-interest">Area of interest<a class="anchor" aria-label="anchor" href="#area-of-interest"></a>
+</h2>
+<p>Usually this is a geographic and/or taxonomic area of interest. An
+example area overlapping <code>flor_all</code> is provided in
+<code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code>
+allows plotting them together.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># Create simple feature from flor_all</span>
-  <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>
-                 , crs <span class="op">=</span> <span class="fl">4326</span>
-                 <span class="op">)</span>
-
-  <span class="co"># Plot flor_all along with aoi</span>
-  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi</span>
-           , bbox <span class="op">=</span> <span class="fu">st_bbox</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
-           <span class="op">)</span> <span class="op">+</span>
-    <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="co"># Create simple feature from flor_all</span></span>
+<span>  <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
+<span>                 , crs <span class="op">=</span> <span class="fl">4326</span></span>
+<span>                 <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Plot flor_all along with aoi</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi</span></span>
+<span>           , bbox <span class="op">=</span> <span class="fu">st_bbox</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span></span>
+<span>           <span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="020_clean_files/figure-html/aoi-1.png" width="700"></p>
-<p>Filtering <code>flor_all</code> to <code>aoi</code> is done with <code>filter_geo_range</code>.</p>
+<p>Filtering <code>flor_all</code> to <code>aoi</code> is done with
+<code>filter_geo_range</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># Filter area of interest</span>
-  <span class="va">flor_geo_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_geo_range.html">filter_geo_range</a></span><span class="op">(</span><span class="va">flor_all</span>
-                         , use_aoi <span class="op">=</span> <span class="va">aoi</span>
-                         , crs_aoi <span class="op">=</span> <span class="fu">st_crs</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>
-                         <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_geo_range</span>
-<span class="co">#&gt; # A tibble: 1,419 x 9</span>
-<span class="co">#&gt;      lat  long data_name site   date       original_name  rel_metres month  year</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.5  140. GBIF      25739~ 2020-02-22 Eremophila gl~        500     2  2020</span>
-<span class="co">#&gt;  2 -34.5  140. GBIF      39027~ 2022-08-14 Triodia scari~         NA     8  2022</span>
-<span class="co">#&gt;  3 -34.5  140. GBIF      39023~ 2022-08-14 Beyeria leche~         NA     8  2022</span>
-<span class="co">#&gt;  4 -34.5  140. GBIF      39020~ 2022-08-14 Walsholaria m~         NA     8  2022</span>
-<span class="co">#&gt;  5 -34.5  140. GBIF      30588~ 2019-09-01 Triodia scari~        564     9  2019</span>
-<span class="co">#&gt;  6 -34.5  140. GBIF      30587~ 2019-09-01 Westringia ri~        564     9  2019</span>
-<span class="co">#&gt;  7 -34.5  140. GBIF      39021~ 2022-08-14 Phebalium bul~         NA     8  2022</span>
-<span class="co">#&gt;  8 -34.5  140. GBIF      39026~ 2022-08-14 Acacia rigens          NA     8  2022</span>
-<span class="co">#&gt;  9 -34.5  140. GBIF      39020~ 2022-08-14 Exocarpos aph~         NA     8  2022</span>
-<span class="co">#&gt; 10 -34.5  140. GBIF      39233~ 2022-08-14 Maireana radi~         NA     8  2022</span>
-<span class="co">#&gt; # ... with 1,409 more rows</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="co"># Filter area of interest</span></span>
+<span>  <span class="va">flor_geo_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_geo_range.html">filter_geo_range</a></span><span class="op">(</span><span class="va">flor_all</span></span>
+<span>                         , use_aoi <span class="op">=</span> <span class="va">aoi</span></span>
+<span>                         , crs_aoi <span class="op">=</span> <span class="fu">st_crs</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span></span>
+<span>                         <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_geo_range</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,419 x 9</span></span></span>
+<span><span class="co">#&gt;     long   lat data_name site    date       original_name rel_metres month  year</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      257395~ 2020-02-22 Eremophila g~        500     2  <span style="text-decoration: underline;">2</span>020</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390276~ 2022-08-14 Triodia scar~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390232~ 2022-08-14 Beyeria lech~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390204~ 2022-08-14 Walsholaria ~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      305887~ 2019-09-01 Triodia scar~        564     9  <span style="text-decoration: underline;">2</span>019</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      305875~ 2019-09-01 Westringia r~        564     9  <span style="text-decoration: underline;">2</span>019</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390215~ 2022-08-14 Phebalium bu~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390263~ 2022-08-14 Acacia rigens         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390201~ 2022-08-14 Exocarpos ap~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      392335~ 2022-08-14 Maireana rad~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 1,409 more rows</span></span></span></code></pre></div>
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># Create sf from flor_geo_range</span>
-  <span class="va">aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_geo_range</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>
-                 , crs <span class="op">=</span> <span class="fl">4326</span>
-                 <span class="op">)</span>
-
-  <span class="co"># Plot flor_geo_range along with aoi (using the same extent/bbox as the previous plot)</span>
-  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi</span>
-           , bbox <span class="op">=</span> <span class="fu">st_bbox</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span>
-           <span class="op">)</span> <span class="op">+</span>
-    <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi_sf</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="co"># Create sf from flor_geo_range</span></span>
+<span>  <span class="va">aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_geo_range</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
+<span>                 , crs <span class="op">=</span> <span class="fl">4326</span></span>
+<span>                 <span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Plot flor_geo_range along with aoi (using the same extent/bbox as the previous plot)</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi</span></span>
+<span>           , bbox <span class="op">=</span> <span class="fu">st_bbox</span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span></span>
+<span>           <span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">tm_polygons</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tm_shape</span><span class="op">(</span><span class="va">aoi_sf</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">tm_dots</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="020_clean_files/figure-html/flor_geo_range_map-1.png" width="700"></p>
 </div>
-<div id="context" class="section level1">
-<h1 class="hasAnchor">
-<a href="#context" class="anchor"></a>Context: scales of interest</h1>
-<p>The original location columns probably suggest metre accuracy, or even sub-metre. There may also be a field dampening expectations of such accuracy with estimates of precision for the location. In the following workflow, a precision threshold is set and then an accuracy threshold is adopted. All records with worse precision than threshold are removed, and then all records within the accuracy threshold are lumped. The lumping is done via a raster placed over the <code>aoi</code>.</p>
-<p>The original time scale probably suggests accuracy to day, or perhaps even hour, or sub-hour. Choose a scale of relevance to your question. In the example below month is used. Thus all data recorded within a spatial location within a month are treated as one ‘visit’. A ‘taxa’ within a ‘visit’ is considered a ‘record’.</p>
-<div id="precision" class="section level2">
-<h2 class="hasAnchor">
-<a href="#precision" class="anchor"></a>Precision</h2>
-<p>Records with precision less than threshold are filtered using <code>filter_geo_rel</code>. This takes a dataframe (<code>df</code>) as its first argument, in this case <code>flor_geo_range</code>. <code>dist_col</code> specifies the column in <code>df</code> that contains the precision estimates. <code>dist</code> provides the threshold above which to filter. If there are data sources (or any other columns in <code>df</code>) that do not include an estimate of spatial precision, but you would like to keep, this can be done with the argument <code>over_ride</code>. This takes a named list, where names need to match the columns in <code>df</code>. Any levels within the columns provided in <code>over_ride</code> will not be filtered, irrespective of the values in <code>dist_col</code>.</p>
+<div class="section level2">
+<h2 id="context">Context: scales of interest<a class="anchor" aria-label="anchor" href="#context"></a>
+</h2>
+<p>The original location columns probably suggest metre accuracy, or
+even sub-metre. There may also be a field dampening expectations of such
+accuracy with estimates of precision for the location. In the following
+workflow, a precision threshold is set and then an accuracy threshold is
+adopted. All records with worse precision than threshold are removed,
+and then all records within the accuracy threshold are lumped. The
+lumping is done via a raster placed over the <code>aoi</code>.</p>
+<p>The original time scale probably suggests accuracy to day, or perhaps
+even hour, or sub-hour. Choose a scale of relevance to your question. In
+the example below month is used. Thus all data recorded within a spatial
+location within a month are treated as one ‘visit’. A ‘taxa’ within a
+‘visit’ is considered a ‘record’.</p>
+<div class="section level3">
+<h3 id="precision">Precision<a class="anchor" aria-label="anchor" href="#precision"></a>
+</h3>
+<p>Records with precision less than threshold are filtered using
+<code>filter_geo_rel</code>. This takes a dataframe (<code>df</code>) as
+its first argument, in this case <code>flor_geo_range</code>.
+<code>dist_col</code> specifies the column in <code>df</code> that
+contains the precision estimates. <code>dist</code> provides the
+threshold above which to filter. If there are data sources (or any other
+columns in <code>df</code>) that do not include an estimate of spatial
+precision, but you would like to keep, this can be done with the
+argument <code>over_ride</code>. This takes a named list, where names
+need to match the columns in <code>df</code>. Any levels within the
+columns provided in <code>over_ride</code> will not be filtered,
+irrespective of the values in <code>dist_col</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span>, <span class="st">"cell"</span><span class="op">)</span>
-
-  <span class="va">include_data_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ALIS"</span>,<span class="st">"BCM"</span>,<span class="st">"NVB"</span>,<span class="st">"TERN"</span><span class="op">)</span>
-
-  <span class="va">flor_geo_rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_geo_rel.html">filter_geo_rel</a></span><span class="op">(</span><span class="va">flor_geo_range</span>
-                              , dist_col <span class="op">=</span> <span class="st">"rel_metres"</span>
-                              , dist <span class="op">=</span> <span class="fl">100</span>
-                              , context <span class="op">=</span> <span class="va">context</span>
-                              , over_ride <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data_name <span class="op">=</span> <span class="va">include_data_name</span><span class="op">)</span>
-                              <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-  
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_geo_rel</span>
-<span class="co">#&gt; # A tibble: 696 x 9</span>
-<span class="co">#&gt;      lat  long data_name site   date       original_name  rel_metres month  year</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -34.6  140. GBIF      10854~ 2006-10-20 Enchylaena to~         50    10  2006</span>
-<span class="co">#&gt;  2 -34.6  140. GBIF      10853~ 1990-06-07 Walsholaria m~        100     6  1990</span>
-<span class="co">#&gt;  3 -34.6  140. GBIF      10854~ 2006-10-20 Walsholaria m~         50    10  2006</span>
-<span class="co">#&gt;  4 -34.6  140. GBIF      10853~ 1990-06-07 Roepera apicu~        100     6  1990</span>
-<span class="co">#&gt;  5 -34.6  140. GBIF      10853~ 1990-06-07 Sclerolaena d~        100     6  1990</span>
-<span class="co">#&gt;  6 -34.6  140. GBIF      10854~ 2006-10-20 Eucalyptus gr~         50    10  2006</span>
-<span class="co">#&gt;  7 -34.6  140. GBIF      10853~ 1990-06-07 Eucalyptus gr~        100     6  1990</span>
-<span class="co">#&gt;  8 -34.6  140. GBIF      10854~ 2006-10-20 Maireana erio~         50    10  2006</span>
-<span class="co">#&gt;  9 -34.6  140. GBIF      10853~ 1990-06-07 Dodonaea sten~        100     6  1990</span>
-<span class="co">#&gt; 10 -34.6  140. GBIF      10853~ 1990-06-07 Eucalyptus ol~        100     6  1990</span>
-<span class="co">#&gt; # ... with 686 more rows</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span>, <span class="st">"cell"</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">include_data_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ALIS"</span>,<span class="st">"BCM"</span>,<span class="st">"NVB"</span>,<span class="st">"TERN"</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">flor_geo_rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_geo_rel.html">filter_geo_rel</a></span><span class="op">(</span><span class="va">flor_geo_range</span></span>
+<span>                              , dist_col <span class="op">=</span> <span class="st">"rel_metres"</span></span>
+<span>                              , dist <span class="op">=</span> <span class="fl">100</span></span>
+<span>                              , context <span class="op">=</span> <span class="va">context</span></span>
+<span>                              , over_ride <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data_name <span class="op">=</span> <span class="va">include_data_name</span><span class="op">)</span></span>
+<span>                              <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_geo_rel</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 696 x 9</span></span></span>
+<span><span class="co">#&gt;     long   lat data_name site    date       original_name rel_metres month  year</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Enchylaena t~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Walsholaria ~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Walsholaria ~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Roepera apic~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Sclerolaena ~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Eucalyptus g~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Eucalyptus g~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Maireana eri~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Dodonaea ste~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Eucalyptus o~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 686 more rows</span></span></span></code></pre></div>
 </div>
-<div id="rasterize" class="section level2">
-<h2 class="hasAnchor">
-<a href="#rasterize" class="anchor"></a>Rasterize</h2>
-<p>Now that records with dubious spatial precision have been removed, an accuracy threshold is adpoted by rasterizing remaining records into the cells of <code>aoi_raster</code>, created here.</p>
+<div class="section level3">
+<h3 id="rasterize">Rasterize<a class="anchor" aria-label="anchor" href="#rasterize"></a>
+</h3>
+<p>Now that records with dubious spatial precision have been removed, an
+accuracy threshold is adpoted by rasterizing remaining records into the
+cells of <code>aoi_raster</code>, created here.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">aoi_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html">rast</a></span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html">ext</a></span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>
-                      , resolution <span class="op">=</span> <span class="fl">30</span>
-                      , crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"epsg:"</span>,<span class="va">use_crs</span><span class="op">)</span>
-                      <span class="op">)</span>
-
-
-  <span class="va">aoi_raster</span>
-<span class="co">#&gt; class       : SpatRaster </span>
-<span class="co">#&gt; dimensions  : 367, 300, 1  (nrow, ncol, nlyr)</span>
-<span class="co">#&gt; resolution  : 30, 30  (x, y)</span>
-<span class="co">#&gt; extent      : 723000, 732000, -3800000, -3788990  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; coord. ref. : GDA94 / Australian Albers (EPSG:3577)</span></code></pre></div>
-<p>Rasterizing the current data is then done via <code>add_raster_cell</code>. This function has the argument <code>add_xy</code> which will add the centroid of the cell back to the data frame using the same names as the original <code>x</code> and <code>y</code> columns. Alternatively, the <code>x</code> and <code>y</code> columns will be lost from the returned data frame, replaced with <code>cell</code>, the raster cell id.</p>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">aoi_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span></span>
+<span>                      , resolution <span class="op">=</span> <span class="fl">30</span></span>
+<span>                      , crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"epsg:"</span>,<span class="va">use_crs</span><span class="op">)</span></span>
+<span>                      <span class="op">)</span></span>
+<span></span>
+<span></span>
+<span>  <span class="va">aoi_raster</span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 367, 300, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 30, 30  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : 723000, 732000, -3800000, -3788990  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. : GDA94 / Australian Albers (EPSG:3577)</span></span></code></pre></div>
+<p>Rasterizing the current data is then done via
+<code>add_raster_cell</code>. This function has the argument
+<code>add_xy</code> which will add the centroid of the cell back to the
+data frame using the same names as the original <code>x</code> and
+<code>y</code> columns. Alternatively, the <code>x</code> and
+<code>y</code> columns will be lost from the returned data frame,
+replaced with <code>cell</code>, the raster cell id.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">flor_geo_bin</span> <span class="op">&lt;-</span> <span class="fu">envRaster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/envRaster/man/add_raster_cell.html">add_raster_cell</a></span><span class="op">(</span><span class="va">aoi_raster</span>
-                               , <span class="va">flor_geo_rel</span>
-                               , add_xy <span class="op">=</span> <span class="cn">TRUE</span>
-                               , crs_df <span class="op">=</span> <span class="fl">4283</span>
-                               <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_geo_bin</span>
-<span class="co">#&gt; # A tibble: 696 x 10</span>
-<span class="co">#&gt;     cell  long   lat data_name site   date       original_name  rel_metres month</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  7340  140. -34.5 GBIF      10854~ 2006-10-18 Maireana radi~         50    10</span>
-<span class="co">#&gt;  2  7340  140. -34.5 GBIF      10854~ 2006-10-18 Roepera glauca         50    10</span>
-<span class="co">#&gt;  3  7340  140. -34.5 GBIF      10854~ 2006-10-18 Beyeria leche~         50    10</span>
-<span class="co">#&gt;  4  7340  140. -34.5 GBIF      10854~ 2006-10-18 Melaleuca lan~         50    10</span>
-<span class="co">#&gt;  5  7340  140. -34.5 GBIF      10854~ 2006-10-18 Sclerolaena p~         50    10</span>
-<span class="co">#&gt;  6  7340  140. -34.5 GBIF      10854~ 2006-10-18 Maireana erio~         50    10</span>
-<span class="co">#&gt;  7  7340  140. -34.5 GBIF      10854~ 2006-10-18 Eucalyptus ol~         50    10</span>
-<span class="co">#&gt;  8  7340  140. -34.5 GBIF      10854~ 2006-10-18 Westringia ri~         50    10</span>
-<span class="co">#&gt;  9  7340  140. -34.5 GBIF      10854~ 2006-10-18 Maireana pent~         50    10</span>
-<span class="co">#&gt; 10  7340  140. -34.5 GBIF      10854~ 2006-10-18 Walsholaria m~         50    10</span>
-<span class="co">#&gt; # ... with 686 more rows, and 1 more variable: year &lt;dbl&gt;</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">flor_geo_bin</span> <span class="op">&lt;-</span> <span class="fu">envRaster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/envRaster/man/add_raster_cell.html" class="external-link">add_raster_cell</a></span><span class="op">(</span><span class="va">aoi_raster</span></span>
+<span>                               , <span class="va">flor_geo_rel</span></span>
+<span>                               , add_xy <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>                               , crs_df <span class="op">=</span> <span class="fl">4283</span></span>
+<span>                               <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_geo_bin</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 696 x 10</span></span></span>
+<span><span class="co">#&gt;     cell  long   lat data_name site    date       original_name rel_metres month</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Maireana rad~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Roepera glau~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Beyeria lech~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Melaleuca la~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Sclerolaena ~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Maireana eri~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Eucalyptus o~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Westringia r~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Maireana pen~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Walsholaria ~         50    10</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 686 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 1 more variable: year &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 </div>
-<div id="taxonomy" class="section level1">
-<h1 class="hasAnchor">
-<a href="#taxonomy" class="anchor"></a>Taxonomy</h1>
-<div id="make-taxonomy" class="section level2">
-<h2 class="hasAnchor">
-<a href="#make-taxonomy" class="anchor"></a>Make taxonomy</h2>
-<p>Historically, reconciling taxonomy has been by far the most time-consuming, and necessarily expert-driven part of cleaning biological data from any unstructured data set(s). In the past it was often necessary to get an expert botanist to generate an analysis specific taxonomy, taking into account such things as the area of interest, timing (e.g. decade (was it a wet decade), season (was the timing right for orchids or not?)) of the of the main previous surveys, and even possibly the expertise-at-survey-time of the observers. Nothing will replace the quality of the results from such a process. Using online taxonomic tools such as the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF taxonomy backbone</a> provides an automated alternative that comes with an unquantified (but unlikely to be negligible) penalty in quality. However, the enormous benefit in flexibility and time provided by automated tools makes them essential in practice.</p>
-<p>Reconciling taxonomy can be done with the <code>make_taxa_taxonomy</code> function. This returns a list with the following objects:</p>
+<div class="section level2">
+<h2 id="taxonomy">Taxonomy<a class="anchor" aria-label="anchor" href="#taxonomy"></a>
+</h2>
+<div class="section level3">
+<h3 id="make-taxonomy">Make taxonomy<a class="anchor" aria-label="anchor" href="#make-taxonomy"></a>
+</h3>
+<p>Historically, reconciling taxonomy has been by far the most
+time-consuming, and necessarily expert-driven part of cleaning
+biological data from any unstructured data set(s). In the past it was
+often necessary to get an expert botanist to generate an analysis
+specific taxonomy, taking into account such things as the area of
+interest, timing (e.g. decade (was it a wet decade), season (was the
+timing right for orchids or not?)) of the of the main previous surveys,
+and even possibly the expertise-at-survey-time of the observers. Nothing
+will replace the quality of the results from such a process. Using
+online taxonomic tools such as the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c" class="external-link">GBIF
+taxonomy backbone</a> provides an automated alternative that comes with
+an unquantified (but unlikely to be negligible) penalty in quality.
+However, the enormous benefit in flexibility and time provided by
+automated tools makes them essential in practice.</p>
+<p>Reconciling taxonomy can be done with the
+<code>make_taxa_taxonomy</code> function. This returns a list with the
+following objects:</p>
 <ul>
 <li>
-<code>raw</code>: results from <code><a href="https://docs.ropensci.org/rgbif/reference/name_backbone.html">rgbif::name_backbone()</a></code> with a few extras.</li>
+<code>raw</code>: results from <code><a href="https://docs.ropensci.org/rgbif/reference/name_backbone.html" class="external-link">rgbif::name_backbone()</a></code>
+with a few extras.</li>
 <li>
-<code>lutaxa</code>: a simple lookup from the original name provided to the <code>taxa</code> to use in place of that name. Thus, <code>taxa</code> is likely to be duplicated</li>
+<code>lutaxa</code>: a simple lookup from the original name provided
+to the <code>taxa</code> to use in place of that name. Thus,
+<code>taxa</code> is likely to be duplicated</li>
 <li>
-<code>taxonomy</code>: provides the full taxonomic hierarchy for each unique <code>taxa</code> in <code>lutaxa</code>. The column <code>taxa</code> in <code>taxonomy</code> should not have any duplicates. The output can also include lifeform, lifespan and indigenous status columns, if they are available from any of the original data sources and they are provided to <code>make_taxonomy</code>.</li>
+<code>taxonomy</code>: provides the full taxonomic hierarchy for
+each unique <code>taxa</code> in <code>lutaxa</code>. The column
+<code>taxa</code> in <code>taxonomy</code> should not have any
+duplicates. The output can also include lifeform, lifespan and
+indigenous status columns, if they are available from any of the
+original data sources and they are provided to
+<code>make_taxonomy</code>.</li>
 <li>
-<code>common</code>: the result of an attempt to find a common name for each <code>taxa</code> in <code>taxonomy</code>. Split from <code>taxonomy</code> as it seemed impossible to manage duplication.</li>
+<code>common</code>: the result of an attempt to find a common name
+for each <code>taxa</code> in <code>taxonomy</code>. Split from
+<code>taxonomy</code> as it seemed impossible to manage
+duplication.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">taxonomy_file</span> <span class="op">&lt;-</span> <span class="st">"inst/luGBIF.rds"</span>
-
-  <span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_geo_bin</span>
-                        , out_file <span class="op">=</span> <span class="va">taxonomy_file</span>
-                        <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">taxonomy_file</span> <span class="op">&lt;-</span> <span class="st">"inst/luGBIF.rds"</span></span>
+<span></span>
+<span>  <span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_geo_bin</span></span>
+<span>                        , out_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
+<span>                        <span class="op">)</span></span></code></pre></div>
 <p>A look at <code>lutaxa</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
-<span class="co">#&gt; # A tibble: 129 x 5</span>
-<span class="co">#&gt;    taxa                  searched_name         original_name     rank   best_key</span>
-<span class="co">#&gt;    &lt;chr&gt;                 &lt;chr&gt;                 &lt;chr&gt;             &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Acacia acanthoclada   Acacia acanthoclada   Acacia acanthocl~ SPECI~  2980159</span>
-<span class="co">#&gt;  2 Acacia ancistrophylla Acacia ancistrophylla Acacia ancistrop~ SPECI~  2980674</span>
-<span class="co">#&gt;  3 Acacia nyssophylla    Acacia nyssophylla    Acacia nyssophyl~ SPECI~  2979606</span>
-<span class="co">#&gt;  4 Acacia rigens         Acacia rigens         Acacia rigens     SPECI~  2978525</span>
-<span class="co">#&gt;  5 Acacia sclerophylla   Acacia sclerophylla   Acacia sclerophy~ SPECI~  2979322</span>
-<span class="co">#&gt;  6 Acacia wilhelmiana    Acacia wilhelmiana    Acacia wilhelmia~ SPECI~  2980101</span>
-<span class="co">#&gt;  7 Actinobole uliginosum Actinobole uliginosum Actinobole uligi~ SPECI~  3130497</span>
-<span class="co">#&gt;  8 Amphipogon caricinus  Amphipogon caricinus  Amphipogon caric~ SPECI~  4104775</span>
-<span class="co">#&gt;  9 Atriplex acutibractea Atriplex acutibractea Atriplex acutibr~ SPECI~  7339766</span>
-<span class="co">#&gt; 10 Atriplex stipitata    Atriplex stipitata    Atriplex stipita~ SPECI~  3759563</span>
-<span class="co">#&gt; # ... with 119 more rows</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 129 x 5</span></span></span>
+<span><span class="co">#&gt;    taxa                  searched_name         original_name      rank  best_key</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Acacia acanthoclada   Acacia acanthoclada   Acacia acanthocla~ spec~  2<span style="text-decoration: underline;">980</span>159</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Acacia ancistrophylla Acacia ancistrophylla Acacia ancistroph~ spec~  2<span style="text-decoration: underline;">980</span>674</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Acacia nyssophylla    Acacia nyssophylla    Acacia nyssophylla spec~  2<span style="text-decoration: underline;">979</span>606</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Acacia rigens         Acacia rigens         Acacia rigens      spec~  2<span style="text-decoration: underline;">978</span>525</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Acacia sclerophylla   Acacia sclerophylla   Acacia sclerophyl~ spec~  2<span style="text-decoration: underline;">979</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acacia wilhelmiana    Acacia wilhelmiana    Acacia wilhelmiana spec~  2<span style="text-decoration: underline;">980</span>101</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Actinobole uliginosum Actinobole uliginosum Actinobole uligin~ spec~  3<span style="text-decoration: underline;">130</span>497</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Amphipogon caricinus  Amphipogon caricinus  Amphipogon carici~ spec~  4<span style="text-decoration: underline;">104</span>775</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Atriplex acutibractea Atriplex acutibractea Atriplex acutibra~ spec~  7<span style="text-decoration: underline;">339</span>766</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Atriplex stipitata    Atriplex stipitata    Atriplex stipitata spec~  3<span style="text-decoration: underline;">759</span>563</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 119 more rows</span></span></span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">taxa</span><span class="op">$</span><span class="va">taxonomy</span>
-<span class="co">#&gt; # A tibble: 129 x 9</span>
-<span class="co">#&gt;    kingdom phylum       order          family genus species class taxa  best_key</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2980159</span>
-<span class="co">#&gt;  2 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2980674</span>
-<span class="co">#&gt;  3 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2979606</span>
-<span class="co">#&gt;  4 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2978525</span>
-<span class="co">#&gt;  5 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2979322</span>
-<span class="co">#&gt;  6 Plantae Tracheophyta Fabales        Fabac~ Acac~ Acacia~ Magn~ Acac~  2980101</span>
-<span class="co">#&gt;  7 Plantae Tracheophyta Asterales      Aster~ Acti~ Actino~ Magn~ Acti~  3130497</span>
-<span class="co">#&gt;  8 Plantae Tracheophyta Poales         Poace~ Amph~ Amphip~ Lili~ Amph~  4104775</span>
-<span class="co">#&gt;  9 Plantae Tracheophyta Caryophyllales Amara~ Atri~ Atripl~ Magn~ Atri~  7339766</span>
-<span class="co">#&gt; 10 Plantae Tracheophyta Caryophyllales Amara~ Atri~ Atripl~ Magn~ Atri~  3759563</span>
-<span class="co">#&gt; # ... with 119 more rows</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">taxa</span><span class="op">$</span><span class="va">taxonomy</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 129 x 9</span></span></span>
+<span><span class="co">#&gt;    taxa                 kingdom phylum class order family genus species best_key</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Acacia acanthoclada  Plantae Trach~ Magn~ Faba~ Fabac~ Acac~ Acacia~  2<span style="text-decoration: underline;">980</span>159</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Acacia ancistrophyl~ Plantae Trach~ Magn~ Faba~ Fabac~ Acac~ Acacia~  2<span style="text-decoration: underline;">980</span>674</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Acacia nyssophylla   Plantae Trach~ Magn~ Faba~ Fabac~ Acac~ Acacia~  2<span style="text-decoration: underline;">979</span>606</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Acacia rigens        Plantae Trach~ Magn~ Faba~ Fabac~ Acac~ Acacia~  2<span style="text-decoration: underline;">978</span>525</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Acacia sclerophylla  Plantae Trach~ Magn~ Faba~ Fabac~ Acac~ Acacia~  2<span style="text-decoration: underline;">979</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acacia wilhelmiana   Plantae Trach~ Magn~ Faba~ Fabac~ Acac~ Acacia~  2<span style="text-decoration: underline;">980</span>101</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Actinobole uliginos~ Plantae Trach~ Magn~ Aste~ Aster~ Acti~ Actino~  3<span style="text-decoration: underline;">130</span>497</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Amphipogon caricinus Plantae Trach~ Lili~ Poal~ Poace~ Amph~ Amphip~  4<span style="text-decoration: underline;">104</span>775</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Atriplex acutibract~ Plantae Trach~ Magn~ Cary~ Amara~ Atri~ Atripl~  7<span style="text-decoration: underline;">339</span>766</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Atriplex stipitata   Plantae Trach~ Magn~ Cary~ Amara~ Atri~ Atripl~  3<span style="text-decoration: underline;">759</span>563</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 119 more rows</span></span></span></code></pre></div>
 </div>
-<div id="filter-taxonomy" class="section level2">
-<h2 class="hasAnchor">
-<a href="#filter-taxonomy" class="anchor"></a>Filter taxonomy</h2>
-<p>Cleaning to a single taxonomy is now possible sing <code>lutaxa</code> and <code>taxa_taxonomy</code>.</p>
-<p>At this point, the <a href="#context">context</a> is also <em>exclusively</em> applied.</p>
-<p>Thus the output of applying <code>filter_taxa</code> is to generate a single record for each taxa within each context. An attempt will also be made to provide a single value for any <code>extra_cols</code> but this will fail to provide a unique result if there are values within any of <code>extra_cols</code> that are not equivalent within a taxa and context.</p>
+<div class="section level3">
+<h3 id="filter-taxonomy">Filter taxonomy<a class="anchor" aria-label="anchor" href="#filter-taxonomy"></a>
+</h3>
+<p>Cleaning to a single taxonomy is now possible sing
+<code>lutaxa</code> and <code>taxa_taxonomy</code>.</p>
+<p>At this point, the <a href="#context">context</a> is also
+<em>exclusively</em> applied.</p>
+<p>Thus the output of applying <code>filter_taxa</code> is to generate a
+single record for each taxa within each context. An attempt will also be
+made to provide a single value for any <code>extra_cols</code> but this
+will fail to provide a unique result if there are values within any of
+<code>extra_cols</code> that are not equivalent within a taxa and
+context.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa</a></span><span class="op">(</span><span class="va">flor_geo_bin</span>
-                          , taxa_col <span class="op">=</span> <span class="st">"original_name"</span>
-                          , context <span class="op">=</span> <span class="va">context</span>
-                          , taxonomy <span class="op">=</span> <span class="va">taxa</span>
-                          <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_taxa</span>
-<span class="co">#&gt; # A tibble: 694 x 6</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Maireana radiata    </span>
-<span class="co">#&gt;  2  2006    10 -34.6  140. 95018 Maireana radiata    </span>
-<span class="co">#&gt;  3  2006    10 -34.5  140.  7340 Roepera glauca      </span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18098 Roepera glauca      </span>
-<span class="co">#&gt;  5  1990     6 -34.6  140. 80157 Roepera glauca      </span>
-<span class="co">#&gt;  6  2006    10 -34.6  140. 83038 Roepera glauca      </span>
-<span class="co">#&gt;  7  2006    10 -34.6  140. 84812 Roepera glauca      </span>
-<span class="co">#&gt;  8  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
-<span class="co">#&gt;  9  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
-<span class="co">#&gt; 10  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 684 more rows</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa</a></span><span class="op">(</span><span class="va">flor_geo_bin</span></span>
+<span>                          , taxa_col <span class="op">=</span> <span class="st">"original_name"</span></span>
+<span>                          , context <span class="op">=</span> <span class="va">context</span></span>
+<span>                          , taxonomy <span class="op">=</span> <span class="va">taxa</span></span>
+<span>                          , target_rank <span class="op">=</span> <span class="st">"species"</span></span>
+<span>                          <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_taxa</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 694 x 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">95</span>018 Maireana radiata    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 684 more rows</span></span></span></code></pre></div>
 </div>
 </div>
-<div id="singletons" class="section level1">
-<h1 class="hasAnchor">
-<a href="#singletons" class="anchor"></a>Singletons</h1>
-<p>An implicit assumption in collation of data sources is usually that records were a list of taxa collected at a specific spatial location (and date). In many cases this assumption proves incorrect. For example, records may be related to, say, tree health monitoring where no other taxa were concurrently recorded.</p>
-<p>Thus, filtering ‘singleton’ sites (a site with only a single taxa was recorded) is often prudent.</p>
-<p>This will also inadvertently filter legitimate single taxa lists. For example, some areas of samphire or mangroves may have only a single taxa recorded within a survey site. As always, it depends on the goal of any particular analysis whether this trade-off will be worthwhile.</p>
+<div class="section level2">
+<h2 id="singletons">Singletons<a class="anchor" aria-label="anchor" href="#singletons"></a>
+</h2>
+<p>An implicit assumption in collation of data sources is usually that
+records were a list of taxa collected at a specific spatial location
+(and date). In many cases this assumption proves incorrect. For example,
+records may be related to, say, tree health monitoring where no other
+taxa were concurrently recorded.</p>
+<p>Thus, filtering ‘singleton’ sites (a site with only a single taxa was
+recorded) is often prudent.</p>
+<p>This will also inadvertently filter legitimate single taxa lists. For
+example, some areas of samphire or mangroves may have only a single taxa
+recorded within a survey site. As always, it depends on the goal of any
+particular analysis whether this trade-off will be worthwhile.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="co"># Filter singletons</span>
-  <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span><span class="va">flor_taxa</span>
-                              , context <span class="op">=</span> <span class="va">context</span>
-                              , thresh <span class="op">=</span> <span class="fl">1</span>
-                              <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_single</span>
-<span class="co">#&gt; # A tibble: 692 x 6</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Maireana radiata    </span>
-<span class="co">#&gt;  2  2006    10 -34.6  140. 95018 Maireana radiata    </span>
-<span class="co">#&gt;  3  2006    10 -34.5  140.  7340 Roepera glauca      </span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18098 Roepera glauca      </span>
-<span class="co">#&gt;  5  1990     6 -34.6  140. 80157 Roepera glauca      </span>
-<span class="co">#&gt;  6  2006    10 -34.6  140. 83038 Roepera glauca      </span>
-<span class="co">#&gt;  7  2006    10 -34.6  140. 84812 Roepera glauca      </span>
-<span class="co">#&gt;  8  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
-<span class="co">#&gt;  9  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
-<span class="co">#&gt; 10  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 682 more rows</span></code></pre></div>
+<code class="sourceCode R"><span>  </span>
+<span>  <span class="co"># Filter singletons</span></span>
+<span>  <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span><span class="va">flor_taxa</span></span>
+<span>                              , context <span class="op">=</span> <span class="va">context</span></span>
+<span>                              , thresh <span class="op">=</span> <span class="fl">1</span></span>
+<span>                              <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_single</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 692 x 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">95</span>018 Maireana radiata    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 682 more rows</span></span></span></code></pre></div>
 </div>
-<div id="effort" class="section level1">
-<h1 class="hasAnchor">
-<a href="#effort" class="anchor"></a>Effort</h1>
-<p>Aggregated data sets are likely to contain records of taxa at spatial locations collected by almost any method imaginable. The effort any observer(s) put into time and taxonomy at each spatial location is usually unknown.</p>
-<p>Given that effort matters when documenting ecology <span class="citation">(e.g. Wiens 1989)</span>, filtering ‘effort’ is an attempt to remove the most seriously under- and over-sampled contexts.</p>
-<p>Examples of low taxa richness contexts that may occur in large, unstructured data sets:</p>
+<div class="section level2">
+<h2 id="effort">Effort<a class="anchor" aria-label="anchor" href="#effort"></a>
+</h2>
+<p>Aggregated data sets are likely to contain records of taxa at spatial
+locations collected by almost any method imaginable. The effort any
+observer(s) put into time and taxonomy at each spatial location is
+usually unknown.</p>
+<p>Given that effort matters when documenting ecology <span class="citation">(e.g. Wiens 1989)</span>, filtering ‘effort’ is an
+attempt to remove the most seriously under- and over-sampled
+contexts.</p>
+<p>Examples of low taxa richness contexts that may occur in large,
+unstructured data sets:</p>
 <ul>
 <li>brief, opportune records</li>
 <li>tree-health monitoring data</li>
 </ul>
-<p>Examples of high taxa richness contexts that may occur in large, unstructured data sets:</p>
+<p>Examples of high taxa richness contexts that may occur in large,
+unstructured data sets:</p>
 <ul>
-<li>an observer wandering widely from the location they recorded, particularly if crossing an ecotone</li>
+<li>an observer wandering widely from the location they recorded,
+particularly if crossing an ecotone</li>
 <li>several observers working together</li>
 <li>an observer with well above average botanical knowledge</li>
-<li>observations taken over a long time-frame but recorded on a single day</li>
+<li>observations taken over a long time-frame but recorded on a single
+day</li>
 </ul>
-<p>These examples just scratch the surface of the ways in which taxa richness can deviate from that expected from an average effort by an average observer.</p>
-<p>Taxa richness can be modelled as a function of any variables of interest, for example:</p>
+<p>These examples just scratch the surface of the ways in which taxa
+richness can deviate from that expected from an average effort by an
+average observer.</p>
+<p>Taxa richness can be modelled as a function of any variables of
+interest, for example:</p>
 <ul>
-<li>nothing. This option might be useful in relatively small areas where the non-biological drivers of biological change are relatively stable</li>
-<li>a continuous variable of interest. Say, annual mean temperature, or, soil ph</li>
-<li>principal components. This option is best suited to analyses accompanied by many variables all of which are drivers, or closely correlated with, biological change</li>
-<li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra">IBRA</a> Subregions</li>
+<li>nothing. This option might be useful in relatively small areas where
+the non-biological drivers of biological change are relatively
+stable</li>
+<li>a continuous variable of interest. Say, annual mean temperature, or,
+soil ph</li>
+<li>principal components. This option is best suited to analyses
+accompanied by many variables all of which are drivers, or closely
+correlated with, biological change</li>
+<li>a categorical variable of interest. Say, <a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/ibra" class="external-link">IBRA</a>
+Subregions</li>
 </ul>
-<p>Taxa richness can be modelled using a Bayesian generalised linear model using the <code>make_effort_mod</code> function. This implements the <code>rstan_glm</code> function in the <code>rstanarm</code> package <span class="citation">(Gabry and Goodrich 2020; Brilleman et al. 2018)</span>. The resulting model is used to predict upper and lower bounds for acceptable taxa richness, by choosing acceptable lower and upper percentiles or richness.</p>
+<p>Taxa richness can be modelled using a Bayesian generalised linear
+model using the <code>make_effort_mod</code> function. This implements
+the <code>rstan_glm</code> function in the <code>rstanarm</code> package
+<span class="citation">(Gabry and Goodrich 2023; Brilleman et al.
+2018)</span>. The resulting model is used to predict upper and lower
+bounds for acceptable taxa richness, by choosing acceptable lower and
+upper percentiles or richness.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="co"># run model</span>
-  <span class="va">effort_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_effort_mod.html">make_effort_mod</a></span><span class="op">(</span><span class="va">flor_single</span>
-                                , context <span class="op">=</span> <span class="va">context</span>
-                                <span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
-<span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.239 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.25 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.489 seconds (Total)</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
-<span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.238 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.272 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.51 seconds (Total)</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
-<span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.239 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.239 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.478 seconds (Total)</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: Gradient evaluation took 0 seconds</span>
-<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
-<span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.244 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.248 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.492 seconds (Total)</span>
-<span class="co">#&gt; Chain 4:</span>
-
-  <span class="co"># filter using model results</span>
-  <span class="va">flor_effort</span> <span class="op">&lt;-</span> <span class="va">flor_single</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">effort_mod</span><span class="op">$</span><span class="va">mod_cell_result</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-                        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">keep</span><span class="op">)</span>
-                      <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">flor_single</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_effort</span>
-<span class="co">#&gt; # A tibble: 688 x 6</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Maireana radiata    </span>
-<span class="co">#&gt;  2  2006    10 -34.6  140. 95018 Maireana radiata    </span>
-<span class="co">#&gt;  3  2006    10 -34.5  140.  7340 Roepera glauca      </span>
-<span class="co">#&gt;  4  1990     5 -34.5  140. 18098 Roepera glauca      </span>
-<span class="co">#&gt;  5  1990     6 -34.6  140. 80157 Roepera glauca      </span>
-<span class="co">#&gt;  6  2006    10 -34.6  140. 83038 Roepera glauca      </span>
-<span class="co">#&gt;  7  2006    10 -34.6  140. 84812 Roepera glauca      </span>
-<span class="co">#&gt;  8  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
-<span class="co">#&gt;  9  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
-<span class="co">#&gt; 10  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 678 more rows</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="co"># run model</span></span>
+<span>  <span class="va">effort_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_effort_mod.html">make_effort_mod</a></span><span class="op">(</span><span class="va">flor_single</span></span>
+<span>                                , context <span class="op">=</span> <span class="va">context</span></span>
+<span>                                <span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.000136 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.36 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.161 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.175 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.336 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1: </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 2.8e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.157 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.178 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.335 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2: </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 2.7e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.154 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.152 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.306 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3: </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4: Gradient evaluation took 2.5e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.</span></span>
+<span><span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4: </span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.164 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.155 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.319 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 4:</span></span>
+<span></span>
+<span>  <span class="co"># filter using model results</span></span>
+<span>  <span class="va">flor_effort</span> <span class="op">&lt;-</span> <span class="va">flor_single</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">effort_mod</span><span class="op">$</span><span class="va">mod_cell_result</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>                        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">keep</span><span class="op">)</span></span>
+<span>                      <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">flor_single</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_effort</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 692 x 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">95</span>018 Maireana radiata    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 682 more rows</span></span></span></code></pre></div>
 </div>
-<div id="proportion-of-sites-at-which-a-taxa-occurs" class="section level1">
-<h1 class="hasAnchor">
-<a href="#proportion-of-sites-at-which-a-taxa-occurs" class="anchor"></a>Proportion of sites at which a taxa occurs</h1>
-<p>When clustering biological data, it is often useful to exclude rare taxa from the data set. <code>filter_prop</code> allows filtering such taxa.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="co"># Filter taxa recorded at less than 5% of contexts</span>
-  <span class="va">flor_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_prop.html">filter_prop</a></span><span class="op">(</span><span class="va">flor_effort</span>
-                           , context <span class="op">=</span> <span class="va">context</span>
-                           , default_per <span class="op">=</span> <span class="fl">5</span>
-                           <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-  
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_prop</span>
-<span class="co">#&gt; # A tibble: 607 x 6</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Roepera glauca      </span>
-<span class="co">#&gt;  2  1990     5 -34.5  140. 18098 Roepera glauca      </span>
-<span class="co">#&gt;  3  1990     6 -34.6  140. 80157 Roepera glauca      </span>
-<span class="co">#&gt;  4  2006    10 -34.6  140. 83038 Roepera glauca      </span>
-<span class="co">#&gt;  5  2006    10 -34.6  140. 84812 Roepera glauca      </span>
-<span class="co">#&gt;  6  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
-<span class="co">#&gt;  7  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
-<span class="co">#&gt;  8  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
-<span class="co">#&gt;  9  2006    10 -34.5  140. 19607 Beyeria lechenaultii</span>
-<span class="co">#&gt; 10  2006    10 -34.5  140. 22287 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 597 more rows</span></code></pre></div>
-</div>
-<div id="time" class="section level1">
-<h1 class="hasAnchor">
-<a href="#time" class="anchor"></a>Time</h1>
-<p>So far, all contexts year, month, lat, long or cell have been kept. It may be desirable to keep only the most recent contexts. Just use <code>dplyr</code>…</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">flor_recent</span> <span class="op">&lt;-</span> <span class="va">flor_prop</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">any_of</span><span class="op">(</span><span class="va">context</span><span class="op">[</span><span class="op">!</span><span class="va">context</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>
-                  , <span class="va">month</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">month</span><span class="op">)</span>
-                  <span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span>
-
-  <span class="co"># Have a look at results</span>
-  <span class="va">flor_recent</span>
-<span class="co">#&gt; # A tibble: 536 x 6</span>
-<span class="co">#&gt;     year month   lat  long  cell taxa                </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;               </span>
-<span class="co">#&gt;  1  2006    10 -34.5  140.  7340 Roepera glauca      </span>
-<span class="co">#&gt;  2  1990     5 -34.5  140. 18098 Roepera glauca      </span>
-<span class="co">#&gt;  3  2006    10 -34.6  140. 83038 Roepera glauca      </span>
-<span class="co">#&gt;  4  2006    10 -34.6  140. 84812 Roepera glauca      </span>
-<span class="co">#&gt;  5  2006    10 -34.5  140.  7340 Beyeria lechenaultii</span>
-<span class="co">#&gt;  6  2006    10 -34.5  140. 14814 Beyeria lechenaultii</span>
-<span class="co">#&gt;  7  1990     5 -34.5  140. 18417 Beyeria lechenaultii</span>
-<span class="co">#&gt;  8  2006    10 -34.5  140. 19607 Beyeria lechenaultii</span>
-<span class="co">#&gt;  9  2006    10 -34.5  140. 22287 Beyeria lechenaultii</span>
-<span class="co">#&gt; 10  2006    10 -34.5  140. 37727 Beyeria lechenaultii</span>
-<span class="co">#&gt; # ... with 526 more rows</span></code></pre></div>
-</div>
-<div id="summary" class="section level1">
-<h1 class="hasAnchor">
-<a href="#summary" class="anchor"></a>Cleaning summary</h1>
-<p>A little care naming objects enables easily capturing the results of the cleaning process. The function <code>cleaning_text</code> summarises the taxa, records, visits and sites in each <code>flor_</code> data frame.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  
-  <span class="va">clean_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cleaning_text.html">cleaning_text</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"flor_"</span>
-                                , save_ends <span class="op">=</span> <span class="cn">FALSE</span>
-                                , site_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cell"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span><span class="op">)</span>
-                                , visit_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span>
-                                , taxa_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"taxa"</span>, <span class="st">"original_name"</span><span class="op">)</span>
-                                <span class="op">)</span>
-<span class="co">#&gt; Filtering the following from df[test_col], due to test_func failure</span>
-<span class="co">#&gt;   flor_all</span>
-<span class="co">#&gt;   flor_all_sf</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">out</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
-
-  <span class="co"># this loops through child.Rmd, generating the results for each report card</span>
-
-  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">clean_summary</span><span class="op">$</span><span class="va">childID</span><span class="op">)</span> <span class="op">{</span>
-    
-    <span class="va">childID</span> <span class="op">&lt;-</span> <span class="va">i</span>
-    
-    <span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">out</span>, <span class="fu">knit_expand</span><span class="op">(</span><span class="st">"inst/rmd/child.Rmd"</span><span class="op">)</span><span class="op">)</span>
-    
-  <span class="op">}</span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeorange"</span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
-<div id="geo_range" class="section level2">
-<h2 class="hasAnchor">
-<a href="#geo_range" class="anchor"></a><code>geo_range</code>
+<div class="section level2">
+<h2 id="proportion-of-sites-at-which-a-taxa-occurs">Proportion of sites at which a taxa occurs<a class="anchor" aria-label="anchor" href="#proportion-of-sites-at-which-a-taxa-occurs"></a>
 </h2>
-<p>The initial data set contained 213 taxa, 1,419 records, 146 visits, and 141 sites. At the start of the cleaning process context was defined by <code>original_name</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>When clustering biological data, it is often useful to exclude rare
+taxa from the data set. <code>filter_prop</code> allows filtering such
+taxa.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  </span>
+<span>  <span class="co"># Filter taxa recorded at less than 5% of contexts</span></span>
+<span>  <span class="va">flor_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_prop.html">filter_prop</a></span><span class="op">(</span><span class="va">flor_effort</span></span>
+<span>                           , context <span class="op">=</span> <span class="va">context</span></span>
+<span>                           , default_per <span class="op">=</span> <span class="fl">5</span></span>
+<span>                           <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_prop</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 612 x 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">19</span>607 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">22</span>287 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 602 more rows</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="time">Time<a class="anchor" aria-label="anchor" href="#time"></a>
+</h2>
+<p>So far, all contexts year, month, lat, long or cell have been kept.
+It may be desirable to keep only the most recent contexts. Just use
+<code>dplyr</code>…</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">flor_recent</span> <span class="op">&lt;-</span> <span class="va">flor_prop</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">any_of</span><span class="op">(</span><span class="va">context</span><span class="op">[</span><span class="op">!</span><span class="va">context</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
+<span>                  , <span class="va">month</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">month</span><span class="op">)</span></span>
+<span>                  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Have a look at results</span></span>
+<span>  <span class="va">flor_recent</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 541 x 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">19</span>607 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">22</span>287 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Beyeria lechenaultii</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 531 more rows</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="summary">Cleaning summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>A little care naming objects enables easily capturing the results of
+the cleaning process. The function <code>cleaning_text</code> summarises
+the taxa, records, visits and sites in each <code>flor_</code> data
+frame.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  </span>
+<span>  <span class="va">clean_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cleaning_text.html">cleaning_text</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"flor_"</span></span>
+<span>                                , save_ends <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>                                , site_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span><span class="op">)</span></span>
+<span>                                , visit_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span></span>
+<span>                                , taxa_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"taxa"</span>, <span class="st">"original_name"</span><span class="op">)</span></span>
+<span>                                <span class="op">)</span></span>
+<span><span class="co">#&gt; Filtering the following from df[test_col], due to test_func failure</span></span>
+<span><span class="co">#&gt;   flor_all</span></span>
+<span><span class="co">#&gt;   flor_all_sf</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span></span>
+<span>  <span class="co"># this loops through child.Rmd, generating the results for each report card</span></span>
+<span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">clean_summary</span><span class="op">$</span><span class="va">childID</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>    <span class="va">childID</span> <span class="op">&lt;-</span> <span class="va">i</span></span>
+<span>    </span>
+<span>    <span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">out</span>, <span class="fu">knit_expand</span><span class="op">(</span><span class="st">"inst/rmd/child.Rmd"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    </span>
+<span>  <span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeorange"</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="geo_range">
+<code>geo_range</code><a class="anchor" aria-label="anchor" href="#geo_range"></a>
+</h3>
+<p>The initial data set contained 213 taxa, 1,419 records, 146 visits,
+and 141 sites. At the start of the cleaning process context was defined
+by <code>original_name</code>, <code>lat</code>, <code>long</code>,
+<code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeorel"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeorel"</span></span></code></pre></div>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="geo_rel" class="section level2">
-<h2 class="hasAnchor">
-<a href="#geo_rel" class="anchor"></a><code>geo_rel</code>
-</h2>
-<p>The cleaning step ‘spatial reliability’: took the number of taxa from 213 to 130; took the number of records from 1,419 to 696; took the number of visits from 146 to 45; and took the number of sites from 141 to 40. At this stage of the cleaning process context was defined by <code>original_name</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<div class="section level3">
+<h3 id="geo_rel">
+<code>geo_rel</code><a class="anchor" aria-label="anchor" href="#geo_rel"></a>
+</h3>
+<p>The cleaning step ‘spatial reliability’: took the number of taxa from
+213 to 130; took the number of records from 1,419 to 696; took the
+number of visits from 146 to 45; and took the number of sites from 141
+to 40. At this stage of the cleaning process context was defined by
+<code>original_name</code>, <code>lat</code>, <code>long</code>,
+<code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeobin"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florgeobin"</span></span></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="geo_bin" class="section level2">
-<h2 class="hasAnchor">
-<a href="#geo_bin" class="anchor"></a><code>geo_bin</code>
-</h2>
-<p>The cleaning step ‘assigning locations to spatial bins’: did not change the number of taxa (130); did not change the number of records (696); did not change the number of visits (45); and took the number of sites from 40 to 38. At this stage of the cleaning process context was defined by <code>original_name</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>. <code>cell</code> was added.</p>
+<div class="section level3">
+<h3 id="geo_bin">
+<code>geo_bin</code><a class="anchor" aria-label="anchor" href="#geo_bin"></a>
+</h3>
+<p>The cleaning step ‘assigning locations to spatial bins’: did not
+change the number of taxa (130); did not change the number of records
+(696); did not change the number of visits (45); and took the number of
+sites from 40 to 38. At this stage of the cleaning process context was
+defined by <code>original_name</code>, <code>cell</code>,
+<code>lat</code>, <code>long</code>, <code>month</code> and
+<code>year</code>. <code>cell</code> was added.</p>
 <p><br></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"flortaxa"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"flortaxa"</span></span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="taxa" class="section level2">
-<h2 class="hasAnchor">
-<a href="#taxa" class="anchor"></a><code>taxa</code>
-</h2>
-<p>The cleaning step ‘align taxonomy and resolve any taxonomic duplication within bins’: took the number of taxa from 130 to 129; took the number of records from 696 to 694; did not change the number of visits (45); and did not change the number of sites (38). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>. <code>taxa</code> was added and <code>original_name</code> was removed.</p>
+<div class="section level3">
+<h3 id="taxa">
+<code>taxa</code><a class="anchor" aria-label="anchor" href="#taxa"></a>
+</h3>
+<p>The cleaning step ‘align taxonomy and resolve any taxonomic
+duplication within bins’: took the number of taxa from 130 to 129; took
+the number of records from 696 to 694; did not change the number of
+visits (45); and did not change the number of sites (38). At this stage
+of the cleaning process context was defined by <code>taxa</code>,
+<code>cell</code>, <code>lat</code>, <code>long</code>,
+<code>month</code> and <code>year</code>. <code>taxa</code> was added
+and <code>original_name</code> was removed.</p>
 <p><br></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florsingle"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florsingle"</span></span></code></pre></div>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="single" class="section level2">
-<h2 class="hasAnchor">
-<a href="#single" class="anchor"></a><code>single</code>
-</h2>
-<p>The cleaning step ‘singletons’: took the number of taxa from 129 to 128; took the number of records from 694 to 692; took the number of visits from 45 to 43; and took the number of sites from 38 to 36. At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<div class="section level3">
+<h3 id="single">
+<code>single</code><a class="anchor" aria-label="anchor" href="#single"></a>
+</h3>
+<p>The cleaning step ‘singletons’: took the number of taxa from 129 to
+128; took the number of records from 694 to 692; took the number of
+visits from 45 to 43; and took the number of sites from 38 to 36. At
+this stage of the cleaning process context was defined by
+<code>taxa</code>, <code>cell</code>, <code>lat</code>,
+<code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"floreffort"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"floreffort"</span></span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="effort-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#effort-1" class="anchor"></a><code>effort</code>
-</h2>
-<p>The cleaning step ‘context effort’: took the number of taxa from 128 to 127; took the number of records from 692 to 688; took the number of visits from 43 to 42; and took the number of sites from 36 to 35. At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<div class="section level3">
+<h3 id="effort-1">
+<code>effort</code><a class="anchor" aria-label="anchor" href="#effort-1"></a>
+</h3>
+<p>The cleaning step ’context effort did not change the number of taxa
+(128), records (692), visits (43) or sites (36). At this stage of the
+cleaning process context was defined by <code>taxa</code>,
+<code>cell</code>, <code>lat</code>, <code>long</code>,
+<code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florprop"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florprop"</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="prop" class="section level2">
-<h2 class="hasAnchor">
-<a href="#prop" class="anchor"></a><code>prop</code>
-</h2>
-<p>The cleaning step ‘proportion of sites’: took the number of taxa from 127 to 70; took the number of records from 688 to 607; did not change the number of visits (42); and did not change the number of sites (35). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<div class="section level3">
+<h3 id="prop">
+<code>prop</code><a class="anchor" aria-label="anchor" href="#prop"></a>
+</h3>
+<p>The cleaning step ‘proportion of sites’: took the number of taxa from
+128 to 71; took the number of records from 692 to 612; did not change
+the number of visits (43); and did not change the number of sites (36).
+At this stage of the cleaning process context was defined by
+<code>taxa</code>, <code>cell</code>, <code>lat</code>,
+<code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florrecent"</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">tempID</span> <span class="op">&lt;-</span> <span class="st">"florrecent"</span></span></code></pre></div>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">clean_summary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">childID</span> <span class="op">==</span> <span class="va">tempID</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="recent" class="section level2">
-<h2 class="hasAnchor">
-<a href="#recent" class="anchor"></a><code>recent</code>
-</h2>
-<p>The cleaning step ‘the most recent visit to a cell’: did not change the number of taxa (70); took the number of records from 607 to 536; took the number of visits from 42 to 35; and did not change the number of sites (35). At this stage of the cleaning process context was defined by <code>taxa</code>, <code>cell</code>, <code>lat</code>, <code>long</code>, <code>month</code> and <code>year</code>.</p>
+<div class="section level3">
+<h3 id="recent">
+<code>recent</code><a class="anchor" aria-label="anchor" href="#recent"></a>
+</h3>
+<p>The cleaning step ‘the most recent visit to a cell’: did not change
+the number of taxa (71); took the number of records from 612 to 541;
+took the number of visits from 43 to 36; and did not change the number
+of sites (36). At this stage of the cleaning process context was defined
+by <code>taxa</code>, <code>cell</code>, <code>lat</code>,
+<code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 </div>
 </div>
-<div id="what-happened-to-x" class="section level1">
-<h1 class="hasAnchor">
-<a href="#what-happened-to-x" class="anchor"></a>What happened to x?</h1>
-<p>It can often be useful to trace the results for a single taxa through the filtering process. How did, say, <em>Eucalyptus incrassata</em> fare through the process?</p>
+<div class="section level2">
+<h2 id="what-happened-to-x">What happened to x?<a class="anchor" aria-label="anchor" href="#what-happened-to-x"></a>
+</h2>
+<p>It can often be useful to trace the results for a single taxa through
+the filtering process. How did, say, <em>Eucalyptus incrassata</em> fare
+through the process?</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-  <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span>
-            , lookup_taxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span>
-            <span class="op">)</span>
-<span class="co">#&gt; # A tibble: 8 x 6</span>
-<span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span>
-<span class="co">#&gt;   &lt;chr&gt;          &lt;list&gt;           &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 flor_geo_range &lt;tibble [1 x 2]&gt; TRUE       1419 2023-07-26 15:43:36 Eucalyptu~</span>
-<span class="co">#&gt; 2 flor_geo_rel   &lt;tibble [1 x 2]&gt; TRUE        696 2023-07-26 15:43:37 Eucalyptu~</span>
-<span class="co">#&gt; 3 flor_geo_bin   &lt;tibble [1 x 2]&gt; TRUE        696 2023-07-26 15:43:41 Eucalyptu~</span>
-<span class="co">#&gt; 4 flor_taxa      &lt;tibble [1 x 2]&gt; TRUE        694 2023-07-26 15:43:42 Eucalyptu~</span>
-<span class="co">#&gt; 5 flor_single    &lt;tibble [1 x 2]&gt; TRUE        692 2023-07-26 15:43:42 Eucalyptu~</span>
-<span class="co">#&gt; 6 flor_effort    &lt;tibble [1 x 2]&gt; TRUE        688 2023-07-26 15:43:45 Eucalyptu~</span>
-<span class="co">#&gt; 7 flor_prop      &lt;tibble [1 x 2]&gt; TRUE        607 2023-07-26 15:43:45 Eucalyptu~</span>
-<span class="co">#&gt; 8 flor_recent    &lt;tibble [1 x 2]&gt; TRUE        536 2023-07-26 15:43:45 Eucalyptu~</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span>  <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span></span>
+<span>            , lookup_taxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span></span>
+<span>            <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 x 6</span></span></span>
+<span><span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flor_geo_range <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>419 2023-08-02 <span style="color: #949494;">15:52:16</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> flor_geo_rel   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-08-02 <span style="color: #949494;">15:52:16</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> flor_geo_bin   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-08-02 <span style="color: #949494;">15:52:17</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> flor_taxa      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        694 2023-08-02 <span style="color: #949494;">15:52:18</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> flor_single    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        692 2023-08-02 <span style="color: #949494;">15:52:18</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> flor_effort    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        692 2023-08-02 <span style="color: #949494;">15:52:20</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> flor_prop      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        612 2023-08-02 <span style="color: #949494;">15:52:20</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> flor_recent    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        541 2023-08-02 <span style="color: #949494;">15:52:21</span> Eucalyptu~</span></span></code></pre></div>
 </div>
-<div id="summary-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#summary-1" class="anchor"></a>Summary</h1>
-<p>After ingesting data from a range of sources (GBIF) the <code>envClean</code> functions helped clean the data ready for further analysis. The original 1419 records were cleaned, tidied and filtered to 536 records.</p>
+<div class="section level2">
+<h2 id="summary-1">Summary<a class="anchor" aria-label="anchor" href="#summary-1"></a>
+</h2>
+<p>After ingesting data from a range of sources (GBIF) the
+<code>envClean</code> functions helped clean the data ready for further
+analysis. The original 1419 records were cleaned, tidied and filtered to
+541 records.</p>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-rstanarm2018">
-<p>Brilleman, SL, MJ Crowther, M Moreno-Betancur, J Buros Novik, and R Wolfe. 2018. “Joint Longitudinal and Time-to-Event Models via Stan.” <a href="https://github.com/stan-dev/stancon_talks/">https://github.com/stan-dev/stancon_talks/</a>.</p>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-rstanarm2018" class="csl-entry">
+Brilleman, SL, MJ Crowther, M Moreno-Betancur, J Buros Novik, and R
+Wolfe. 2018. <span>“Joint Longitudinal and Time-to-Event Models via
+<span>Stan</span>.”</span> <a href="https://github.com/stan-dev/stancon_talks/" class="external-link">https://github.com/stan-dev/stancon_talks/</a>.
 </div>
-<div id="ref-R-rstanarm">
-<p>Gabry, Jonah, and Ben Goodrich. 2020. <em>Rstanarm: Bayesian Applied Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm">https://CRAN.R-project.org/package=rstanarm</a>.</p>
+<div id="ref-R-rstanarm" class="csl-entry">
+Gabry, Jonah, and Ben Goodrich. 2023. <em>Rstanarm: Bayesian Applied
+Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm" class="external-link">https://CRAN.R-project.org/package=rstanarm</a>.
 </div>
-<div id="ref-GBIFRef_6">
-<p>GBIF.Org. 2022. “GBIF Occurrence Download.” The Global Biodiversity Information Facility. <a href="https://doi.org/10.15468/DL.ZK34YK">https://doi.org/10.15468/DL.ZK34YK</a>.</p>
+<div id="ref-GBIFRef_6" class="csl-entry">
+GBIF.Org. 2022. <span>“GBIF Occurrence Download.”</span> The Global
+Biodiversity Information Facility. <a href="https://doi.org/10.15468/DL.ZK34YK" class="external-link">https://doi.org/10.15468/DL.ZK34YK</a>.
 </div>
-<div id="ref-RN2377">
-<p>Wiens, J A. 1989. “Spatial scaling in ecology.” Journal Article. <em>Functional Ecology</em> 3 (4): 385–97.</p>
+<div id="ref-RN2377" class="csl-entry">
+Wiens, J A. 1989. <span>“<span class="nocase">Spatial scaling in
+ecology</span>.”</span> Journal Article. <em>Functional Ecology</em> 3
+(4): 385–97.
 </div>
 </div>
 </div>
@@ -825,11 +985,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Nigel Willoughby.</p>
+  <p></p>
+<p>Developed by Nigel Willoughby.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -837,6 +999,8 @@
 
   
 
+
+  
 
   </body>
 </html>

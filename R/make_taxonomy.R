@@ -136,6 +136,14 @@
 
       }
 
+      res$raw <- res$raw %>%
+        dplyr::mutate(rank = tolower(rank)
+                      , rank = factor(rank
+                                      , levels = levels(envClean::lurank$rank)
+                                      , ordered = TRUE
+                                      )
+                      )
+
     }
 
     return_taxonomy <- c("taxa"

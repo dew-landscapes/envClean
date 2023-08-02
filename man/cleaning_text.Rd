@@ -18,9 +18,6 @@ cleaning process?}
 
 \item{...}{Passed to \code{envClean::rec_vis_sit_tax()}}
 }
-\value{
-
-}
 \description{
 Write a sentence describing change in taxa, records, visits and sites between
 two cleaning steps
