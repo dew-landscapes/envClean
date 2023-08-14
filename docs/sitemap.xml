@@ -61,6 +61,9 @@
     <loc>/reference/flor_all.html</loc>
   </url>
   <url>
+    <loc>/reference/get_taxonomy.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -71,6 +74,12 @@
   </url>
   <url>
     <loc>/reference/make_aoi.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_attribute.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_con_status.html</loc>
   </url>
   <url>
     <loc>/reference/make_cover.html</loc>

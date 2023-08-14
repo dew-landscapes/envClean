@@ -66,14 +66,11 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_taxonomy</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  taxa_col <span class="op">=</span> <span class="st">"original_name"</span>,</span>
-<span>  out_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="va">taxonomy_file</span>,</span>
+<span>  out_file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"out"</span>, <span class="st">"taxonomy.rds"</span><span class="op">)</span>,</span>
 <span>  target_rank <span class="op">=</span> <span class="st">"species"</span>,</span>
-<span>  do_common <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  do_common <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  limit <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  lifespan_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  ind_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  remove_taxa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BOLD:"</span>, <span class="st">"dead"</span>, <span class="st">"unverified"</span>, <span class="st">"annual herb"</span>, <span class="st">"annual grass"</span>, <span class="st">"\\?"</span><span class="op">)</span>,</span>
-<span>  remove_strings <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -99,40 +96,17 @@ taxonomic hierarchy are results desired.</p></dd>
 
 <dt>do_common</dt>
 <dd><p>Logical. If true, an attempt will be made to find a common
-name. Common name matches are attempted at <code>target_rank</code> (or higher taxonomic
-rank if no taxa was matched at <code>target_rank</code> for the name supplied in
-<code>taxa_col</code>).
-<code>envClean::get_gbif_tax</code>.</p></dd>
+name for each taxa at <code>target_rank</code>.</p></dd>
 
 
 <dt>limit</dt>
-<dd><p>Logical. If true, the output taxonomy will be limited to the
-input names in <code>taxa_col</code>. Otherwise, any taxa in <code>out_file</code> will be
+<dd><p>Logical. If true (default), the output taxonomy will be limited
+to the input names in <code>taxa_col</code>. Otherwise, any taxa in <code>out_file</code> will be
 returned.</p></dd>
 
 
-<dt>lifespan_col</dt>
-<dd><p>Character. Optional name of column containing lifespan
-information.</p></dd>
-
-
-<dt>ind_col</dt>
-<dd><p>Character. Optional name of columns containing indigenous
-status of taxa in taxa_col.</p></dd>
-
-
-<dt>remove_taxa</dt>
-<dd><p>Character. Regular expressions to be matched. These will
-be filtered before searching.</p></dd>
-
-
-<dt>remove_strings</dt>
-<dd><p>Character. Regular expressions to be matched. These
-will be removed from the string before searching.</p></dd>
-
-
 <dt>...</dt>
-<dd><p>Arguments passed to <code><a href="https://docs.ropensci.org/rgbif/reference/name_backbone_checklist.html" class="external-link">rgbif::name_backbone_checklist()</a></code>.</p></dd>
+<dd><p>Passed to <code><a href="get_taxonomy.html">get_taxonomy()</a></code></p></dd>
 
 </dl></div>
     <div id="value">
@@ -140,20 +114,16 @@ will be removed from the string before searching.</p></dd>
     
 
 <p>named list with elements:</p>
-<dl><dt>raw</dt>
-<dd><p>Dataframe. Results from <code>envClean::get_gbif_tax()</code></p></dd>
-
-<dt>lutaxa</dt>
-<dd><p>dataframe. A lookup from unique values in <code>taxa_col</code> to
-matched taxonomy from GBIF backbone</p></dd>
+<dl><dt>lutaxa</dt>
+<dd><p>Dataframe. For each <code>original_name</code> a taxa to use.</p></dd>
 
 <dt>taxonomy</dt>
-<dd><p>dataframe with unique taxa and associated taxonomic
-information</p></dd>
+<dd><p>Dataframe. For each taxa a row of taxonomic hierarchy and
+matching gbif usageKeys to <code>target_rank</code> level</p></dd>
 
 <dt>common</dt>
-<dd><p>If <code>do_common</code> a dataframe with unique taxa and associated
-common name</p></dd>
+<dd><p>If <code>do_common</code> a dataframe with common name for each
+taxa in <code>taxonomy</code>.</p></dd>
 
 </dl></div>
 

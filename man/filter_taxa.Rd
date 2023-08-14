@@ -9,7 +9,7 @@ filter_taxa(
   taxa_col = "original_name",
   context,
   extra_cols = NULL,
-  target_rank = "species",
+  required_rank = "species",
   do_cov = FALSE,
   do_life = FALSE,
   lucov = NULL,
@@ -26,8 +26,9 @@ filter_taxa(
 
 \item{extra_cols}{Character. Name of any extra columns to keep.}
 
-\item{target_rank}{Character. Default is 'species'. At what level of the
-taxonomic hierarchy are results desired.}
+\item{required_rank}{Character. Default is 'species'. What level of the
+taxonomic hierarchy is required for results. Records above this level are
+filtered.}
 
 \item{do_cov}{Logical. Should cover (needs to be supplied in df) be appended
 to output.}

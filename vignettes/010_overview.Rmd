@@ -149,8 +149,19 @@ Note that `context` is only applied _exclusively_ only when `filter_taxa` is run
   # two rows
   flor_single
   
+  # get taxonomy from gbif (saves to file)
+  
+  taxonomy_file <- here::here("inst", "gbif.parquet")
+  
+  get_taxonomy(flor_single
+               , out_file = taxonomy_file
+               )
+  
   # make taxonomy lookups
-  taxonomy <- make_taxonomy(flor_single)
+  taxonomy <- make_taxonomy(flor_single
+                            , taxonomy_file = taxonomy_file
+                            , out_file = here::here("inst", "luGBIF.rds")
+                            )
       
   # filter taxa - context applied exclusively
   flor_taxa <- flor_example %>%

@@ -14,7 +14,7 @@
   make_ind_status <- function(df, taxa_col = "taxa", ind_col = "ind") {
 
     df %>%
-      dplyr::count(dplyr::across(!!rlang::ensym(taxa_col)),dplyr::across(!!rlang::ensym(ind_col))) %>%
+      dplyr::count(taxa, dplyr::across(!!rlang::ensym(ind_col))) %>%
       dplyr::filter(!!rlang::ensym(ind_col) %in% c("Y", "N")) %>%
       dplyr::group_by(!!rlang::ensym(taxa_col)) %>%
       dplyr::filter(n == max(n, na.rm = TRUE)) %>%

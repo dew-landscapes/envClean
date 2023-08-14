@@ -7,8 +7,9 @@
 #' @param taxa_col Character. Name of column with taxa.
 #' @param context Character. Name of columns defining context.
 #' @param extra_cols Character. Name of any extra columns to keep.
-#' @param target_rank Character. Default is 'species'. At what level of the
-#' taxonomic hierarchy are results desired.
+#' @param required_rank Character. Default is 'species'. What level of the
+#' taxonomic hierarchy is required for results. Records above this level are
+#' filtered.
 #' @param do_cov Logical. Should cover (needs to be supplied in df) be appended
 #' to output.
 #' @param do_life Logical. Should lifeform (needs to be supplied in df) be
@@ -29,7 +30,7 @@
                           , taxa_col = "original_name"
                           , context
                           , extra_cols = NULL
-                          , target_rank = "species"
+                          , required_rank = "species"
                           , do_cov = FALSE
                           , do_life = FALSE
                           , lucov = NULL
@@ -40,13 +41,12 @@
     df <- df %>%
       dplyr::mutate(original_name = !!rlang::ensym(taxa_col))
 
-    # Use dftaxa as base df from here
     bio_taxa <- df %>%
       dplyr::distinct(original_name) %>%
       dplyr::left_join(taxonomy$lutaxa) %>%
       dplyr::left_join(taxonomy$taxonomy) %>%
       dplyr::filter(!is.na(taxa)) %>%
-      dplyr::filter(rank <= target_rank) %>%
+      dplyr::filter(rank >= required_rank) %>%
       dplyr::inner_join(df) %>%
       dplyr::select(tidyselect::any_of(context)
                     , taxa

@@ -7,14 +7,11 @@
 make_taxonomy(
   df,
   taxa_col = "original_name",
-  out_file = tempfile(),
+  taxonomy_file,
+  out_file = here::here("out", "taxonomy.rds"),
   target_rank = "species",
-  do_common = TRUE,
+  do_common = FALSE,
   limit = TRUE,
-  lifespan_col = NULL,
-  ind_col = NULL,
-  remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass", "\\\\?"),
-  remove_strings = NULL,
   ...
 )
 }
@@ -29,38 +26,21 @@ make_taxonomy(
 taxonomic hierarchy are results desired.}
 
 \item{do_common}{Logical. If true, an attempt will be made to find a common
-name. Common name matches are attempted at \code{target_rank} (or higher taxonomic
-rank if no taxa was matched at \code{target_rank} for the name supplied in
-\code{taxa_col}).
-\code{envClean::get_gbif_tax}.}
+name for each taxa at \code{target_rank}.}
 
-\item{limit}{Logical. If true, the output taxonomy will be limited to the
-input names in \code{taxa_col}. Otherwise, any taxa in \code{out_file} will be
+\item{limit}{Logical. If true (default), the output taxonomy will be limited
+to the input names in \code{taxa_col}. Otherwise, any taxa in \code{out_file} will be
 returned.}
 
-\item{lifespan_col}{Character. Optional name of column containing lifespan
-information.}
-
-\item{ind_col}{Character. Optional name of columns containing indigenous
-status of taxa in taxa_col.}
-
-\item{remove_taxa}{Character. Regular expressions to be matched. These will
-be filtered before searching.}
-
-\item{remove_strings}{Character. Regular expressions to be matched. These
-will be removed from the string before searching.}
-
-\item{...}{Arguments passed to \code{rgbif::name_backbone_checklist()}.}
+\item{...}{Passed to \code{get_taxonomy()}}
 }
 \value{
 named list with elements:
-\item{raw}{Dataframe. Results from \code{envClean::get_gbif_tax()}}
-\item{lutaxa}{dataframe. A lookup from unique values in \code{taxa_col} to
-matched taxonomy from GBIF backbone}
-\item{taxonomy}{dataframe with unique taxa and associated taxonomic
-information}
-\item{common}{If \code{do_common} a dataframe with unique taxa and associated
-common name}
+\item{lutaxa}{Dataframe. For each \code{original_name} a taxa to use.}
+\item{taxonomy}{Dataframe. For each taxa a row of taxonomic hierarchy and
+matching gbif usageKeys to \code{target_rank} level}
+\item{common}{If \code{do_common} a dataframe with common name for each
+taxa in \code{taxonomy}.}
 }
 \description{
 Make taxonomy lookups

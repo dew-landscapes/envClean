@@ -32,7 +32,7 @@ vignette: >
             , "envReport"
             , "envFunc", "fs", "purrr"
             , "dplyr", "sf", "tibble"
-            , "tmap", "raster", "rstanarm"
+            , "tmap", "terra", "rstanarm"
             )
 
   purrr::walk(pacs
@@ -215,10 +215,13 @@ Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This re
 
 ```{r make_taxa_taxonomy}
 
-  taxonomy_file <- "inst/luGBIF.rds"
+  taxonomy_file <- here::here("inst", "gbif.parquet")
+
+  get_taxonomy(flor_geo_bin, out_file = taxonomy_file)
 
   taxa <- make_taxonomy(flor_geo_bin
-                        , out_file = taxonomy_file
+                        , taxonomy_file = taxonomy_file
+                        , out_file = here::here("inst", "luGBIF.rds")
                         )
 
 ```
@@ -253,7 +256,6 @@ Thus the output of applying `filter_taxa` is to generate a single record for eac
                           , taxa_col = "original_name"
                           , context = context
                           , taxonomy = taxa
-                          , target_rank = "species"
                           ) %>%
     add_time_stamp()
 

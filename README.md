@@ -142,9 +142,12 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |`envFunc::find_outliers()`       |function                   |Find local outliers                                                           |
 |`envFunc::find_taxa()`           |function                   |Find how taxa changed through the cleaning/filtering/tidying process          |
 |`envFunc::flor_all`              |tbl_df, tbl and data.frame |Example of data combined from several data sources.                           |
+|`envFunc::get_taxonomy()`        |function                   |Get GBIF backbone taxonomy                                                    |
 |`envFunc::luclean`               |tbl_df, tbl and data.frame |Dataframe of cleaning steps                                                   |
 |`envFunc::lurank`                |tbl_df, tbl and data.frame |Dataframe of taxonomic ranks                                                  |
 |`envFunc::make_aoi()`            |function                   |Create an 'area of interest'                                                  |
+|`envFunc::make_attribute()`      |function                   |Title                                                                         |
+|`envFunc::make_con_status()`     |function                   |Make conservation status from existing status codes                           |
 |`envFunc::make_cover()`          |function                   |Make a single (numeric, proportion) cover column from different sorts of      |
 |`envFunc::make_effort_mod()`     |function                   |Distribution of credible values for taxa richness.                            |
 |`envFunc::make_effort_mod_pca()` |function                   |Model the effect of principal components axes on taxa richness.               |

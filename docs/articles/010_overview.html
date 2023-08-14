@@ -84,8 +84,7 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Wednesday, 02 August,
-2023</h4>
+            <h4 data-toc-skip class="date">Monday, 14 August, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/010_overview.Rmd" class="external-link"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
@@ -369,9 +368,39 @@ useful.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon x        y    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon x        y</span></span>
 <span>  </span>
+<span>  <span class="co"># get taxonomy from gbif (saves to file)</span></span>
+<span>  </span>
+<span>  <span class="va">taxonomy_file</span> <span class="op">&lt;-</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"inst"</span>, <span class="st">"gbif.parquet"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="../reference/get_taxonomy.html">get_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
+<span>               , out_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
+<span>               <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 131 x 27</span></span></span>
+<span><span class="co">#&gt;    searched_name       original_name usageKey scientificName canonicalName rank </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Eucalyptus leucoxy~ Eucalyptus l~  3<span style="text-decoration: underline;">177</span>019 Eucalyptus le~ Eucalyptus l~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Acacia acanthoclada Acacia acant~  2<span style="text-decoration: underline;">980</span>159 Acacia acanth~ Acacia acant~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Acacia ancistrophy~ Acacia ancis~  2<span style="text-decoration: underline;">980</span>674 Acacia ancist~ Acacia ancis~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Acacia nyssophylla  Acacia nysso~  2<span style="text-decoration: underline;">979</span>606 Acacia nyssop~ Acacia nysso~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Acacia rigens       Acacia rigens  2<span style="text-decoration: underline;">978</span>525 Acacia rigens~ Acacia rigens spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acacia sclerophylla Acacia scler~  2<span style="text-decoration: underline;">979</span>322 Acacia sclero~ Acacia scler~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Acacia wilhelmiana  Acacia wilhe~  2<span style="text-decoration: underline;">980</span>101 Acacia wilhel~ Acacia wilhe~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Actinobole uligino~ Actinobole u~  3<span style="text-decoration: underline;">130</span>497 Actinobole ul~ Actinobole u~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Amphipogon caricin~ Amphipogon c~  4<span style="text-decoration: underline;">104</span>775 Amphipogon ca~ Amphipogon c~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Atriplex acutibrac~ Atriplex acu~  7<span style="text-decoration: underline;">339</span>766 Atriplex acut~ Atriplex acu~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 121 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 21 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   species &lt;chr&gt;, kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   synonym &lt;lgl&gt;, class &lt;chr&gt;, verbatim_name &lt;chr&gt;, verbatim_index &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   stamp &lt;dttm&gt;</span></span></span>
+<span>  </span>
 <span>  <span class="co"># make taxonomy lookups</span></span>
-<span>  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 3177019: South Australia Blue Gum</span></span>
+<span>  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
+<span>                            , taxonomy_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
+<span>                            , out_file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"inst"</span>, <span class="st">"luGBIF.rds"</span><span class="op">)</span></span>
+<span>                            <span class="op">)</span></span>
 <span>      </span>
 <span>  <span class="co"># filter taxa - context applied exclusively</span></span>
 <span>  <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="va">flor_example</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -381,10 +410,8 @@ useful.</p>
 <span>  </span>
 <span>  <span class="co"># one row</span></span>
 <span>  <span class="va">flor_taxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 x 3</span></span></span>
-<span><span class="co">#&gt;   location year  taxa                 </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> x        y     Eucalyptus leucoxylon</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 x 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 3 variables: location &lt;chr&gt;, year &lt;chr&gt;, taxa &lt;chr&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a>
