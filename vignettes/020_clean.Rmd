@@ -217,11 +217,12 @@ Reconciling taxonomy can be done with the `make_taxa_taxonomy` function. This re
 
   taxonomy_file <- here::here("inst", "gbif.parquet")
 
-  get_taxonomy(flor_geo_bin, out_file = taxonomy_file)
+  raw <- get_taxonomy(flor_geo_bin
+                      , taxonomy_file = taxonomy_file
+                      )
 
   taxa <- make_taxonomy(flor_geo_bin
                         , taxonomy_file = taxonomy_file
-                        , out_file = here::here("inst", "luGBIF.rds")
                         )
 
 ```

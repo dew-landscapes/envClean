@@ -67,9 +67,7 @@
 <span>  <span class="va">df</span>,</span>
 <span>  taxa_col <span class="op">=</span> <span class="st">"original_name"</span>,</span>
 <span>  <span class="va">taxonomy_file</span>,</span>
-<span>  out_file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"out"</span>, <span class="st">"taxonomy.rds"</span><span class="op">)</span>,</span>
 <span>  target_rank <span class="op">=</span> <span class="st">"species"</span>,</span>
-<span>  do_common <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  limit <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -85,18 +83,9 @@
 <dd><p>Character. Name of column with taxa names</p></dd>
 
 
-<dt>out_file</dt>
-<dd><p>Character. Path to save results to.</p></dd>
-
-
 <dt>target_rank</dt>
 <dd><p>Character. Default is 'species'. At what level of the
 taxonomic hierarchy are results desired.</p></dd>
-
-
-<dt>do_common</dt>
-<dd><p>Logical. If true, an attempt will be made to find a common
-name for each taxa at <code>target_rank</code>.</p></dd>
 
 
 <dt>limit</dt>
@@ -107,6 +96,15 @@ returned.</p></dd>
 
 <dt>...</dt>
 <dd><p>Passed to <code><a href="get_taxonomy.html">get_taxonomy()</a></code></p></dd>
+
+
+<dt>out_file</dt>
+<dd><p>Character. Path to save results to.</p></dd>
+
+
+<dt>do_common</dt>
+<dd><p>Logical. If true, an attempt will be made to find a common
+name for each taxa at <code>target_rank</code>.</p></dd>
 
 </dl></div>
     <div id="value">

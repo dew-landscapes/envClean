@@ -2,11 +2,11 @@
 
 #' Get GBIF backbone taxonomy
 #'
-#' Only queries GBIF for taxa not already in `out_file`.
+#' Only queries GBIF for taxa not already in `taxonomy_file`.
 #'
 #' @param df Dataframe with taxa column.
 #' @param taxa_col Character. Name of column with taxa names
-#' @param out_file Character. Path to save results to.
+#' @param taxonomy_file Character. Path to save results to.
 #' @param do_common Logical. If true, an attempt will be made to find a common
 #' name.
 #' @param remove_taxa Character. Regular expressions to be matched. These will
@@ -22,7 +22,7 @@
 #' @examples
   get_taxonomy <- function(df
                            , taxa_col = "original_name"
-                           , out_file = tempfile()
+                           , taxonomy_file = tempfile()
                            , do_common = FALSE
                            , remove_taxa = c("BOLD:"
                                              , "dead"
@@ -35,9 +35,9 @@
                            , ...
                            ) {
 
-    if(file.exists(out_file)) {
+    if(file.exists(taxonomy_file)) {
 
-      res <- rio::import(out_file)
+      res <- rio::import(taxonomy_file)
 
     } else res <- list()
 
@@ -45,9 +45,9 @@
 
     taxa_col <- names(df[taxa_col])
 
-    if(tools::file_ext(out_file) == "") out_file <- paste0(out_file, ".rds")
+    if(tools::file_ext(taxonomy_file) == "") taxonomy_file <- paste0(taxonomy_file, ".rds")
 
-    already_done_01 <- if(file.exists(out_file)) res %>%
+    already_done_01 <- if(file.exists(taxonomy_file)) res %>%
       dplyr::distinct(searched_name) %>%
       dplyr::pull()
 
@@ -106,7 +106,7 @@
                                       )
                       )
 
-      if(file.exists(out_file)) {
+      if(file.exists(taxonomy_file)) {
 
         res <- res %>%
           dplyr::bind_rows(tax_gbif)
@@ -152,7 +152,7 @@
     # export -------
 
     rio::export(res
-                , out_file
+                , taxonomy_file
                 )
 
     return(res)

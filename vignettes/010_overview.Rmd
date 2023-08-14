@@ -131,8 +131,9 @@ Note that `context` is only applied _exclusively_ only when `filter_taxa` is run
   # Simple context example
   flor_example <- tibble::tribble(
      ~data_source, ~original_name, ~location, ~year,
-     "A", "Eucalyptus leucoxylon", "x", "y",
-     "B", "Eucalyptus leucoxylon", "x", "y"
+     "A", "Eucalyptus leucoxylon petiolaris", "x", "y",
+     "B", "Eucalyptus leucoxylon", "x", "y",
+     "C", "Eucalyptus petiolaris", "x", "y"
    )
 
   flor_example
@@ -154,13 +155,12 @@ Note that `context` is only applied _exclusively_ only when `filter_taxa` is run
   taxonomy_file <- here::here("inst", "gbif.parquet")
   
   get_taxonomy(flor_single
-               , out_file = taxonomy_file
+               , taxonomy_file = taxonomy_file
                )
   
   # make taxonomy lookups
   taxonomy <- make_taxonomy(flor_single
                             , taxonomy_file = taxonomy_file
-                            , out_file = here::here("inst", "luGBIF.rds")
                             )
       
   # filter taxa - context applied exclusively

@@ -28,13 +28,10 @@
   make_taxonomy <- function(df
                             , taxa_col = "original_name"
                             , taxonomy_file
-                            , out_file = here::here("out", "taxonomy.rds")
                             , target_rank = "species"
-                            , do_common = FALSE
                             , limit = TRUE
                             , ...
                             ) {
-
 
     tax_res <- list()
 
@@ -49,6 +46,7 @@
                     , stamp == max(stamp)
                     )
 
+
     # limit------
 
     if(limit) {
@@ -62,12 +60,9 @@
     }
 
 
-    # lutaxa------
-
-    return_taxonomy <- c("taxa"
-                         , lurank$rank
-                         , "best_key"
-                         )
+    # fix keys ------
+    # levels of hierarchy below species do not have keys in the gbif output
+    # chars and keys is designed to fix that for the next steps
 
     missing_ranks <- setdiff(lurank$rank, names(raw))
 
@@ -109,7 +104,11 @@
                     , dplyr::where(is.numeric)
                     )
 
-    tax_res$lutaxa <- chars %>%
+
+    # bests --------
+    # (can include subspecies, forms etc)
+
+    bests <- chars %>%
       dplyr::left_join(keys) %>%
       tidyr::pivot_longer(tidyselect::any_of(lurank$rank)
                           , names_to = "rank"
@@ -139,6 +138,22 @@
       dplyr::distinct()
 
 
+    # binomials------
+
+    binomials <- raw %>%
+      dplyr::filter(!is.na(species)) %>%
+      dplyr::select(!!rlang::ensym(taxa_col) := original_name
+                    , taxa = species
+                    , rank
+                    , best_key = speciesKey
+                    )
+
+    # lutaxa--------
+    tax_res$lutaxa <- bests %>%
+      dplyr::bind_rows(binomials) %>%
+      dplyr::distinct()
+
+
     # taxonomy ------
 
     tax_res$taxonomy <- tax_res$lutaxa %>%
@@ -151,36 +166,9 @@
                                        )
                        ) %>%
       dplyr::distinct(taxa
+                      , best_key
                       , dplyr::across(tidyselect::matches(paste0(lurank$rank, collapse = "|")))
                       )
-
-
-    # common -------
-    if(do_common) {
-
-      if("common" %in% names(tax_res$taxonomy)){
-
-        old_common <- tax_res$taxonomy$common %>%
-          dplyr::filter(searched)
-
-      }
-
-      new_common <- tax_res$taxonomy %>%
-        dplyr::distinct(taxa, best_key) %>%
-        {if(exists("old_common")) (.) %>% dplyr::anti_join(old_common) else (.)} %>%
-        dplyr::mutate(common = purrr::map_chr(best_key
-                                              , get_gbif_common
-                                              )
-                      )
-
-      tax_res$taxonomy <- purrr::reduce(mget(ls(pattern = "new_common|old_common"))
-                                    , dplyr::bind_rows
-                                    ) %>%
-        dplyr::right_join(tax_res$taxonomy) %>%
-        dplyr::distinct() %>%
-        dplyr::mutate(searched = TRUE)
-
-    }
 
     return(tax_res)
 

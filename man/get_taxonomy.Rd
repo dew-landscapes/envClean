@@ -7,7 +7,7 @@
 get_taxonomy(
   df,
   taxa_col = "original_name",
-  out_file = tempfile(),
+  taxonomy_file = tempfile(),
   do_common = FALSE,
   remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass", "\\\\?"),
   remove_strings = c("\\\\sx\\\\s.*|\\\\sX\\\\s.*"),
@@ -19,7 +19,7 @@ get_taxonomy(
 
 \item{taxa_col}{Character. Name of column with taxa names}
 
-\item{out_file}{Character. Path to save results to.}
+\item{taxonomy_file}{Character. Path to save results to.}
 
 \item{do_common}{Logical. If true, an attempt will be made to find a common
 name.}
@@ -37,5 +37,5 @@ Dataframe. Results from \code{envClean::get_gbif_tax()}. Tweaked by column
 \code{rank} being lowercase and factor as per \code{envClean::lurank}.
 }
 \description{
-Only queries GBIF for taxa not already in \code{out_file}.
+Only queries GBIF for taxa not already in \code{taxonomy_file}.
 }

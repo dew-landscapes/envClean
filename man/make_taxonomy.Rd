@@ -8,9 +8,7 @@ make_taxonomy(
   df,
   taxa_col = "original_name",
   taxonomy_file,
-  out_file = here::here("out", "taxonomy.rds"),
   target_rank = "species",
-  do_common = FALSE,
   limit = TRUE,
   ...
 )
@@ -20,19 +18,19 @@ make_taxonomy(
 
 \item{taxa_col}{Character. Name of column with taxa names}
 
-\item{out_file}{Character. Path to save results to.}
-
 \item{target_rank}{Character. Default is 'species'. At what level of the
 taxonomic hierarchy are results desired.}
-
-\item{do_common}{Logical. If true, an attempt will be made to find a common
-name for each taxa at \code{target_rank}.}
 
 \item{limit}{Logical. If true (default), the output taxonomy will be limited
 to the input names in \code{taxa_col}. Otherwise, any taxa in \code{out_file} will be
 returned.}
 
 \item{...}{Passed to \code{get_taxonomy()}}
+
+\item{out_file}{Character. Path to save results to.}
+
+\item{do_common}{Logical. If true, an attempt will be made to find a common
+name for each taxa at \code{target_rank}.}
 }
 \value{
 named list with elements:

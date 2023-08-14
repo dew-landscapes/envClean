@@ -340,16 +340,18 @@ useful.</p>
 <span>  <span class="co"># Simple context example</span></span>
 <span>  <span class="va">flor_example</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>     <span class="op">~</span><span class="va">data_source</span>, <span class="op">~</span><span class="va">original_name</span>, <span class="op">~</span><span class="va">location</span>, <span class="op">~</span><span class="va">year</span>,</span>
-<span>     <span class="st">"A"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>,</span>
-<span>     <span class="st">"B"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span></span>
+<span>     <span class="st">"A"</span>, <span class="st">"Eucalyptus leucoxylon petiolaris"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>,</span>
+<span>     <span class="st">"B"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>,</span>
+<span>     <span class="st">"C"</span>, <span class="st">"Eucalyptus petiolaris"</span>, <span class="st">"x"</span>, <span class="st">"y"</span></span>
 <span>   <span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">flor_example</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 x 4</span></span></span>
-<span><span class="co">#&gt;   data_source original_name         location year </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon x        y    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon x        y</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 4</span></span></span>
+<span><span class="co">#&gt;   data_source original_name                    location year </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon petiolaris x        y    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon            x        y    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> C           Eucalyptus petiolaris            x        y</span></span>
 <span></span>
 <span>  <span class="co"># set context </span></span>
 <span>  <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"location"</span>, <span class="st">"year"</span><span class="op">)</span></span>
@@ -362,44 +364,44 @@ useful.</p>
 <span>  </span>
 <span>  <span class="co"># two rows</span></span>
 <span>  <span class="va">flor_single</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 x 4</span></span></span>
-<span><span class="co">#&gt;   data_source original_name         location year </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon x        y    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon x        y</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 4</span></span></span>
+<span><span class="co">#&gt;   data_source original_name                    location year </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon petiolaris x        y    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon            x        y    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> C           Eucalyptus petiolaris            x        y</span></span>
 <span>  </span>
 <span>  <span class="co"># get taxonomy from gbif (saves to file)</span></span>
 <span>  </span>
 <span>  <span class="va">taxonomy_file</span> <span class="op">&lt;-</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"inst"</span>, <span class="st">"gbif.parquet"</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu"><a href="../reference/get_taxonomy.html">get_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
-<span>               , out_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
+<span>               , taxonomy_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
 <span>               <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 131 x 27</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 134 x 29</span></span></span>
 <span><span class="co">#&gt;    searched_name       original_name usageKey scientificName canonicalName rank </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Eucalyptus leucoxy~ Eucalyptus l~  3<span style="text-decoration: underline;">177</span>019 Eucalyptus le~ Eucalyptus l~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Acacia acanthoclada Acacia acant~  2<span style="text-decoration: underline;">980</span>159 Acacia acanth~ Acacia acant~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Acacia ancistrophy~ Acacia ancis~  2<span style="text-decoration: underline;">980</span>674 Acacia ancist~ Acacia ancis~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Acacia nyssophylla  Acacia nysso~  2<span style="text-decoration: underline;">979</span>606 Acacia nyssop~ Acacia nysso~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Acacia rigens       Acacia rigens  2<span style="text-decoration: underline;">978</span>525 Acacia rigens~ Acacia rigens spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acacia sclerophylla Acacia scler~  2<span style="text-decoration: underline;">979</span>322 Acacia sclero~ Acacia scler~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Lasiopetalum behrii Lasiopetalum~  3<span style="text-decoration: underline;">671</span>219 Lasiopetalum ~ Lasiopetalum~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Olearia minor       Olearia minor  5<span style="text-decoration: underline;">405</span>010 Olearia minor~ Olearia minor spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Roepera ovata       Roepera ovata  3<span style="text-decoration: underline;">986</span>823 Roepera ovata~ Roepera ovata spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Bromus rubens       Bromus rubens  2<span style="text-decoration: underline;">703</span>740 Bromus rubens~ Bromus rubens spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sclerolaena diacan~ Sclerolaena ~  8<span style="text-decoration: underline;">199</span>472 Sclerolaena d~ Sclerolaena ~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Templetonia rossii  Templetonia ~  8<span style="text-decoration: underline;">279</span>290 Templetonia r~ Templetonia ~ spec~</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Acacia wilhelmiana  Acacia wilhe~  2<span style="text-decoration: underline;">980</span>101 Acacia wilhel~ Acacia wilhe~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Actinobole uligino~ Actinobole u~  3<span style="text-decoration: underline;">130</span>497 Actinobole ul~ Actinobole u~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Amphipogon caricin~ Amphipogon c~  4<span style="text-decoration: underline;">104</span>775 Amphipogon ca~ Amphipogon c~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Atriplex acutibrac~ Atriplex acu~  7<span style="text-decoration: underline;">339</span>766 Atriplex acut~ Atriplex acu~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 121 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 21 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Triodia irritans    Triodia irri~  4<span style="text-decoration: underline;">117</span>582 Triodia irrit~ Triodia irri~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Microcybe multiflo~ Microcybe mu~  7<span style="text-decoration: underline;">269</span>573 Microcybe mul~ Microcybe mu~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Podolepis jaceoides Podolepis ja~  3<span style="text-decoration: underline;">100</span>349 Podolepis jac~ Podolepis ja~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 124 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 23 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   species &lt;chr&gt;, kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   synonym &lt;lgl&gt;, class &lt;chr&gt;, verbatim_name &lt;chr&gt;, verbatim_index &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   stamp &lt;dttm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   stamp &lt;dttm&gt;, common &lt;chr&gt;, searched &lt;lgl&gt;</span></span></span>
 <span>  </span>
 <span>  <span class="co"># make taxonomy lookups</span></span>
 <span>  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
 <span>                            , taxonomy_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
-<span>                            , out_file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"inst"</span>, <span class="st">"luGBIF.rds"</span><span class="op">)</span></span>
 <span>                            <span class="op">)</span></span>
 <span>      </span>
 <span>  <span class="co"># filter taxa - context applied exclusively</span></span>
@@ -410,8 +412,11 @@ useful.</p>
 <span>  </span>
 <span>  <span class="co"># one row</span></span>
 <span>  <span class="va">flor_taxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 x 3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 3 variables: location &lt;chr&gt;, year &lt;chr&gt;, taxa &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 x 3</span></span></span>
+<span><span class="co">#&gt;   location year  taxa                 </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> x        y     Eucalyptus leucoxylon</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> x        y     Eucalyptus petiolaris</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a>
