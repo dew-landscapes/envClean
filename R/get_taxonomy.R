@@ -4,11 +4,15 @@
 #'
 #' Only queries GBIF for taxa not already in `taxonomy_file`.
 #'
+#' Common (vernacularName) no longer supported here. Use `get_gbif_common()` on
+#' a downstream result. It may be helpful to keep a usageKey through the
+#' cleaning process for use in getting common names. Part of the reason for
+#' removing that functionality here was the ambiguity of which key to use,
+#' particularly around species vs subspecies.
+#'
 #' @param df Dataframe with taxa column.
 #' @param taxa_col Character. Name of column with taxa names
 #' @param taxonomy_file Character. Path to save results to.
-#' @param do_common Logical. If true, an attempt will be made to find a common
-#' name.
 #' @param remove_taxa Character. Regular expressions to be matched. These will
 #' be filtered before searching.
 #' @param remove_strings Character. Regular expressions to be matched. These
@@ -119,35 +123,10 @@
 
     }
 
-    # common -------
-    if(do_common) {
-
-      if("common" %in% names(res)){
-
-        old_common <- res$common %>%
-          dplyr::filter(searched)
-
-      }
-
-      new_common <- res %>%
-        dplyr::distinct(original_name, usageKey) %>%
-        {if(exists("old_common")) (.) %>% dplyr::anti_join(old_common) else (.)} %>%
-        dplyr::mutate(common = purrr::map_chr(usageKey
-                                              , get_gbif_common
-                                              )
-                      )
-
-      res <- dplyr::left_join(res
-                              , purrr::reduce(mget(ls(pattern = "new_common|old_common"))
-                                              , dplyr::bind_rows
-                                              )
-                              ) %>%
-        dplyr::distinct() %>%
-        dplyr::mutate(searched = TRUE)
-
-    }
-
-    res <- tibble::as_tibble(res)
+    res <- tibble::as_tibble(res) %>%
+      dplyr::group_by(original_name) %>%
+      dplyr::filter(stamp == max(stamp)) %>%
+      dplyr::ungroup()
 
     # export -------
 

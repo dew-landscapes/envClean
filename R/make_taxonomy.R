@@ -7,8 +7,6 @@
 #' @param out_file Character. Path to save results to.
 #' @param target_rank Character. Default is 'species'. At what level of the
 #' taxonomic hierarchy are results desired.
-#' @param do_common Logical. If true, an attempt will be made to find a common
-#' name for each taxa at `target_rank`.
 #' @param limit Logical. If true (default), the output taxonomy will be limited
 #' to the input names in `taxa_col`. Otherwise, any taxa in `out_file` will be
 #' returned.
@@ -18,8 +16,6 @@
 #'     \item{lutaxa}{Dataframe. For each `original_name` a taxa to use.}
 #'     \item{taxonomy}{Dataframe. For each taxa a row of taxonomic hierarchy and
 #'      matching gbif usageKeys to `target_rank` level}
-#'     \item{common}{If `do_common` a dataframe with common name for each
-#'     taxa in `taxonomy`.}
 #'
 #' @export
 #'
@@ -39,12 +35,10 @@
 
     raw <- get_taxonomy(df = df
                         , taxa_col = taxa_col
-                        , out_file = taxonomy_file
+                        , taxonomy_file = taxonomy_file
                         , ...
                         ) %>%
-      dplyr::filter(!is.na(canonicalName)
-                    , stamp == max(stamp)
-                    )
+      dplyr::filter(!is.na(canonicalName))
 
 
     # limit------
@@ -81,7 +75,8 @@
         ) %>%
       dplyr::select(original_name
                     , tidyselect::any_of(lurank$rank)
-                    )
+                    ) %>%
+      dplyr::distinct()
 
 
     keys <- raw %>%
@@ -102,13 +97,13 @@
         ) %>%
       dplyr::select(original_name
                     , dplyr::where(is.numeric)
-                    )
+                    ) %>%
+      dplyr::distinct()
 
 
-    # bests --------
-    # (can include subspecies, forms etc)
+    # lutaxa --------
 
-    bests <- chars %>%
+    tax_res$lutaxa <- chars %>%
       dplyr::left_join(keys) %>%
       tidyr::pivot_longer(tidyselect::any_of(lurank$rank)
                           , names_to = "rank"
@@ -135,22 +130,6 @@
                     , rank
                     , best_key
                     ) %>%
-      dplyr::distinct()
-
-
-    # binomials------
-
-    binomials <- raw %>%
-      dplyr::filter(!is.na(species)) %>%
-      dplyr::select(!!rlang::ensym(taxa_col) := original_name
-                    , taxa = species
-                    , rank
-                    , best_key = speciesKey
-                    )
-
-    # lutaxa--------
-    tax_res$lutaxa <- bests %>%
-      dplyr::bind_rows(binomials) %>%
       dplyr::distinct()
 
 

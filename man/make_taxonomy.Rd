@@ -28,17 +28,12 @@ returned.}
 \item{...}{Passed to \code{get_taxonomy()}}
 
 \item{out_file}{Character. Path to save results to.}
-
-\item{do_common}{Logical. If true, an attempt will be made to find a common
-name for each taxa at \code{target_rank}.}
 }
 \value{
 named list with elements:
 \item{lutaxa}{Dataframe. For each \code{original_name} a taxa to use.}
 \item{taxonomy}{Dataframe. For each taxa a row of taxonomic hierarchy and
 matching gbif usageKeys to \code{target_rank} level}
-\item{common}{If \code{do_common} a dataframe with common name for each
-taxa in \code{taxonomy}.}
 }
 \description{
 Make taxonomy lookups

@@ -88,11 +88,6 @@
 <dd><p>Character. Path to save results to.</p></dd>
 
 
-<dt>do_common</dt>
-<dd><p>Logical. If true, an attempt will be made to find a common
-name.</p></dd>
-
-
 <dt>remove_taxa</dt>
 <dd><p>Character. Regular expressions to be matched. These will
 be filtered before searching.</p></dd>
@@ -113,6 +108,14 @@ will be removed from the string before searching.</p></dd>
 
 <p>Dataframe. Results from <code>envClean::get_gbif_tax()</code>. Tweaked by column
 <code>rank</code> being lowercase and factor as per <code><a href="lurank.html">envClean::lurank</a></code>.</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>Common (vernacularName) no longer supported here. Use <code>get_gbif_common()</code> on
+a downstream result. It may be helpful to keep a usageKey through the
+cleaning process for use in getting common names. Part of the reason for
+removing that functionality here was the ambiguity of which key to use,
+particularly around species vs subspecies.</p>
     </div>
 
   </div>

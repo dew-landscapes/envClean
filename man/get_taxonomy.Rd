@@ -21,9 +21,6 @@ get_taxonomy(
 
 \item{taxonomy_file}{Character. Path to save results to.}
 
-\item{do_common}{Logical. If true, an attempt will be made to find a common
-name.}
-
 \item{remove_taxa}{Character. Regular expressions to be matched. These will
 be filtered before searching.}
 
@@ -38,4 +35,11 @@ Dataframe. Results from \code{envClean::get_gbif_tax()}. Tweaked by column
 }
 \description{
 Only queries GBIF for taxa not already in \code{taxonomy_file}.
+}
+\details{
+Common (vernacularName) no longer supported here. Use \code{get_gbif_common()} on
+a downstream result. It may be helpful to keep a usageKey through the
+cleaning process for use in getting common names. Part of the reason for
+removing that functionality here was the ambiguity of which key to use,
+particularly around species vs subspecies.
 }
