@@ -28,7 +28,7 @@
                              , ...
                              ) {
 
-    tax_levels <- lurank %>%
+    tax_levels <- envClean::lurank %>%
       dplyr::filter(rank <= max_guess) %>%
       dplyr::pull(rank) %>%
       as.vector()
@@ -96,7 +96,7 @@
                           , dplyr::across(tidyselect::any_of(context))
                           ) %>%
           dplyr::summarise(!!rlang::ensym(this_att_name) := att_col[which.max(n)]
-                           , !!rlang::ensym(this_att_vals) := vec_to_sentence(unique(att_col))
+                           , !!rlang::ensym(this_att_vals) := envFunc::vec_to_sentence(unique(att_col))
                            , !!rlang::ensym(this_att_from) := this_level
                            ) %>%
           dplyr::ungroup() %>%
@@ -127,7 +127,7 @@
                           , names_sep = "_"
                           , values_drop_na = TRUE
                           ) %>%
-      dplyr::left_join(lurank
+      dplyr::left_join(envClean::lurank
                        , by = c("from" = "rank")
                        ) %>%
       dplyr::group_by(kingdom
