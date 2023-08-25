@@ -46,7 +46,7 @@
       dplyr::left_join(taxonomy$lutaxa) %>%
       dplyr::left_join(taxonomy$taxonomy) %>%
       dplyr::filter(!is.na(taxa)) %>%
-      dplyr::filter(rank >= required_rank) %>%
+      dplyr::filter(rank <= required_rank) %>%
       dplyr::inner_join(df) %>%
       dplyr::select(tidyselect::any_of(context)
                     , taxa

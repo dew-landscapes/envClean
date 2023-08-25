@@ -23,18 +23,6 @@ cleaning_text <- function(prefix = "bio_"
 
   eval(substitute(alist(...)))
 
-  test_func_01 <- function(obj_name) {
-
-    "data.frame" %in% class(get(obj_name))
-
-  }
-
-  test_func_02 <- function(obj_name) {
-
-    "ctime" %in% names(attributes(get(obj_name)))
-
-  }
-
   format_big <- function(number) {
 
     format(number, big.mark = ",")
@@ -226,16 +214,13 @@ cleaning_text <- function(prefix = "bio_"
     tibble::enframe(name = NULL
                     , value = "name"
                     ) %>%
-    envFunc::filter_test_func(test_col = "name"
-                     , test_func = test_func_01
-                     ) %>%
-    envFunc::filter_test_func(test_col = "name"
-                     , test_func = test_func_02
-                     ) %>%
     dplyr::mutate(obj = purrr::map(name
                                    , get
                                    )
-                  , ctime = purrr::map(obj
+                  ) %>%
+    dplyr::filter(purrr::map_lgl(obj, is.data.frame)) %>%
+    dplyr::filter(purrr::map_lgl(obj, ~ "ctime" %in% names(attributes(.)))) %>%
+    dplyr::mutate(ctime = purrr::map(obj
                               , attr
                               , "ctime"
                               )
