@@ -16,5 +16,11 @@
     "Aegintha temporalis", "Neochmia temporalis", "Red-browed Finch",
     "Pandion cristatus", "Pandion haliaetus", "Osprey",
     "Anthus novaeseelandiae", "Anthus australis", "Australian Pipit",
-    "Pachycephala pectoralis", "Pachycephala fuliginosa", "Western Whistler"
+    "Pachycephala pectoralis", "Pachycephala fuliginosa", "Western Whistler",
+    "Petroica multicolor","Petroica boodang","Scarlet Robin", # Norfolk Island vs Mainland
+    "Ninox novaeseelandiae","Ninox boobook","Australian Boobook", # Norfolk Island vs Mainland
+    "Pachycephala occidentalis","Pachycephala fuliginosa","Western Whistler", # another variant
+    "Rhipidura fuliginosa","Rhipidura albiscapa","Grey Fantail", # Rhipidura fuliginosa is New Zealand Fantail erroneously recorded as Grey Fantail in Aus mainly in last ten years via iNaturalist.
+    "Tyto alba","Tyto javanica","Eastern Barn Owl", # same species (used to be Tyto alba javanica); consensus seems to be javanica now
+    "Acrocephalus stentoreus","Acrocephalus australis","Australian Reed Warbler" # Clamorous Reed Warbler records should be Australian
   )

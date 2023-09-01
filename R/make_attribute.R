@@ -10,6 +10,7 @@
 #' @param agg_round Passed to `base::round()` round argument. Used if summarising numeric `att_col`.
 #' @param att_default Default value used for `att_col` when no other value can be found/guessed.
 #' @param context Any other columns in `df` to maintain throughout summarising.
+#' @param remove_strings Character. Any values in `att_col` to exclude
 #' @param ... Passed to `agg_method`
 #'
 #' @return Dataframe with one row for each taxa and context with best guess at a single attribute based on the values in `att_col`
@@ -25,6 +26,7 @@
                              , agg_round = 2
                              , att_default = "Unknown"
                              , context = NULL
+                             , remove_strings = c("n/a", "''", "NA")
                              , ...
                              ) {
 
@@ -34,7 +36,11 @@
       as.vector()
 
     attribute_df <- df %>%
-      dplyr::filter(!is.na(!!rlang::ensym(att_col))) %>%
+      dplyr::filter(!is.na(!!rlang::ensym(att_col))
+                    , !grepl(paste0(remove_strings, collapse = "|")
+                             , !!rlang::ensym(att_col)
+                             )
+                    ) %>%
       dplyr::rename(original_name = !!rlang::ensym(taxa_col)
                     , att_col = !!rlang::ensym(att_col)
                     ) %>%

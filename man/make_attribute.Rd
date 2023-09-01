@@ -14,6 +14,7 @@ make_attribute(
   agg_round = 2,
   att_default = "Unknown",
   context = NULL,
+  remove_strings = c("n/a", "''", "NA"),
   ...
 )
 }
@@ -35,6 +36,8 @@ make_attribute(
 \item{att_default}{Default value used for \code{att_col} when no other value can be found/guessed.}
 
 \item{context}{Any other columns in \code{df} to maintain throughout summarising.}
+
+\item{remove_strings}{Character. Any values in \code{att_col} to exclude}
 
 \item{...}{Passed to \code{agg_method}}
 }

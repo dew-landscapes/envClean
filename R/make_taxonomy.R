@@ -74,6 +74,7 @@
           purrr::reduce(dplyr::left_join)
         ) %>%
       dplyr::select(original_name
+                    , original_rank = rank
                     , tidyselect::any_of(lurank$rank)
                     ) %>%
       dplyr::distinct()
@@ -116,7 +117,7 @@
                                   , ordered = TRUE
                                   )
                     ) %>%
-      dplyr::group_by(original_name) %>%
+      dplyr::group_by(dplyr::across(tidyselect::contains("original"))) %>%
       dplyr::filter(rank >= target_rank) %>%
       dplyr::filter(sort == max(sort)) %>%
       dplyr::ungroup() %>%
@@ -126,6 +127,7 @@
                           ) %>%
       dplyr::filter(rank_key == name) %>%
       dplyr::select(!!rlang::ensym(taxa_col) := original_name
+                    , original_rank
                     , taxa
                     , rank
                     , best_key
