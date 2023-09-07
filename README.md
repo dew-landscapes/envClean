@@ -15,7 +15,7 @@ The goal of `envClean` is to help clean large, unstructured, biological (or `env
 
 It assumes the desired end result is a plausible list of taxa recorded at space and time locations for use in further analysis. This is _not the same_ as an authoritative checklist of taxa for any space and time locations.
 
-While there are many implied and explicit decisions to make (e.g. there may be a lot of work to set up for new data sets), there is no manual input required once those decisions are made - these functions have the potential to provide an automated workflow from combined data through to analysis-ready data.
+While there are many implied and explicit decisions to make (e.g. there may be a lot of work to set up for new data sets), there is no manual input required once those decisions are made - these functions have the potential to provide an automated workflow from combined data through to analysis-ready data. Some help with reporting on the cleaning process also included.
 
 ## Installation
 
@@ -33,6 +33,9 @@ Load `envClean`
 
 ```r
 library("envClean")
+#> Warning in FUN(X[[i]], ...): restarting interrupted promise evaluation
+#> Warning in FUN(X[[i]], ...): internal error -3 in R_decompress1
+#> Error in FUN(X[[i]], ...): lazy-load database 'C:/Users/sysnw/AppData/Local/R/win-library/4.3/envClean/data/Rdata.rdb' is corrupt
 ```
 
 ## Filtering an 'area of interest'
@@ -79,23 +82,10 @@ Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
                          , crs_aoi = sf::st_crs(aoi)
                          ) %>%
     envFunc::add_time_stamp()
-#> Joining with `by = join_by(long, lat)`
+#> Error in filter_geo_range(flor_all, use_aoi = aoi, crs_aoi = sf::st_crs(aoi)): could not find function "filter_geo_range"
 
   flor_aoi
-#> # A tibble: 1,419 x 9
-#>     long   lat data_name site       date       original_name          rel_metres month  year
-#>    <dbl> <dbl> <fct>     <chr>      <date>     <chr>                       <dbl> <dbl> <dbl>
-#>  1  140. -34.5 GBIF      2573957849 2020-02-22 Eremophila glabra             500     2  2020
-#>  2  140. -34.5 GBIF      3902768443 2022-08-14 Triodia scariosa               NA     8  2022
-#>  3  140. -34.5 GBIF      3902326597 2022-08-14 Beyeria lechenaultii           NA     8  2022
-#>  4  140. -34.5 GBIF      3902042262 2022-08-14 Walsholaria magniflora         NA     8  2022
-#>  5  140. -34.5 GBIF      3058875475 2019-09-01 Triodia scariosa              564     9  2019
-#>  6  140. -34.5 GBIF      3058756300 2019-09-01 Westringia rigida             564     9  2019
-#>  7  140. -34.5 GBIF      3902151141 2022-08-14 Phebalium bullatum             NA     8  2022
-#>  8  140. -34.5 GBIF      3902634058 2022-08-14 Acacia rigens                  NA     8  2022
-#>  9  140. -34.5 GBIF      3902018286 2022-08-14 Exocarpos aphyllus             NA     8  2022
-#> 10  140. -34.5 GBIF      3923355578 2022-08-14 Maireana radiata               NA     8  2022
-#> # i 1,409 more rows
+#> Error in eval(expr, envir, enclos): object 'flor_aoi' not found
 ```
 
 Check that spatial filter worked.
@@ -107,6 +97,7 @@ Check that spatial filter worked.
     sf::st_as_sf(coords = c("long", "lat")
                  , crs = 4326
                  )
+#> Error in eval(expr, envir, enclos): object 'flor_aoi' not found
 
   tmap::tm_shape(aoi
            , bbox = sf::st_bbox(flor_all_sf)
@@ -114,12 +105,8 @@ Check that spatial filter worked.
     tmap::tm_polygons() +
   tmap::tm_shape(flor_aoi_sf) +
     tmap::tm_dots()
+#> Error in eval(expr, envir, enclos): object 'flor_aoi_sf' not found
 ```
-
-<div class="figure">
-<img src="man/figures/README-flor_aoi-1.png" alt="plot of chunk flor_aoi" width="100%" />
-<p class="caption">plot of chunk flor_aoi</p>
-</div>
 
 ## What else is in `envClean`
 
@@ -130,9 +117,9 @@ The following functions and data sets are provided in `envClean`. See https://ac
 #> Error in `dplyr::mutate()`:
 #> i In argument: `class = purrr::map_chr(object, ~envFunc::vec_to_sentence(class(get(.))))`.
 #> Caused by error in `purrr::map_chr()`:
-#> i In index: 19.
+#> i In index: 1.
 #> Caused by error in `get()`:
-#> ! lazy-load database 'C:/Users/sysnw/AppData/Local/R/win-library/4.3/envClean/R/envClean.rdb' is corrupt
+#> ! object 'add_cover' not found
 #> Error in eval(expr, envir, enclos): object 'manuals' not found
 ```
 

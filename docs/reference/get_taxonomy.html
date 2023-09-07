@@ -67,7 +67,6 @@
 <span>  <span class="va">df</span>,</span>
 <span>  taxa_col <span class="op">=</span> <span class="st">"original_name"</span>,</span>
 <span>  taxonomy_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  do_common <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  remove_taxa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BOLD:"</span>, <span class="st">"dead"</span>, <span class="st">"unverified"</span>, <span class="st">"annual herb"</span>, <span class="st">"annual grass"</span>, <span class="st">"\\?"</span><span class="op">)</span>,</span>
 <span>  remove_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\sx\\s.*|\\sX\\s.*"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -107,7 +106,10 @@ will be removed from the string before searching.</p></dd>
     
 
 <p>Dataframe. Results from <code>envClean::get_gbif_tax()</code>. Tweaked by column
-<code>rank</code> being lowercase and factor as per <code><a href="lurank.html">envClean::lurank</a></code>.</p>
+<code>rank</code> being lowercase and ordered factor as per <code><a href="lurank.html">envClean::lurank</a></code>. Writes
+<code>taxonomy_file</code> and <code>gsub("\\.", "_accepted.", taxonomy_file)</code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>

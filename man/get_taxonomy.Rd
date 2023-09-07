@@ -8,7 +8,6 @@ get_taxonomy(
   df,
   taxa_col = "original_name",
   taxonomy_file = tempfile(),
-  do_common = FALSE,
   remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass", "\\\\?"),
   remove_strings = c("\\\\sx\\\\s.*|\\\\sX\\\\s.*"),
   ...
@@ -31,7 +30,8 @@ will be removed from the string before searching.}
 }
 \value{
 Dataframe. Results from \code{envClean::get_gbif_tax()}. Tweaked by column
-\code{rank} being lowercase and factor as per \code{envClean::lurank}.
+\code{rank} being lowercase and ordered factor as per \code{envClean::lurank}. Writes
+\code{taxonomy_file} and \code{gsub("\\\\.", "_accepted.", taxonomy_file)}
 }
 \description{
 Only queries GBIF for taxa not already in \code{taxonomy_file}.
