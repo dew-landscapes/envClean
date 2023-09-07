@@ -20,14 +20,14 @@
 #' @param ... Arguments passed to `rgbif::name_backbone_checklist()`.
 #'
 #' @return Dataframe. Results from `envClean::get_gbif_tax()`. Tweaked by column
-#' `rank` being lowercase and factor as per `envClean::lurank`.
+#' `rank` being lowercase and ordered factor as per `envClean::lurank`. Writes
+#' `taxonomy_file` and `gsub("\\.", "_accepted.", taxonomy_file)`
 #' @export
 #'
 #' @examples
   get_taxonomy <- function(df
                            , taxa_col = "original_name"
                            , taxonomy_file = tempfile()
-                           , do_common = FALSE
                            , remove_taxa = c("BOLD:"
                                              , "dead"
                                              , "unverified"
@@ -41,7 +41,9 @@
 
     if(file.exists(taxonomy_file)) {
 
-      res <- rio::import(taxonomy_file)
+      res <- rio::import(taxonomy_file
+                         , setclass = "tibble"
+                         )
 
     } else res <- list()
 
@@ -121,18 +123,81 @@
 
       }
 
+      # export -------
+
+      res <- tibble::as_tibble(res) %>%
+        dplyr::group_by(original_name) %>%
+        dplyr::filter(stamp == max(stamp)) %>%
+        dplyr::ungroup()
+
+      rio::export(res
+                  , taxonomy_file
+                  )
+
     }
 
-    res <- tibble::as_tibble(res) %>%
-      dplyr::group_by(original_name) %>%
-      dplyr::filter(stamp == max(stamp)) %>%
-      dplyr::ungroup()
+    # best key------
+    # build taxonomy lookup for any key
 
-    # export -------
+    all_accepted_keys <- res %>%
+      dplyr::filter(status == "ACCEPTED") %>%
+      dplyr::select(tidyselect::contains("Key")) %>%
+      unlist() %>%
+      unname() %>%
+      na.omit() %>%
+      unique() %>%
+      sort()
 
-    rio::export(res
-                , taxonomy_file
-                )
+    # missing keys (full taxonomy)------
+
+    accepted_tax_file <- fs::path(gsub("\\."
+                                   , "_accepted."
+                                   , taxonomy_file
+                                   )
+                              )
+
+    if(file.exists(accepted_tax_file)) {
+
+      accepted_tax <- rio::import(accepted_tax_file
+                                  , setclass = "tibble"
+                                  )
+
+    } else accepted_tax <- tibble::tibble(usageKey = NA)
+
+    missing_key <- setdiff(all_accepted_keys
+                           , unique(accepted_tax$usageKey)
+                           )
+
+    if(length(missing_key)) {
+
+      chunks <- split(missing_key
+                      , ceiling(seq_along(missing_key) / 100)
+                      )
+
+      for(i in chunks) {
+
+          accepted_tax <- purrr::map_df(i
+                                        , ~ rgbif::name_usage(.)$data
+                                        ) %>%
+            dplyr::rename(usageKey = key) %>%
+            dplyr::select(tidyselect::any_of(names(res))) %>%
+            dplyr::mutate(rank = tolower(rank)
+                          , rank = factor(rank
+                                          , levels = levels(envClean::lurank$rank)
+                                          , ordered = TRUE
+                                          )
+                          ) %>%
+            dplyr::bind_rows(accepted_tax) %>%
+            dplyr::filter(!is.na(usageKey)) %>%
+            dplyr::arrange(usageKey)
+
+        rio::export(accepted_tax
+                    , accepted_tax_file
+                    )
+
+      }
+
+    }
 
     return(res)
 

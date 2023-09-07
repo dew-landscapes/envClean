@@ -16,7 +16,6 @@
     "Aegintha temporalis", "Neochmia temporalis", "Red-browed Finch",
     "Pandion cristatus", "Pandion haliaetus", "Osprey",
     "Anthus novaeseelandiae", "Anthus australis", "Australian Pipit",
-    "Pachycephala pectoralis", "Pachycephala fuliginosa", "Western Whistler",
     "Petroica multicolor","Petroica boodang","Scarlet Robin", # Norfolk Island vs Mainland
     "Ninox novaeseelandiae","Ninox boobook","Australian Boobook", # Norfolk Island vs Mainland
     "Pachycephala occidentalis","Pachycephala fuliginosa","Western Whistler", # another variant
