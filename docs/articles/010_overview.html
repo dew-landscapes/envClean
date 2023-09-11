@@ -379,17 +379,26 @@ useful.</p>
 <span>  <span class="fu"><a href="../reference/get_taxonomy.html">get_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
 <span>               , taxonomy_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
 <span>               <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 27</span></span></span>
-<span><span class="co">#&gt;   searched_name original_name usageKey scientificName canonicalName rank  status</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Eucalyptus l~ Eucalyptus l~  3<span style="text-decoration: underline;">177</span>019 Eucalyptus le~ Eucalyptus l~ spec~ ACCEP~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Eucalyptus l~ Eucalyptus l~  3<span style="text-decoration: underline;">176</span>652 Eucalyptus le~ Eucalyptus l~ subs~ ACCEP~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Eucalyptus p~ Eucalyptus p~ 10<span style="text-decoration: underline;">755</span>174 Eucalyptus pe~ Eucalyptus p~ spec~ ACCEP~</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 20 more variables: confidence &lt;int&gt;, matchType &lt;chr&gt;, kingdom &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;, orderKey &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;, synonym &lt;lgl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   class &lt;chr&gt;, verbatim_name &lt;chr&gt;, verbatim_index &lt;dbl&gt;, stamp &lt;dttm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 133 x 28</span></span></span>
+<span><span class="co">#&gt;    searched_name       original_name usageKey scientificName canonicalName rank </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Eucalyptus leucoxy~ Eucalyptus l~  3<span style="text-decoration: underline;">177</span>019 Eucalyptus le~ Eucalyptus l~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Eucalyptus leucoxy~ Eucalyptus l~  3<span style="text-decoration: underline;">176</span>652 Eucalyptus le~ Eucalyptus l~ subs~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Eucalyptus petiola~ Eucalyptus p~ 10<span style="text-decoration: underline;">755</span>174 Eucalyptus pe~ Eucalyptus p~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Acacia acanthoclada Acacia acant~  2<span style="text-decoration: underline;">980</span>159 Acacia acanth~ Acacia acant~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Acacia ancistrophy~ Acacia ancis~  2<span style="text-decoration: underline;">980</span>674 Acacia ancist~ Acacia ancis~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acacia nyssophylla  Acacia nysso~  2<span style="text-decoration: underline;">979</span>606 Acacia nyssop~ Acacia nysso~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Acacia rigens       Acacia rigens  2<span style="text-decoration: underline;">978</span>525 Acacia rigens~ Acacia rigens spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Acacia sclerophylla Acacia scler~  2<span style="text-decoration: underline;">979</span>322 Acacia sclero~ Acacia scler~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Acacia wilhelmiana  Acacia wilhe~  2<span style="text-decoration: underline;">980</span>101 Acacia wilhel~ Acacia wilhe~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Actinobole uligino~ Actinobole u~  3<span style="text-decoration: underline;">130</span>497 Actinobole ul~ Actinobole u~ spec~</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 123 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 22 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   species &lt;chr&gt;, kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   synonym &lt;lgl&gt;, class &lt;chr&gt;, verbatim_name &lt;chr&gt;, verbatim_index &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   stamp &lt;dttm&gt;, acceptedUsageKey &lt;int&gt;</span></span></span>
 <span>  </span>
 <span>  <span class="co"># make taxonomy lookups</span></span>
 <span>  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>

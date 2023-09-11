@@ -66,18 +66,15 @@
                     , kingdom
                     , tidyselect::contains("Key")
                     ) %>%
-      {if("acceptedUsageKey" %in% names(.)) {
+      {if(target_rank %in% c("subspecies", "form", "variety")) {
 
-        if(target_rank %in% c("subspecies", "form", "variety")) {
-
-          # this sometimes puts, say, subspeciesKey in where it is actually, say, a speciesKey. Fixed below
-          (.) %>% dplyr::rename("{target_rank}Key" := acceptedUsageKey)
-
-          } else {
-
-            (.) %>% dplyr::select(-acceptedUsageKey)
-
-          }
+        # this sometimes puts, say, subspeciesKey in where it is actually, say, a speciesKey. Fixed below
+        (.) %>%
+          dplyr::mutate("{target_rank}Key" := dplyr::if_else(status != "ACCEPTED"
+                                                             , acceptedUsageKey
+                                                             , usageKey
+                                                             )
+                        )
 
         } else {
 
