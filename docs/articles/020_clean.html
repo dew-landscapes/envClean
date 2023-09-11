@@ -84,7 +84,7 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Thursday, 07 September,
+            <h4 data-toc-skip class="date">Monday, 11 September,
 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/020_clean.Rmd" class="external-link"><code>vignettes/020_clean.Rmd</code></a></small>
@@ -376,40 +376,41 @@ duplication.</li>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span>  <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 129 x 5</span></span></span>
-<span><span class="co">#&gt;    original_name         original_rank taxa                  rank    best_key</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Lasiopetalum behrii   species       Lasiopetalum behrii   species  3<span style="text-decoration: underline;">671</span>219</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Olearia minor         species       Olearia minor         species  5<span style="text-decoration: underline;">405</span>010</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Roepera ovata         species       Roepera ovata         species  3<span style="text-decoration: underline;">986</span>823</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Bromus rubens         species       Bromus rubens         species  2<span style="text-decoration: underline;">703</span>740</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sclerolaena diacantha species       Sclerolaena diacantha species  8<span style="text-decoration: underline;">199</span>472</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Templetonia rossii    species       Templetonia rossii    species  8<span style="text-decoration: underline;">279</span>290</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Acacia wilhelmiana    species       Acacia wilhelmiana    species  2<span style="text-decoration: underline;">980</span>101</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Triodia irritans      species       Triodia irritans      species  4<span style="text-decoration: underline;">117</span>582</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Microcybe multiflora  species       Microcybe multiflora  species  7<span style="text-decoration: underline;">269</span>573</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Podolepis jaceoides   species       Podolepis jaceoides   species  3<span style="text-decoration: underline;">100</span>349</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 129 x 8</span></span></span>
+<span><span class="co">#&gt;    original_name   original_rank status kingdom usageKey use_rank best_key taxa </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Acacia acantho~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">980</span>159 species   2<span style="text-decoration: underline;">980</span>159 Acac~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Acacia ancistr~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">980</span>674 species   2<span style="text-decoration: underline;">980</span>674 Acac~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Acacia nyssoph~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">979</span>606 species   2<span style="text-decoration: underline;">979</span>606 Acac~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Acacia rigens   species       ACCEP~ Plantae  2<span style="text-decoration: underline;">978</span>525 species   2<span style="text-decoration: underline;">978</span>525 Acac~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Acacia sclerop~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">979</span>322 species   2<span style="text-decoration: underline;">979</span>322 Acac~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acacia wilhelm~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">980</span>101 species   2<span style="text-decoration: underline;">980</span>101 Acac~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Actinobole uli~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">130</span>497 species   3<span style="text-decoration: underline;">130</span>497 Acti~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Amphipogon car~ species       ACCEP~ Plantae  4<span style="text-decoration: underline;">104</span>775 species   4<span style="text-decoration: underline;">104</span>775 Amph~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Atriplex acuti~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">339</span>766 species   7<span style="text-decoration: underline;">339</span>766 Atri~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Atriplex stipi~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">759</span>563 species   3<span style="text-decoration: underline;">759</span>563 Atri~</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># i 119 more rows</span></span></span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span>  <span class="va">taxa</span><span class="op">$</span><span class="va">taxonomy</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 129 x 16</span></span></span>
-<span><span class="co">#&gt;    taxa  best_key kingdom phylum order family genus species kingdomKey phylumKey</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Lasi~  3<span style="text-decoration: underline;">671</span>219 Plantae Trach~ Malv~ Malva~ Lasi~ Lasiop~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Olea~  5<span style="text-decoration: underline;">405</span>010 Plantae Trach~ Aste~ Aster~ Olea~ Oleari~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Roep~  3<span style="text-decoration: underline;">986</span>823 Plantae Trach~ Zygo~ Zygop~ Roep~ Roeper~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Brom~  2<span style="text-decoration: underline;">703</span>740 Plantae Trach~ Poal~ Poace~ Brom~ Bromus~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Scle~  8<span style="text-decoration: underline;">199</span>472 Plantae Trach~ Cary~ Amara~ Scle~ Sclero~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Temp~  8<span style="text-decoration: underline;">279</span>290 Plantae Trach~ Faba~ Fabac~ Temp~ Temple~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Acac~  2<span style="text-decoration: underline;">980</span>101 Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Trio~  4<span style="text-decoration: underline;">117</span>582 Plantae Trach~ Poal~ Poace~ Trio~ Triodi~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Micr~  7<span style="text-decoration: underline;">269</span>573 Plantae Trach~ Sapi~ Rutac~ Micr~ Microc~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Podo~  3<span style="text-decoration: underline;">100</span>349 Plantae Trach~ Aste~ Aster~ Podo~ Podole~          6   7<span style="text-decoration: underline;">707</span>728</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 119 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 6 more variables: classKey &lt;int&gt;, orderKey &lt;int&gt;, familyKey &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   genusKey &lt;int&gt;, speciesKey &lt;int&gt;, class &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 128 x 18</span></span></span>
+<span><span class="co">#&gt;    taxa  best_key scientificName rank  kingdom phylum order family genus species</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Call~  2<span style="text-decoration: underline;">684</span>334 Callitris ver~ spec~ Plantae Trach~ Pina~ Cupre~ Call~ Callit~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fest~  2<span style="text-decoration: underline;">702</span>727 Festuca myuro~ spec~ Plantae Trach~ Poal~ Poace~ Fest~ Festuc~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Brom~  2<span style="text-decoration: underline;">703</span>740 Bromus rubens~ spec~ Plantae Trach~ Poal~ Poace~ Brom~ Bromus~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Loma~  2<span style="text-decoration: underline;">770</span>905 Lomandra leuc~ spec~ Plantae Trach~ Aspa~ Aspar~ Loma~ Lomand~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Loma~  2<span style="text-decoration: underline;">771</span>025 Lomandra effu~ spec~ Plantae Trach~ Aspa~ Aspar~ Loma~ Lomand~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acac~  2<span style="text-decoration: underline;">978</span>525 Acacia rigens~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Acac~  2<span style="text-decoration: underline;">979</span>322 Acacia sclero~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Acac~  2<span style="text-decoration: underline;">979</span>606 Acacia nyssop~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Acac~  2<span style="text-decoration: underline;">980</span>101 Acacia wilhel~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Acac~  2<span style="text-decoration: underline;">980</span>159 Acacia acanth~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 118 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 8 more variables: kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   class &lt;chr&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter-taxonomy">Filter taxonomy<a class="anchor" aria-label="anchor" href="#filter-taxonomy"></a>
@@ -435,7 +436,7 @@ context.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_taxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 694 x 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 691 x 6</span></span></span>
 <span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
@@ -448,7 +449,7 @@ context.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 684 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 681 more rows</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -476,7 +477,7 @@ particular analysis whether this trade-off will be worthwhile.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_single</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 692 x 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 689 x 6</span></span></span>
 <span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
@@ -489,7 +490,7 @@ particular analysis whether this trade-off will be worthwhile.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 682 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 679 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="effort">Effort<a class="anchor" aria-label="anchor" href="#effort"></a>
@@ -550,8 +551,8 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1: Gradient evaluation took 7e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.7 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.000154 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.54 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
@@ -568,15 +569,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.161 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.172 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.333 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.162 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.155 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.317 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2: Gradient evaluation took 2.7e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 3.2e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.</span></span>
 <span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
@@ -593,15 +594,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.157 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.182 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.339 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.146 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.153 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.299 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3: Gradient evaluation took 2.9e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 3.3e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.33 seconds.</span></span>
 <span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
@@ -618,15 +619,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.161 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.156 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.317 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.156 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.174 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.33 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4: Gradient evaluation took 2.8e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.</span></span>
+<span><span class="co">#&gt; Chain 4: Gradient evaluation took 3.3e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.33 seconds.</span></span>
 <span><span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
@@ -643,8 +644,8 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.159 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.175 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.165 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.169 seconds (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4:                0.334 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 4:</span></span>
 <span></span>
@@ -658,7 +659,7 @@ upper percentiles or richness.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_effort</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 692 x 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 686 x 6</span></span></span>
 <span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
@@ -671,7 +672,7 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 682 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 676 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="proportion-of-sites-at-which-a-taxa-occurs">Proportion of sites at which a taxa occurs<a class="anchor" aria-label="anchor" href="#proportion-of-sites-at-which-a-taxa-occurs"></a>
@@ -690,7 +691,7 @@ taxa.</p>
 <span>  </span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_prop</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 612 x 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 607 x 6</span></span></span>
 <span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
@@ -703,7 +704,7 @@ taxa.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">19</span>607 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">22</span>287 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 602 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 597 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="time">Time<a class="anchor" aria-label="anchor" href="#time"></a>
@@ -723,7 +724,7 @@ It may be desirable to keep only the most recent contexts. Just use
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_recent</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 541 x 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 536 x 6</span></span></span>
 <span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
@@ -736,7 +737,7 @@ It may be desirable to keep only the most recent contexts. Just use
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">19</span>607 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">22</span>287 Beyeria lechenaultii</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 531 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># i 526 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="summary">Cleaning summary<a class="anchor" aria-label="anchor" href="#summary"></a>
@@ -835,8 +836,8 @@ defined by <code>original_name</code>, <code>cell</code>,
 <code>taxa</code><a class="anchor" aria-label="anchor" href="#taxa"></a>
 </h3>
 <p>The cleaning step ‘align taxonomy and resolve any taxonomic
-duplication within bins’: took the number of taxa from 130 to 129; took
-the number of records from 696 to 694; did not change the number of
+duplication within bins’: took the number of taxa from 130 to 128; took
+the number of records from 696 to 691; did not change the number of
 visits (45); and did not change the number of sites (38). At this stage
 of the cleaning process context was defined by <code>taxa</code>,
 <code>cell</code>, <code>lat</code>, <code>long</code>,
@@ -855,8 +856,8 @@ and <code>original_name</code> was removed.</p>
 <h3 id="single">
 <code>single</code><a class="anchor" aria-label="anchor" href="#single"></a>
 </h3>
-<p>The cleaning step ‘singletons’: took the number of taxa from 129 to
-128; took the number of records from 694 to 692; took the number of
+<p>The cleaning step ‘singletons’: took the number of taxa from 128 to
+127; took the number of records from 691 to 689; took the number of
 visits from 45 to 43; and took the number of sites from 38 to 36. At
 this stage of the cleaning process context was defined by
 <code>taxa</code>, <code>cell</code>, <code>lat</code>,
@@ -874,11 +875,12 @@ this stage of the cleaning process context was defined by
 <h3 id="effort-1">
 <code>effort</code><a class="anchor" aria-label="anchor" href="#effort-1"></a>
 </h3>
-<p>The cleaning step ’context effort did not change the number of taxa
-(128), records (692), visits (43) or sites (36). At this stage of the
-cleaning process context was defined by <code>taxa</code>,
-<code>cell</code>, <code>lat</code>, <code>long</code>,
-<code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘context effort’: took the number of taxa from 127
+to 126; took the number of records from 689 to 686; took the number of
+visits from 43 to 42; and took the number of sites from 36 to 35. At
+this stage of the cleaning process context was defined by
+<code>taxa</code>, <code>cell</code>, <code>lat</code>,
+<code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -893,8 +895,8 @@ cleaning process context was defined by <code>taxa</code>,
 <code>prop</code><a class="anchor" aria-label="anchor" href="#prop"></a>
 </h3>
 <p>The cleaning step ‘proportion of sites’: took the number of taxa from
-128 to 71; took the number of records from 692 to 612; did not change
-the number of visits (43); and did not change the number of sites (36).
+126 to 70; took the number of records from 686 to 607; did not change
+the number of visits (42); and did not change the number of sites (35).
 At this stage of the cleaning process context was defined by
 <code>taxa</code>, <code>cell</code>, <code>lat</code>,
 <code>long</code>, <code>month</code> and <code>year</code>.</p>
@@ -912,9 +914,9 @@ At this stage of the cleaning process context was defined by
 <code>recent</code><a class="anchor" aria-label="anchor" href="#recent"></a>
 </h3>
 <p>The cleaning step ‘the most recent visit to a cell’: did not change
-the number of taxa (71); took the number of records from 612 to 541;
-took the number of visits from 43 to 36; and did not change the number
-of sites (36). At this stage of the cleaning process context was defined
+the number of taxa (70); took the number of records from 607 to 536;
+took the number of visits from 42 to 35; and did not change the number
+of sites (35). At this stage of the cleaning process context was defined
 by <code>taxa</code>, <code>cell</code>, <code>lat</code>,
 <code>long</code>, <code>month</code> and <code>year</code>.</p>
 <p><br></p>
@@ -934,14 +936,14 @@ through the process?</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 x 6</span></span></span>
 <span><span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flor_geo_range <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>419 2023-09-07 <span style="color: #949494;">18:19:10</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> flor_geo_rel   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-09-07 <span style="color: #949494;">18:19:11</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> flor_geo_bin   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-09-07 <span style="color: #949494;">18:19:11</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> flor_taxa      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        694 2023-09-07 <span style="color: #949494;">18:19:13</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> flor_single    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        692 2023-09-07 <span style="color: #949494;">18:19:13</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> flor_effort    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        692 2023-09-07 <span style="color: #949494;">18:19:15</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> flor_prop      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        612 2023-09-07 <span style="color: #949494;">18:19:15</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> flor_recent    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        541 2023-09-07 <span style="color: #949494;">18:19:15</span> Eucalyptu~</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flor_geo_range <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>419 2023-09-11 <span style="color: #949494;">16:59:48</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> flor_geo_rel   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-09-11 <span style="color: #949494;">16:59:49</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> flor_geo_bin   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-09-11 <span style="color: #949494;">16:59:50</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> flor_taxa      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        691 2023-09-11 <span style="color: #949494;">17:01:24</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> flor_single    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        689 2023-09-11 <span style="color: #949494;">17:01:25</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> flor_effort    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        686 2023-09-11 <span style="color: #949494;">17:01:27</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> flor_prop      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        607 2023-09-11 <span style="color: #949494;">17:01:27</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> flor_recent    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        536 2023-09-11 <span style="color: #949494;">17:01:27</span> Eucalyptu~</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="summary-1">Summary<a class="anchor" aria-label="anchor" href="#summary-1"></a>
@@ -949,7 +951,7 @@ through the process?</p>
 <p>After ingesting data from a range of sources (GBIF) the
 <code>envClean</code> functions helped clean the data ready for further
 analysis. The original 1419 records were cleaned, tidied and filtered to
-541 records.</p>
+536 records.</p>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

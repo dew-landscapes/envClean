@@ -64,11 +64,26 @@
                     , original_rank = rank
                     , status
                     , kingdom
-                    , contains("Key")
+                    , tidyselect::contains("Key")
                     ) %>%
-      {if(target_rank %in% c("subspecies", "form", "variety"))
-        # this sometimes puts, say, subspeciesKey in where it is actually, say, a speciesKey. Fixed below
-        (.) %>% dplyr::rename("{target_rank}Key" := acceptedUsageKey) else (.) %>% dplyr::select(-acceptedUsageKey)
+      {if("acceptedUsageKey" %in% names(.)) {
+
+        if(target_rank %in% c("subspecies", "form", "variety")) {
+
+          # this sometimes puts, say, subspeciesKey in where it is actually, say, a speciesKey. Fixed below
+          (.) %>% dplyr::rename("{target_rank}Key" := acceptedUsageKey)
+
+          } else {
+
+            (.) %>% dplyr::select(-acceptedUsageKey)
+
+          }
+
+        } else {
+
+          (.)
+
+        }
         } %>%
       tidyr::pivot_longer(tidyselect::matches(paste0(envClean::lurank$rank, collapse = "Key|"))
                           , names_to = "use_rank"
