@@ -39,29 +39,13 @@
                            , ...
                            ) {
 
-    if(file.exists(taxonomy_file)) {
-
-      res <- rio::import(taxonomy_file
-                         , setclass = "tibble"
-                         )
-
-    } else res <- list()
-
     lurank <- envClean::lurank
 
     taxa_col <- names(df[taxa_col])
 
     if(tools::file_ext(taxonomy_file) == "") taxonomy_file <- paste0(taxonomy_file, ".rds")
 
-    already_done_01 <- if(file.exists(taxonomy_file)) res %>%
-      dplyr::distinct(searched_name) %>%
-      dplyr::pull()
-
-    already_done <- sort(unique(c(get0("already_done_01"), get0("already_done_02"))))
-
-    to_check <- df %>%
-      dplyr::select(tidyselect::all_of(taxa_col)) %>%
-      dplyr::distinct() %>%
+    to_check <- unique(df[taxa_col]) %>%
       dplyr::filter(!grepl(paste0(remove_taxa
                                   , collapse = "|"
                                   )
@@ -91,18 +75,10 @@
                     )
 
 
-    taxas <- tibble::tibble(searched_name = setdiff(to_check$searched_name
-                                                    , already_done
-                                                    )
-                            ) %>%
-      dplyr::distinct(searched_name) %>%
-      dplyr::arrange(searched_name)
-
     # name_backbone--------
-    if(length(taxas$searched_name) > 0){
+    if(length(to_check$searched_name) > 0){
 
-      tax_gbif <- taxas %>%
-        dplyr::inner_join(to_check) %>%
+      tax_gbif <- to_check %>%
         dplyr::bind_cols(rgbif::name_backbone_checklist((.) %>% dplyr::rename(name = 1))) %>%
         dplyr::mutate(stamp = Sys.time()) %>%
         dplyr::mutate(rank = tolower(rank)
@@ -114,7 +90,10 @@
 
       if(file.exists(taxonomy_file)) {
 
-        res <- res %>%
+        res <- rio::import(taxonomy_file) %>%
+          dplyr::anti_join(tax_gbif %>%
+                             dplyr::distinct(usageKey)
+                           ) %>%
           dplyr::bind_rows(tax_gbif)
 
       } else {
@@ -148,6 +127,15 @@
       unique() %>%
       sort()
 
+    not_accepted_keys <- res %>%
+      dplyr::filter(status != "ACCEPTED") %>%
+      dplyr::select(usageKey) %>%
+      unlist() %>%
+      unname() %>%
+      na.omit() %>%
+      unique() %>%
+      sort()
+
     # missing keys (full taxonomy)------
 
     accepted_tax_file <- fs::path(gsub("\\."
@@ -160,7 +148,8 @@
 
       accepted_tax <- rio::import(accepted_tax_file
                                   , setclass = "tibble"
-                                  )
+                                  ) %>%
+        dplyr::filter(!usageKey %in% not_accepted_keys)
 
     } else accepted_tax <- tibble::tibble(usageKey = NA)
 

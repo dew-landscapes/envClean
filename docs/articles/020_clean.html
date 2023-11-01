@@ -84,7 +84,7 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Monday, 11 September,
+            <h4 data-toc-skip class="date">Wednesday, 01 November,
 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/020_clean.Rmd" class="external-link"><code>vignettes/020_clean.Rmd</code></a></small>
@@ -161,9 +161,8 @@ allows plotting them together.</p>
 <code class="sourceCode R"><span></span>
 <span>  <span class="co"># Filter area of interest</span></span>
 <span>  <span class="va">flor_geo_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_geo_range.html">filter_geo_range</a></span><span class="op">(</span><span class="va">flor_all</span></span>
-<span>                         , use_aoi <span class="op">=</span> <span class="va">aoi</span></span>
-<span>                         , crs_aoi <span class="op">=</span> <span class="fu">st_crs</span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span></span>
-<span>                         <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>                                   , use_aoi <span class="op">=</span> <span class="va">aoi</span></span>
+<span>                                   <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
@@ -379,16 +378,16 @@ duplication.</li>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 129 x 9</span></span></span>
 <span><span class="co">#&gt;    original_name original_rank status kingdom usageKey acceptedUsageKey use_rank</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Acacia acant~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">980</span>159               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Acacia ancis~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">980</span>674               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Acacia nysso~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">979</span>606               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Acacia rigens species       ACCEP~ Plantae  2<span style="text-decoration: underline;">978</span>525               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Acacia scler~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">979</span>322               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acacia wilhe~ species       ACCEP~ Plantae  2<span style="text-decoration: underline;">980</span>101               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Actinobole u~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">130</span>497               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Amphipogon c~ species       ACCEP~ Plantae  4<span style="text-decoration: underline;">104</span>775               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Atriplex acu~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">339</span>766               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Atriplex sti~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">759</span>563               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Maireana rad~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">760</span>840               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Roepera glau~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">987</span>022               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Beyeria lech~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">276</span>040               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Melaleuca la~ species       ACCEP~ Plantae  5<span style="text-decoration: underline;">415</span>775               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sclerolaena ~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">548</span>033               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Maireana eri~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">755</span>857               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Eucalyptus o~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">177</span>314               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Westringia r~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">307</span>131               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Maireana pen~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">760</span>912               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Walsholaria ~ species       ACCEP~ Plantae 10<span style="text-decoration: underline;">844</span>030               <span style="color: #BB0000;">NA</span> species </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># i 119 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># i 2 more variables: best_key &lt;int&gt;, taxa &lt;chr&gt;</span></span></span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
@@ -552,8 +551,8 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.00013 seconds</span></span>
-<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.3 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.000142 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.42 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
@@ -571,14 +570,14 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.157 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.151 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.308 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.171 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.328 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2: Gradient evaluation took 2.9e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 3e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.</span></span>
 <span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
@@ -595,15 +594,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.158 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.181 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.339 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.155 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.15 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.305 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3: Gradient evaluation took 2.6e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 3.3e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.33 seconds.</span></span>
 <span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
@@ -620,15 +619,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.153 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.154 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.307 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.154 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.173 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.327 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4: Gradient evaluation took 2.6e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.</span></span>
+<span><span class="co">#&gt; Chain 4: Gradient evaluation took 3.6e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.</span></span>
 <span><span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
@@ -645,9 +644,9 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.145 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.159 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.304 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.157 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.163 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.32 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 4:</span></span>
 <span></span>
 <span>  <span class="co"># filter using model results</span></span>
@@ -937,14 +936,14 @@ through the process?</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 x 6</span></span></span>
 <span><span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flor_geo_range <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>419 2023-09-11 <span style="color: #949494;">17:31:54</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> flor_geo_rel   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-09-11 <span style="color: #949494;">17:31:55</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> flor_geo_bin   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-09-11 <span style="color: #949494;">17:31:55</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> flor_taxa      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        691 2023-09-11 <span style="color: #949494;">17:31:57</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> flor_single    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        689 2023-09-11 <span style="color: #949494;">17:31:57</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> flor_effort    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        686 2023-09-11 <span style="color: #949494;">17:31:59</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> flor_prop      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        607 2023-09-11 <span style="color: #949494;">17:31:59</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> flor_recent    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        536 2023-09-11 <span style="color: #949494;">17:31:59</span> Eucalyptu~</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flor_geo_range <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>419 2023-11-01 <span style="color: #949494;">14:23:13</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> flor_geo_rel   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-11-01 <span style="color: #949494;">14:23:13</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> flor_geo_bin   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-11-01 <span style="color: #949494;">14:23:14</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> flor_taxa      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        691 2023-11-01 <span style="color: #949494;">14:23:35</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> flor_single    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        689 2023-11-01 <span style="color: #949494;">14:23:35</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> flor_effort    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        686 2023-11-01 <span style="color: #949494;">14:23:37</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> flor_prop      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        607 2023-11-01 <span style="color: #949494;">14:23:37</span> Eucalyptu~</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> flor_recent    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        536 2023-11-01 <span style="color: #949494;">14:23:37</span> Eucalyptu~</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="summary-1">Summary<a class="anchor" aria-label="anchor" href="#summary-1"></a>

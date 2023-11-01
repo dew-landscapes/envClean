@@ -105,9 +105,8 @@ Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
 
   # Filter area of interest
   flor_geo_range <- filter_geo_range(flor_all
-                         , use_aoi = aoi
-                         , crs_aoi = st_crs(aoi)
-                         ) %>%
+                                   , use_aoi = aoi
+                                   ) %>%
     add_time_stamp()
 
   # Have a look at results

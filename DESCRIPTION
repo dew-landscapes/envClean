@@ -28,7 +28,6 @@ Imports:
     envRaster,
     envReport,
     factoextra,
-    feather,
     fs,
     ggplot2,
     ggridges,

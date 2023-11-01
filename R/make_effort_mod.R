@@ -51,9 +51,9 @@ make_effort_mod <- function(df
     dplyr::distinct(taxa,dplyr::across(tidyselect::any_of(context))) %>%
     dplyr::count(dplyr::across(tidyselect::all_of(context)),name = "sr") %>%
     dplyr::select(!!rlang::ensym(y),everything()) %>%
-    dplyr::filter(across(any_of(cat_cols)
-                         , .fns = ~ !is.na(.x)
-                         )
+    dplyr::filter(dplyr::if_any(tidyselect::any_of(cat_cols)
+                                , .fns = ~ !is.na(.x)
+                                )
                   )
 
 
@@ -63,9 +63,9 @@ make_effort_mod <- function(df
 
   # Remove category columns if they only have one value
   remove_cat_cols_levels <- effort_mod$dat_exp %>%
-    dplyr::summarise(across(any_of(cat_cols)
-                            , .fns = ~ n_distinct(.x)
-                            )
+    dplyr::summarise(dplyr::across(tidyselect::any_of(cat_cols)
+                                   , .fns = ~ n_distinct(.x)
+                                   )
                      ) %>%
     tidyr::pivot_longer(1:ncol(.)
                         , names_to = "col"
