@@ -67,6 +67,7 @@
 <span>  <span class="va">df</span>,</span>
 <span>  taxa_col <span class="op">=</span> <span class="st">"original_name"</span>,</span>
 <span>  taxonomy_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  force_new <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>original_name <span class="op">=</span> <span class="cn">NULL</span>, timediff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/difftime.html" class="external-link">as.difftime</a></span><span class="op">(</span><span class="fl">26</span>, units <span class="op">=</span> <span class="st">"weeks"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  remove_taxa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BOLD:"</span>, <span class="st">"dead"</span>, <span class="st">"unverified"</span>, <span class="st">"annual herb"</span>, <span class="st">"annual grass"</span>, <span class="st">"\\?"</span><span class="op">)</span>,</span>
 <span>  remove_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\sx\\s.*|\\sX\\s.*"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -87,14 +88,24 @@
 <dd><p>Character. Path to save results to.</p></dd>
 
 
+<dt>force_new</dt>
+<dd><p>List with elements <code>taxa_col</code> and <code>difftime</code>. If
+<code>taxonomy_file</code> already exists any <code>taxa_col</code> matches between <code>force_new</code> and
+<code>taxonomy_file</code> will be requeried. Likewise any <code>original_name</code> that has not
+been searched since <code>difftime</code> will be requeried. Note the name <code>taxa_col</code>
+should be as provided as per the <code>taxa_col</code> argument. Set either to <code>NULL</code>
+to ignore.</p></dd>
+
+
 <dt>remove_taxa</dt>
-<dd><p>Character. Regular expressions to be matched. These will
-be filtered before searching.</p></dd>
+<dd><p>Character. Regular expressions to be matched. Any matches
+will be filtered before searching. Removes any rows that match.</p></dd>
 
 
 <dt>remove_strings</dt>
-<dd><p>Character. Regular expressions to be matched. These
-will be removed from the string before searching.</p></dd>
+<dd><p>Character. Regular expressions to be matched. Any
+matches will be removed from the string before searching. Removes any
+text that matches, but the row remains.</p></dd>
 
 
 <dt>...</dt>

@@ -8,6 +8,7 @@ get_taxonomy(
   df,
   taxa_col = "original_name",
   taxonomy_file = tempfile(),
+  force_new = list(original_name = NULL, timediff = as.difftime(26, units = "weeks")),
   remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass", "\\\\?"),
   remove_strings = c("\\\\sx\\\\s.*|\\\\sX\\\\s.*"),
   ...
@@ -20,11 +21,19 @@ get_taxonomy(
 
 \item{taxonomy_file}{Character. Path to save results to.}
 
-\item{remove_taxa}{Character. Regular expressions to be matched. These will
-be filtered before searching.}
+\item{force_new}{List with elements \code{taxa_col} and \code{difftime}. If
+\code{taxonomy_file} already exists any \code{taxa_col} matches between \code{force_new} and
+\code{taxonomy_file} will be requeried. Likewise any \code{original_name} that has not
+been searched since \code{difftime} will be requeried. Note the name \code{taxa_col}
+should be as provided as per the \code{taxa_col} argument. Set either to \code{NULL}
+to ignore.}
 
-\item{remove_strings}{Character. Regular expressions to be matched. These
-will be removed from the string before searching.}
+\item{remove_taxa}{Character. Regular expressions to be matched. Any matches
+will be filtered before searching. Removes any rows that match.}
+
+\item{remove_strings}{Character. Regular expressions to be matched. Any
+matches will be removed from the string before searching. Removes any
+text that matches, but the row remains.}
 
 \item{...}{Arguments passed to \code{rgbif::name_backbone_checklist()}.}
 }

@@ -13,10 +13,17 @@
 #' @param df Dataframe with taxa column.
 #' @param taxa_col Character. Name of column with taxa names
 #' @param taxonomy_file Character. Path to save results to.
-#' @param remove_taxa Character. Regular expressions to be matched. These will
-#' be filtered before searching.
-#' @param remove_strings Character. Regular expressions to be matched. These
-#' will be removed from the string before searching.
+#' @param force_new List with elements `taxa_col` and `difftime`. If
+#' `taxonomy_file` already exists any `taxa_col` matches between `force_new` and
+#'  `taxonomy_file` will be requeried. Likewise any `original_name` that has not
+#'  been searched since `difftime` will be requeried. Note the name `taxa_col`
+#'  should be as provided as per the `taxa_col` argument. Set either to `NULL`
+#'  to ignore.
+#' @param remove_taxa Character. Regular expressions to be matched. Any matches
+#' will be filtered before searching. Removes any rows that match.
+#' @param remove_strings Character. Regular expressions to be matched. Any
+#' matches will be removed from the string before searching. Removes any
+#' text that matches, but the row remains.
 #' @param ... Arguments passed to `rgbif::name_backbone_checklist()`.
 #'
 #' @return Dataframe. Results from `envClean::get_gbif_tax()`. Tweaked by column
@@ -28,6 +35,11 @@
   get_taxonomy <- function(df
                            , taxa_col = "original_name"
                            , taxonomy_file = tempfile()
+                           , force_new = list(original_name = NULL
+                                              , timediff = as.difftime(26
+                                                                       , units = "weeks"
+                                                                       )
+                                              )
                            , remove_taxa = c("BOLD:"
                                              , "dead"
                                              , "unverified"
@@ -45,13 +57,52 @@
 
     if(tools::file_ext(taxonomy_file) == "") taxonomy_file <- paste0(taxonomy_file, ".rds")
 
+    # If taxonomy_file already exists, bring it in then remove any force_new
+    if(file.exists(taxonomy_file)) {
+
+      res <- rio::import(taxonomy_file
+                         , setclass = "tibble"
+                         )
+
+      if(!is.null(force_new$timediff)) {
+
+        res <- res %>%
+          dplyr::filter(difftime(Sys.time()
+                                 , stamp
+                                 , units = "days"
+                                 ) <
+                          as.numeric(force_new$timediff
+                                     , units = "days"
+                                     )
+                        )
+      }
+
+
+      if(!is.null(force_new$original_name)) {
+
+        res <- res %>%
+          dplyr::filter(!(!!rlang::ensym(taxa_col) %in% force_new[taxa_col]))
+
+      }
+
+    } else {
+
+      res <- tibble::tibble(!!rlang::ensym(taxa_col) := NA
+                            , usageKey = NA
+                            )
+
+    }
+
+    # Collect any unfound original_name to check in gbif (and make a 'searched' name)
     to_check <- unique(df[taxa_col]) %>%
       dplyr::filter(!grepl(paste0(remove_taxa
                                   , collapse = "|"
                                   )
                            , !!rlang::ensym(taxa_col)
                            )
+                    , !!rlang::ensym(taxa_col) != ""
                     ) %>%
+      dplyr::anti_join(res) %>%
       dplyr::mutate(original_name = !!rlang::ensym(taxa_col)
                     , searched_name = gsub(paste0(remove_strings
                                                   , collapse = "|"
@@ -76,10 +127,10 @@
 
 
     # name_backbone--------
-    if(length(to_check$searched_name) > 0){
+    if(length(to_check$searched_name)){
 
       tax_gbif <- to_check %>%
-        dplyr::bind_cols(rgbif::name_backbone_checklist((.) %>% dplyr::rename(name = 1))) %>%
+        dplyr::bind_cols(rgbif::name_backbone_checklist(to_check %>% dplyr::select(name = searched_name))) %>%
         dplyr::mutate(stamp = Sys.time()) %>%
         dplyr::mutate(rank = tolower(rank)
                       , rank = factor(rank
@@ -88,35 +139,34 @@
                                       )
                       )
 
-      if(file.exists(taxonomy_file)) {
-
-        res <- rio::import(taxonomy_file) %>%
-          dplyr::anti_join(tax_gbif %>%
-                             dplyr::distinct(usageKey)
-                           ) %>%
-          dplyr::bind_rows(tax_gbif)
-
-      } else {
-
-        res <- tax_gbif
-
-      }
-
-      # export -------
-
-      res <- tibble::as_tibble(res) %>%
-        dplyr::group_by(original_name) %>%
-        dplyr::filter(stamp == max(stamp)) %>%
-        dplyr::ungroup()
-
-      rio::export(res
-                  , taxonomy_file
-                  )
+      res <- res %>%
+        dplyr::bind_rows(tax_gbif)
 
     }
 
+    # export -------
+
+    res <- res %>%
+      dplyr::filter(!is.na(original_name)) %>%
+      dplyr::group_by(original_name) %>%
+      dplyr::filter(stamp == max(stamp)) %>%
+      dplyr::ungroup()
+
+    rio::export(res
+                , taxonomy_file
+                )
+
     # best key------
     # build taxonomy lookup for any key
+
+    not_accepted_keys <- res %>%
+      dplyr::filter(status != "ACCEPTED") %>%
+      dplyr::select(usageKey) %>%
+      unlist() %>%
+      unname() %>%
+      na.omit() %>%
+      unique() %>%
+      sort()
 
     all_accepted_keys <- res %>%
       dplyr::filter(status == "ACCEPTED") %>%
@@ -127,14 +177,7 @@
       unique() %>%
       sort()
 
-    not_accepted_keys <- res %>%
-      dplyr::filter(status != "ACCEPTED") %>%
-      dplyr::select(usageKey) %>%
-      unlist() %>%
-      unname() %>%
-      na.omit() %>%
-      unique() %>%
-      sort()
+    all_accepted_keys <- all_accepted_keys[!all_accepted_keys %in% not_accepted_keys]
 
     # missing keys (full taxonomy)------
 
