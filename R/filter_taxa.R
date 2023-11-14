@@ -51,31 +51,27 @@
       dplyr::select(tidyselect::any_of(context)
                     , taxa
                     , tidyselect::all_of(extra_cols)
-                    , tidyselect::any_of(c("cover", "cover_code"))
+                    , tidyselect::any_of(c("cover", "cover_code", "lifeform"))
                     ) %>%
       dplyr::distinct()
 
     bio_taxa_cov <- if(do_cov) {
 
-      .context = context
-      .lucov = lucov
-
       make_cover(bio_taxa
-                   , context = .context
-                   , lucov = .lucov
-                   )
+                 , taxa_col = "taxa"
+                 , context = context
+                 , lucov = lucov
+                 )
 
       } else bio_taxa
 
     bio_taxa_life <- if(do_life) {
 
-      .context = context
-      .lulife = lulife
-
       make_lifeform(bio_taxa
-                      , context = .context
-                      , lulife = .lulife
-                      )
+                    , taxa_col = "taxa"
+                    , context = context
+                    , lulife = lulife
+                    )
 
     } else bio_taxa
 

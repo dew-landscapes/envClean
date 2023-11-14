@@ -19,11 +19,11 @@
 #'
 #' @examples
   make_lifeform <- function(df
-                              , taxa_col = "taxa"
-                              , lf_col = "lifeform"
-                              , context = NULL
-                              , lulife
-                              ) {
+                            , taxa_col = "taxa"
+                            , lf_col = "lifeform"
+                            , context = NULL
+                            , lulife
+                            ) {
 
     df %>%
       dplyr::filter(!is.na(!!rlang::ensym(lf_col))) %>%

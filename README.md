@@ -114,7 +114,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 #> Error in `dplyr::mutate()`:
 #> i In argument: `class = purrr::map_chr(object, ~envFunc::vec_to_sentence(class(get(.))))`.
 #> Caused by error in `purrr::map_chr()`:
-#> i In index: 17.
+#> i In index: 9.
 #> Caused by error in `get()`:
 #> ! lazy-load database 'C:/Users/sysnw/AppData/Local/R/win-library/4.3/envClean/R/envClean.rdb' is corrupt
 #> Error in eval(expr, envir, enclos): object 'manuals' not found
