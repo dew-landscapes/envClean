@@ -35,9 +35,9 @@
 
       df %>%
         dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
-        dplyr::mutate(cover = ifelse(cover == 0,NA,cover)
+        dplyr::mutate(cover = ifelse(cover <= 0, NA, cover)
                       , cover = ifelse(cover > 100, NA, cover)
-                      , cover = cover/100
+                      , cover = ifelse(cover > 1, cover / 100, cover)
                       ) %>%
         dplyr::filter(!is.na(cover) | !is.na(cover_code)) %>%
         dplyr::left_join(lucov) %>%
@@ -49,7 +49,7 @@
         dplyr::group_by(dplyr::across(tidyselect::any_of(context))
                         , dplyr::across(!!rlang::ensym(taxa_col))
                         ) %>%
-        dplyr::summarise(use_cover = max(use_cover,na.rm = TRUE)
+        dplyr::summarise(use_cover = max(use_cover, na.rm = TRUE)
                          , use_cover = ifelse(is.infinite(use_cover)
                                               , NA
                                               , use_cover

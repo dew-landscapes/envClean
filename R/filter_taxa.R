@@ -63,7 +63,7 @@
                  , lucov = lucov
                  )
 
-      } else bio_taxa
+      }
 
     bio_taxa_life <- if(do_life) {
 
@@ -73,10 +73,11 @@
                     , lulife = lulife
                     )
 
-    } else bio_taxa
+    }
 
     bio_taxa <- bio_taxa %>%
       dplyr::distinct(dplyr::across(tidyselect::any_of(context))
+                      , dplyr::across(tidyselect::any_of(extra_cols))
                       , taxa
                       ) %>%
       {if(do_cov) (.) %>% dplyr::left_join(bio_taxa_cov) else (.)} %>%

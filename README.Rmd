@@ -78,7 +78,6 @@ Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
 
   flor_aoi <- filter_geo_range(flor_all
                          , use_aoi = aoi
-                         , crs_aoi = sf::st_crs(aoi)
                          ) %>%
     envFunc::add_time_stamp()
 

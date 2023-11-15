@@ -35,7 +35,6 @@ Imports:
     janitor,
     magrittr,
     purrr,
-    raster,
     Rdpack,
     rgbif,
     rio,
