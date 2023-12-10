@@ -93,8 +93,11 @@
 
     }
 
-    # Collect any unfound original_name to check in gbif (and make a 'searched' name)
+    # Collect any unfound taxa_col to check in gbif (and make a 'searched' name)
     to_check <- unique(df[taxa_col]) %>%
+      {if(taxa_col != "original_name") (.) %>%
+          dplyr::mutate(original_name = !!rlang::ensym(taxa_col)) else
+            (.)} %>% # needed to ensure other taxa_col are respected
       dplyr::filter(!grepl(paste0(remove_taxa
                                   , collapse = "|"
                                   )
