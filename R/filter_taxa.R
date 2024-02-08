@@ -48,10 +48,9 @@
       dplyr::filter(!is.na(taxa)) %>%
       dplyr::filter(rank <= required_rank) %>%
       dplyr::inner_join(df) %>%
-      dplyr::select(tidyselect::any_of(context)
-                    , taxa
-                    , tidyselect::all_of(extra_cols)
-                    , tidyselect::any_of(c("cover", "cover_code", "lifeform"))
+      dplyr::select(taxa
+                    , tidyselect::any_of(context)
+                    , tidyselect::any_of(extra_cols)
                     ) %>%
       dplyr::distinct()
 

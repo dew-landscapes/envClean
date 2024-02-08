@@ -133,11 +133,23 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <span>                         , use_aoi <span class="op">=</span> <span class="va">aoi</span></span>
 <span>                         <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">envFunc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html" class="external-link">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in envFunc::add_time_stamp(.): internal error -3 in R_decompress1</span></span>
-<span><span class="co">#&gt; Error in envFunc::add_time_stamp(.): lazy-load database 'C:/Users/nwilloughby/AppData/Local/R/win-library/4.3/envClean/R/envClean.rdb' is corrupt</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(long, lat)`</span></span>
 <span></span>
 <span>  <span class="va">flor_aoi</span></span>
-<span><span class="co">#&gt; Error in eval(expr, envir, enclos): object 'flor_aoi' not found</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 1,419 × 10</span></span>
+<span><span class="co">#&gt;     long   lat      area data_name site       date       original_name          rel_metres month  year</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;                       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  140. -34.5 81695918. GBIF      2573957849 2020-02-22 Eremophila glabra             500     2  2020</span></span>
+<span><span class="co">#&gt;  2  140. -34.5 81695918. GBIF      3902768443 2022-08-14 Triodia scariosa               NA     8  2022</span></span>
+<span><span class="co">#&gt;  3  140. -34.5 81695918. GBIF      3902326597 2022-08-14 Beyeria lechenaultii           NA     8  2022</span></span>
+<span><span class="co">#&gt;  4  140. -34.5 81695918. GBIF      3902042262 2022-08-14 Walsholaria magniflora         NA     8  2022</span></span>
+<span><span class="co">#&gt;  5  140. -34.5 81695918. GBIF      3058875475 2019-09-01 Triodia scariosa              564     9  2019</span></span>
+<span><span class="co">#&gt;  6  140. -34.5 81695918. GBIF      3058756300 2019-09-01 Westringia rigida             564     9  2019</span></span>
+<span><span class="co">#&gt;  7  140. -34.5 81695918. GBIF      3902151141 2022-08-14 Phebalium bullatum             NA     8  2022</span></span>
+<span><span class="co">#&gt;  8  140. -34.5 81695918. GBIF      3902634058 2022-08-14 Acacia rigens                  NA     8  2022</span></span>
+<span><span class="co">#&gt;  9  140. -34.5 81695918. GBIF      3902018286 2022-08-14 Exocarpos aphyllus             NA     8  2022</span></span>
+<span><span class="co">#&gt; 10  140. -34.5 81695918. GBIF      3923355578 2022-08-14 Maireana radiata               NA     8  2022</span></span>
+<span><span class="co">#&gt; # ℹ 1,409 more rows</span></span></code></pre></div>
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -145,15 +157,18 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
 <span>                 , crs <span class="op">=</span> <span class="fl">4326</span></span>
 <span>                 <span class="op">)</span></span>
-<span><span class="co">#&gt; Error in eval(expr, envir, enclos): object 'flor_aoi' not found</span></span>
 <span></span>
 <span>  <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">aoi</span></span>
 <span>           , bbox <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span></span>
 <span>           <span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">flor_aoi_sf</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_symbols.html" class="external-link">tm_dots</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in eval(expr, envir, enclos): object 'flor_aoi_sf' not found</span></span></code></pre></div>
+<span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_symbols.html" class="external-link">tm_dots</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="reference/figures/README-flor_aoi-1.png" alt="plot of chunk flor_aoi" width="100%"><p class="caption">
+plot of chunk flor_aoi
+</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="what-else-is-in-envclean">What else is in <code>envClean</code>
@@ -163,7 +178,7 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <pre><code><span><span class="co">#&gt; Error in `dplyr::mutate()`:</span></span>
 <span><span class="co">#&gt; ℹ In argument: `class = purrr::map_chr(object, ~envFunc::vec_to_sentence(class(get(.))))`.</span></span>
 <span><span class="co">#&gt; Caused by error in `purrr::map_chr()`:</span></span>
-<span><span class="co">#&gt; ℹ In index: 5.</span></span>
+<span><span class="co">#&gt; ℹ In index: 9.</span></span>
 <span><span class="co">#&gt; Caused by error in `get()`:</span></span>
 <span><span class="co">#&gt; ! lazy-load database 'C:/Users/nwilloughby/AppData/Local/R/win-library/4.3/envClean/R/envClean.rdb' is corrupt</span></span>
 <span><span class="co">#&gt; Error in eval(expr, envir, enclos): object 'manuals' not found</span></span></code></pre>
