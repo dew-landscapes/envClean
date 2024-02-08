@@ -2,26 +2,15 @@
 #' Write a sentence describing change in taxa, records, visits and sites between
 #' two cleaning steps
 #'
-#' @param prefix Character. Prefix used to name objects during the cleaning
-#' process
-#' @param save_ends Logical. Save the first and last data frames created by the
-#' cleaning process?
-#' @param save_dir Character. Path to save objects to if `save_ends == TRUE`
-#' @param ... Passed to `envClean::rec_vis_sit_tax()`
+#' @param cleaning_summary Dataframe. Result of call to
+#' `envClean::cleaning_summary()`
 #'
-#' @return
+#' @return Dataframe with added columns that can be used in .Rmd to report on
+#' the cleaning process.
 #' @export
 #'
 #' @examples
-cleaning_text <- function(prefix = "bio_"
-                          , save_ends = TRUE
-                          , save_dir = "out"
-                          , ...
-                          ) {
-
-  dots <- list(...)
-
-  eval(substitute(alist(...)))
+cleaning_text <- function(cleaning_summary) {
 
   format_big <- function(number) {
 
@@ -147,58 +136,37 @@ cleaning_text <- function(prefix = "bio_"
 
   }
 
-  make_context_text <- function(df
-                                , lag_df
+  make_context_text <- function(row
                                 , contexts
+                                , contexts_lag
+                                , contexts_add
+                                , contexts_lost
                                 ) {
 
-    df_con <- contexts[contexts %in% names(df)]
-
-    df_con_lag <- contexts[contexts %in% names(lag_df)]
-
-    con_added <- setdiff(df_con, df_con_lag)
-    con_lost <- setdiff(df_con_lag, df_con)
-
-    if(is.null(lag_df)) {
+    if(row == 1) {
 
       text <- paste0("At the start of the cleaning process context was defined by "
-                     , envFunc::vec_to_sentence(paste0("`"
-                                                       , df_con
-                                                       , sep = "`"
-                                                       )
-                                                )
+                     , contexts
                      , "."
                      )
 
     } else {
 
       text <- paste0("At this stage of the cleaning process context was defined by "
-                     , envFunc::vec_to_sentence(paste0("`"
-                                                       , df_con
-                                                       , sep = "`"
-                                                       )
-                                                )
+                     , contexts
                      , "."
-                     , if(length(con_added) > 0) " "
-                     , if(length(con_added) > 0) {
-                       paste0(envFunc::vec_to_sentence(paste0("`"
-                                                              , con_added
-                                                              , sep = "`"
-                                                              )
-                                                       )
-                              , if(length(con_added) > 1) " were" else " was"
+                     , if(contexts_add != "") " "
+                     , if(contexts_add != "") {
+                       paste0(contexts_add
+                              , if(grepl("and", contexts_add)) " were" else " was"
                               , " added"
-                              , if(length(con_lost) > 0) " and " else "."
+                              , if(contexts_lost != "") " and " else "."
                               )
                      }
-                     , if(length(con_added) == 0 & length(con_lost) > 0) " "
-                     , if(length(con_lost) > 0) {
-                       paste0(envFunc::vec_to_sentence(paste0("`"
-                                                              , con_lost
-                                                              , sep = "`"
-                                                              )
-                                                       )
-                              , if(length(con_lost) > 1) " were" else " was"
+                     , if(contexts_add == "" & contexts_lost != "") " "
+                     , if(contexts_lost != "") {
+                       paste0(contexts_lost
+                              , if(grepl("and", contexts_lost)) " were" else " was"
                               , " removed."
                               )
                        }
@@ -208,53 +176,18 @@ cleaning_text <- function(prefix = "bio_"
 
   }
 
-  df_text <- ls(pattern = prefix
-           , envir = .GlobalEnv
-           ) %>%
-    tibble::enframe(name = NULL
-                    , value = "name"
-                    ) %>%
-    dplyr::mutate(obj = purrr::map(name
-                                   , get
-                                   )
+  df_text <- clean_summary %>%
+    dplyr::mutate(context_text = purrr::pmap_chr(list(row
+                                                      , contexts
+                                                      , contexts_lag
+                                                      , contexts_add
+                                                      , contexts_lost
+                                                      )
+                                                 , make_context_text
+                                                 )
                   ) %>%
-    dplyr::filter(purrr::map_lgl(obj, is.data.frame)) %>%
-    dplyr::filter(purrr::map_lgl(obj, ~ "ctime" %in% names(attributes(.)))) %>%
-    dplyr::mutate(ctime = purrr::map(obj
-                              , attr
-                              , "ctime"
-                              )
-                  , n = purrr::map_dbl(obj, nrow)
-                  ) %>%
-    tidyr::unnest(cols = c(ctime)) %>%
-    dplyr::arrange(ctime
-                   , desc(n)
-                   ) %>%
-    dplyr::mutate(context_text = purrr::map2(obj
-                                             , lag(obj)
-                                             , make_context_text
-                                             , contexts = unique(c(dots$taxa_cols
-                                                                   , dots$site_cols
-                                                                   , dots$visit_cols
-                                                                   )
-                                                                 )
-                                             )
-                  , clean = gsub(prefix
-                                 , ""
-                                 , name
-                                 )
-                  , summary = purrr::map(obj
-                                         , rec_vis_sit_tax
-                                         , ...
-                                         # , site_cols = dots$site_cols
-                                         # , visit_cols = dots$visit_cols
-                                         # , taxa_cols = dots$taxa_cols
-                                         )
-                  ) %>%
-    tidyr::unnest(cols = c(context_text, summary)) %>%
     dplyr::left_join(luclean) %>%
-    dplyr::mutate(row = dplyr::row_number()
-                  , dplyr::across(where(is.numeric)
+    dplyr::mutate(dplyr::across(where(is.numeric)
                                   , lag
                                   , .names = "lag_{.col}"
                                   )
@@ -273,30 +206,7 @@ cleaning_text <- function(prefix = "bio_"
                                            , .f = make_text
                                            )
                   , childID = gsub("[^[:alnum:]]", "", name)
-                  )
-
-  if(save_ends) {
-
-    to_save <- df_text %>%
-      dplyr::slice(1, nrow(.)) %>%
-      dplyr::select(name, obj) %>%
-      dplyr::mutate(save_path = fs::path(save_dir
-                                         , paste0(c("clean_start"
-                                                    , "clean_end"
-                                                    )
-                                                  , ".rds"
-                                                  )
-                                         )
-                    )
-
-    purrr::walk2(to_save$obj
-                 , to_save$save_path
-                 , rio::export
-                 )
-
-  }
-
-  df_text <- df_text %>%
+                  ) %>%
     dplyr::select(! c(where(is.list)
                       , tidyselect::matches("^lag_|^text_")
                       )

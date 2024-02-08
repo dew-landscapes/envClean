@@ -31,6 +31,9 @@
     <loc>/reference/aoi.html</loc>
   </url>
   <url>
+    <loc>/reference/cleaning_summary.html</loc>
+  </url>
+  <url>
     <loc>/reference/cleaning_text.html</loc>
   </url>
   <url>
@@ -38,9 +41,6 @@
   </url>
   <url>
     <loc>/reference/filter_geo_range.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filter_geo_rel.html</loc>
   </url>
   <url>
     <loc>/reference/filter_prop.html</loc>
@@ -65,6 +65,9 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/last_ctime.html</loc>
   </url>
   <url>
     <loc>/reference/luclean.html</loc>
@@ -104,6 +107,9 @@
   </url>
   <url>
     <loc>/reference/rec_vis_sit_tax.html</loc>
+  </url>
+  <url>
+    <loc>/reference/reduce_geo_rel.html</loc>
   </url>
   <url>
     <loc>/reference/taxonomy_fixes.html</loc>

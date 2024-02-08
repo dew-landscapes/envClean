@@ -27,7 +27,9 @@
                    , remove = FALSE
                    ) %>%
       sf::st_transform(crs = sf::st_crs(use_aoi)) %>%
-      sf::st_filter(use_aoi) %>%
+      sf::st_join(use_aoi
+                  , left = FALSE
+                  ) %>%
       sf::st_set_geometry(NULL) %>%
       dplyr::inner_join(df) %>%
       tibble::as_tibble()

@@ -84,8 +84,8 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Wednesday, 15 November,
-2023</h4>
+            <h4 data-toc-skip class="date">Thursday, 08 February,
+2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/010_overview.Rmd" class="external-link"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
@@ -254,6 +254,16 @@ cover value</td>
 <td align="left">filter occurrence data to a set of criteria</td>
 <td align="right">19</td>
 </tr>
+<tr class="odd">
+<td align="left">fst</td>
+<td align="left">fix spatial taxonomy</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="left">fbd</td>
+<td align="left">filter by distribution</td>
+<td align="right">21</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -347,7 +357,7 @@ useful.</p>
 <span>   <span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">flor_example</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
 <span><span class="co">#&gt;   data_source original_name                    location year </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon petiolaris x        y    </span></span>
@@ -365,7 +375,7 @@ useful.</p>
 <span>  </span>
 <span>  <span class="co"># two rows</span></span>
 <span>  <span class="va">flor_single</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 x 4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
 <span><span class="co">#&gt;   data_source original_name                    location year </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon petiolaris x        y    </span></span>
@@ -379,21 +389,21 @@ useful.</p>
 <span>  <span class="fu"><a href="../reference/get_taxonomy.html">get_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
 <span>               , taxonomy_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
 <span>               <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 133 x 28</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 215 × 28</span></span></span>
 <span><span class="co">#&gt;    searched_name       original_name usageKey scientificName canonicalName rank </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Eucalyptus leucoxy~ Eucalyptus l~  3<span style="text-decoration: underline;">176</span>652 Eucalyptus le~ Eucalyptus l~ subs~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Eucalyptus leucoxy~ Eucalyptus l~  3<span style="text-decoration: underline;">177</span>019 Eucalyptus le~ Eucalyptus l~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Eucalyptus petiola~ Eucalyptus p~ 10<span style="text-decoration: underline;">755</span>174 Eucalyptus pe~ Eucalyptus p~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Maireana radiata    Maireana rad~  3<span style="text-decoration: underline;">760</span>840 Maireana radi~ Maireana rad~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Roepera glauca      Roepera glau~  3<span style="text-decoration: underline;">987</span>022 Roepera glauc~ Roepera glau~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Beyeria lechenault~ Beyeria lech~  7<span style="text-decoration: underline;">276</span>040 Beyeria leche~ Beyeria lech~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Melaleuca lanceola~ Melaleuca la~  5<span style="text-decoration: underline;">415</span>775 Melaleuca lan~ Melaleuca la~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Sclerolaena parvif~ Sclerolaena ~  7<span style="text-decoration: underline;">548</span>033 Sclerolaena p~ Sclerolaena ~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Maireana erioclada  Maireana eri~  3<span style="text-decoration: underline;">755</span>857 Maireana erio~ Maireana eri~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Eucalyptus oleosa   Eucalyptus o~  3<span style="text-decoration: underline;">177</span>314 Eucalyptus ol~ Eucalyptus o~ spec~</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 123 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 22 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Eucalyptus leucoxy… Eucalyptus l…  3<span style="text-decoration: underline;">176</span>652 Eucalyptus le… Eucalyptus l… subs…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Eucalyptus leucoxy… Eucalyptus l…  3<span style="text-decoration: underline;">177</span>019 Eucalyptus le… Eucalyptus l… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Eucalyptus petiola… Eucalyptus p… 10<span style="text-decoration: underline;">755</span>174 Eucalyptus pe… Eucalyptus p… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Maireana radiata    Maireana rad…  3<span style="text-decoration: underline;">760</span>840 Maireana radi… Maireana rad… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Roepera glauca      Roepera glau…  3<span style="text-decoration: underline;">987</span>022 Roepera glauc… Roepera glau… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Beyeria lechenault… Beyeria lech…  7<span style="text-decoration: underline;">276</span>040 Beyeria leche… Beyeria lech… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Melaleuca lanceola… Melaleuca la…  5<span style="text-decoration: underline;">415</span>775 Melaleuca lan… Melaleuca la… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Sclerolaena parvif… Sclerolaena …  7<span style="text-decoration: underline;">548</span>033 Sclerolaena p… Sclerolaena … spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Maireana erioclada  Maireana eri…  3<span style="text-decoration: underline;">755</span>857 Maireana erio… Maireana eri… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Eucalyptus oleosa   Eucalyptus o…  3<span style="text-decoration: underline;">177</span>314 Eucalyptus ol… Eucalyptus o… spec…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 205 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   species &lt;chr&gt;, kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span></span>
@@ -413,7 +423,7 @@ useful.</p>
 <span>  </span>
 <span>  <span class="co"># one row</span></span>
 <span>  <span class="va">flor_taxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 x 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
 <span><span class="co">#&gt;   location year  taxa                 </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> x        y     Eucalyptus leucoxylon</span></span>

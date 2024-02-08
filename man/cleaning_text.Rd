@@ -5,18 +5,15 @@
 \title{Write a sentence describing change in taxa, records, visits and sites between
 two cleaning steps}
 \usage{
-cleaning_text(prefix = "bio_", save_ends = TRUE, save_dir = "out", ...)
+cleaning_text(cleaning_summary)
 }
 \arguments{
-\item{prefix}{Character. Prefix used to name objects during the cleaning
-process}
-
-\item{save_ends}{Logical. Save the first and last data frames created by the
-cleaning process?}
-
-\item{save_dir}{Character. Path to save objects to if \code{save_ends == TRUE}}
-
-\item{...}{Passed to \code{envClean::rec_vis_sit_tax()}}
+\item{cleaning_summary}{Dataframe. Result of call to
+\code{envClean::cleaning_summary()}}
+}
+\value{
+Dataframe with added columns that can be used in .Rmd to report on
+the cleaning process.
 }
 \description{
 Write a sentence describing change in taxa, records, visits and sites between

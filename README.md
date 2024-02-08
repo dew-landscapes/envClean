@@ -78,23 +78,11 @@ Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
                          , use_aoi = aoi
                          ) %>%
     envFunc::add_time_stamp()
-#> Joining with `by = join_by(long, lat)`
+#> Warning in envFunc::add_time_stamp(.): internal error -3 in R_decompress1
+#> Error in envFunc::add_time_stamp(.): lazy-load database 'C:/Users/nwilloughby/AppData/Local/R/win-library/4.3/envClean/R/envClean.rdb' is corrupt
 
   flor_aoi
-#> # A tibble: 1,419 x 9
-#>     long   lat data_name site       date       original_name          rel_metres month  year
-#>    <dbl> <dbl> <fct>     <chr>      <date>     <chr>                       <dbl> <dbl> <dbl>
-#>  1  140. -34.5 GBIF      2573957849 2020-02-22 Eremophila glabra             500     2  2020
-#>  2  140. -34.5 GBIF      3902768443 2022-08-14 Triodia scariosa               NA     8  2022
-#>  3  140. -34.5 GBIF      3902326597 2022-08-14 Beyeria lechenaultii           NA     8  2022
-#>  4  140. -34.5 GBIF      3902042262 2022-08-14 Walsholaria magniflora         NA     8  2022
-#>  5  140. -34.5 GBIF      3058875475 2019-09-01 Triodia scariosa              564     9  2019
-#>  6  140. -34.5 GBIF      3058756300 2019-09-01 Westringia rigida             564     9  2019
-#>  7  140. -34.5 GBIF      3902151141 2022-08-14 Phebalium bullatum             NA     8  2022
-#>  8  140. -34.5 GBIF      3902634058 2022-08-14 Acacia rigens                  NA     8  2022
-#>  9  140. -34.5 GBIF      3902018286 2022-08-14 Exocarpos aphyllus             NA     8  2022
-#> 10  140. -34.5 GBIF      3923355578 2022-08-14 Maireana radiata               NA     8  2022
-#> # i 1,409 more rows
+#> Error in eval(expr, envir, enclos): object 'flor_aoi' not found
 ```
 
 Check that spatial filter worked.
@@ -106,6 +94,7 @@ Check that spatial filter worked.
     sf::st_as_sf(coords = c("long", "lat")
                  , crs = 4326
                  )
+#> Error in eval(expr, envir, enclos): object 'flor_aoi' not found
 
   tmap::tm_shape(aoi
            , bbox = sf::st_bbox(flor_all_sf)
@@ -113,50 +102,23 @@ Check that spatial filter worked.
     tmap::tm_polygons() +
   tmap::tm_shape(flor_aoi_sf) +
     tmap::tm_dots()
+#> Error in eval(expr, envir, enclos): object 'flor_aoi_sf' not found
 ```
-
-<div class="figure">
-<img src="man/figures/README-flor_aoi-1.png" alt="plot of chunk flor_aoi" width="100%" />
-<p class="caption">plot of chunk flor_aoi</p>
-</div>
 
 ## What else is in `envClean`
 
 The following functions and data sets are provided in `envClean`. See https://acanthiza.github.io/envClean/ for more examples.
 
 
-
-|object                           |class                      |description                                                                   |
-|:--------------------------------|:--------------------------|:-----------------------------------------------------------------------------|
-|`envFunc::add_cover()`           |function                   |Generate best guess of cover for each taxa*context                            |
-|`envFunc::add_lifeform()`        |function                   |Generate best guess of lifeform for each taxa*context                         |
-|`envFunc::aoi`                   |sf and data.frame          |Simple feature to define a geographic area of interest.                       |
-|`envFunc::cleaning_text()`       |function                   |Write a sentence describing change in taxa, records, visits and sites between |
-|`envFunc::filter_counts()`       |function                   |Filter any context with less instances than a threshold value                 |
-|`envFunc::filter_geo_range()`    |function                   |Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)   |
-|`envFunc::filter_geo_rel()`      |function                   |Filter data frame to specified spatial reliability                            |
-|`envFunc::filter_prop()`         |function                   |Filter taxa recorded at less than x percent of visits                         |
-|`envFunc::filter_taxa()`         |function                   |Clean/Tidy to one row per taxa*Visit                                          |
-|`envFunc::filter_text_col()`     |function                   |Filter a dataframe column on character string(s)                              |
-|`envFunc::find_outliers()`       |function                   |Find local outliers                                                           |
-|`envFunc::find_taxa()`           |function                   |Find how taxa changed through the cleaning/filtering/tidying process          |
-|`envFunc::flor_all`              |tbl_df, tbl and data.frame |Example of data combined from several data sources.                           |
-|`envFunc::get_taxonomy()`        |function                   |Get GBIF backbone taxonomy                                                    |
-|`envFunc::luclean`               |tbl_df, tbl and data.frame |Dataframe of cleaning steps                                                   |
-|`envFunc::lurank`                |tbl_df, tbl and data.frame |Dataframe of taxonomic ranks                                                  |
-|`envFunc::make_attribute()`      |function                   |Title                                                                         |
-|`envFunc::make_con_status()`     |function                   |Make conservation status from existing status codes                           |
-|`envFunc::make_cover()`          |function                   |Make a single (numeric, proportion) cover column from different sorts of      |
-|`envFunc::make_effort_mod()`     |function                   |Distribution of credible values for taxa richness.                            |
-|`envFunc::make_effort_mod_pca()` |function                   |Model the effect of principal components axes on taxa richness.               |
-|`envFunc::make_env_pca()`        |function                   |Principal components analysis and various outputs from environmental data     |
-|`envFunc::make_ind_status()`     |function                   |Make indigenous status lookup                                                 |
-|`envFunc::make_lifeform()`       |function                   |Get unique lifeform across taxa, perhaps including further context            |
-|`envFunc::make_taxonomy()`       |function                   |Make taxonomy lookups                                                         |
-|`envFunc::rec_vis_sit_tax()`     |function                   |How many records, visits, sites and taxa in a dataframe                       |
-|`envFunc::taxonomy_fixes`        |tbl_df, tbl and data.frame |Manual taxonomic fixes                                                        |
-
-
+```
+#> Error in `dplyr::mutate()`:
+#> ℹ In argument: `class = purrr::map_chr(object, ~envFunc::vec_to_sentence(class(get(.))))`.
+#> Caused by error in `purrr::map_chr()`:
+#> ℹ In index: 5.
+#> Caused by error in `get()`:
+#> ! lazy-load database 'C:/Users/nwilloughby/AppData/Local/R/win-library/4.3/envClean/R/envClean.rdb' is corrupt
+#> Error in eval(expr, envir, enclos): object 'manuals' not found
+```
 
 
 

@@ -154,12 +154,13 @@ Records with precision less than threshold are filtered using `filter_geo_rel`. 
 
   include_data_name <- c("ALIS","BCM","NVB","TERN")
 
-  flor_geo_rel <- filter_geo_rel(flor_geo_range
-                              , dist_col = "rel_metres"
-                              , dist = 100
-                              , context = context
-                              , over_ride = list(data_name = include_data_name)
-                              ) %>%
+  flor_geo_rel <- reduce_geo_rel(flor_geo_range
+                                 , dist_col = "rel_metres"
+                                 , dist_min = 100
+                                 , context = context
+                                 , extra_cols = "original_name"
+                                 , over_ride_na = list(data_name = include_data_name)
+                                 ) %>%
     add_time_stamp()
   
   # Have a look at results
@@ -378,12 +379,14 @@ A little care naming objects enables easily capturing the results of the cleanin
 
 ```{r clean_summary}
   
-  clean_summary <- cleaning_text(prefix = "flor_"
+  clean_summary <- cleaning_summary(prefix = "flor_"
                                 , save_ends = FALSE
                                 , site_cols = c("cell", "lat", "long")
                                 , visit_cols = c("month", "year")
                                 , taxa_cols = c("taxa", "original_name")
                                 )
+
+  clean_summary <- cleaning_text(cleaning_summary)
   
 ```
 

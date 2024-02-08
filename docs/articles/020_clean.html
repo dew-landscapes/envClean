@@ -84,8 +84,8 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Wednesday, 15 November,
-2023</h4>
+            <h4 data-toc-skip class="date">Thursday, 08 February,
+2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/020_clean.Rmd" class="external-link"><code>vignettes/020_clean.Rmd</code></a></small>
       <div class="hidden name"><code>020_clean.Rmd</code></div>
@@ -167,20 +167,21 @@ allows plotting them together.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_geo_range</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,419 x 9</span></span></span>
-<span><span class="co">#&gt;     long   lat data_name site    date       original_name rel_metres month  year</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      257395~ 2020-02-22 Eremophila g~        500     2  <span style="text-decoration: underline;">2</span>020</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390276~ 2022-08-14 Triodia scar~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390232~ 2022-08-14 Beyeria lech~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390204~ 2022-08-14 Walsholaria ~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      305887~ 2019-09-01 Triodia scar~        564     9  <span style="text-decoration: underline;">2</span>019</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      305875~ 2019-09-01 Westringia r~        564     9  <span style="text-decoration: underline;">2</span>019</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390215~ 2022-08-14 Phebalium bu~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390263~ 2022-08-14 Acacia rigens         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      390201~ 2022-08-14 Exocarpos ap~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  140. -<span style="color: #BB0000;">34.5</span> GBIF      392335~ 2022-08-14 Maireana rad~         <span style="color: #BB0000;">NA</span>     8  <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 1,409 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,419 × 10</span></span></span>
+<span><span class="co">#&gt;     long   lat    area data_name site  date       original_name rel_metres month</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      2573… 2020-02-22 Eremophila g…        500     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3902… 2022-08-14 Triodia scar…         <span style="color: #BB0000;">NA</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3902… 2022-08-14 Beyeria lech…         <span style="color: #BB0000;">NA</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3902… 2022-08-14 Walsholaria …         <span style="color: #BB0000;">NA</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3058… 2019-09-01 Triodia scar…        564     9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3058… 2019-09-01 Westringia r…        564     9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3902… 2022-08-14 Phebalium bu…         <span style="color: #BB0000;">NA</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3902… 2022-08-14 Acacia rigens         <span style="color: #BB0000;">NA</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3902… 2022-08-14 Exocarpos ap…         <span style="color: #BB0000;">NA</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  140. -<span style="color: #BB0000;">34.5</span>  8.17<span style="color: #949494;">e</span>7 GBIF      3923… 2022-08-14 Maireana rad…         <span style="color: #BB0000;">NA</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,409 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: year &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -235,30 +236,31 @@ irrespective of the values in <code>dist_col</code>.</p>
 <span></span>
 <span>  <span class="va">include_data_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ALIS"</span>,<span class="st">"BCM"</span>,<span class="st">"NVB"</span>,<span class="st">"TERN"</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="va">flor_geo_rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_geo_rel.html">filter_geo_rel</a></span><span class="op">(</span><span class="va">flor_geo_range</span></span>
-<span>                              , dist_col <span class="op">=</span> <span class="st">"rel_metres"</span></span>
-<span>                              , dist <span class="op">=</span> <span class="fl">100</span></span>
-<span>                              , context <span class="op">=</span> <span class="va">context</span></span>
-<span>                              , over_ride <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data_name <span class="op">=</span> <span class="va">include_data_name</span><span class="op">)</span></span>
-<span>                              <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="va">flor_geo_rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reduce_geo_rel.html">reduce_geo_rel</a></span><span class="op">(</span><span class="va">flor_geo_range</span></span>
+<span>                                 , dist_col <span class="op">=</span> <span class="st">"rel_metres"</span></span>
+<span>                                 , dist_min <span class="op">=</span> <span class="fl">100</span></span>
+<span>                                 , context <span class="op">=</span> <span class="va">context</span></span>
+<span>                                 , extra_cols <span class="op">=</span> <span class="st">"original_name"</span></span>
+<span>                                 , over_ride_na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data_name <span class="op">=</span> <span class="va">include_data_name</span><span class="op">)</span></span>
+<span>                                 <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">add_time_stamp</span><span class="op">(</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_geo_rel</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 696 x 9</span></span></span>
-<span><span class="co">#&gt;     long   lat data_name site    date       original_name rel_metres month  year</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Enchylaena t~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Walsholaria ~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Walsholaria ~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Roepera apic~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Sclerolaena ~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Eucalyptus g~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Eucalyptus g~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108542~ 2006-10-20 Maireana eri~         50    10  <span style="text-decoration: underline;">2</span>006</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Dodonaea ste~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  140. -<span style="color: #BB0000;">34.6</span> GBIF      108538~ 1990-06-07 Eucalyptus o~        100     6  <span style="text-decoration: underline;">1</span>990</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 686 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,354 × 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long original_name           rel_metres_adj</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Acacia colletioides              <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Acacia oswaldii                  <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Acacia wilhelmiana               <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Beyeria opaca                    <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Chenopodium desertorum           <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Cratystylis conocephala          <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Enchylaena tomentosa             <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Eremophila crassifolia           <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Eremophila glabra                <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>980    12 -<span style="color: #BB0000;">34.6</span>  140. Eremophila scoparia              <span style="text-decoration: underline;">10</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,344 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="rasterize">Rasterize<a class="anchor" aria-label="anchor" href="#rasterize"></a>
@@ -298,21 +300,20 @@ replaced with <code>cell</code>, the raster cell id.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_geo_bin</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 696 x 10</span></span></span>
-<span><span class="co">#&gt;     cell  long   lat data_name site    date       original_name rel_metres month</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Maireana rad~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Roepera glau~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Beyeria lech~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Melaleuca la~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Sclerolaena ~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Maireana eri~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Eucalyptus o~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Westringia r~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Maireana pen~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span> GBIF      108542~ 2006-10-18 Walsholaria ~         50    10</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 686 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 1 more variable: year &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,326 × 7</span></span></span>
+<span><span class="co">#&gt;     cell  long   lat  year month original_name           rel_metres_adj</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">4</span>529  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>020    10 Billardiera cymosa                <span style="text-decoration: underline;">1</span>500</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">5</span>124  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>020     2 Eremophila glabra                  500</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">6</span>625  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>019     9 Walsholaria magniflora             750</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">6</span>625  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>020     9 Ptilotus seminudus                 750</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">7</span>229  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>020    11 Thysanotus baueri                 <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>006    10 Austrostipa acrociliata             50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>006    10 Beyeria lechenaultii                50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>006    10 Chenopodium wilsonii                50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>006    10 Eucalyptus gracilis                 50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">7</span>340  140. -<span style="color: #BB0000;">34.5</span>  <span style="text-decoration: underline;">2</span>006    10 Eucalyptus oleosa                   50</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,316 more rows</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -375,40 +376,40 @@ duplication.</li>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span>  <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 129 x 9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 212 × 9</span></span></span>
 <span><span class="co">#&gt;    original_name original_rank status kingdom usageKey acceptedUsageKey use_rank</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Maireana rad~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">760</span>840               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Roepera glau~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">987</span>022               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Beyeria lech~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">276</span>040               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Melaleuca la~ species       ACCEP~ Plantae  5<span style="text-decoration: underline;">415</span>775               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sclerolaena ~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">548</span>033               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Maireana eri~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">755</span>857               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Eucalyptus o~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">177</span>314               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Westringia r~ species       ACCEP~ Plantae  7<span style="text-decoration: underline;">307</span>131               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Maireana pen~ species       ACCEP~ Plantae  3<span style="text-decoration: underline;">760</span>912               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Walsholaria ~ species       ACCEP~ Plantae 10<span style="text-decoration: underline;">844</span>030               <span style="color: #BB0000;">NA</span> species </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 119 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 2 more variables: best_key &lt;int&gt;, taxa &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Eucalyptus l… species       ACCEP… Plantae  3<span style="text-decoration: underline;">177</span>019               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Maireana rad… species       ACCEP… Plantae  3<span style="text-decoration: underline;">760</span>840               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Roepera glau… species       ACCEP… Plantae  3<span style="text-decoration: underline;">987</span>022               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Beyeria lech… species       ACCEP… Plantae  7<span style="text-decoration: underline;">276</span>040               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Melaleuca la… species       ACCEP… Plantae  5<span style="text-decoration: underline;">415</span>775               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Sclerolaena … species       ACCEP… Plantae  7<span style="text-decoration: underline;">548</span>033               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Maireana eri… species       ACCEP… Plantae  3<span style="text-decoration: underline;">755</span>857               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Eucalyptus o… species       ACCEP… Plantae  3<span style="text-decoration: underline;">177</span>314               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Westringia r… species       ACCEP… Plantae  7<span style="text-decoration: underline;">307</span>131               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Maireana pen… species       ACCEP… Plantae  3<span style="text-decoration: underline;">760</span>912               <span style="color: #BB0000;">NA</span> species </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 202 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: best_key &lt;int&gt;, taxa &lt;chr&gt;</span></span></span></code></pre></div>
 <p>and <code>taxa_taxonomy</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span>  <span class="va">taxa</span><span class="op">$</span><span class="va">taxonomy</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 128 x 18</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 211 × 18</span></span></span>
 <span><span class="co">#&gt;    taxa  best_key scientificName rank  kingdom phylum order family genus species</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Call~  2<span style="text-decoration: underline;">684</span>334 Callitris ver~ spec~ Plantae Trach~ Pina~ Cupre~ Call~ Callit~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fest~  2<span style="text-decoration: underline;">702</span>727 Festuca myuro~ spec~ Plantae Trach~ Poal~ Poace~ Fest~ Festuc~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Brom~  2<span style="text-decoration: underline;">703</span>740 Bromus rubens~ spec~ Plantae Trach~ Poal~ Poace~ Brom~ Bromus~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Loma~  2<span style="text-decoration: underline;">770</span>905 Lomandra leuc~ spec~ Plantae Trach~ Aspa~ Aspar~ Loma~ Lomand~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Loma~  2<span style="text-decoration: underline;">771</span>025 Lomandra effu~ spec~ Plantae Trach~ Aspa~ Aspar~ Loma~ Lomand~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Acac~  2<span style="text-decoration: underline;">978</span>525 Acacia rigens~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Acac~  2<span style="text-decoration: underline;">979</span>322 Acacia sclero~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Acac~  2<span style="text-decoration: underline;">979</span>606 Acacia nyssop~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Acac~  2<span style="text-decoration: underline;">980</span>101 Acacia wilhel~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Acac~  2<span style="text-decoration: underline;">980</span>159 Acacia acanth~ spec~ Plantae Trach~ Faba~ Fabac~ Acac~ Acacia~</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 118 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 8 more variables: kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Call…  2<span style="text-decoration: underline;">684</span>273 Callitris pre… spec… Plantae Trach… Pina… Cupre… Call… Callit…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Call…  2<span style="text-decoration: underline;">684</span>334 Callitris ver… spec… Plantae Trach… Pina… Cupre… Call… Callit…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fest…  2<span style="text-decoration: underline;">702</span>727 Festuca myuro… spec… Plantae Trach… Poal… Poace… Fest… Festuc…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Brom…  2<span style="text-decoration: underline;">703</span>740 Bromus rubens… spec… Plantae Trach… Poal… Poace… Brom… Bromus…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Brom…  2<span style="text-decoration: underline;">703</span>760 Bromus diandr… spec… Plantae Trach… Poal… Poace… Brom… Bromus…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Gahn…  2<span style="text-decoration: underline;">710</span>060 Gahnia lanige… spec… Plantae Trach… Poal… Cyper… Gahn… Gahnia…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Lepi…  2<span style="text-decoration: underline;">731</span>138 Lepidosperma … spec… Plantae Trach… Poal… Cyper… Lepi… Lepido…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Mora…  2<span style="text-decoration: underline;">744</span>657 Moraea setifo… spec… Plantae Trach… Aspa… Irida… Mora… Moraea…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Aspa…  2<span style="text-decoration: underline;">768</span>367 Asparagus asp… spec… Plantae Trach… Aspa… Aspar… Aspa… Aspara…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Loma…  2<span style="text-decoration: underline;">770</span>905 Lomandra leuc… spec… Plantae Trach… Aspa… Aspar… Loma… Lomand…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 201 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 8 more variables: kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   class &lt;chr&gt;</span></span></span></code></pre></div>
 </div>
@@ -436,20 +437,20 @@ context.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_taxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 691 x 6</span></span></span>
-<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">95</span>018 Maireana radiata    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 681 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,305 × 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa              </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>020    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">4</span>529 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    11 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">9</span>074 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">28</span>336 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">32</span>298 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">34</span>545 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">35</span>964 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">39</span>162 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,295 more rows</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -477,20 +478,20 @@ particular analysis whether this trade-off will be worthwhile.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_single</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 689 x 6</span></span></span>
-<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">95</span>018 Maireana radiata    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 679 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,278 × 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa              </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    11 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">9</span>074 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">28</span>336 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">32</span>298 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">34</span>545 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">35</span>964 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">39</span>162 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">26</span>735 Eremophila glabra </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,268 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="effort">Effort<a class="anchor" aria-label="anchor" href="#effort"></a>
@@ -551,8 +552,8 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 1).</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.00014 seconds</span></span>
-<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.4 seconds.</span></span>
+<span><span class="co">#&gt; Chain 1: Gradient evaluation took 0.000152 seconds</span></span>
+<span><span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.52 seconds.</span></span>
 <span><span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
@@ -569,15 +570,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
-<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.167 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.17 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 1:                0.337 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 1:  Elapsed Time: 0.47 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.457 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 1:                0.927 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 1: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 2).</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2: Gradient evaluation took 3.1e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.</span></span>
+<span><span class="co">#&gt; Chain 2: Gradient evaluation took 8.8e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.88 seconds.</span></span>
 <span><span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
@@ -594,15 +595,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
-<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.156 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.165 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 2:                0.321 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 2:  Elapsed Time: 0.5 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.492 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 2:                0.992 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 2: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 3).</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3: Gradient evaluation took 2.7e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.</span></span>
+<span><span class="co">#&gt; Chain 3: Gradient evaluation took 0.000114 seconds</span></span>
+<span><span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 1.14 seconds.</span></span>
 <span><span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
@@ -619,15 +620,15 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
-<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.154 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.166 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 3:                0.32 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 3:  Elapsed Time: 0.466 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.49 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 3:                0.956 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 3: </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; SAMPLING FOR MODEL 'count' NOW (CHAIN 4).</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4: Gradient evaluation took 2.7e-05 seconds</span></span>
-<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.</span></span>
+<span><span class="co">#&gt; Chain 4: Gradient evaluation took 9.7e-05 seconds</span></span>
+<span><span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.97 seconds.</span></span>
 <span><span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
@@ -644,9 +645,9 @@ upper percentiles or richness.</p>
 <span><span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
 <span><span class="co">#&gt; Chain 4: </span></span>
-<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.152 seconds (Warm-up)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.163 seconds (Sampling)</span></span>
-<span><span class="co">#&gt; Chain 4:                0.315 seconds (Total)</span></span>
+<span><span class="co">#&gt; Chain 4:  Elapsed Time: 0.462 seconds (Warm-up)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.512 seconds (Sampling)</span></span>
+<span><span class="co">#&gt; Chain 4:                0.974 seconds (Total)</span></span>
 <span><span class="co">#&gt; Chain 4:</span></span>
 <span></span>
 <span>  <span class="co"># filter using model results</span></span>
@@ -659,20 +660,20 @@ upper percentiles or richness.</p>
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_effort</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 686 x 6</span></span></span>
-<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Maireana radiata    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">95</span>018 Maireana radiata    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 676 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,024 × 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa              </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    11 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">9</span>074 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">28</span>336 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">32</span>298 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">35</span>964 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">39</span>162 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Eremophila glabra </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990     3 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">89</span>357 Eremophila glabra </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,014 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="proportion-of-sites-at-which-a-taxa-occurs">Proportion of sites at which a taxa occurs<a class="anchor" aria-label="anchor" href="#proportion-of-sites-at-which-a-taxa-occurs"></a>
@@ -691,20 +692,20 @@ taxa.</p>
 <span>  </span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_prop</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 607 x 6</span></span></span>
-<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>990     6 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">80</span>157 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">19</span>607 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">22</span>287 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 597 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 817 × 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa              </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    11 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">9</span>074 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">28</span>336 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">32</span>298 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">35</span>964 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">39</span>162 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Ptilotus seminudus</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">12</span>659 Ptilotus seminudus</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 807 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="time">Time<a class="anchor" aria-label="anchor" href="#time"></a>
@@ -724,20 +725,20 @@ It may be desirable to keep only the most recent contexts. Just use
 <span></span>
 <span>  <span class="co"># Have a look at results</span></span>
 <span>  <span class="va">flor_recent</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 536 x 6</span></span></span>
-<span><span class="co">#&gt;     year month   lat  long  cell taxa                </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>098 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">83</span>038 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.6</span>  140. <span style="text-decoration: underline;">84</span>812 Roepera glauca      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">19</span>607 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">22</span>287 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Beyeria lechenaultii</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># i 526 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 753 × 6</span></span></span>
+<span><span class="co">#&gt;     year month   lat  long  cell taxa              </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">2</span>006    11 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">9</span>074 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">14</span>814 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>990     5 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">18</span>417 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">28</span>336 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">32</span>298 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">35</span>964 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">37</span>727 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">39</span>162 Billardiera cymosa</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140.  <span style="text-decoration: underline;">7</span>340 Ptilotus seminudus</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">2</span>006    10 -<span style="color: #BB0000;">34.5</span>  140. <span style="text-decoration: underline;">12</span>659 Ptilotus seminudus</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 743 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="summary">Cleaning summary<a class="anchor" aria-label="anchor" href="#summary"></a>
@@ -748,12 +749,14 @@ the taxa, records, visits and sites in each <code>flor_</code> data
 frame.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  </span>
-<span>  <span class="va">clean_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cleaning_text.html">cleaning_text</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"flor_"</span></span>
+<span>  <span class="va">clean_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cleaning_summary.html">cleaning_summary</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"flor_"</span></span>
 <span>                                , save_ends <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>                                , site_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span><span class="op">)</span></span>
 <span>                                , visit_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"month"</span>, <span class="st">"year"</span><span class="op">)</span></span>
 <span>                                , taxa_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"taxa"</span>, <span class="st">"original_name"</span><span class="op">)</span></span>
 <span>                                <span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">clean_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cleaning_text.html">cleaning_text</a></span><span class="op">(</span><span class="va">cleaning_summary</span><span class="op">)</span></span>
 <span>  </span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -781,8 +784,7 @@ frame.</p>
 </h3>
 <p>The initial data set contained 213 taxa, 1,419 records, 146 visits,
 and 141 sites. At the start of the cleaning process context was defined
-by <code>original_name</code>, <code>lat</code>, <code>long</code>,
-<code>month</code> and <code>year</code>.</p>
+by lat, long, month, year and original_name.</p>
 <p><br></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -796,12 +798,11 @@ by <code>original_name</code>, <code>lat</code>, <code>long</code>,
 <h3 id="geo_rel">
 <code>geo_rel</code><a class="anchor" aria-label="anchor" href="#geo_rel"></a>
 </h3>
-<p>The cleaning step ‘spatial reliability’: took the number of taxa from
-213 to 130; took the number of records from 1,419 to 696; took the
-number of visits from 146 to 45; and took the number of sites from 141
-to 40. At this stage of the cleaning process context was defined by
-<code>original_name</code>, <code>lat</code>, <code>long</code>,
-<code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘spatial reliability’: did not change the number of
+taxa (213); took the number of records from 1,419 to 1,354; did not
+change the number of visits (146); and did not change the number of
+sites (141). At this stage of the cleaning process context was defined
+by lat, long, month, year and original_name.</p>
 <p><br></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -816,12 +817,11 @@ to 40. At this stage of the cleaning process context was defined by
 <code>geo_bin</code><a class="anchor" aria-label="anchor" href="#geo_bin"></a>
 </h3>
 <p>The cleaning step ‘assigning locations to spatial bins’: did not
-change the number of taxa (130); did not change the number of records
-(696); did not change the number of visits (45); and took the number of
-sites from 40 to 38. At this stage of the cleaning process context was
-defined by <code>original_name</code>, <code>cell</code>,
-<code>lat</code>, <code>long</code>, <code>month</code> and
-<code>year</code>. <code>cell</code> was added.</p>
+change the number of taxa (213); took the number of records from 1,354
+to 1,326; took the number of visits from 146 to 135; and took the number
+of sites from 141 to 125. At this stage of the cleaning process context
+was defined by cell, lat, long, month, year and original_name. cell was
+added.</p>
 <p><br></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -836,13 +836,11 @@ defined by <code>original_name</code>, <code>cell</code>,
 <code>taxa</code><a class="anchor" aria-label="anchor" href="#taxa"></a>
 </h3>
 <p>The cleaning step ‘align taxonomy and resolve any taxonomic
-duplication within bins’: took the number of taxa from 130 to 128; took
-the number of records from 696 to 691; did not change the number of
-visits (45); and did not change the number of sites (38). At this stage
-of the cleaning process context was defined by <code>taxa</code>,
-<code>cell</code>, <code>lat</code>, <code>long</code>,
-<code>month</code> and <code>year</code>. <code>taxa</code> was added
-and <code>original_name</code> was removed.</p>
+duplication within bins’: took the number of taxa from 213 to 209; took
+the number of records from 1,326 to 1,305; did not change the number of
+visits (135); and did not change the number of sites (125). At this
+stage of the cleaning process context was defined by cell, lat, long,
+month, year and taxa. taxa was added and original_name was removed.</p>
 <p><br></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -856,12 +854,11 @@ and <code>original_name</code> was removed.</p>
 <h3 id="single">
 <code>single</code><a class="anchor" aria-label="anchor" href="#single"></a>
 </h3>
-<p>The cleaning step ‘singletons’: took the number of taxa from 128 to
-127; took the number of records from 691 to 689; took the number of
-visits from 45 to 43; and took the number of sites from 38 to 36. At
-this stage of the cleaning process context was defined by
-<code>taxa</code>, <code>cell</code>, <code>lat</code>,
-<code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘singletons’: took the number of taxa from 209 to
+206; took the number of records from 1,305 to 1,278; took the number of
+visits from 135 to 108; and took the number of sites from 125 to 101. At
+this stage of the cleaning process context was defined by cell, lat,
+long, month, year and taxa.</p>
 <p><br></p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -875,12 +872,11 @@ this stage of the cleaning process context was defined by
 <h3 id="effort-1">
 <code>effort</code><a class="anchor" aria-label="anchor" href="#effort-1"></a>
 </h3>
-<p>The cleaning step ‘context effort’: took the number of taxa from 127
-to 126; took the number of records from 689 to 686; took the number of
-visits from 43 to 42; and took the number of sites from 36 to 35. At
-this stage of the cleaning process context was defined by
-<code>taxa</code>, <code>cell</code>, <code>lat</code>,
-<code>long</code>, <code>month</code> and <code>year</code>.</p>
+<p>The cleaning step ‘context effort’: took the number of taxa from 206
+to 143; took the number of records from 1,278 to 1,024; took the number
+of visits from 108 to 104; and took the number of sites from 101 to 97.
+At this stage of the cleaning process context was defined by cell, lat,
+long, month, year and taxa.</p>
 <p><br></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -895,11 +891,10 @@ this stage of the cleaning process context was defined by
 <code>prop</code><a class="anchor" aria-label="anchor" href="#prop"></a>
 </h3>
 <p>The cleaning step ‘proportion of sites’: took the number of taxa from
-126 to 70; took the number of records from 686 to 607; did not change
-the number of visits (42); and did not change the number of sites (35).
-At this stage of the cleaning process context was defined by
-<code>taxa</code>, <code>cell</code>, <code>lat</code>,
-<code>long</code>, <code>month</code> and <code>year</code>.</p>
+143 to 48; took the number of records from 1,024 to 817; took the number
+of visits from 104 to 103; and took the number of sites from 97 to 96.
+At this stage of the cleaning process context was defined by cell, lat,
+long, month, year and taxa.</p>
 <p><br></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -914,11 +909,10 @@ At this stage of the cleaning process context was defined by
 <code>recent</code><a class="anchor" aria-label="anchor" href="#recent"></a>
 </h3>
 <p>The cleaning step ‘the most recent visit to a cell’: did not change
-the number of taxa (70); took the number of records from 607 to 536;
-took the number of visits from 42 to 35; and did not change the number
-of sites (35). At this stage of the cleaning process context was defined
-by <code>taxa</code>, <code>cell</code>, <code>lat</code>,
-<code>long</code>, <code>month</code> and <code>year</code>.</p>
+the number of taxa (48); took the number of records from 817 to 753;
+took the number of visits from 103 to 96; and did not change the number
+of sites (96). At this stage of the cleaning process context was defined
+by cell, lat, long, month, year and taxa.</p>
 <p><br></p>
 </div>
 </div>
@@ -933,17 +927,17 @@ through the process?</p>
 <span>  <span class="fu"><a href="../reference/find_taxa.html">find_taxa</a></span><span class="op">(</span>taxa <span class="op">=</span> <span class="st">"Eucalyptus incrassata"</span></span>
 <span>            , lookup_taxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">lutaxa</span></span>
 <span>            <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 x 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 6</span></span></span>
 <span><span class="co">#&gt;   name           obj              has_stamp  nrow ctime               summary   </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flor_geo_range <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>419 2023-11-15 <span style="color: #949494;">15:04:13</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> flor_geo_rel   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-11-15 <span style="color: #949494;">15:04:14</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> flor_geo_bin   <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        696 2023-11-15 <span style="color: #949494;">15:04:14</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> flor_taxa      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        691 2023-11-15 <span style="color: #949494;">15:04:15</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> flor_single    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        689 2023-11-15 <span style="color: #949494;">15:04:16</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> flor_effort    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        686 2023-11-15 <span style="color: #949494;">15:04:17</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> flor_prop      <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        607 2023-11-15 <span style="color: #949494;">15:04:18</span> Eucalyptu~</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> flor_recent    <span style="color: #949494;">&lt;tibble [1 x 2]&gt;</span> TRUE        536 2023-11-15 <span style="color: #949494;">15:04:18</span> Eucalyptu~</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flor_geo_range <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>419 2024-02-08 <span style="color: #949494;">14:32:07</span> Eucalyptu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> flor_geo_rel   <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>354 2024-02-08 <span style="color: #949494;">14:32:08</span> Eucalyptu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> flor_geo_bin   <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>326 2024-02-08 <span style="color: #949494;">14:32:09</span> Eucalyptu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> flor_taxa      <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>305 2024-02-08 <span style="color: #949494;">14:32:11</span> Eucalyptu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> flor_single    <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>278 2024-02-08 <span style="color: #949494;">14:32:11</span> Eucalyptu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> flor_effort    <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE       <span style="text-decoration: underline;">1</span>024 2024-02-08 <span style="color: #949494;">14:32:17</span> Eucalyptu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> flor_prop      <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE        817 2024-02-08 <span style="color: #949494;">14:32:17</span> Eucalyptu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> flor_recent    <span style="color: #949494;">&lt;tibble [1 × 2]&gt;</span> TRUE        753 2024-02-08 <span style="color: #949494;">14:32:17</span> Eucalyptu…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="summary-1">Summary<a class="anchor" aria-label="anchor" href="#summary-1"></a>
@@ -951,7 +945,7 @@ through the process?</p>
 <p>After ingesting data from a range of sources (GBIF) the
 <code>envClean</code> functions helped clean the data ready for further
 analysis. The original 1419 records were cleaned, tidied and filtered to
-536 records.</p>
+753 records.</p>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -964,7 +958,7 @@ Wolfe. 2018. <span>“Joint Longitudinal and Time-to-Event Models via
 </div>
 <div id="ref-R-rstanarm" class="csl-entry">
 Gabry, Jonah, and Ben Goodrich. 2023. <em>Rstanarm: Bayesian Applied
-Regression Modeling via Stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm" class="external-link">https://CRAN.R-project.org/package=rstanarm</a>.
+Regression Modeling via Stan</em>. <a href="https://mc-stan.org/rstanarm/" class="external-link">https://mc-stan.org/rstanarm/</a>.
 </div>
 <div id="ref-GBIFRef_6" class="csl-entry">
 GBIF.Org. 2022. <span>“GBIF Occurrence Download.”</span> The Global

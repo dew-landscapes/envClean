@@ -21,5 +21,6 @@
     "Pachycephala occidentalis","Pachycephala fuliginosa","Western Whistler", # another variant
     "Rhipidura fuliginosa","Rhipidura albiscapa","Grey Fantail", # Rhipidura fuliginosa is New Zealand Fantail erroneously recorded as Grey Fantail in Aus mainly in last ten years via iNaturalist.
     "Tyto alba","Tyto javanica","Eastern Barn Owl", # same species (used to be Tyto alba javanica); consensus seems to be javanica now
-    "Acrocephalus stentoreus","Acrocephalus australis","Australian Reed Warbler" # Clamorous Reed Warbler records should be Australian
-  )
+    "Acrocephalus stentoreus","Acrocephalus australis","Australian Reed Warbler", # Clamorous Reed Warbler records should be Australian
+    "Sminthopsis griseoventer", "Sminthopsis fuliginosus", "EP/KI Dunnarts" # according to cited ref in BDBSA taxonomy, both species should be S.fuliginosus, just separate subspecies on KI and EP. Although, EPBC suggests both should be S.griseoventer, and redlist suggests separate species but does not have species level distribution for S.fuliginosus - only KI ssp. Resolving all to S.fuliginosus avoids reference to S.griseoventer distribution from redlist, which would remove all KI records in filter_by_distribution if all records changed to S.griseoventer.
+    )

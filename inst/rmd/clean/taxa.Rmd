@@ -18,7 +18,7 @@ Prior to querying against GBIF the following cleaning steps were undertaken:
 
 The taxa used in analyses were always binomial (taxa recorded at taxonomic level below species were grouped at species level (e.g. _Acanthiza iredalei rosinae_ was changed to _Acanthiza iredalei_). Any record that could not be matched to a name at `r rank_to_target` level, or better, was removed. Table \@ref(tab:taxHier) shows each taxonomic rank and the count of taxa matched at that rank.
 
-At the same time as the analysis-wide taxonomy was applied (by `filter_taxa`), any duplication of cover and lifeform for a taxa in a context was resolved, leaving only a single record of each taxa within a context.
+Occasionally duplicate accepted taxa exist within the GBIF taxonomic backbone for the same species due to taxonomic updates that are in progress, unresolved taxonomies, or recording errors (e.g. recording an international related species instead of the Australian species). Where duplicate accepted taxa were identified, these were manually combined to the most recently accepted species (see `taxonomy_fixes` in `envClean`).
 
 `r paste0(data_filter$filter_text[i], " ", data_filter$context_text[i])`
 
