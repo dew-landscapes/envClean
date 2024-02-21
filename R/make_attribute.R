@@ -54,6 +54,18 @@
                     , tidyselect::any_of(context)
                     )
 
+    # catch for subspecies -------
+    if(max_guess == "subspecies") {
+
+      attribute_df <- attribute_df %>%
+        dplyr::mutate(subspecies = taxa)
+
+      taxonomy$taxonomy <- taxonomy$taxonomy %>%
+        dplyr::filter(rank == "subspecies") %>%
+        dplyr::mutate(subspecies = taxa)
+
+    }
+
     tax_levels_list <- tax_levels %>%
       intersect(names(attribute_df)) %>%
       Map(function(x) NULL, .)
