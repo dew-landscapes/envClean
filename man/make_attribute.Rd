@@ -12,7 +12,7 @@ make_attribute(
   max_guess = "family",
   agg_method = median,
   agg_round = 2,
-  att_default = "Unknown",
+  unknown_action = c("remove", "unknown"),
   context = NULL,
   remove_strings = c("n/a", "''", "NA"),
   ...
@@ -27,13 +27,13 @@ make_attribute(
 
 \item{taxonomy}{List resulting from call to \code{make_taxonomy()}}
 
-\item{max_guess}{Character. If attribute is not available for \code{taxa}, try guessing from values up to \code{max_guess} level of taxonomic hierarchy. See \code{lurank}}
+\item{max_guess}{Character. If attribute is not available for \code{taxa}, try guessing from values up to \code{max_guess} level of taxonomic hierarchy. See \code{lurank}. Note it does not make sense to provide a rank here that is lower than the \code{target_rank} provided to \code{make_taxonomy} when \code{taxonomy} was made.}
 
 \item{agg_method}{Function name to use for summarising numeric \code{att_col}. Ignored if \code{att_col} is not numeric}
 
 \item{agg_round}{Passed to \code{base::round()} round argument. Used if summarising numeric \code{att_col}.}
 
-\item{att_default}{Default value used for \code{att_col} when no other value can be found/guessed.}
+\item{unknown_action}{When no other value can be found/guessed: either default 'remove' (no record returned); or provide a value to be used. Only used for character \code{att_col}}
 
 \item{context}{Any other columns in \code{df} to maintain throughout summarising.}
 

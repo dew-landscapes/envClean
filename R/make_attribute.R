@@ -5,10 +5,10 @@
 #' @param taxa_col Character name of column in `df` that was passed to `get_taxonomy` as `taxa_col`
 #' @param att_col Character name of column in `df` that contains the attribute to summarise
 #' @param taxonomy List resulting from call to `make_taxonomy()`
-#' @param max_guess Character. If attribute is not available for `taxa`, try guessing from values up to `max_guess` level of taxonomic hierarchy. See `lurank`
+#' @param max_guess Character. If attribute is not available for `taxa`, try guessing from values up to `max_guess` level of taxonomic hierarchy. See `lurank`. Note it does not make sense to provide a rank here that is lower than the `target_rank` provided to `make_taxonomy` when `taxonomy` was made.
 #' @param agg_method Function name to use for summarising numeric `att_col`. Ignored if `att_col` is not numeric
 #' @param agg_round Passed to `base::round()` round argument. Used if summarising numeric `att_col`.
-#' @param att_default Default value used for `att_col` when no other value can be found/guessed.
+#' @param unknown_action When no other value can be found/guessed: either default 'remove' (no record returned); or provide a value to be used. Only used for character `att_col`
 #' @param context Any other columns in `df` to maintain throughout summarising.
 #' @param remove_strings Character. Any values in `att_col` to exclude
 #' @param ... Passed to `agg_method`
@@ -24,11 +24,13 @@
                              , max_guess = "family"
                              , agg_method = median
                              , agg_round = 2
-                             , att_default = "Unknown"
+                             , unknown_action = c("remove", "unknown")
                              , context = NULL
                              , remove_strings = c("n/a", "''", "NA")
                              , ...
                              ) {
+
+    unknown_action <- unknown_action[1]
 
     tax_levels <- envClean::lurank %>%
       dplyr::filter(rank <= max_guess) %>%
@@ -163,6 +165,23 @@
                     ) %>%
       purrr::set_names(gsub("att", att_col, names(.)))
 
-    return(att_result)
+
+    if(all(unknown_action != "remove", att_class == "character")) {
+
+      res <- taxonomy$lutaxa %>%
+        dplyr::filter(!is.na(taxa)) %>%
+        dplyr::distinct(taxa, kingdom) %>%
+        dplyr::left_join(att_result) %>%
+        dplyr::mutate(dplyr::across(!!rlang::ensym(att_col)
+                                    , \(x) dplyr::if_else(is.na(x)
+                                                          , unknown_action
+                                                          , x
+                                                          )
+                                    )
+                      )
+
+    } else res <- att_result
+
+    return(res)
 
   }

@@ -10,6 +10,7 @@ make_taxonomy(
   taxonomy_file,
   target_rank = "species",
   limit = TRUE,
+  fixes = NULL,
   ...
 )
 }
@@ -28,6 +29,13 @@ returned. See \code{envFunc::lurank} \code{rank} column.}
 \item{limit}{Logical. If true (default), the output taxonomy will be limited
 to the input names in \code{df}. Otherwise, all taxa found in \code{taxonomy_file} will
 be returned.}
+
+\item{fixes}{Data frame with columns \code{resolved_to} and \code{prefer}. Any \code{taxa}
+result in \code{lutaxa} that matches a name in \code{resolved_to} will be changed to
+\code{prefer}. Mainly used where legitimate names are used in areas where they do
+not exist. e.g. Eastern osprey \emph{Pandion cristatus} does not occur in South
+Australia but records of this species in South Australia are assumed to be
+legitimate Osprey (\emph{Pandion haliaetus}) records.}
 
 \item{...}{Passed to \code{get_taxonomy()}}
 }

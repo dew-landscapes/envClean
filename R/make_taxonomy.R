@@ -12,6 +12,13 @@
 #' @param limit Logical. If true (default), the output taxonomy will be limited
 #' to the input names in `df`. Otherwise, all taxa found in `taxonomy_file` will
 #' be returned.
+#' @param fixes Data frame with columns `resolved_to` and `prefer`. Any `taxa`
+#' result in `lutaxa` that matches a name in `resolved_to` will be changed to
+#' `prefer`. Mainly used where legitimate names are used in areas where they do
+#' not exist. e.g. Eastern osprey _Pandion cristatus_ does not occur in South
+#' Australia but records of this species in South Australia are assumed to be
+#' legitimate Osprey (_Pandion haliaetus_) records.
+#'
 #' @param ... Passed to `get_taxonomy()`
 #'
 #' @return named list with elements:
@@ -29,6 +36,7 @@
                             , taxonomy_file
                             , target_rank = "species"
                             , limit = TRUE
+                            , fixes = NULL
                             , ...
                             ) {
 
@@ -36,7 +44,9 @@
 
     # raw -------
 
-    raw <- get_taxonomy(df = df
+    raw <- get_taxonomy(df = df %>%
+                          dplyr::distinct(!!rlang::ensym(taxa_col)) %>%
+                          dplyr::bind_rows(tibble::tibble(!!rlang::ensym(taxa_col) := c(fixes$prefer, fixes$resolved_to)))
                         , taxa_col = taxa_col
                         , taxonomy_file = taxonomy_file
                         , ...
@@ -130,7 +140,13 @@
     tax_res$lutaxa <- best %>%
       dplyr::left_join(tax_res$taxonomy %>%
                          dplyr::select(taxa, best_key)
-                       )
+                       ) %>%
+      dplyr::mutate(taxa = stringi::stri_replace_all_regex(taxa
+                                                           , pattern = fixes$resolved_to
+                                                           , replacement = fixes$prefer
+                                                           , vectorize = FALSE
+                                                           )
+                    )
 
 
     # return-----
