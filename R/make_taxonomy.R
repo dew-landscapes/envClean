@@ -140,13 +140,19 @@
     tax_res$lutaxa <- best %>%
       dplyr::left_join(tax_res$taxonomy %>%
                          dplyr::select(taxa, best_key)
-                       ) %>%
-      dplyr::mutate(taxa = stringi::stri_replace_all_regex(taxa
-                                                           , pattern = fixes$resolved_to
-                                                           , replacement = fixes$prefer
-                                                           , vectorize = FALSE
-                                                           )
-                    )
+                       )
+
+    if(!is.null(fixes)) {
+
+      tax_res$lutaxa <- tax_res$lutaxa %>%
+        dplyr::mutate(taxa = stringi::stri_replace_all_regex(taxa
+                                                             , pattern = fixes$resolved_to
+                                                             , replacement = fixes$prefer
+                                                             , vectorize = FALSE
+                                                             )
+                      )
+
+    }
 
 
     # return-----
