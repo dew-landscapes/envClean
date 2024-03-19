@@ -81,14 +81,14 @@ cleaning_summary <- function(prefix = "bio_"
                                          , paste0(c("clean_start"
                                                     , "clean_end"
                                                     )
-                                                  , ".rds"
+                                                  , ".parquet"
                                                   )
                                          )
                     )
 
     purrr::walk2(to_save$obj
                  , to_save$save_path
-                 , rio::export
+                 , arrow::write_parquet
                  )
 
   }
