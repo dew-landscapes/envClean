@@ -14,10 +14,10 @@
 #' @export
 #'
 #' @examples
-  filter_taxa <- function(df
-                          , taxa_col = "original_name"
-                          , taxonomy
-                          ) {
+  bin_taxa <- function(df
+                       , taxa_col = "original_name"
+                       , taxonomy
+                       ) {
 
     return_names <- names(df)
 
