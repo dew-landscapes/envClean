@@ -10,7 +10,9 @@ get_taxonomy(
   taxonomy_file = tempfile(),
   force_new = list(original_name = NULL, timediff = as.difftime(26, units = "weeks")),
   remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass", "\\\\?"),
-  remove_strings = c("\\\\sx\\\\s.*|\\\\sX\\\\s.*"),
+  remove_strings = c("\\\\sx\\\\s.*", "\\\\sX\\\\s.*", "\\\\s\\\\-\\\\-\\\\s.*",
+    "\\\\s\\\\(.*\\\\)", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$"),
+  remove_dead = FALSE,
   ...
 )
 }

@@ -2,6 +2,10 @@
 
 #' Clean/Tidy to one row per taxa*Visit
 #'
+#' Deprecated in favour of the simpler workflow involving make_taxonomy then
+#' bin_taxa (along with other bins, say, geographic and temporal). Required
+#' attributes are then added to each taxa; context and/or taxa + context before
+#' reducing to distinct context and associated attributes.
 #'
 #' @param df Dataframe to clean, filter and tidy with respect to taxonomy.
 #' @param taxa_col Character. Name of column with taxa.

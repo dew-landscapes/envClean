@@ -47,9 +47,28 @@
                                              , "annual grass"
                                              , "\\?"
                                              )
-                           , remove_strings = c("\\sx\\s.*|\\sX\\s.*")
+                           , remove_strings = c("\\sx\\s.*" # blah x abc xyz
+                                                , "\\sX\\s.*" # blah X abc xyz
+                                                , "\\s\\-\\-\\s.*" # blah -- abc xyz
+                                                , "\\s\\(.*\\)"  # blah (abc xyz) blah (note second space left)
+                                                , "\\ssp\\.$" # blah sp.END
+                                                , "\\sssp\\.$" # blah ssp.END
+                                                ) # blah not removed, everything else removed
+                           , remove_dead = FALSE
                            , ...
                            ) {
+
+    if(remove_dead) {
+
+      # any 'name' including dead removed altogether
+      remove_taxa <- c(remove_taxa, "dead", "DEAD", "Dead")
+
+    } else {
+
+      # any instance of 'dead' removed from string to give better chance of name match
+      remove_strings <- c(remove_strings, "dead", "DEAD", "Dead")
+
+    }
 
     lurank <- envClean::lurank
 
