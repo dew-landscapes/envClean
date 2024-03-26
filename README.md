@@ -131,12 +131,13 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |`envFunc::add_cover()`           |function                   |Generate best guess of cover for each taxa*context                            |
 |`envFunc::add_lifeform()`        |function                   |Generate best guess of lifeform for each taxa*context                         |
 |`envFunc::aoi`                   |sf and data.frame          |Simple feature to define a geographic area of interest.                       |
+|`envFunc::bin_taxa()`            |function                   |Add code{taxa} column                                                         |
 |`envFunc::cleaning_summary()`    |function                   |Describte change in taxa, records, visits and sites between cleaning steps    |
 |`envFunc::cleaning_text()`       |function                   |Write a sentence describing change in taxa, records, visits and sites between |
 |`envFunc::filter_counts()`       |function                   |Filter any context with less instances than a threshold value                 |
 |`envFunc::filter_geo_range()`    |function                   |Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)   |
 |`envFunc::filter_prop()`         |function                   |Filter taxa recorded at less than x percent of visits                         |
-|`envFunc::filter_taxa()`         |function                   |Add code{taxa} column                                                         |
+|`envFunc::filter_taxa()`         |function                   |Clean/Tidy to one row per taxa*Visit                                          |
 |`envFunc::filter_text_col()`     |function                   |Filter a dataframe column on character string(s)                              |
 |`envFunc::find_outliers()`       |function                   |Find local outliers                                                           |
 |`envFunc::find_taxa()`           |function                   |Find how taxa changed through the cleaning/filtering/tidying process          |

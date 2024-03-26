@@ -3,6 +3,7 @@
 export("%>%")
 export(add_cover)
 export(add_lifeform)
+export(bin_taxa)
 export(cleaning_summary)
 export(cleaning_text)
 export(filter_counts)
