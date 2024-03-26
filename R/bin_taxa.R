@@ -9,6 +9,9 @@
 #' @param taxa_col Character. Name of column with taxa.
 #' @param taxonomy list with (at least) named elements `lutaxa` and `taxonomy`.
 #' Usually resulting from call to `envClean::make_taxonomy()`.
+#' @param include_level Character (or `NULL`). Name(s) of any extra columns in
+#' taxa$taxonomy to return. e.g. `include_levels = "kingdom"` will return the
+#' kingdom for each taxa.
 #'
 #' @return Dataframe with added column `taxa`
 #' @export
@@ -17,6 +20,7 @@
   bin_taxa <- function(df
                        , taxa_col = "original_name"
                        , taxonomy
+                       , include_levels = NULL
                        ) {
 
     return_names <- names(df)
@@ -24,6 +28,12 @@
     if(taxa_col == "taxa") {
 
       return_names <- c("original_name", return_names)
+
+    }
+
+    if(!is.null(include_levels)) {
+
+      return_names <- c(include_levels, return_names)
 
     }
 
