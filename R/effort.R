@@ -138,7 +138,7 @@
 #' @param effort_thresh Numeric. `effort_col` (if used) will be filtered below
 #' this threshold.
 #' @param out_file Character. Optional path to save output.
-#' @param ... Passed to [rstanarm::stan_glm()].
+#' @param ... Passed to `rstanarm::stan_glm()`.
 #'
 #'
 #' @return List of model outputs.

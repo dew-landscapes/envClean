@@ -36,7 +36,7 @@ this threshold.}
 
 \item{out_file}{Character. Optional path to save output.}
 
-\item{...}{Passed to \code{\link[rstanarm:stan_glm]{rstanarm::stan_glm()}}.}
+\item{...}{Passed to \code{rstanarm::stan_glm()}.}
 }
 \value{
 List of model outputs.

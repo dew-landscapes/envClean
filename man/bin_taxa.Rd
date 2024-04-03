@@ -4,7 +4,7 @@
 \alias{bin_taxa}
 \title{Add \code{taxa} column}
 \usage{
-bin_taxa(df, taxa_col = "original_name", taxonomy)
+bin_taxa(df, taxa_col = "original_name", taxonomy, include_levels = NULL)
 }
 \arguments{
 \item{df}{Dataframe to clean, filter and tidy with respect to taxonomy.}
@@ -13,6 +13,10 @@ bin_taxa(df, taxa_col = "original_name", taxonomy)
 
 \item{taxonomy}{list with (at least) named elements \code{lutaxa} and \code{taxonomy}.
 Usually resulting from call to \code{envClean::make_taxonomy()}.}
+
+\item{include_level}{Character (or \code{NULL}). Name(s) of any extra columns in
+taxa$taxonomy to return. e.g. \code{include_levels = "kingdom"} will return the
+kingdom for each taxa.}
 }
 \value{
 Dataframe with added column \code{taxa}
