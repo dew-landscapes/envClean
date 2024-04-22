@@ -66,7 +66,7 @@
 
 #' Manual taxonomic fixes
 #'
-#' Use on results from `envClean::make_taxa_taxonomy`.
+#' Can be used as argument to `envClean::make_taxa_taxonomy()`.
 #'
 #' @format A data frame with `r nrow(taxonomy_fixes)` rows and `r ncol(taxonomy_fixes)`
 #' variables:
@@ -79,3 +79,16 @@
 #' }
 "taxonomy_fixes"
 
+#' Manual taxonomic overrides
+#'
+#' Can be used as argument to `envClean::make_taxa_taxonomy()`.
+#'
+#' @format A data frame with `r nrow(taxonomy_overrides)` rows and `r ncol(taxonomy_overrides)`
+#' variables:
+#' \describe{
+#'   \item{original}{Character. Original names of taxa}
+#'   \item{prefer}{Character. Preferred taxon to use instead of any result resturned by the GBIF Backbone Taxonomy`.}
+#'   \item{note}{Character. Currently has mostly common names.}
+#'   ...
+#' }
+"taxonomy_overrides"

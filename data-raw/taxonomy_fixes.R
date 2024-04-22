@@ -33,7 +33,7 @@
 
   # overrides -------
 
-  taxonomic_overrides <- tibble::tribble(
+  taxonomy_overrides <- tibble::tribble(
     ~original, ~prefer, ~note,
     "Thinornis rubricollis", "Thinornis cucullatus", "Hooded Plover",
     "Charadrius rubricollis", "Thinornis cucullatus", "Hooded Plover",

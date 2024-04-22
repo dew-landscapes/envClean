@@ -158,6 +158,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |`envFunc::rec_vis_sit_tax()`     |function                   |How many records, visits, sites and taxa in a dataframe                       |
 |`envFunc::reduce_geo_rel()`      |function                   |Reduce data frame to a single spatial reliability within a context            |
 |`envFunc::taxonomy_fixes`        |tbl_df, tbl and data.frame |Manual taxonomic fixes                                                        |
+|`envFunc::taxonomy_overrides`    |tbl_df, tbl and data.frame |Manual taxonomic overrides                                                    |
 
 
 

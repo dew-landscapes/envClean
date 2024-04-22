@@ -19,6 +19,6 @@ usually run within \code{envClean::make_taxa_taxonomy}}
 taxonomy_fixes
 }
 \description{
-Use on results from \code{envClean::make_taxa_taxonomy}.
+Can be used as argument to \code{envClean::make_taxa_taxonomy()}.
 }
 \keyword{datasets}
