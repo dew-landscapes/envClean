@@ -11,7 +11,8 @@
 #' particularly around species vs subspecies.
 #'
 #' @param df Dataframe with taxa column.
-#' @param taxa_col Character. Name of column with taxa names
+#' @param taxa_col Character. Name of column with taxa names. Each unique taxa
+#' in this column will appear in the results in a column called `original_name`
 #' @param taxonomy_file Character. Path to save results to.
 #' @param force_new List with elements `taxa_col` and `difftime`. If
 #' `taxonomy_file` already exists any `taxa_col` matches between `force_new` and
@@ -53,6 +54,7 @@
                                                 , "\\s\\(.*\\)"  # blah (abc xyz) blah (note second space left)
                                                 , "\\ssp\\.$" # blah sp.END
                                                 , "\\sssp\\.$" # blah ssp.END
+                                                , "\\sspec\\.$" # blah spec.End
                                                 ) # blah not removed, everything else removed
                            , remove_dead = FALSE
                            , ...
@@ -74,7 +76,7 @@
 
     taxa_col <- names(df[taxa_col])
 
-    if(tools::file_ext(taxonomy_file) == "") taxonomy_file <- paste0(taxonomy_file, ".rds")
+    if(tools::file_ext(taxonomy_file) == "") taxonomy_file <- paste0(taxonomy_file, ".parquet")
 
     # If taxonomy_file already exists, bring it in then remove any force_new
     if(file.exists(taxonomy_file)) {
@@ -100,13 +102,13 @@
       if(!is.null(force_new$original_name)) {
 
         res <- res %>%
-          dplyr::filter(!(!!rlang::ensym(taxa_col) %in% force_new[taxa_col]))
+          dplyr::filter(!(original_name %in% force_new[taxa_col]))
 
       }
 
     } else {
 
-      res <- tibble::tibble(!!rlang::ensym(taxa_col) := NA
+      res <- tibble::tibble(original_name := NA
                             , usageKey = NA
                             )
 
@@ -114,19 +116,16 @@
 
     # Collect any unfound taxa_col to check in gbif (and make a 'searched' name)
     to_check <- unique(df[taxa_col]) %>%
-      {if(taxa_col != "original_name") (.) %>%
-          dplyr::mutate(original_name = !!rlang::ensym(taxa_col)) else
-            (.)} %>% # needed to ensure other taxa_col are respected
+      dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
       dplyr::filter(!grepl(paste0(remove_taxa
                                   , collapse = "|"
                                   )
-                           , !!rlang::ensym(taxa_col)
+                           , original_name
                            )
-                    , !!rlang::ensym(taxa_col) != ""
+                    , original_name != ""
                     ) %>%
       dplyr::anti_join(res) %>%
-      dplyr::mutate(original_name = !!rlang::ensym(taxa_col)
-                    , searched_name = gsub(paste0(remove_strings
+      dplyr::mutate(searched_name = gsub(paste0(remove_strings
                                                   , collapse = "|"
                                                   )
                                            , ""
@@ -137,12 +136,12 @@
       # remove names that contain only NA, blanks, digits or dates
       dplyr::filter(is.na(as.numeric(gsub("[^[[:alnum:]]+"
                                           , ""
-                                          , !!rlang::ensym(taxa_col)
+                                          , original_name
                                           )
                                      )
                           )
-                    , is.na(as.numeric(lubridate::dmy(!!rlang::ensym(taxa_col))))
-                    , !is.na(!!rlang::ensym(taxa_col))
+                    , is.na(as.numeric(lubridate::dmy(original_name)))
+                    , !is.na(original_name)
                     , !is.na(searched_name)
                     , searched_name != ""
                     )
@@ -152,7 +151,7 @@
     if(length(to_check$searched_name)){
 
       tax_gbif <- to_check %>%
-        dplyr::bind_cols(rgbif::name_backbone_checklist(to_check %>% dplyr::select(name = searched_name))) %>%
+        dplyr::bind_cols(rgbif::name_backbone_checklist(to_check$searched_name)) %>%
         dplyr::mutate(stamp = Sys.time()) %>%
         dplyr::mutate(rank = tolower(rank)
                       , rank = factor(rank

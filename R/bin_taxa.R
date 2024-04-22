@@ -5,15 +5,15 @@
 #' `taxa` column is the best match for the name in `taxa_col` based on the
 #' GBIF Backbone Taxonomy.
 #'
-#' @param df Dataframe to clean, filter and tidy with respect to taxonomy.
-#' @param taxa_col Character. Name of column with taxa.
+#' @param df Dataframe to attribute with best result from GBIF Backbone Taxonomy
+#' @param taxa_col Character. Name of column in `df` with taxa.
 #' @param taxonomy list with (at least) named elements `lutaxa` and `taxonomy`.
 #' Usually resulting from call to `envClean::make_taxonomy()`.
 #' @param include_level Character (or `NULL`). Name(s) of any extra columns in
 #' taxa$taxonomy to return. e.g. `include_levels = "kingdom"` will return the
 #' kingdom for each taxa.
 #'
-#' @return Dataframe with added column `taxa`
+#' @return Dataframe with added column `taxa`, and possibly `include_level`s
 #' @export
 #'
 #' @examples

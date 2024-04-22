@@ -11,20 +11,22 @@ make_taxonomy(
   target_rank = "species",
   limit = TRUE,
   fixes = NULL,
+  overrides = NULL,
   ...
 )
 }
 \arguments{
-\item{df}{Dataframe with taxa column.}
+\item{df}{Dataframe with \code{taxa_col}.}
 
-\item{taxa_col}{Character. Name of column with taxa names}
+\item{taxa_col}{Character. Name of column in \code{df} with taxa names}
 
-\item{taxonomy_file}{Character. Path to results from \code{envFunc::get_taxonomy()}}
+\item{taxonomy_file}{Character. Path to results from
+\code{envClean::get_taxonomy()}}
 
 \item{target_rank}{Character. Default is 'species'. At what level of the
 taxonomic hierarchy are results desired. This is the most detailed taxonomy
 returned. i.e. if genus is the \code{target_rank}, no taxa below genus are
-returned. See \code{envFunc::lurank} \code{rank} column.}
+returned. See \code{envClean::lurank} \code{rank} column.}
 
 \item{limit}{Logical. If true (default), the output taxonomy will be limited
 to the input names in \code{df}. Otherwise, all taxa found in \code{taxonomy_file} will
@@ -37,13 +39,20 @@ not exist. e.g. Eastern osprey \emph{Pandion cristatus} does not occur in South
 Australia but records of this species in South Australia are assumed to be
 legitimate Osprey (\emph{Pandion haliaetus}) records.}
 
-\item{...}{Passed to \code{get_taxonomy()}}
+\item{overrides}{Data frame with columns \code{original} and \code{prefer}. Any
+\code{original_name} result in \code{lutaxa} that matches a name in \code{original} will be
+have its corresponding \code{taxa} changed to \code{prefer}. Useful where GBIF Backbone
+Taxonomy provides a spurious result. e.g. The GBIF Backbone Taxonomy changes
+\emph{Thinornis rubricollis} to \emph{Phalaropus lobatus} rather than the preferred
+\emph{Charadrius cucullatus}.}
+
+\item{...}{Passed to \code{envClean::get_taxonomy()}}
 }
 \value{
 named list with elements:
 \item{lutaxa}{Dataframe. For each unique name in \code{taxa_col}, the best
 \code{taxa} to use (taking into account \code{target_rank})}
-\item{taxonomy}{Dataframe. For each \code{taxa}in \code{lutaxa} a row of taxonomic
+\item{taxonomy}{Dataframe. For each \code{taxa} in \code{lutaxa} a row of taxonomic
 hierarchy and matching gbif usageKeys}
 }
 \description{

@@ -1,3 +1,7 @@
+---
+---
+---
+
 ### Taxonomy
 
 ```{r remove}
@@ -10,13 +14,13 @@ Taxa were queried against the global biodiversity information facility (GBIF) [t
 
 Prior to querying against GBIF the following cleaning steps were undertaken:
 
-* any record of a taxa that contained any of the following text in its name (ignoring case) was removed:
-    + `r paste0(sort(unique(species_filt)), collapse = "\n    + ")`
-* any of the following regular expressions in a taxa name were removed from the name (via `gsub`):
-    + `r paste0("'", na.omit(gsub("^c|\\(|\\)$", NA, formals(get_gbif_tax)$remove_strings)), "'", collapse = "\n    + ")`
-* any text including and after ' x ' or ' X ', in a taxa name, was removed from the name (thus any hybrids were most likely assigned to the first taxa recorded within the hybrid)
+-   any record of a taxa that contained any of the following text in its name (ignoring case) was removed:
+    -   `r paste0(sort(unique(species_filt)), collapse = "\n    + ")`
+-   any of the following regular expressions in a taxa name were removed from the name (via `gsub`):
+    -   `r paste0("'", na.omit(gsub("^c|\\(|\\)$", NA, formals(get_gbif_tax)$remove_strings)), "'", collapse = "\n    + ")`
+-   any text including and after ' x ' or ' X ', in a taxa name, was removed from the name (thus any hybrids were most likely assigned to the first taxa recorded within the hybrid)
 
-The taxa used in analyses were always binomial (taxa recorded at taxonomic level below species were grouped at species level (e.g. _Acanthiza iredalei rosinae_ was changed to _Acanthiza iredalei_). Any record that could not be matched to a name at `r rank_to_target` level, or better, was removed. Table \@ref(tab:taxHier) shows each taxonomic rank and the count of taxa matched at that rank.
+The taxa used in analyses were always binomial (taxa recorded at taxonomic level below species were grouped at species level (e.g. *Acanthiza iredalei rosinae* was changed to *Acanthiza iredalei*). Any record that could not be matched to a name at `r rank_to_target` level, or better, was removed. Table \@ref(tab:taxHier) shows each taxonomic rank and the count of taxa matched at that rank.
 
 Occasionally duplicate accepted taxa exist within the GBIF taxonomic backbone for the same species due to taxonomic updates that are in progress, unresolved taxonomies, or recording errors (e.g. recording an international related species instead of the Australian species). Where duplicate accepted taxa were identified, these were manually combined to the most recently accepted species (see `taxonomy_fixes` in `envClean`).
 

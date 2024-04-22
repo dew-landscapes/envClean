@@ -11,7 +11,7 @@ get_taxonomy(
   force_new = list(original_name = NULL, timediff = as.difftime(26, units = "weeks")),
   remove_taxa = c("BOLD:", "dead", "unverified", "annual herb", "annual grass", "\\\\?"),
   remove_strings = c("\\\\sx\\\\s.*", "\\\\sX\\\\s.*", "\\\\s\\\\-\\\\-\\\\s.*",
-    "\\\\s\\\\(.*\\\\)", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$"),
+    "\\\\s\\\\(.*\\\\)", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$", "\\\\sspec\\\\.$"),
   remove_dead = FALSE,
   ...
 )
@@ -19,7 +19,8 @@ get_taxonomy(
 \arguments{
 \item{df}{Dataframe with taxa column.}
 
-\item{taxa_col}{Character. Name of column with taxa names}
+\item{taxa_col}{Character. Name of column with taxa names. Each unique taxa
+in this column will appear in the results in a column called \code{original_name}}
 
 \item{taxonomy_file}{Character. Path to save results to.}
 

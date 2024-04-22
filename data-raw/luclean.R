@@ -22,7 +22,13 @@
                              "lists", "add list length",
                              "filt_list_df", "filter occurrence data to a set of criteria",
                              "fst", "fix spatial taxonomy",
-                             "fbd", "filter by distribution"
+                             "fbd", "filter by distribution",
+                             "pres", "taxa with any presence within unbuffered AOI",
+                             "coord", "centroids of state, capital and institutions",
+                             "ind", "indigenous species",
+                             "rm", "geographic reliability",
+                             "include", "taxa with presences, reliable distributions, and/or mcp around presences",
+                             "bin", "reduce to distinct rows"
                              ) %>%
     dplyr::mutate(order = dplyr::row_number() - 1) %>%
     dplyr::arrange(order)

@@ -7,9 +7,9 @@
 bin_taxa(df, taxa_col = "original_name", taxonomy, include_levels = NULL)
 }
 \arguments{
-\item{df}{Dataframe to clean, filter and tidy with respect to taxonomy.}
+\item{df}{Dataframe to attribute with best result from GBIF Backbone Taxonomy}
 
-\item{taxa_col}{Character. Name of column with taxa.}
+\item{taxa_col}{Character. Name of column in \code{df} with taxa.}
 
 \item{taxonomy}{list with (at least) named elements \code{lutaxa} and \code{taxonomy}.
 Usually resulting from call to \code{envClean::make_taxonomy()}.}
@@ -19,7 +19,7 @@ taxa$taxonomy to return. e.g. \code{include_levels = "kingdom"} will return the
 kingdom for each taxa.}
 }
 \value{
-Dataframe with added column \code{taxa}
+Dataframe with added column \code{taxa}, and possibly \code{include_level}s
 }
 \description{
 \code{taxa} column is the best match for the name in \code{taxa_col} based on the

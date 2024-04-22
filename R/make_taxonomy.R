@@ -2,13 +2,14 @@
 
 #' Make taxonomy lookups
 #'
-#' @param df Dataframe with taxa column.
-#' @param taxa_col Character. Name of column with taxa names
-#' @param taxonomy_file Character. Path to results from `envFunc::get_taxonomy()`
+#' @param df Dataframe with `taxa_col`.
+#' @param taxa_col Character. Name of column in `df` with taxa names
+#' @param taxonomy_file Character. Path to results from
+#' `envClean::get_taxonomy()`
 #' @param target_rank Character. Default is 'species'. At what level of the
 #' taxonomic hierarchy are results desired. This is the most detailed taxonomy
 #' returned. i.e. if genus is the `target_rank`, no taxa below genus are
-#' returned. See `envFunc::lurank` `rank` column.
+#' returned. See `envClean::lurank` `rank` column.
 #' @param limit Logical. If true (default), the output taxonomy will be limited
 #' to the input names in `df`. Otherwise, all taxa found in `taxonomy_file` will
 #' be returned.
@@ -18,13 +19,19 @@
 #' not exist. e.g. Eastern osprey _Pandion cristatus_ does not occur in South
 #' Australia but records of this species in South Australia are assumed to be
 #' legitimate Osprey (_Pandion haliaetus_) records.
+#' @param overrides Data frame with columns `original` and `prefer`. Any
+#' `original_name` result in `lutaxa` that matches a name in `original` will be
+#' have its corresponding `taxa` changed to `prefer`. Useful where GBIF Backbone
+#' Taxonomy provides a spurious result. e.g. The GBIF Backbone Taxonomy changes
+#' _Thinornis rubricollis_ to _Phalaropus lobatus_ rather than the preferred
+#' _Charadrius cucullatus_.
 #'
-#' @param ... Passed to `get_taxonomy()`
+#' @param ... Passed to `envClean::get_taxonomy()`
 #'
 #' @return named list with elements:
 #'     \item{lutaxa}{Dataframe. For each unique name in `taxa_col`, the best
 #'     `taxa` to use (taking into account `target_rank`)}
-#'     \item{taxonomy}{Dataframe. For each `taxa`in `lutaxa` a row of taxonomic
+#'     \item{taxonomy}{Dataframe. For each `taxa` in `lutaxa` a row of taxonomic
 #'     hierarchy and matching gbif usageKeys}
 #'
 #' @export
@@ -37,6 +44,7 @@
                             , target_rank = "species"
                             , limit = TRUE
                             , fixes = NULL
+                            , overrides = NULL
                             , ...
                             ) {
 
@@ -44,9 +52,18 @@
 
     # raw -------
 
-    raw <- get_taxonomy(df = df %>%
-                          dplyr::distinct(!!rlang::ensym(taxa_col)) %>%
-                          dplyr::bind_rows(tibble::tibble(!!rlang::ensym(taxa_col) := c(fixes$prefer, fixes$resolved_to)))
+    use_df <- df %>%
+      dplyr::distinct(!!rlang::ensym(taxa_col)) %>%
+      dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
+      dplyr::bind_rows(tibble::tibble(original_name := c(fixes$prefer
+                                                         , fixes$resolved_to
+                                                         , overrides$prefer
+                                                         )
+                                      )
+                       ) %>%
+      dplyr::distinct()
+
+    raw <- get_taxonomy(df = use_df
                         , taxa_col = taxa_col
                         , taxonomy_file = taxonomy_file
                         , ...
@@ -59,8 +76,8 @@
     if(limit) {
 
       raw <- raw %>%
-        dplyr::inner_join(df %>%
-                            dplyr::distinct(!!rlang::ensym(taxa_col))
+        dplyr::inner_join(use_df %>%
+                            dplyr::distinct(original_name)
                           , by = c("original_name" = taxa_col)
                           )
 
@@ -91,7 +108,7 @@
           (.)
 
         }
-        } %>%
+      } %>%
       tidyr::pivot_longer(tidyselect::matches(paste0(envClean::lurank$rank, collapse = "Key|"))
                           , names_to = "use_rank"
                           , values_to = "best_key"
@@ -154,6 +171,22 @@
 
     }
 
+    if(!is.null(overrides)) {
+
+      tax_res$lutaxa <- tax_res$lutaxa %>%
+        dplyr::left_join(overrides %>%
+                           dplyr::select(original, prefer)
+                         , by = c("original_name" = "original")
+                         ) %>%
+        dplyr::mutate(taxa = dplyr::case_when(!is.na(prefer) ~ prefer
+                                              , TRUE ~ taxa
+                                              )
+                      )
+
+    }
+
+    tax_res$lutaxa <- tax_res$lutaxa %>%
+      dplyr::select(-tidyselect::matches("key|prefer"))
 
     # return-----
 

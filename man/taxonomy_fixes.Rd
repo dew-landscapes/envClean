@@ -5,7 +5,7 @@
 \alias{taxonomy_fixes}
 \title{Manual taxonomic fixes}
 \format{
-A data frame with 19 rows and 3
+A data frame with 20 rows and 3
 variables:
 \describe{
 \item{resolved_to}{Character. Taxa retrieved by \code{rgbif::name_backbone},
