@@ -129,6 +129,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |object                           |class                      |description                                                                   |
 |:--------------------------------|:--------------------------|:-----------------------------------------------------------------------------|
 |`envFunc::add_cover()`           |function                   |Generate best guess of cover for each taxa*context                            |
+|`envFunc::add_height()`          |function                   |Generate best guess of height for each taxa*context                           |
 |`envFunc::add_lifeform()`        |function                   |Generate best guess of lifeform for each taxa*context                         |
 |`envFunc::aoi`                   |sf and data.frame          |Simple feature to define a geographic area of interest.                       |
 |`envFunc::bin_taxa()`            |function                   |Add code{taxa} column                                                         |

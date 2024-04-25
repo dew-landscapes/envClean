@@ -37,5 +37,7 @@
     ~original, ~prefer, ~note,
     "Thinornis rubricollis", "Thinornis cucullatus", "Hooded Plover",
     "Charadrius rubricollis", "Thinornis cucullatus", "Hooded Plover",
-    "Thinornis rubricollis rubricollis", "Thinornis cucullatus", "Hooded Plover"
+    "Thinornis rubricollis rubricollis", "Thinornis cucullatus", "Hooded Plover",
+
+    "Gypsophila australis","Gypsophila","Chalkwort"
   )

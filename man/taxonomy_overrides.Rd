@@ -5,7 +5,7 @@
 \alias{taxonomy_overrides}
 \title{Manual taxonomic overrides}
 \format{
-A data frame with 3 rows and 3
+A data frame with 4 rows and 3
 variables:
 \describe{
 \item{original}{Character. Original names of taxa}

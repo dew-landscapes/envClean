@@ -2,6 +2,7 @@
 
 export("%>%")
 export(add_cover)
+export(add_height)
 export(add_lifeform)
 export(bin_taxa)
 export(cleaning_summary)
