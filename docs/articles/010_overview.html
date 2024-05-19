@@ -52,9 +52,6 @@
 <li>
       <a href="../articles/010_overview.html">Overview</a>
     </li>
-    <li>
-      <a href="../articles/020_clean.html">The full process</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -84,7 +81,7 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Thursday, 25 April, 2024</h4>
+            <h4 data-toc-skip class="date">Sunday, 19 May, 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/010_overview.Rmd" class="external-link"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
@@ -265,7 +262,7 @@ cover value</td>
 </tr>
 <tr class="odd">
 <td align="left">pres</td>
-<td align="left">taxa with any presence within unbuffered AOI</td>
+<td align="left">presences only</td>
 <td align="right">22</td>
 </tr>
 <tr class="even">
@@ -320,44 +317,38 @@ removed.</li>
 column and each observation is a unique row.</li>
 </ul>
 <p>In practice these tasks are often blurred within each of the
-functions. For example <code>filter_taxa</code> cleans taxonomic names
-and tidies the data set with respect to any [context] specified.</p>
+functions.</p>
 <p>In general the process will be referred to as <em>cleaning</em>.</p>
 </div>
 <div class="section level3">
-<h3 id="sitevisitrecordtaxa">Site/visit/record/taxa<a class="anchor" aria-label="anchor" href="#sitevisitrecordtaxa"></a>
+<h3 id="bins-for-sites-visits-records-taxa">Bins (for sites, visits, records, taxa)<a class="anchor" aria-label="anchor" href="#bins-for-sites-visits-records-taxa"></a>
 </h3>
-<p>Due to the loose definition of <a href="#context">context</a> (see
-below), the definitions of site, visit, record and taxa can change
-through the cleaning process.</p>
+<p>Due to the loose definition of <a href="#bins">bins</a> (see below),
+the definitions of site, visit, record and taxa can change through the
+cleaning process.</p>
 <ul>
 <li>sites are spatial locations. they may be defined by latitude,
 longitude, easting, northing and/or cell. These may be duplicated before
 exclusive application of context. They are not necessarily defined by
 all spatial concepts within context at all stages of the cleaning
-process.</li>
+process. In <code>env</code> spatial bins are usually set by
+add_raster_cell.</li>
 <li>visits are sites plus a time, such as year, month, day (or, even
 hour). Again, until context is applied exclusively, these may be
-duplicated</li>
+duplicated. In <code>env</code> temporal bins are usually year, month,
+or occasionally, day.</li>
 <li>records are visits plus an observation to some level of the
 taxonomic hierarchy (refered to simply as ‘taxa’)</li>
 <li>taxa refers to some form of taxonomic entity. An entity may be
 duplicated within a visit before taxonomy is resolved and context is
-applied exclusively (usually by <code>filter_taxa</code>).</li>
+applied exclusively. In <code>env</code> taxonomic bins are usually set
+by make_taxonomy(target_rank = “desired rank”) where ‘desired_rank’
+could be, say, ‘species’, or, say, ‘subspecies’.</li>
 </ul>
-</div>
-<div class="section level3">
-<h3 id="context">Context and binning<a class="anchor" aria-label="anchor" href="#context"></a>
-</h3>
-<p>Context is usually defined by two scales of particular interest:
-space (location) and time. It is possible, but often not desirable, to
-assign other concepts to <code>context</code> too (e.g. say, data
-source).</p>
 <p>Throughout the series of <code>env</code> packages the concept of
 <em>context</em> is used extensively, and at least currently, somewhat
-loosely. Context is also related to <code>binning</code>: lumping
-records into spatial and or temporal ‘bins’. Later in the cleaning
-process, spatial and temporal bins are likely to define the context.</p>
+loosely. Context supplies the bins: spatial, temporal and taxonomic
+bins.</p>
 <p>With respect to ‘loosely’: context may be defined by, say,
 <code>c("lat", "long", "cell", "year", "month")</code>. At various
 stages through the cleaning process not every one of those variables may
@@ -367,108 +358,41 @@ removed (depending on the <code>add_xy</code> argument). However
 <code>context</code> can still be used in full in cleaning steps (via
 the consistent use of <code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">tidyselect::any_of</a></code> in
 <code>envClean</code> functions).</p>
-<p>Note that <code>context</code> is only applied <em>exclusively</em>
-only when <code>filter_taxa</code> is run (see examples below). Thus:
-extraneous fields/columns beyond <code>context</code> are maintained
-until taxonomy is filtered (unless they are provided via the various
-arguments to <code>filter_taxa</code>); and no claim is made regarding
-the uniqueness of ‘records’ until this step in the process. Thus, if a
-cleaning process does not include <code>filter_taxa</code>, running,
-say, <code>dplyr::distinct(across(any_of(context)))</code> may be
-useful.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span>  <span class="co"># Simple context example</span></span>
-<span>  <span class="va">flor_example</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>     <span class="op">~</span><span class="va">data_source</span>, <span class="op">~</span><span class="va">original_name</span>, <span class="op">~</span><span class="va">location</span>, <span class="op">~</span><span class="va">year</span>,</span>
-<span>     <span class="st">"A"</span>, <span class="st">"Eucalyptus leucoxylon petiolaris"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>,</span>
-<span>     <span class="st">"B"</span>, <span class="st">"Eucalyptus leucoxylon"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>,</span>
-<span>     <span class="st">"C"</span>, <span class="st">"Eucalyptus petiolaris"</span>, <span class="st">"x"</span>, <span class="st">"y"</span></span>
-<span>   <span class="op">)</span></span>
-<span></span>
-<span>  <span class="va">flor_example</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
-<span><span class="co">#&gt;   data_source original_name                    location year </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon petiolaris x        y    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon            x        y    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> C           Eucalyptus petiolaris            x        y</span></span>
-<span></span>
-<span>  <span class="co"># set context </span></span>
-<span>  <span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"location"</span>, <span class="st">"year"</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="co"># filter singletons - context not applied</span></span>
-<span>  <span class="va">flor_single</span> <span class="op">&lt;-</span> <span class="va">flor_example</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/filter_counts.html">filter_counts</a></span><span class="op">(</span>context <span class="op">=</span> <span class="va">context</span></span>
-<span>                  , thresh <span class="op">=</span> <span class="fl">1</span></span>
-<span>                  <span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="co"># two rows</span></span>
-<span>  <span class="va">flor_single</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
-<span><span class="co">#&gt;   data_source original_name                    location year </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> A           Eucalyptus leucoxylon petiolaris x        y    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B           Eucalyptus leucoxylon            x        y    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> C           Eucalyptus petiolaris            x        y</span></span>
-<span>  </span>
-<span>  <span class="co"># get taxonomy from gbif (saves to file)</span></span>
-<span>  </span>
-<span>  <span class="va">taxonomy_file</span> <span class="op">&lt;-</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="st">"inst"</span>, <span class="st">"gbif.parquet"</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="fu"><a href="../reference/get_taxonomy.html">get_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
-<span>               , taxonomy_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
-<span>               <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 215 × 28</span></span></span>
-<span><span class="co">#&gt;    searched_name       original_name usageKey scientificName canonicalName rank </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Eucalyptus leucoxy… Eucalyptus l…  3<span style="text-decoration: underline;">176</span>652 Eucalyptus le… Eucalyptus l… subs…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Eucalyptus leucoxy… Eucalyptus l…  3<span style="text-decoration: underline;">177</span>019 Eucalyptus le… Eucalyptus l… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Eucalyptus petiola… Eucalyptus p… 10<span style="text-decoration: underline;">755</span>174 Eucalyptus pe… Eucalyptus p… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Maireana radiata    Maireana rad…  3<span style="text-decoration: underline;">760</span>840 Maireana radi… Maireana rad… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Roepera glauca      Roepera glau…  3<span style="text-decoration: underline;">987</span>022 Roepera glauc… Roepera glau… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Beyeria lechenault… Beyeria lech…  7<span style="text-decoration: underline;">276</span>040 Beyeria leche… Beyeria lech… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Melaleuca lanceola… Melaleuca la…  5<span style="text-decoration: underline;">415</span>775 Melaleuca lan… Melaleuca la… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Sclerolaena parvif… Sclerolaena …  7<span style="text-decoration: underline;">548</span>033 Sclerolaena p… Sclerolaena … spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Maireana erioclada  Maireana eri…  3<span style="text-decoration: underline;">755</span>857 Maireana erio… Maireana eri… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Eucalyptus oleosa   Eucalyptus o…  3<span style="text-decoration: underline;">177</span>314 Eucalyptus ol… Eucalyptus o… spec…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 205 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more variables: status &lt;chr&gt;, confidence &lt;int&gt;, matchType &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   species &lt;chr&gt;, kingdomKey &lt;int&gt;, phylumKey &lt;int&gt;, classKey &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   orderKey &lt;int&gt;, familyKey &lt;int&gt;, genusKey &lt;int&gt;, speciesKey &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   synonym &lt;lgl&gt;, class &lt;chr&gt;, verbatim_name &lt;chr&gt;, verbatim_index &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   stamp &lt;dttm&gt;, acceptedUsageKey &lt;int&gt;</span></span></span>
-<span>  </span>
-<span>  <span class="co"># make taxonomy lookups</span></span>
-<span>  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span><span class="va">flor_single</span></span>
-<span>                            , taxonomy_file <span class="op">=</span> <span class="va">taxonomy_file</span></span>
-<span>                            <span class="op">)</span></span>
-<span>      </span>
-<span>  <span class="co"># filter taxa - context applied exclusively</span></span>
-<span>  <span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="va">flor_example</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/filter_taxa.html">filter_taxa</a></span><span class="op">(</span>context <span class="op">=</span> <span class="va">context</span></span>
-<span>                , taxonomy <span class="op">=</span> <span class="va">taxonomy</span></span>
-<span>                <span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="co"># one row</span></span>
-<span>  <span class="va">flor_taxa</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">#&gt;   location year  taxa                 </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> x        y     Eucalyptus leucoxylon</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> x        y     Eucalyptus petiolaris</span></span></code></pre></div>
+<p>Note that <code>context</code> must be applied <em>exclusively</em>
+at some point in the cleaning process (by, say,
+<code>dplyr::distinct(across(any_of(context)))</code>). Until that point
+extraneous fields/columns beyond <code>context</code> are maintained;
+and no claim is made regarding the uniqueness of ‘records’ until this
+step in the process.</p>
 </div>
 <div class="section level3">
-<h3 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a>
+<h3 id="summarising-the-cleaning-process">Summarising the cleaning process<a class="anchor" aria-label="anchor" href="#summarising-the-cleaning-process"></a>
 </h3>
-<p>By careful use of naming when creating objects during the cleaning
-process it is possible to create automated summaries of the process. See
-the <a href="#workflow">workflow</a> section for suggested names for
-steps in the cleaning process. Within this vignette, the prefix
-<code>flor_</code> has been added and the function
-<code>add_time_stamp()</code> has been used to assist ordering the
-cleaning process <a href="#summary">summary</a>.</p>
+<p>There are some cleaning process summary functions. Taking advantage
+of these requires:</p>
+<ul>
+<li>consistent naming with a prefix, default <code>bio_</code>
+<ul>
+<li>the suffix is a short name for that step in the cleaning process.
+e.g. <code>bio_taxa</code> would be the object created when applying the
+taxonomic bins, and <code>bio_geo_bin</code> is the object created when
+applying geogrphic bins</li>
+<li>see envClean::luclean for the suffixes/short names (in the
+<code>clean</code> column)</li>
+</ul>
+</li>
+<li>addition of a ctime (creation time) attribute, probably using
+envFunc::add_time_stamp()</li>
+</ul>
+<p>The function clean_summary() then prepares information, based on the
+objects creating through the cleaning process, that can be used in
+summary reports. clean_summary() also, optionally (with default TRUE)
+saves the start and end objects from the cleaning process.</p>
+<p>cleaning_text() prepares text, based on a cleaning summary, that can
+be used directly in .Rmd.</p>
+<p>There are also small .Rmd files in <code>/inst</code> that match the
+suffix for each step. Looping through these child files from a main .Rmd
+provides the structure for the output report.</p>
 </div>
 <div class="section level3">
 <h3 id="coordinate-reference-systems">Coordinate reference systems<a class="anchor" aria-label="anchor" href="#coordinate-reference-systems"></a>
@@ -521,7 +445,7 @@ Statistical Software</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Nigel Willoughby.</p>
+<p>Developed by Nigel Willoughby, Joel Allan.</p>
 </div>
 
 <div class="pkgdown">

@@ -103,80 +103,39 @@ After many, many iterations, the following workflow has been found to be ok. Onl
 * cleaning: remove observations to reduce the risk that spurious observations are included in downstream analysis. For example, two different data sources may contain the same observation. Most analyses will perform better when records duplicated within a context are removed.
 * tidying: as per [tidy data](https://www.jstatsoft.org/article/view/v059i10) [@JSSv059i10] where each variable is a column and each observation is a unique row.
 
-In practice these tasks are often blurred within each of the functions. For example `filter_taxa` cleans taxonomic names and tidies the data set with respect to any [context] specified.
+In practice these tasks are often blurred within each of the functions.
 
 In general the process will be referred to as _cleaning_.
 
-### Site/visit/record/taxa
+### Bins (for sites, visits, records, taxa)
 
-Due to the loose definition of [context](#context) (see below), the definitions of site, visit, record and taxa can change through the cleaning process. 
+Due to the loose definition of [bins](#bins) (see below), the definitions of site, visit, record and taxa can change through the cleaning process. 
 
-* sites are spatial locations. they may be defined by latitude, longitude, easting, northing and/or cell. These may be duplicated before exclusive application of context. They are not necessarily defined by all spatial concepts within context at all stages of the cleaning process.
-* visits are sites plus a time, such as year, month, day (or, even hour). Again, until context is applied exclusively, these may be duplicated
+* sites are spatial locations. they may be defined by latitude, longitude, easting, northing and/or cell. These may be duplicated before exclusive application of context. They are not necessarily defined by all spatial concepts within context at all stages of the cleaning process. In `env` spatial bins are usually set by add_raster_cell.
+* visits are sites plus a time, such as year, month, day (or, even hour). Again, until context is applied exclusively, these may be duplicated. In `env` temporal bins are usually year, month, or occasionally, day.
 * records are visits plus an observation to some level of the taxonomic hierarchy (refered to simply as 'taxa')
-* taxa refers to some form of taxonomic entity. An entity may be duplicated within a visit before taxonomy is resolved and context is applied exclusively (usually by `filter_taxa`).
+* taxa refers to some form of taxonomic entity. An entity may be duplicated within a visit before taxonomy is resolved and context is applied exclusively. In `env` taxonomic bins are usually set by make_taxonomy(target_rank = "desired rank") where 'desired_rank' could be, say, 'species', or, say, 'subspecies'.
 
-### Context and binning {#context}
-
-Context is usually defined by two scales of particular interest: space (location) and time. It is possible, but often not desirable, to assign other concepts to `context` too (e.g. say, data source).
-
-Throughout the series of `env` packages the concept of _context_ is used extensively, and at least currently, somewhat loosely. Context is also related to `binning`: lumping records into spatial and or temporal 'bins'. Later in the cleaning process, spatial and temporal bins are likely to define the context.
+Throughout the series of `env` packages the concept of _context_ is used extensively, and at least currently, somewhat loosely. Context supplies the bins: spatial, temporal and taxonomic bins.
 
 With respect to 'loosely': context may be defined by, say, `c("lat", "long", "cell", "year", "month")`. At various stages through the cleaning process not every one of those variables may be applicable. After running `add_raster_cell` (to assign a spatial bin) the variable `lat` and `long` may be removed (depending on the `add_xy` argument). However `context` can still be used in full in cleaning steps (via the consistent use of `tidyselect::any_of` in `envClean` functions).
 
-Note that `context` is only applied _exclusively_ only when `filter_taxa` is run (see examples below). Thus: extraneous fields/columns beyond `context` are maintained until taxonomy is filtered (unless they are provided via the various arguments to `filter_taxa`); and no claim is made regarding the uniqueness of 'records' until this step in the process. Thus, if a cleaning process does not include `filter_taxa`, running, say, `dplyr::distinct(across(any_of(context)))` may be useful.
+Note that `context` must be applied _exclusively_ at some point in the cleaning process (by, say, `dplyr::distinct(across(any_of(context)))`). Until that point extraneous fields/columns beyond `context` are maintained; and no claim is made regarding the uniqueness of 'records' until this step in the process.
 
-```{r context_example}
+### Summarising the cleaning process
 
-  # Simple context example
-  flor_example <- tibble::tribble(
-     ~data_source, ~original_name, ~location, ~year,
-     "A", "Eucalyptus leucoxylon petiolaris", "x", "y",
-     "B", "Eucalyptus leucoxylon", "x", "y",
-     "C", "Eucalyptus petiolaris", "x", "y"
-   )
+There are some cleaning process summary functions. Taking advantage of these requires:
 
-  flor_example
+* consistent naming with a prefix, default `bio_`
+    + the suffix is a short name for that step in the cleaning process. e.g. `bio_taxa` would be the object created when applying the taxonomic bins, and `bio_geo_bin` is the object created when applying geogrphic bins
+    + see envClean::luclean for the suffixes/short names (in the `clean` column)
+* addition of a ctime (creation time) attribute, probably using envFunc::add_time_stamp() 
 
-  # set context 
-  context <- c("location", "year")
-  
-  # filter singletons - context not applied
-  flor_single <- flor_example %>%
-    filter_counts(context = context
-                  , thresh = 1
-                  )
-  
-  # two rows
-  flor_single
-  
-  # get taxonomy from gbif (saves to file)
-  
-  taxonomy_file <- here::here("inst", "gbif.parquet")
-  
-  get_taxonomy(flor_single
-               , taxonomy_file = taxonomy_file
-               )
-  
-  # make taxonomy lookups
-  taxonomy <- make_taxonomy(flor_single
-                            , taxonomy_file = taxonomy_file
-                            )
-      
-  # filter taxa - context applied exclusively
-  flor_taxa <- flor_example %>%
-    filter_taxa(context = context
-                , taxonomy = taxonomy
-                )
-  
-  # one row
-  flor_taxa
+The function clean_summary() then prepares information, based on the objects creating through the cleaning process, that can be used in summary reports. clean_summary() also, optionally (with default TRUE) saves the start and end objects from the cleaning process.
 
-```
+cleaning_text() prepares text, based on a cleaning summary, that can be used directly in .Rmd.
 
-### Naming
-
-By careful use of naming when creating objects during the cleaning process it is possible to create automated summaries of the process. See the [workflow](#workflow) section for suggested names for steps in the cleaning process. Within this vignette, the prefix `flor_` has been added and the function `add_time_stamp()` has been used to assist ordering the cleaning process [summary](#summary).
+There are also small .Rmd files in `/inst` that match the suffix for each step. Looping through these child files from a main .Rmd provides the structure for the output report.
 
 ### Coordinate reference systems
 

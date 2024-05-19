@@ -7,9 +7,6 @@
     <loc>/articles/010_overview.html</loc>
   </url>
   <url>
-    <loc>/articles/020_clean.html</loc>
-  </url>
-  <url>
     <loc>/articles/index.html</loc>
   </url>
   <url>
@@ -17,6 +14,9 @@
   </url>
   <url>
     <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
     <loc>/LICENSE.html</loc>
@@ -71,9 +71,6 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/last_ctime.html</loc>
   </url>
   <url>
     <loc>/reference/luclean.html</loc>

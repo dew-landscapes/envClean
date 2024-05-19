@@ -37,6 +37,8 @@ library("envClean")
 
 ## Filtering an 'area of interest'
 
+An area of interest, or geographic range, sets the spatial boundary for the cleaning. Adding geographic (or spatial) bins based on a raster that spans the area of interest is another way to achieve the same end.
+
 This example uses the `flor_all` data frame and the simple feature `aoi`. Converting `flor_all` to `sf` allows plotting them together.
 
 Load `flor_all`
@@ -144,7 +146,6 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |`envFunc::find_taxa()`           |function                   |Find how taxa changed through the cleaning/filtering/tidying process          |
 |`envFunc::flor_all`              |tbl_df, tbl and data.frame |Example of data combined from several data sources.                           |
 |`envFunc::get_taxonomy()`        |function                   |Get GBIF backbone taxonomy                                                    |
-|`envFunc::last_ctime()`          |function                   |Return the object with the latest code{ctime} attribute                       |
 |`envFunc::luclean`               |tbl_df, tbl and data.frame |Dataframe of cleaning steps                                                   |
 |`envFunc::lurank`                |tbl_df, tbl and data.frame |Dataframe of taxonomic ranks                                                  |
 |`envFunc::make_attribute()`      |function                   |Title                                                                         |

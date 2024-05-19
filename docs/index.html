@@ -54,9 +54,6 @@
 <li>
       <a href="articles/010_overview.html">Overview</a>
     </li>
-    <li>
-      <a href="articles/020_clean.html">The full process</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -103,6 +100,7 @@
 <div class="section level2">
 <h2 id="filtering-an-area-of-interest">Filtering an ‘area of interest’<a class="anchor" aria-label="anchor" href="#filtering-an-area-of-interest"></a>
 </h2>
+<p>An area of interest, or geographic range, sets the spatial boundary for the cleaning. Adding geographic (or spatial) bins based on a raster that spans the area of interest is another way to achieve the same end.</p>
 <p>This example uses the <code>flor_all</code> data frame and the simple feature <code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code> allows plotting them together.</p>
 <p>Load <code>flor_all</code></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -268,81 +266,76 @@ plot of chunk flor_aoi
 <td align="left">Get GBIF backbone taxonomy</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>envFunc::last_ctime()</code></td>
-<td align="left">function</td>
-<td align="left">Return the object with the latest code{ctime} attribute</td>
-</tr>
-<tr class="even">
 <td align="left"><code>envFunc::luclean</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Dataframe of cleaning steps</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>envFunc::lurank</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Dataframe of taxonomic ranks</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>envFunc::make_attribute()</code></td>
 <td align="left">function</td>
 <td align="left">Title</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>envFunc::make_con_status()</code></td>
 <td align="left">function</td>
 <td align="left">Make conservation status from existing status codes</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>envFunc::make_cover()</code></td>
 <td align="left">function</td>
 <td align="left">Make a single (numeric, proportion) cover column from different sorts of</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>envFunc::make_effort_mod()</code></td>
 <td align="left">function</td>
 <td align="left">Distribution of credible values for taxa richness.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>envFunc::make_effort_mod_pca()</code></td>
 <td align="left">function</td>
 <td align="left">Model the effect of principal components axes on taxa richness.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>envFunc::make_env_pca()</code></td>
 <td align="left">function</td>
 <td align="left">Principal components analysis and various outputs from environmental data</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>envFunc::make_ind_status()</code></td>
 <td align="left">function</td>
 <td align="left">Make indigenous status lookup</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>envFunc::make_lifeform()</code></td>
 <td align="left">function</td>
 <td align="left">Get unique lifeform across taxa, perhaps including further context</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>envFunc::make_taxonomy()</code></td>
 <td align="left">function</td>
 <td align="left">Make taxonomy lookups</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>envFunc::rec_vis_sit_tax()</code></td>
 <td align="left">function</td>
 <td align="left">How many records, visits, sites and taxa in a dataframe</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>envFunc::reduce_geo_rel()</code></td>
 <td align="left">function</td>
 <td align="left">Reduce data frame to a single spatial reliability within a context</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>envFunc::taxonomy_fixes</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Manual taxonomic fixes</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>envFunc::taxonomy_overrides</code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Manual taxonomic overrides</td>
@@ -366,7 +359,7 @@ plot of chunk flor_aoi
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small>GPL (&gt;= 3)</small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
@@ -382,6 +375,7 @@ plot of chunk flor_aoi
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Nigel Willoughby <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Joel Allan <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -394,7 +388,7 @@ plot of chunk flor_aoi
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Nigel Willoughby.</p>
+<p>Developed by Nigel Willoughby, Joel Allan.</p>
 </div>
 
 <div class="pkgdown">
