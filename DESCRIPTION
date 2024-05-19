@@ -27,10 +27,6 @@ RdMacros: Rdpack
 Imports: 
     classInt,
     dplyr,
-    envEcosystems,
-    envFunc,
-    envRaster,
-    envReport,
     factoextra,
     fs,
     ggplot2,
@@ -53,6 +49,11 @@ Imports:
     tidyselect,
     tidytext,
     tmap
+Remotes:
+    github::acanthiaza/envFunc
+    github::acanthiza/envRaster
+    github::acanthiza/envReport
+    github::acanthiza/envEcosystems
 URL: https://acanthiza.github.io/envClean/
 BugReports: https://github.com/Acanthiza/envClean/issues
 Depends: 
