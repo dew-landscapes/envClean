@@ -23,7 +23,7 @@
                              "filt_list_df", "filter occurrence data to a set of criteria",
                              "fst", "fix spatial taxonomy",
                              "fbd", "filter by distribution",
-                             "pres", "taxa with any presence within unbuffered AOI",
+                             "pres", "presences only",
                              "coord", "centroids of state, capital and institutions",
                              "ind", "indigenous species",
                              "rm", "geographic reliability",
