@@ -5,7 +5,11 @@ Authors@R:
     c(
     person(given = "Nigel", family = "Willoughby"
     , role = c("aut", "cre")
-    , email = "nige.willoughby@sa.gov.au"
+    , email = "nigel.willoughby@sa.gov.au"
+    ),
+    person(given = "Joel", family = "Allan"
+    , role = c("aut")
+    , email = "joel.allan@sa.gov.au"
     ),
     person(family = "DEW"
     , role = "cph"
@@ -14,7 +18,7 @@ Authors@R:
 Description: Tools to facilitate cleaning tasks associated with environmental
     (raster), biological (records of taxa) and non-biological (e.g. landcover
     training data) data.
-License: GPL (>= 3)
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
