@@ -50,7 +50,7 @@ Imports:
     tidytext,
     tmap
 Remotes:
-    github::acanthiaza/envFunc,
+    github::acanthiza/envFunc,
     github::acanthiza/envRaster,
     github::acanthiza/envReport,
     github::acanthiza/envEcosystems
