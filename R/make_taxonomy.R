@@ -181,8 +181,8 @@
         dplyr::mutate(taxa = dplyr::case_when(!is.na(prefer) ~ prefer
                                               , TRUE ~ taxa
                                               )
-                      , rank = dplyr::case_when(!is.na(prefer_rank) ~ prefer_rank
-                                              , TRUE ~ rank
+                      , use_rank = dplyr::case_when(!is.na(prefer_rank) ~ prefer_rank
+                                              , TRUE ~ use_rank
                                               )
                       )
 
