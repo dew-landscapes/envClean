@@ -181,6 +181,9 @@
         dplyr::mutate(taxa = dplyr::case_when(!is.na(prefer) ~ prefer
                                               , TRUE ~ taxa
                                               )
+                      , rank = dplyr::case_when(!is.na(prefer) ~ "species"
+                                              , TRUE ~ rank
+                                              )
                       )
 
     }
