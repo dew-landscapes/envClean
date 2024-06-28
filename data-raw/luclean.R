@@ -8,6 +8,8 @@
                              "geo_range", "within a geographic area",
                              "geo_bin", "assigning locations to spatial bins",
                              "geo_rel", "spatial reliability",
+                             "context", "define context",
+                             "att", "select attributes",
                              "geo", "add geographic context (e.g. IBRA)",
                              "ann", "non-persistent taxa",
                              "taxa", "align taxonomy and resolve any taxonomic duplication within bins",
