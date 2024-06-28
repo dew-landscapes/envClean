@@ -133,7 +133,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
                   , class = purrr::map_chr(object, ~envFunc::vec_to_sentence(class(get(.))))
                   , text = purrr::map(path, readLines)
                   , text = purrr::map(text, get_name_title)
-                  , object = paste0("envFunc::"
+                  , object = paste0("envClean::"
                                     , object
                                     , ""
                                     )
