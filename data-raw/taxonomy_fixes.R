@@ -34,9 +34,18 @@
   # overrides -------
 
   taxonomy_overrides <- tibble::tribble(
-    ~original, ~prefer, ~note,
-    "Thinornis rubricollis", "Thinornis cucullatus", "Hooded Plover",
-    "Charadrius rubricollis", "Thinornis cucullatus", "Hooded Plover",
-    "Thinornis rubricollis rubricollis", "Thinornis cucullatus", "Hooded Plover",
-    "Gypsophila australis","Gypsophila","Chalkwort"
+    ~original, ~prefer, ~prefer_rank, ~note,
+    "Thinornis rubricollis", "Thinornis cucullatus", NA,"Hooded Plover",
+    "Charadrius rubricollis", "Thinornis cucullatus", NA,"Hooded Plover",
+    "Thinornis rubricollis rubricollis", "Thinornis cucullatus", NA,"Hooded Plover",
+    "Gypsophila australis","Gypsophila", NA,"Chalkwort",
+    "Manorina flavigula melanotis","Manorina flavigula melanotis","subspecies","Black-eared Miner",
+    "Manorina melanotis","Manorina flavigula melanotis","subspecies","Black-eared Miner",
+    "Amytornis modestus","Amytornis modestus","species","Thick-billed Grasswren",
+    "Amytornis modestus obscurior","Amytornis modestus obscurior","subspecies","Grey Range (NSW) Thick-billed Grasswren",
+    "Amytornis modestus cowarie","Amytornis modestus cowarie","subspecies","Cowarie Thick-billed Grasswren",
+    "Amytornis modestus indulkanna","Amytornis modestus indulkanna","subspecies","Western Thick-Billed Grasswren",
+    "Amytornis modestus raglessi","Amytornis modestus raglessi","subspecies","Flinders Ranges Thick-Billed Grasswren",
+    "Amytornis modestus curnamona","Amytornis modestus curnamona","subspecies","Lake Frome Thick-Billed Grasswren",
+    "Northiella narethae","Northiella narethae","species","Narethae Bluebonnet (Nullarbor)"
   )

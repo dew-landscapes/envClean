@@ -1,7 +1,7 @@
 pandoc: 3.1.1
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   010_overview: 010_overview.html
-last_built: 2024-05-19T01:39Z
+last_built: 2024-07-04T04:54Z
 

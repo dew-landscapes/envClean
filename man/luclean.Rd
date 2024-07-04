@@ -5,7 +5,7 @@
 \alias{luclean}
 \title{Dataframe of cleaning steps}
 \format{
-A data frame with 28 rows and 3
+A data frame with 30 rows and 3
 variables:
 \describe{
 \item{clean}{Character short name for cleaning step.}

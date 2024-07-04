@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Overview • envClean</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -81,7 +81,7 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Sunday, 19 May, 2024</h4>
+            <h4 data-toc-skip class="date">Thursday, 04 July, 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/010_overview.Rmd" class="external-link"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
@@ -183,113 +183,123 @@ data.</p>
 <td align="right">6</td>
 </tr>
 <tr class="even">
+<td align="left">context</td>
+<td align="left">define context</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">att</td>
+<td align="left">select attributes</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
 <td align="left">geo</td>
 <td align="left">add geographic context (e.g. IBRA)</td>
-<td align="right">7</td>
+<td align="right">9</td>
 </tr>
 <tr class="odd">
 <td align="left">ann</td>
 <td align="left">non-persistent taxa</td>
-<td align="right">8</td>
+<td align="right">10</td>
 </tr>
 <tr class="even">
 <td align="left">taxa</td>
 <td align="left">align taxonomy and resolve any taxonomic duplication
 within bins</td>
-<td align="right">9</td>
+<td align="right">11</td>
 </tr>
 <tr class="odd">
 <td align="left">single</td>
 <td align="left">singletons</td>
-<td align="right">10</td>
+<td align="right">12</td>
 </tr>
 <tr class="even">
 <td align="left">out</td>
 <td align="left">outliers</td>
-<td align="right">11</td>
+<td align="right">13</td>
 </tr>
 <tr class="odd">
 <td align="left">NA</td>
 <td align="left">NA values in important columns</td>
-<td align="right">12</td>
+<td align="right">14</td>
 </tr>
 <tr class="even">
 <td align="left">effort</td>
 <td align="left">context effort</td>
-<td align="right">13</td>
+<td align="right">15</td>
 </tr>
 <tr class="odd">
 <td align="left">prop</td>
 <td align="left">proportion of sites</td>
-<td align="right">14</td>
+<td align="right">16</td>
 </tr>
 <tr class="even">
 <td align="left">life</td>
 <td align="left">as a byproduct of assigning all records of a taxa a
 lifeform</td>
-<td align="right">15</td>
+<td align="right">17</td>
 </tr>
 <tr class="odd">
 <td align="left">cov</td>
 <td align="left">as a byproduct of assigning all records of a taxa a
 cover value</td>
-<td align="right">16</td>
+<td align="right">18</td>
 </tr>
 <tr class="even">
 <td align="left">recent</td>
 <td align="left">the most recent visit to a cell</td>
-<td align="right">17</td>
+<td align="right">19</td>
 </tr>
 <tr class="odd">
 <td align="left">lists</td>
 <td align="left">add list length</td>
-<td align="right">18</td>
+<td align="right">20</td>
 </tr>
 <tr class="even">
 <td align="left">filt_list_df</td>
 <td align="left">filter occurrence data to a set of criteria</td>
-<td align="right">19</td>
+<td align="right">21</td>
 </tr>
 <tr class="odd">
 <td align="left">fst</td>
 <td align="left">fix spatial taxonomy</td>
-<td align="right">20</td>
+<td align="right">22</td>
 </tr>
 <tr class="even">
 <td align="left">fbd</td>
 <td align="left">filter by distribution</td>
-<td align="right">21</td>
+<td align="right">23</td>
 </tr>
 <tr class="odd">
 <td align="left">pres</td>
 <td align="left">presences only</td>
-<td align="right">22</td>
+<td align="right">24</td>
 </tr>
 <tr class="even">
 <td align="left">coord</td>
 <td align="left">centroids of state, capital and institutions</td>
-<td align="right">23</td>
+<td align="right">25</td>
 </tr>
 <tr class="odd">
 <td align="left">ind</td>
 <td align="left">indigenous species</td>
-<td align="right">24</td>
+<td align="right">26</td>
 </tr>
 <tr class="even">
 <td align="left">rm</td>
 <td align="left">geographic reliability</td>
-<td align="right">25</td>
+<td align="right">27</td>
 </tr>
 <tr class="odd">
 <td align="left">include</td>
 <td align="left">taxa with presences, reliable distributions, and/or mcp
 around presences</td>
-<td align="right">26</td>
+<td align="right">28</td>
 </tr>
 <tr class="even">
 <td align="left">bin</td>
 <td align="left">reduce to distinct rows</td>
-<td align="right">27</td>
+<td align="right">29</td>
 </tr>
 </tbody>
 </table>
@@ -450,7 +460,7 @@ Statistical Software</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
