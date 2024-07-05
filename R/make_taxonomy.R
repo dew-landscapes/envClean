@@ -152,10 +152,11 @@
     tax_res$taxonomy <- tax_res$lutaxa %>%
       dplyr::distinct(best_key) %>%
       dplyr::left_join(accepted %>%
-                         dplyr::rename(best_key = usageKey)
+                         dplyr::select(taxa = canonicalName
+                                       , best_key = usageKey
+                                       , everything()
+                                       )
                        )
-
-
 
 
     if(!is.null(fixes)) {
