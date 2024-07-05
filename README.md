@@ -31,7 +31,7 @@ devtools::install_github("Acanthiza/envClean")
 Load `envClean`
 
 
-``` r
+```r
 library("envClean")
 ```
 
@@ -44,14 +44,14 @@ This example uses the `flor_all` data frame and the simple feature `aoi`. Conver
 Load `flor_all`
 
 
-``` r
+```r
 flor_all <- tibble::as_tibble(flor_all)
 ```
 
 Convert `flor_all` to `sf` and plot together with `aoi`.
 
 
-``` r
+```r
 
   flor_all_sf <- flor_all %>%
     sf::st_as_sf(coords = c("long", "lat")
@@ -74,16 +74,13 @@ Convert `flor_all` to `sf` and plot together with `aoi`.
 Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
 
 
-``` r
+```r
 
   flor_aoi <- filter_geo_range(flor_all
                          , use_aoi = aoi
                          ) %>%
     envFunc::add_time_stamp()
 #> Joining with `by = join_by(long, lat)`
-```
-
-``` r
 
   flor_aoi
 #> # A tibble: 1,419 × 10
@@ -105,7 +102,7 @@ Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
 Check that spatial filter worked.
 
 
-``` r
+```r
 
   flor_aoi_sf <- flor_aoi %>%
     sf::st_as_sf(coords = c("long", "lat")
