@@ -189,12 +189,22 @@
       unique() %>%
       sort()
 
+    not_accepted_use_keys <- res %>%
+      dplyr::filter(status != "ACCEPTED") %>%
+      dplyr::select(acceptedUsageKey) %>%
+      unlist() %>%
+      unname() %>%
+      na.omit() %>%
+      unique() %>%
+      sort()
+
     all_accepted_keys <- res %>%
       dplyr::filter(status == "ACCEPTED") %>%
       dplyr::select(tidyselect::contains("Key")) %>%
       unlist() %>%
       unname() %>%
       na.omit() %>%
+      c(not_accepted_use_keys) %>%
       unique() %>%
       sort()
 
