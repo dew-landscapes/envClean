@@ -175,7 +175,7 @@
 
       tax_res$lutaxa <- tax_res$lutaxa %>%
         dplyr::left_join(overrides %>%
-                           dplyr::select(original, prefer)
+                           dplyr::select(original, prefer, prefer_rank)
                          , by = c("original_name" = "original")
                          ) %>%
         dplyr::mutate(taxa = dplyr::case_when(!is.na(prefer) ~ prefer
