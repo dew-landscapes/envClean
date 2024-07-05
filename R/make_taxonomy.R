@@ -139,25 +139,24 @@
                             , setclass = "tibble"
                             )
 
-
-    # taxonomy-------
-
-    tax_res$taxonomy <- accepted %>%
-      dplyr::select(taxa = canonicalName
-                    , best_key = usageKey
-                    , everything()
-                    ) %>%
-      dplyr::inner_join(best %>%
-                          dplyr::distinct(best_key)
-                        )
-
-
     # lutaxa-------
 
     tax_res$lutaxa <- best %>%
-      dplyr::left_join(tax_res$taxonomy %>%
-                         dplyr::select(taxa, best_key)
+      dplyr::inner_join(accepted %>%
+                         dplyr::select(taxa = canonicalName, best_key = usageKey)
                        )
+
+
+    # taxonomy-------
+
+    tax_res$taxonomy <- tax_res$lutaxa %>%
+      dplyr::distinct(best_key) %>%
+      dplyr::left_join(accepted %>%
+                         dplyr::rename(best_key = usageKey)
+                       )
+
+
+
 
     if(!is.null(fixes)) {
 
