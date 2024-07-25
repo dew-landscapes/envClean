@@ -4,9 +4,10 @@
 #'
 #' Only queries galah for taxa not already in `taxonomy_file`.
 #'
-#' @param df Dataframe with taxa column.
-#' @param taxa_col Character. Name of column with taxa names. Each unique taxa
-#' in this column will appear in the results in a column called `original_name`
+#' @param df Dataframe with `taxa_col`
+#' @param taxa_col Character or index. Name or index of column with taxa names.
+#' Each unique taxa in this column will appear in the results in a column called
+#' `original_name`
 #' @param taxonomy_file Character. Path to save results to.
 #' @param force_new List with elements `taxa_col` and `difftime`. If
 #' `taxonomy_file` already exists any `taxa_col` matches between `force_new` and
@@ -21,7 +22,16 @@
 #' text that matches, but the row remains.
 #' @param make_taxonomy Logical. If `TRUE`, a list is returned containing the
 #' best match for each original_name in `lutaxa` and additional elements named
-#' for their rank (see `envClean::lurank`) with unique rows for that rank.
+#' for their rank (see `envClean::lurank`) with unique rows for that rank. One
+#' element per rank provided in `needed_ranks`
+#' @param limit Logical. If `TRUE` the returned list will be limited to those
+#' `original_name`s in `df`
+#' @param needed_ranks Character vector of ranks required in the returned list.
+#' Can be "all" or any combination of ranks from `envClean::lurank` greater than
+#' or equal to _species_. Note that only results obtaining that rank are
+#' returned per list element. Thus, an `original_name` at binomial level that
+#' was only matched at genus level will not appear in the "species" list
+#' element.
 #'
 #' @return Null or list depending on `make_taxonomy`. Writes `taxonomy_file`.
 #' @export
@@ -46,16 +56,30 @@
                                                        , "\\sX\\s.*" # blah X abc xyz
                                                        , "\\s\\-\\-\\s.*" # blah -- abc xyz
                                                        #, "\\s\\(.*\\)"  # blah (abc xyz) blah (note second space left)
-                                                       #, "\\ssp\\.$" # blah sp.END
-                                                       #, "\\sssp\\.$" # blah ssp.END
-                                                       #, "\\sspec\\.$" # blah spec.END
+                                                       , "\\ssp\\.$" # blah sp.END
+                                                       , "\\sssp\\.$" # blah ssp.END
+                                                       , "\\sspec\\.$" # blah spec.END
                                                        ) # blah not removed, everything else removed
                                   , remove_dead = FALSE
-                                  , atlas = c("both", "Australia", "gbif")
+                                  , atlas = c("Australia")
                                   , make_taxonomy = TRUE
+                                  , limit = TRUE
+                                  , needed_ranks = c("all")
                                   ) {
 
+    # needed ranks -------
 
+    if("all" %in% needed_ranks) needed_ranks <- unique(c(needed_ranks, as.character(lurank$rank)))
+
+    needed_ranks <- factor(needed_ranks[needed_ranks %in% lurank$rank]
+                           , levels = levels(lurank$rank)
+                           , ordered = TRUE
+                           )
+
+    needed_ranks <- needed_ranks[needed_ranks >= "species"]
+
+
+    # clean -------
 
     if(remove_dead) {
 
@@ -78,13 +102,13 @@
     # If taxonomy_file already exists, bring it in then remove any force_new
     if(file.exists(taxonomy_file)) {
 
-      df_res <- arrow::open_dataset(taxonomy_file) %>%
+      previous <- arrow::open_dataset(taxonomy_file) %>%
         dplyr::collect() %>%
         dplyr::ungroup()
 
       if(!is.null(force_new$timediff)) {
 
-        df_res <- df_res %>%
+        previous <- previous %>%
           dplyr::filter(difftime(Sys.time()
                                  , stamp
                                  , units = "days"
@@ -98,14 +122,14 @@
 
       if(!is.null(force_new$original_name)) {
 
-        df_res <- df_res %>%
+        previous <- previous %>%
           dplyr::filter(!(original_name %in% force_new[taxa_col]))
 
       }
 
     } else {
 
-      df_res <- tibble::tibble(original_name := NA)
+      previous <- tibble::tibble(original_name = NA)
 
     }
 
@@ -120,7 +144,7 @@
                            )
                     , original_name != ""
                     ) %>%
-      dplyr::anti_join(df_res) %>%
+      dplyr::anti_join(previous) %>%
       dplyr::mutate(searched_name = gsub(paste0(remove_strings
                                                   , collapse = "|"
                                                   )
@@ -160,81 +184,37 @@
       dplyr::select(tidyselect::any_of(names(to_check)))
 
 
-    # name_backbone--------
+    # get taxonomy--------
     if(length(to_check$searched_name) > 0){
 
-      if(any(atlas %in% c("galah", "both"))) {
+      old_atlas <- galah::galah_config()$atlas$region
 
-        old_atlas <- galah::galah_config()$atlas$region
+      galah::galah_config(atlas = atlas)
 
-        ## galah ------
-        galah::galah_config(atlas = "Australia")
+      new <- to_check %>%
+        dplyr::select(original_name) %>%
+        dplyr::bind_cols(galah::search_taxa(to_check %>%
+                                              dplyr::select(tidyselect::any_of(lurank$rank)
+                                                            , scientificName = searched_name
+                                                            )
+                                            )
+                         ) %>%
+        dplyr::mutate(stamp = Sys.time()) %>%
+        dplyr::mutate(rank = factor(rank
+                                      , levels = levels(envClean::lurank$rank)
+                                      , ordered = TRUE
+                                      )
+                      )
 
-        tax_aus <- to_check %>%
-          dplyr::select(original_name) %>%
-          dplyr::bind_cols(galah::search_taxa(to_check %>%
-                                                dplyr::select(tidyselect::any_of(lurank$rank)
-                                                              , scientificName = searched_name
-                                                              )
-                                              )
-                           ) %>%
-          dplyr::mutate(stamp = Sys.time()) %>%
-          dplyr::mutate(rank = factor(rank
-                                        , levels = levels(envClean::lurank$rank)
-                                        , ordered = TRUE
-                                        )
-                        )
-
-        galah::galah_config(atlas = old_atlas)
-
-      }
-
-      if(any(atlas %in% c("gbif", "both"))) {
-
-        if(exists("tax_aus")) {
-
-          to_check <- tax_aus %>%
-            dplyr::filter(grepl("higher", match_type)) %>%
-            dplyr::select(original_name) %>%
-            dplyr::inner_join(to_check)
-
-        }
-
-        if(nrow(to_check) > 0) {
-
-          ## gbif -------
-          galah::galah_config(atlas = "gbif")
-
-          tax_gbif <- to_check %>%
-            dplyr::select(original_name) %>%
-            dplyr::bind_cols(galah::search_taxa(to_check$searched_name)) %>%
-            dplyr::mutate(stamp = Sys.time()) %>%
-            dplyr::mutate(rank = factor(rank
-                                          , levels = levels(envClean::lurank$rank)
-                                          , ordered = TRUE
-                                          )
-                          ) %>%
-            dplyr::mutate(taxon_concept_id = as.character(taxon_concept_id))
-
-          galah::galah_config(atlas = "Australia")
-
-        }
-
-      }
-
-      df_res <- df_res %>%
-        {if(exists("tax_aus")) (.) %>% dplyr::bind_rows(tax_aus) else (.)} %>%
-        {if(exists("tax_gbif")) (.) %>%
-             dplyr::filter(!grepl("higher", match_type)) %>%
-            dplyr::bind_rows(tax_gbif) else (.)
-          } %>%
-        dplyr::filter(!is.na(original_name))
+      galah::galah_config(atlas = old_atlas)
 
     }
 
+
     # clean up -------
 
-    df_res <- df_res %>%
+    new <- previous %>%
+      dplyr::bind_rows(new) %>%
       dplyr::filter(!is.na(original_name)) %>%
       dplyr::group_by(original_name) %>%
       dplyr::filter(stamp == max(stamp)) %>%
@@ -243,8 +223,7 @@
 
     # save -------
 
-    arrow::write_dataset(df_res %>%
-                           dplyr::group_by(kingdom)
+    arrow::write_dataset(new
                          , path = taxonomy_file
                          )
 
@@ -252,22 +231,50 @@
 
     if(make_taxonomy) {
 
-      res <- list()
+      res <- list(raw = new %>%
+                    {if(limit) (.) %>% dplyr::inner_join(df %>% dplyr::distinct(original_name)
+                                                         , by = c("original_name" = taxa_col)
+                                                         ) else (.)
+                      }
+                  )
 
-      res$lutaxa <- df_res
+      # long ------
+      long <- res$raw %>%
+        dplyr::mutate(subspecies = dplyr::if_else(rank == "subspecies", scientific_name, NA_character_)) %>%
+        dplyr::rename(matched_at = rank) %>%
+        tidyr::pivot_longer(tidyselect::matches(paste0(envClean::lurank$rank, collapse = "|"))
+                            , names_to = "rank"
+                            , values_to = "taxa"
+                            ) %>%
+        dplyr::filter(!is.na(taxa)) %>%
+        dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
+        dplyr::select(original_name, match_type, rank, matched_at, taxa)
 
-      make_ranks <- lurank$rank[lurank$rank >= "subspecies"]
+      # needed ranks -------
+      all_ranks <- purrr::map(needed_ranks
+                              , \(x) {
 
-      all_ranks <- purrr::map(make_ranks
-                              , \(x) df_res %>%
-                                dplyr::rename(subspecies = scientific_name) %>%
-                                dplyr::select(tidyselect::any_of(make_ranks[make_ranks >= x])) %>%
-                                dplyr::distinct()
+                                this_rank <- as.character(x)
+
+                                rank_taxonomy <- long %>%
+                                  dplyr::filter(rank >= x) %>%
+                                  dplyr::group_by(original_name) %>%
+                                  dplyr::filter(rank == min(rank)) %>%
+                                  dplyr::ungroup() %>%
+                                  dplyr::distinct()
+
+                                }
                               )
 
-      names(all_ranks) <- make_ranks
+      names(all_ranks) <- needed_ranks
 
       res <- c(res, all_ranks)
+
+      # subspecies -------
+      res$subspecies <- long %>%
+        dplyr::group_by(original_name) %>%
+        dplyr::filter(rank == min(rank)) %>%
+        dplyr::ungroup()
 
     }
 
