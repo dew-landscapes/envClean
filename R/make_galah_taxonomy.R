@@ -50,6 +50,7 @@
                                                     , "unverified"
                                                     , "annual herb"
                                                     , "annual grass"
+                                                    , "incertae sedis"
                                                     , "\\?"
                                                     )
                                   , remove_strings = c("\\sx\\s.*" # blah x abc xyz
@@ -235,20 +236,21 @@
                     {if(limit) (.) %>% dplyr::inner_join(df %>% dplyr::distinct(original_name)
                                                          , by = c("original_name" = taxa_col)
                                                          ) else (.)
-                      }
+                      } %>%
+                    dplyr::mutate(subspecies = dplyr::if_else(rank <= "subspecies", scientific_name, NA_character_))
                   )
 
       # long ------
       long <- res$raw %>%
         dplyr::mutate(subspecies = dplyr::if_else(rank == "subspecies", scientific_name, NA_character_)) %>%
-        dplyr::rename(matched_at = rank) %>%
+        dplyr::rename(matched_rank = rank) %>%
         tidyr::pivot_longer(tidyselect::matches(paste0(envClean::lurank$rank, collapse = "|"))
                             , names_to = "rank"
                             , values_to = "taxa"
                             ) %>%
         dplyr::filter(!is.na(taxa)) %>%
         dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
-        dplyr::select(original_name, match_type, rank, matched_at, taxa)
+        dplyr::select(original_name, match_type, rank, matched_rank, taxa)
 
       # needed ranks -------
       all_ranks <- purrr::map(needed_ranks
@@ -261,7 +263,11 @@
                                   dplyr::group_by(original_name) %>%
                                   dplyr::filter(rank == min(rank)) %>%
                                   dplyr::ungroup() %>%
-                                  dplyr::distinct()
+                                  dplyr::distinct(original_name, matched_rank, rank, taxa) %>%
+                                  dplyr::left_join(res$raw %>%
+                                                     dplyr::select(-rank)
+                                                   ) %>%
+                                  janitor::remove_empty(which = "cols")
 
                                 }
                               )
@@ -269,12 +275,6 @@
       names(all_ranks) <- needed_ranks
 
       res <- c(res, all_ranks)
-
-      # subspecies -------
-      res$subspecies <- long %>%
-        dplyr::group_by(original_name) %>%
-        dplyr::filter(rank == min(rank)) %>%
-        dplyr::ungroup()
 
     }
 
