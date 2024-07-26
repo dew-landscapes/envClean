@@ -78,7 +78,7 @@
 #'
 #' # no dataframe supplied - all results in taxonomy_file returned
 #' taxonomy <- make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies"))
-#' taxonomy$species
+#' taxonomy$subspecies
 #'
 #' # clean up
 #' rm(taxonomy)
