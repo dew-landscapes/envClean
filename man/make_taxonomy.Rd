@@ -5,7 +5,7 @@
 \title{Get taxonomy via \code{galah::taxa_search()}}
 \usage{
 make_taxonomy(
-  df,
+  df = NULL,
   taxa_col = "original_name",
   taxonomy_file = tempfile(),
   force_new = list(original_name = NULL, timediff = as.difftime(26, units = "weeks")),
@@ -21,7 +21,8 @@ make_taxonomy(
 )
 }
 \arguments{
-\item{df}{Dataframe with \code{taxa_col}}
+\item{df}{Dataframe with \code{taxa_col}. Can be NULL only if taxonomy_file
+already exists.}
 
 \item{taxa_col}{Character or index. Name or index of column with taxa names.
 Each unique taxa in this column will appear in the results list element
@@ -61,7 +62,7 @@ or equal to \emph{subspecies}.}
 Null or list (depending on \code{return_taxonomy}). Writes \code{taxonomy_file}.
 If list, then elements:
 \itemize{
-\itme{raw}{the 'raw' results returned from \code{galah::search_taxa()}, tweaked
+\item{raw}{the 'raw' results returned from \code{galah::search_taxa()}, tweaked
 by column \code{rank} being an ordered factor as per \code{envClean::lurank}}
 \item{needed_ranks}{One element for each rank specified in \code{needed_ranks}}
 \itemize{
@@ -85,19 +86,30 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 \code{envClean::make_gbif_taxonomy()}
 }
 \examples{
+
+# setup
 temp_file <- tempfile()
-taxa_df <- tibble::tibble(name = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
-taxonomy <- make_taxonomy(df = taxa_df, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("kingdom", "genus", "species", "subspecies"))
+taxa_df <- tibble::tibble(names = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
+
+# make taxonomy (returns list and writes taxonomy_file)
+taxonomy <- make_taxonomy(df = taxa_df, taxa_col = "names", taxonomy_file = temp_file, needed_ranks = c("kingdom", "genus", "species", "subspecies"))
 taxonomy$raw
 taxonomy$kingdom
 taxonomy$genus
 taxonomy$species
 taxonomy$subspecies
-more_taxa <- tibble::tibble(name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
-taxonomy <- make_taxonomy(df = more_taxa, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("species"))
+
+# query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)
+more_taxa <- tibble::tibble(original_name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
+taxonomy <- make_taxonomy(df = more_taxa, taxonomy_file = temp_file, needed_ranks = c("species"))
 taxonomy$species
-taxonomy <- make_taxonomy(df = more_taxa, limit = FALSE, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("species"))
+
+# no dataframe supplied - all results in taxonomy_file returned
+taxonomy <- make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies"))
 taxonomy$species
+
+# clean up
 rm(taxonomy)
 unlist(temp_file)
+
 }

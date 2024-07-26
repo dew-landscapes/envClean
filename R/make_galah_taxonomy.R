@@ -12,7 +12,8 @@
 #' Previous `envClean::make_taxonomy()` function is still available via
 #' `envClean::make_gbif_taxonomy()`
 #'
-#' @param df Dataframe with `taxa_col`
+#' @param df Dataframe with `taxa_col`. Can be NULL only if taxonomy_file
+#' already exists.
 #' @param taxa_col Character or index. Name or index of column with taxa names.
 #' Each unique taxa in this column will appear in the results list element
 #' `lutaxa`in a column called `original_name`
@@ -43,7 +44,7 @@
 #' @return Null or list (depending on `return_taxonomy`). Writes `taxonomy_file`.
 #' If list, then elements:
 #'  \itemize{
-#'    \itme{raw}{the 'raw' results returned from `galah::search_taxa()`, tweaked
+#'    \item{raw}{the 'raw' results returned from `galah::search_taxa()`, tweaked
 #'     by column `rank` being an ordered factor as per `envClean::lurank`}
 #'    \item{needed_ranks}{One element for each rank specified in `needed_ranks`}
 #'      \itemize{
@@ -57,22 +58,33 @@
 #' @export
 #'
 #' @examples
+#'
+#' # setup
 #' temp_file <- tempfile()
-#' taxa_df <- tibble::tibble(name = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
-#' taxonomy <- make_taxonomy(df = taxa_df, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("kingdom", "genus", "species", "subspecies"))
+#' taxa_df <- tibble::tibble(names = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
+#'
+#' # make taxonomy (returns list and writes taxonomy_file)
+#' taxonomy <- make_taxonomy(df = taxa_df, taxa_col = "names", taxonomy_file = temp_file, needed_ranks = c("kingdom", "genus", "species", "subspecies"))
 #' taxonomy$raw
 #' taxonomy$kingdom
 #' taxonomy$genus
 #' taxonomy$species
 #' taxonomy$subspecies
-#' more_taxa <- tibble::tibble(name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
-#' taxonomy <- make_taxonomy(df = more_taxa, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("species"))
+#'
+#' # query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)
+#' more_taxa <- tibble::tibble(original_name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
+#' taxonomy <- make_taxonomy(df = more_taxa, taxonomy_file = temp_file, needed_ranks = c("species"))
 #' taxonomy$species
-#' taxonomy <- make_taxonomy(df = more_taxa, limit = FALSE, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("species"))
+#'
+#' # no dataframe supplied - all results in taxonomy_file returned
+#' taxonomy <- make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies"))
 #' taxonomy$species
+#'
+#' # clean up
 #' rm(taxonomy)
 #' unlist(temp_file)
-  make_taxonomy <- function(df
+#'
+  make_taxonomy <- function(df = NULL
                             , taxa_col = "original_name"
                             , taxonomy_file = tempfile()
                             , force_new = list(original_name = NULL
@@ -108,7 +120,12 @@
                             , needed_ranks = c("species")
                             ) {
 
-    # needed ranks -------
+    # setup ------
+    lurank <- envClean::lurank
+
+    if(tools::file_ext(taxonomy_file) == "") taxonomy_file <- paste0(taxonomy_file, ".parquet")
+
+    ## needed ranks -------
 
     if("all" %in% needed_ranks) needed_ranks <- unique(c(needed_ranks, as.character(lurank$rank)))
 
@@ -119,164 +136,173 @@
 
     needed_ranks <- needed_ranks[needed_ranks >= "subspecies"]
 
+    if(!is.null(df)) {
 
-    # clean -------
+      taxa_col <- names(df[taxa_col])
 
-    lurank <- envClean::lurank
+      # If taxonomy_file already exists, bring it in then remove any force_new
+      if(file.exists(taxonomy_file)) {
 
-    taxa_col <- names(df[taxa_col])
+        # previous -------
+        previous <- arrow::open_dataset(taxonomy_file) %>%
+          dplyr::collect() %>%
+          dplyr::ungroup() %>%
+          dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name))
 
-    if(tools::file_ext(taxonomy_file) == "") taxonomy_file <- paste0(taxonomy_file, ".parquet")
+        if(!is.null(force_new$timediff)) {
 
-    # If taxonomy_file already exists, bring it in then remove any force_new
-    if(file.exists(taxonomy_file)) {
-
-      # previous -------
-      previous <- arrow::open_dataset(taxonomy_file) %>%
-        dplyr::collect() %>%
-        dplyr::ungroup() %>%
-        dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name))
-
-      if(!is.null(force_new$timediff)) {
-
-        previous <- previous %>%
-          dplyr::filter(difftime(Sys.time()
-                                 , stamp
-                                 , units = "days"
-                                 ) <
-                          as.numeric(force_new$timediff
-                                     , units = "days"
-                                     )
-                        )
-      }
-
-
-      if(!is.null(force_new$original_name)) {
-
-        previous <- previous %>%
-          dplyr::filter(!(original_name %in% force_new[taxa_col]))
-
-      }
-
-    } else {
-
-      previous <- tibble::tibble(original_name = NA)
-
-    }
-
-    # Collect any unfound taxa_col (and make a 'searched' name)
-    to_check <- df %>%
-      dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
-      dplyr::distinct(dplyr::across(tidyselect::any_of(lurank$rank)), original_name) %>%
-      dplyr::filter(!grepl(paste0(remove_taxa
-                                  , collapse = "|"
-                                  )
-                           , original_name
-                           )
-                    , original_name != ""
-                    ) %>%
-      dplyr::anti_join(previous) %>%
-      dplyr::mutate(searched_name = gsub(paste0(remove_strings
-                                                  , collapse = "|"
-                                                  )
-                                           , ""
-                                           , original_name
-                                           )
-                    , searched_name = stringr::str_squish(searched_name)
-                    ) %>%
-      # remove names that contain only NA, blanks, digits or dates
-      dplyr::filter(is.na(as.numeric(gsub("[^[[:alnum:]]+"
-                                          , ""
-                                          , original_name
-                                          )
-                                     )
+          previous <- previous %>%
+            dplyr::filter(difftime(Sys.time()
+                                   , stamp
+                                   , units = "days"
+                                   ) <
+                            as.numeric(force_new$timediff
+                                       , units = "days"
+                                       )
                           )
-                    , is.na(as.numeric(lubridate::dmy(original_name)))
-                    , !is.na(original_name)
-                    , !is.na(searched_name)
-                    , searched_name != ""
-                    ) %>%
-      dplyr::arrange(dplyr::across(tidyselect::any_of(lurank$rank)), original_name)
+        }
 
-    if("kingdom" %in% names(to_check)) {
 
-      if(sum(is.na(to_check$kingdom)) > 0) {
+        if(!is.null(force_new$original_name)) {
 
-        # redundant if every original name has a kingdom
+          previous <- previous %>%
+            dplyr::filter(!(original_name %in% force_new[taxa_col]))
 
-        # remove kingdom == NA if original_name already in to_check with !is.na(kingdom)
-        to_check <- to_check %>%
-          dplyr::count(searched_name) %>%
-          dplyr::filter(n > 1) %>%
-          dplyr::inner_join(to_check) %>%
-          dplyr::filter(dplyr::if_any(tidyselect::any_of(lurank$rank)
-                                      , is.na
-                                      )
-                        ) %>%
-          dplyr::select(tidyselect::any_of(names(to_check))) %>%
-          dplyr::mutate(keep = FALSE) %>%
-          dplyr::right_join(to_check) %>%
-          dplyr::mutate(keep = dplyr::if_else(is.na(keep), TRUE, keep)) %>%
-          dplyr::filter(keep) %>%
-          dplyr::select(tidyselect::any_of(names(to_check)))
+        }
+
+      } else {
+
+        previous <- tibble::tibble(original_name = NA_character_)
 
       }
 
-    }
-
-
-    # get taxonomy--------
-    if(length(to_check$searched_name) > 0){
-
-      old_atlas <- galah::galah_config()$atlas$region
-
-      galah::galah_config(atlas = atlas)
-
-      new <- to_check %>%
-        dplyr::select(original_name) %>%
-        dplyr::bind_cols(galah::search_taxa(to_check %>%
-                                              dplyr::select(tidyselect::any_of(lurank$rank)
-                                                            , scientificName = searched_name
-                                                            )
+      # Collect any unfound taxa_col (and make a 'searched' name)
+      to_check <- df %>%
+        dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
+        dplyr::distinct(dplyr::across(tidyselect::any_of(lurank$rank)), original_name) %>%
+        dplyr::filter(!grepl(paste0(remove_taxa
+                                    , collapse = "|"
+                                    )
+                             , original_name
+                             )
+                      , original_name != ""
+                      ) %>%
+        dplyr::anti_join(previous) %>%
+        dplyr::mutate(searched_name = gsub(paste0(remove_strings
+                                                    , collapse = "|"
+                                                    )
+                                             , ""
+                                             , original_name
+                                             )
+                      , searched_name = stringr::str_squish(searched_name)
+                      ) %>%
+        # remove names that contain only NA, blanks, digits or dates
+        dplyr::filter(is.na(as.numeric(gsub("[^[[:alnum:]]+"
+                                            , ""
+                                            , original_name
                                             )
-                         ) %>%
-        dplyr::mutate(stamp = Sys.time()) %>%
-        dplyr::mutate(rank = factor(rank
-                                      , levels = levels(envClean::lurank$rank)
-                                      , ordered = TRUE
-                                      )
-                      )
+                                       )
+                            )
+                      , is.na(as.numeric(lubridate::dmy(original_name)))
+                      , !is.na(original_name)
+                      , !is.na(searched_name)
+                      , searched_name != ""
+                      ) %>%
+        dplyr::arrange(dplyr::across(tidyselect::any_of(lurank$rank)), original_name)
 
-      galah::galah_config(atlas = old_atlas)
+      if("kingdom" %in% names(to_check)) {
+
+        if(sum(is.na(to_check$kingdom)) > 0) {
+
+          # redundant if every original name has a kingdom
+
+          # remove kingdom == NA if original_name already in to_check with !is.na(kingdom)
+          to_check <- to_check %>%
+            dplyr::count(searched_name) %>%
+            dplyr::filter(n > 1) %>%
+            dplyr::inner_join(to_check) %>%
+            dplyr::filter(dplyr::if_any(tidyselect::any_of(lurank$rank)
+                                        , is.na
+                                        )
+                          ) %>%
+            dplyr::select(tidyselect::any_of(names(to_check))) %>%
+            dplyr::mutate(keep = FALSE) %>%
+            dplyr::right_join(to_check) %>%
+            dplyr::mutate(keep = dplyr::if_else(is.na(keep), TRUE, keep)) %>%
+            dplyr::filter(keep) %>%
+            dplyr::select(tidyselect::any_of(names(to_check)))
+
+        }
+
+      }
+
+      # get taxonomy--------
+      if(length(to_check$searched_name) > 0){
+
+        old_atlas <- galah::galah_config()$atlas$region
+
+        galah::galah_config(atlas = atlas)
+
+        new <- to_check %>%
+          dplyr::select(original_name) %>%
+          dplyr::bind_cols(galah::search_taxa(to_check %>%
+                                                dplyr::select(tidyselect::any_of(lurank$rank)
+                                                              , scientificName = searched_name
+                                                              )
+                                              )
+                           ) %>%
+          dplyr::mutate(stamp = Sys.time()) %>%
+          dplyr::mutate(rank = factor(rank
+                                        , levels = levels(envClean::lurank$rank)
+                                        , ordered = TRUE
+                                        )
+                        )
+
+        galah::galah_config(atlas = old_atlas)
+
+      } else {
+
+        new <- tibble::tibble(original_name = NA_character_)
+
+      }
+
+
+      # clean up -------
+
+      new <- previous %>%
+        dplyr::bind_rows(new) %>%
+        dplyr::filter(!is.na(original_name)) %>%
+        dplyr::group_by(original_name) %>%
+        dplyr::filter(stamp == max(stamp)) %>%
+        dplyr::ungroup() %>%
+        dplyr::distinct()
+
+
+      # save -------
+
+      message("saving results to ", taxonomy_file)
+
+      arrow::write_dataset(new
+                           , path = taxonomy_file
+                           )
 
     }
-
-
-    # clean up -------
-
-    new <- previous %>%
-      dplyr::bind_rows(new) %>%
-      dplyr::filter(!is.na(original_name)) %>%
-      dplyr::group_by(original_name) %>%
-      dplyr::filter(stamp == max(stamp)) %>%
-      dplyr::ungroup() %>%
-      dplyr::distinct()
-
-
-    # save -------
-
-    message("saving results to ", taxonomy_file)
-
-    arrow::write_dataset(new
-                         , path = taxonomy_file
-                         )
 
     # res -------
 
     if(return_taxonomy) {
 
+      if(!exists("new", inherits = FALSE)) {
+
+        # if make_taxonomy called with df = NULL
+        new <- arrow::open_dataset(taxonomy_file) %>%
+          dplyr::collect() %>%
+          dplyr::ungroup()
+
+      }
+
       res <- list(raw = new %>%
-                    {if(limit) (.) %>% dplyr::inner_join(df %>%
+                    {if(all(limit, !is.null(df))) (.) %>% dplyr::inner_join(df %>%
                                                            dplyr::distinct(dplyr::across(!!rlang::ensym(taxa_col)))
                                                          , by = c("original_name" = taxa_col)
                                                          ) else (.)
