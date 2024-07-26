@@ -5,9 +5,12 @@
 #' Only queries galah for taxa not already in `taxonomy_file`. Can return a list,
 #' for several levels of taxonomic hierarchy, with the 'best' match at that
 #' level. For example, if 'genus' is provided in `needed_ranks`, the returned
-#' list will have an element 'genus' that contains, for each of the original
-#' names provided, the best result at genus _or higher_ if no genus level
-#' match was available.
+#' list will have an element 'genus' that contains, in a column named `taxa`,
+#' and for each of the original names provided, the best result at genus level
+#' _or higher_ (in cases where no genus level match was available).
+#'
+#' Previous `envClean::make_taxonomy()` function is still available via
+#' `envClean::make_gbif_taxonomy()`
 #'
 #' @param df Dataframe with `taxa_col`
 #' @param taxa_col Character or index. Name or index of column with taxa names.
@@ -15,7 +18,7 @@
 #' `lutaxa`in a column called `original_name`
 #' @param taxonomy_file Character. File path to save results to. File type
 #' ignored. .parquet file used, partitioned on kingdom. If using this file
-#' directly (rather than via make_taxonomy = TRUE) remember to ungroup the
+#' directly (rather than via return_taxonomy = TRUE) remember to ungroup the
 #' result returned via `arrow::open_dataset()`.
 #' @param force_new List with elements `taxa_col` and `difftime`. If
 #' `taxonomy_file` already exists any `taxa_col` matches between `force_new` and
@@ -27,7 +30,7 @@
 #' `remove_taxa` are removed (rows are removed).
 #' @param remove_strings Character. Text that matches `remove_strings` is
 #' removed from the string before searching (text, not row, is removed).
-#' @param make_taxonomy Logical. If `TRUE`, a list is returned containing the
+#' @param return_taxonomy Logical. If `TRUE`, a list is returned containing the
 #' best match for each original_name in `lutaxa` and additional elements named
 #' for their rank (see `envClean::lurank`) with unique rows for that rank. One
 #' element per rank provided in `needed_ranks`
@@ -37,7 +40,7 @@
 #' Can be "all" or any combination of ranks from `envClean::lurank` greater than
 #' or equal to _subspecies_.
 #'
-#' @return Null or list (depending on `make_taxonomy`). Writes `taxonomy_file`.
+#' @return Null or list (depending on `return_taxonomy`). Writes `taxonomy_file`.
 #' If list, then elements:
 #'  \itemize{
 #'    \itme{raw}{the 'raw' results returned from `galah::search_taxa()`, tweaked
@@ -51,11 +54,17 @@
 #'      }
 #'  }
 #'
-#'
-#'
 #' @export
 #'
 #' @examples
+#' temp_file <- tempfile()
+#' taxa_df <- tibble::tibble(name = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
+#' taxonomy <- make_taxonomy(df = taxa_df, taxa_col = "name", needed_ranks = c("kingdom", "genus", "species", "subspecies"))
+#' taxonomy$raw
+#' taxonomy$kingdom
+#' taxonomy$genus
+#' taxonomy$species
+#' taxonomy$subspecies
   make_taxonomy <- function(df
                             , taxa_col = "original_name"
                             , taxonomy_file = tempfile()
@@ -87,7 +96,7 @@
                                                  , "dead"
                                                  ) # blah not removed, everything else removed
                             , atlas = c("Australia")
-                            , make_taxonomy = TRUE
+                            , return_taxonomy = TRUE
                             , limit = TRUE
                             , needed_ranks = c("species")
                             ) {
@@ -182,25 +191,29 @@
                     ) %>%
       dplyr::arrange(dplyr::across(tidyselect::any_of(lurank$rank)), original_name)
 
-    if(sum(is.na(to_check$kingdom)) > 0) {
+    if("kingdom" %in% names(to_check)) {
 
-      # redundant if every original name has a kingdom
+      if(sum(is.na(to_check$kingdom)) > 0) {
 
-      # remove kingdom == NA if original_name already in to_check with !is.na(kingdom)
-      to_check <- to_check %>%
-        dplyr::count(searched_name) %>%
-        dplyr::filter(n > 1) %>%
-        dplyr::inner_join(to_check) %>%
-        dplyr::filter(dplyr::if_any(tidyselect::any_of(lurank$rank)
-                                    , is.na
-                                    )
-                      ) %>%
-        dplyr::select(tidyselect::any_of(names(to_check))) %>%
-        dplyr::mutate(keep = FALSE) %>%
-        dplyr::right_join(to_check) %>%
-        dplyr::mutate(keep = dplyr::if_else(is.na(keep), TRUE, keep)) %>%
-        dplyr::filter(keep) %>%
-        dplyr::select(tidyselect::any_of(names(to_check)))
+        # redundant if every original name has a kingdom
+
+        # remove kingdom == NA if original_name already in to_check with !is.na(kingdom)
+        to_check <- to_check %>%
+          dplyr::count(searched_name) %>%
+          dplyr::filter(n > 1) %>%
+          dplyr::inner_join(to_check) %>%
+          dplyr::filter(dplyr::if_any(tidyselect::any_of(lurank$rank)
+                                      , is.na
+                                      )
+                        ) %>%
+          dplyr::select(tidyselect::any_of(names(to_check))) %>%
+          dplyr::mutate(keep = FALSE) %>%
+          dplyr::right_join(to_check) %>%
+          dplyr::mutate(keep = dplyr::if_else(is.na(keep), TRUE, keep)) %>%
+          dplyr::filter(keep) %>%
+          dplyr::select(tidyselect::any_of(names(to_check)))
+
+      }
 
     }
 
@@ -239,10 +252,13 @@
       dplyr::filter(!is.na(original_name)) %>%
       dplyr::group_by(original_name) %>%
       dplyr::filter(stamp == max(stamp)) %>%
-      dplyr::ungroup()
+      dplyr::ungroup() %>%
+      dplyr::distinct()
 
 
     # save -------
+
+    message("saving results to ", taxonomy_file)
 
     arrow::write_dataset(new
                          , path = taxonomy_file
@@ -250,14 +266,16 @@
 
     # res -------
 
-    if(make_taxonomy) {
+    if(return_taxonomy) {
 
       res <- list(raw = new %>%
-                    {if(limit) (.) %>% dplyr::inner_join(df %>% dplyr::distinct(original_name)
+                    {if(limit) (.) %>% dplyr::inner_join(df %>%
+                                                           dplyr::distinct(dplyr::across(!!rlang::ensym(taxa_col)))
                                                          , by = c("original_name" = taxa_col)
                                                          ) else (.)
                       } %>%
-                    dplyr::mutate(subspecies = dplyr::if_else(rank <= "subspecies", scientific_name, NA_character_))
+                    dplyr::mutate(subspecies = dplyr::if_else(rank <= "subspecies", scientific_name, NA_character_)) %>%
+                    dplyr::distinct()
                   )
 
       # long ------
@@ -309,6 +327,6 @@
 
     }
 
-    return(if(make_taxonomy) res else invisible(NULL))
+    return(if(return_taxonomy) res else invisible(NULL))
 
   }
