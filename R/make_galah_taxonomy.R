@@ -2,24 +2,31 @@
 
 #' Get taxonomy via `galah::taxa_search()`
 #'
-#' Only queries galah for taxa not already in `taxonomy_file`.
+#' Only queries galah for taxa not already in `taxonomy_file`. Can return a list,
+#' for several levels of taxonomic hierarchy, with the 'best' match at that
+#' level. For example, if 'genus' is provided in `needed_ranks`, the returned
+#' list will have an element 'genus' that contains, for each of the original
+#' names provided, the best result at genus _or higher_ if no genus level
+#' match was available.
 #'
 #' @param df Dataframe with `taxa_col`
 #' @param taxa_col Character or index. Name or index of column with taxa names.
-#' Each unique taxa in this column will appear in the results in a column called
-#' `original_name`
-#' @param taxonomy_file Character. Path to save results to.
+#' Each unique taxa in this column will appear in the results list element
+#' `lutaxa`in a column called `original_name`
+#' @param taxonomy_file Character. File path to save results to. File type
+#' ignored. .parquet file used, partitioned on kingdom. If using this file
+#' directly (rather than via make_taxonomy = TRUE) remember to ungroup the
+#' result returned via `arrow::open_dataset()`.
 #' @param force_new List with elements `taxa_col` and `difftime`. If
 #' `taxonomy_file` already exists any `taxa_col` matches between `force_new` and
-#'  `taxonomy_file` will be requeried. Likewise any `original_name` that has not
-#'  been searched since `difftime` will be requeried. Note the name `taxa_col`
-#'  should be as provided as per the `taxa_col` argument. Set either to `NULL`
-#'  to ignore.
-#' @param remove_taxa Character. Regular expressions to be matched. Any matches
-#' will be filtered before searching. Removes any rows that match.
-#' @param remove_strings Character. Regular expressions to be matched. Any
-#' matches will be removed from the string before searching. Removes any
-#' text that matches, but the row remains.
+#' `taxonomy_file` will be requeried. Likewise any `original_name` that has not
+#' been searched since `difftime` will be requeried. Note the name `taxa_col`
+#' should be as provided as per the `taxa_col` argument. Set either to `NULL`
+#' to ignore.
+#' @param remove_taxa Character. Rows with regular expressions that match
+#' `remove_taxa` are removed (rows are removed).
+#' @param remove_strings Character. Text that matches `remove_strings` is
+#' removed from the string before searching (text, not row, is removed).
 #' @param make_taxonomy Logical. If `TRUE`, a list is returned containing the
 #' best match for each original_name in `lutaxa` and additional elements named
 #' for their rank (see `envClean::lurank`) with unique rows for that rank. One
@@ -28,45 +35,62 @@
 #' `original_name`s in `df`
 #' @param needed_ranks Character vector of ranks required in the returned list.
 #' Can be "all" or any combination of ranks from `envClean::lurank` greater than
-#' or equal to _species_. Note that only results obtaining that rank are
-#' returned per list element. Thus, an `original_name` at binomial level that
-#' was only matched at genus level will not appear in the "species" list
-#' element.
+#' or equal to _subspecies_.
 #'
-#' @return Null or list depending on `make_taxonomy`. Writes `taxonomy_file`.
+#' @return Null or list (depending on `make_taxonomy`). Writes `taxonomy_file`.
+#' If list, then elements:
+#'  \itemize{
+#'    \itme{raw}{the 'raw' results returned from `galah::search_taxa()`, tweaked
+#'     by column `rank` being an ordered factor as per `envClean::lurank`}
+#'    \item{needed_ranks}{One element for each rank specified in `needed_ranks`}
+#'      \itemize{
+#'        \item{lutaxa}{Dataframe. For each unique name in `taxa_col`, the best
+#'        `taxa` to use (taking into account each `needed_ranks`)}
+#'        \item{taxonomy}{Dataframe. For each `taxa` in `lutaxa` a row of
+#'        taxonomic hierarchy}
+#'      }
+#'  }
+#'
+#'
+#'
 #' @export
 #'
 #' @examples
-  make_galah_taxonomy <- function(df
-                                  , taxa_col = "original_name"
-                                  , taxonomy_file = tempfile()
-                                  , force_new = list(original_name = NULL
-                                                     , timediff = as.difftime(26
-                                                                              , units = "weeks"
-                                                                              )
-                                                     )
-                                  , remove_taxa = c("BOLD:"
-                                                    , "dead"
-                                                    , "unverified"
-                                                    , "annual herb"
-                                                    , "annual grass"
-                                                    , "incertae sedis"
-                                                    , "\\?"
-                                                    )
-                                  , remove_strings = c("\\sx\\s.*" # blah x abc xyz
-                                                       , "\\sX\\s.*" # blah X abc xyz
-                                                       , "\\s\\-\\-\\s.*" # blah -- abc xyz
-                                                       #, "\\s\\(.*\\)"  # blah (abc xyz) blah (note second space left)
-                                                       , "\\ssp\\.$" # blah sp.END
-                                                       , "\\sssp\\.$" # blah ssp.END
-                                                       , "\\sspec\\.$" # blah spec.END
-                                                       ) # blah not removed, everything else removed
-                                  , remove_dead = FALSE
-                                  , atlas = c("Australia")
-                                  , make_taxonomy = TRUE
-                                  , limit = TRUE
-                                  , needed_ranks = c("all")
-                                  ) {
+  make_taxonomy <- function(df
+                            , taxa_col = "original_name"
+                            , taxonomy_file = tempfile()
+                            , force_new = list(original_name = NULL
+                                               , timediff = as.difftime(26
+                                                                        , units = "weeks"
+                                                                        )
+                                               )
+                            , remove_taxa = c("bold:"
+                                              , "BOLD:"
+                                              , "unverified"
+                                              , "annual herb"
+                                              , "annual grass"
+                                              , "incertae sedis"
+                                              , "\\?"
+                                              , "another species"
+                                              , "not naturalised in SA"
+                                              , "unidentified"
+                                              , "unverified"
+                                              , "annual tussock grass"
+                                              , "*no id"
+                                              )
+                            , remove_strings = c("\\sx\\s.*" # blah x abc xyz
+                                                 , "\\sX\\s.*" # blah X abc xyz
+                                                 , "\\s\\-\\-\\s.*" # blah -- abc xyz
+                                                 , "\\ssp\\.$" # blah sp.END
+                                                 , "\\sssp\\.$" # blah ssp.END
+                                                 , "\\sspec\\.$" # blah spec.END
+                                                 , "dead"
+                                                 ) # blah not removed, everything else removed
+                            , atlas = c("Australia")
+                            , make_taxonomy = TRUE
+                            , limit = TRUE
+                            , needed_ranks = c("species")
+                            ) {
 
     # needed ranks -------
 
@@ -77,22 +101,10 @@
                            , ordered = TRUE
                            )
 
-    needed_ranks <- needed_ranks[needed_ranks >= "species"]
+    needed_ranks <- needed_ranks[needed_ranks >= "subspecies"]
 
 
     # clean -------
-
-    if(remove_dead) {
-
-      # any 'name' including dead removed altogether
-      remove_taxa <- c(remove_taxa, "dead", "DEAD", "Dead")
-
-    } else {
-
-      # any instance of 'dead' removed from string to give better chance of name match
-      remove_strings <- c(remove_strings, "dead", "DEAD", "Dead")
-
-    }
 
     lurank <- envClean::lurank
 
@@ -103,9 +115,11 @@
     # If taxonomy_file already exists, bring it in then remove any force_new
     if(file.exists(taxonomy_file)) {
 
+      # previous -------
       previous <- arrow::open_dataset(taxonomy_file) %>%
         dplyr::collect() %>%
-        dplyr::ungroup()
+        dplyr::ungroup() %>%
+        dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name))
 
       if(!is.null(force_new$timediff)) {
 
@@ -168,21 +182,27 @@
                     ) %>%
       dplyr::arrange(dplyr::across(tidyselect::any_of(lurank$rank)), original_name)
 
-    # remove kingdom == NA if original_name already in to_check with !is.na(kingdom)
-    to_check <- to_check %>%
-      dplyr::count(searched_name) %>%
-      dplyr::filter(n > 1) %>%
-      dplyr::inner_join(to_check) %>%
-      dplyr::filter(dplyr::if_any(tidyselect::any_of(lurank$rank)
-                                  , is.na
-                                  )
-                    ) %>%
-      dplyr::select(tidyselect::any_of(names(to_check))) %>%
-      dplyr::mutate(keep = FALSE) %>%
-      dplyr::right_join(to_check) %>%
-      dplyr::mutate(keep = dplyr::if_else(is.na(keep), TRUE, keep)) %>%
-      dplyr::filter(keep) %>%
-      dplyr::select(tidyselect::any_of(names(to_check)))
+    if(sum(is.na(to_check$kingdom)) > 0) {
+
+      # redundant if every original name has a kingdom
+
+      # remove kingdom == NA if original_name already in to_check with !is.na(kingdom)
+      to_check <- to_check %>%
+        dplyr::count(searched_name) %>%
+        dplyr::filter(n > 1) %>%
+        dplyr::inner_join(to_check) %>%
+        dplyr::filter(dplyr::if_any(tidyselect::any_of(lurank$rank)
+                                    , is.na
+                                    )
+                      ) %>%
+        dplyr::select(tidyselect::any_of(names(to_check))) %>%
+        dplyr::mutate(keep = FALSE) %>%
+        dplyr::right_join(to_check) %>%
+        dplyr::mutate(keep = dplyr::if_else(is.na(keep), TRUE, keep)) %>%
+        dplyr::filter(keep) %>%
+        dplyr::select(tidyselect::any_of(names(to_check)))
+
+    }
 
 
     # get taxonomy--------
@@ -245,12 +265,12 @@
         dplyr::mutate(subspecies = dplyr::if_else(rank == "subspecies", scientific_name, NA_character_)) %>%
         dplyr::rename(matched_rank = rank) %>%
         tidyr::pivot_longer(tidyselect::matches(paste0(envClean::lurank$rank, collapse = "|"))
-                            , names_to = "rank"
+                            , names_to = "returned_rank"
                             , values_to = "taxa"
                             ) %>%
         dplyr::filter(!is.na(taxa)) %>%
-        dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
-        dplyr::select(original_name, match_type, rank, matched_rank, taxa)
+        dplyr::mutate(returned_rank = factor(returned_rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
+        dplyr::select(original_name, match_type, returned_rank, matched_rank, taxa)
 
       # needed ranks -------
       all_ranks <- purrr::map(needed_ranks
@@ -258,16 +278,27 @@
 
                                 this_rank <- as.character(x)
 
-                                rank_taxonomy <- long %>%
-                                  dplyr::filter(rank >= x) %>%
+                                base <- long %>%
+                                  dplyr::filter(returned_rank >= x)
+
+                                rank_taxonomy <- list()
+
+                                rank_taxonomy$lutaxa <- base %>%
                                   dplyr::group_by(original_name) %>%
-                                  dplyr::filter(rank == min(rank)) %>%
+                                  dplyr::filter(returned_rank == min(returned_rank)) %>%
                                   dplyr::ungroup() %>%
-                                  dplyr::distinct(original_name, matched_rank, rank, taxa) %>%
-                                  dplyr::left_join(res$raw %>%
-                                                     dplyr::select(-rank)
+                                  dplyr::distinct(original_name, match_type, matched_rank, returned_rank, taxa)
+
+                                rank_taxonomy$taxonomy <- rank_taxonomy$lutaxa %>%
+                                  dplyr::distinct(original_name, taxa) %>%
+                                  dplyr::left_join(base %>%
+                                                     tidyr::pivot_wider(names_from = "returned_rank", values_from = "taxa") %>%
+                                                     dplyr::select(original_name, tidyselect::any_of(lurank$rank))
                                                    ) %>%
-                                  janitor::remove_empty(which = "cols")
+                                  dplyr::select(-original_name) %>%
+                                  dplyr::distinct()
+
+                                return(rank_taxonomy)
 
                                 }
                               )

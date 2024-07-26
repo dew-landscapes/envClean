@@ -38,7 +38,7 @@
 #'
 #' @examples
 #'
-  make_taxonomy <- function(df
+  make_gbif_taxonomy <- function(df
                             , taxa_col = "original_name"
                             , taxonomy_file
                             , target_rank = "species"
