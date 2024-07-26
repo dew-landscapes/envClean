@@ -154,9 +154,10 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |`envClean::make_effort_mod()`     |function                   |Distribution of credible values for taxa richness.                            |
 |`envClean::make_effort_mod_pca()` |function                   |Model the effect of principal components axes on taxa richness.               |
 |`envClean::make_env_pca()`        |function                   |Principal components analysis and various outputs from environmental data     |
+|`envClean::make_gbif_taxonomy()`  |function                   |Make taxonomy lookups                                                         |
 |`envClean::make_ind_status()`     |function                   |Make indigenous status lookup                                                 |
 |`envClean::make_lifeform()`       |function                   |Get unique lifeform across taxa, perhaps including further context            |
-|`envClean::make_taxonomy()`       |function                   |Make taxonomy lookups                                                         |
+|`envClean::make_taxonomy()`       |function                   |Get taxonomy via code{galah::taxa_search()}                                   |
 |`envClean::rec_vis_sit_tax()`     |function                   |How many records, visits, sites and taxa in a dataframe                       |
 |`envClean::reduce_geo_rel()`      |function                   |Reduce data frame to a single spatial reliability within a context            |
 |`envClean::taxonomy_fixes`        |tbl_df, tbl and data.frame |Manual taxonomic fixes                                                        |

@@ -59,12 +59,19 @@
 #' @examples
 #' temp_file <- tempfile()
 #' taxa_df <- tibble::tibble(name = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
-#' taxonomy <- make_taxonomy(df = taxa_df, taxa_col = "name", needed_ranks = c("kingdom", "genus", "species", "subspecies"))
+#' taxonomy <- make_taxonomy(df = taxa_df, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("kingdom", "genus", "species", "subspecies"))
 #' taxonomy$raw
 #' taxonomy$kingdom
 #' taxonomy$genus
 #' taxonomy$species
 #' taxonomy$subspecies
+#' more_taxa <- tibble::tibble(name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
+#' taxonomy <- make_taxonomy(df = more_taxa, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("species"))
+#' taxonomy$species
+#' taxonomy <- make_taxonomy(df = more_taxa, limit = FALSE, taxonomy_file = temp_file, taxa_col = "name", needed_ranks = c("species"))
+#' taxonomy$species
+#' rm(taxonomy)
+#' unlist(temp_file)
   make_taxonomy <- function(df
                             , taxa_col = "original_name"
                             , taxonomy_file = tempfile()
