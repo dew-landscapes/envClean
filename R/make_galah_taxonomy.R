@@ -43,15 +43,15 @@
 #'
 #' @return Null or list (depending on `return_taxonomy`). Writes `taxonomy_file`.
 #' If list, then elements:
-#'  \itemize{
-#'    \item{raw}{the 'raw' results returned from `galah::search_taxa()`, tweaked
-#'     by column `rank` being an ordered factor as per `envClean::lurank`}
-#'    \item{needed_ranks}{One element for each rank specified in `needed_ranks`}
+#' \itemize{
+#'   \item raw - the 'raw' results returned from `galah::search_taxa()`, tweaked
+#'     by column `rank` being an ordered factor as per `envClean::lurank`.
+#'   \item needed_ranks - One element for each rank specified in `needed_ranks`.
 #'      \itemize{
-#'        \item{lutaxa}{Dataframe. For each unique name in `taxa_col`, the best
-#'        `taxa` to use (taking into account each `needed_ranks`)}
-#'        \item{taxonomy}{Dataframe. For each `taxa` in `lutaxa` a row of
-#'        taxonomic hierarchy}
+#'        \item lutaxa - dataframe. For each unique name in `taxa_col`, the best
+#'        `taxa` to use (taking into account each `needed_ranks`)
+#'        \item taxonomy - dataframe. For each `taxa` in `lutaxa` a row of
+#'        taxonomic hierarchy
 #'      }
 #'  }
 #'
@@ -64,7 +64,7 @@
 #' taxa_df <- tibble::tibble(names = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
 #'
 #' # make taxonomy (returns list and writes taxonomy_file)
-#' taxonomy <- make_taxonomy(df = taxa_df, taxa_col = "names", taxonomy_file = temp_file, needed_ranks = c("kingdom", "genus", "species", "subspecies"))
+#' taxonomy <- envClean::make_taxonomy(df = taxa_df, taxa_col = "names", taxonomy_file = temp_file, needed_ranks = c("kingdom", "genus", "species", "subspecies"))
 #' taxonomy$raw
 #' taxonomy$kingdom
 #' taxonomy$genus
@@ -73,11 +73,11 @@
 #'
 #' # query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)
 #' more_taxa <- tibble::tibble(original_name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
-#' taxonomy <- make_taxonomy(df = more_taxa, taxonomy_file = temp_file, needed_ranks = c("species"))
+#' taxonomy <- envClean::make_taxonomy(df = more_taxa, taxonomy_file = temp_file, needed_ranks = c("species"))
 #' taxonomy$species
 #'
 #' # no dataframe supplied - all results in taxonomy_file returned
-#' taxonomy <- make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies"))
+#' taxonomy <- envClean::make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies"))
 #' taxonomy$subspecies
 #'
 #' # clean up
