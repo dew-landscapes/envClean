@@ -71,7 +71,7 @@ and for each of the original names provided, the best result at genus level
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_taxonomy</span><span class="op">(</span></span>
-<span>  <span class="va">df</span>,</span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  taxa_col <span class="op">=</span> <span class="st">"original_name"</span>,</span>
 <span>  taxonomy_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  force_new <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>original_name <span class="op">=</span> <span class="cn">NULL</span>, timediff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/difftime.html" class="external-link">as.difftime</a></span><span class="op">(</span><span class="fl">26</span>, units <span class="op">=</span> <span class="st">"weeks"</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -89,8 +89,9 @@ and for each of the original names provided, the best result at genus level
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>df</dt>
-<dd><p>Dataframe with <code>taxa_col</code></p></dd>
+    <dl><dt>x</dt>
+<dd><p>Dataframe with <code>taxa_col</code>. Can be NULL only if taxonomy_file
+already exists.</p></dd>
 
 
 <dt>taxa_col</dt>
@@ -134,7 +135,7 @@ element per rank provided in <code>needed_ranks</code></p></dd>
 
 <dt>limit</dt>
 <dd><p>Logical. If <code>TRUE</code> the returned list will be limited to those
-<code>original_name</code>s in <code>df</code></p></dd>
+<code>original_name</code>s in <code>x</code></p></dd>
 
 
 <dt>needed_ranks</dt>
@@ -162,11 +163,14 @@ taxonomic hierarchy</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">temp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">taxa_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blah"</span>, <span class="st">"Melithreptus gularis laetior"</span>, <span class="st">"Melithreptus gularis gularis"</span>, <span class="st">"Eucalyptus viminalis"</span>, <span class="st">"Eucalyptus viminalis cygnetensis"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu">make_taxonomy</span><span class="op">(</span>df <span class="op">=</span> <span class="va">taxa_df</span>, taxonomy_file <span class="op">=</span> <span class="va">temp_file</span>, taxa_col <span class="op">=</span> <span class="st">"name"</span>, needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"kingdom"</span>, <span class="st">"genus"</span>, <span class="st">"species"</span>, <span class="st">"subspecies"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df[taxa_col]:</span> Can't subset columns that don't exist.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `name` doesn't exist.</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># setup</span></span></span>
+<span class="r-in"><span><span class="va">temp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">taxa_df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blah"</span>, <span class="st">"Melithreptus gularis laetior"</span>, <span class="st">"Melithreptus gularis gularis"</span>, <span class="st">"Eucalyptus viminalis"</span>, <span class="st">"Eucalyptus viminalis cygnetensis"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># make taxonomy (returns list and writes taxonomy_file)</span></span></span>
+<span class="r-in"><span><span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu">make_taxonomy</span><span class="op">(</span>x <span class="op">=</span> <span class="va">taxa_df</span>, taxa_col <span class="op">=</span> <span class="st">"names"</span>, taxonomy_file <span class="op">=</span> <span class="va">temp_file</span>, needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"kingdom"</span>, <span class="st">"genus"</span>, <span class="st">"species"</span>, <span class="st">"subspecies"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in make_taxonomy(x = taxa_df, taxa_col = "names", taxonomy_file = temp_file,     needed_ranks = c("kingdom", "genus", "species", "subspecies")):</span> argument "df" is missing, with no default</span>
 <span class="r-in"><span><span class="va">taxonomy</span><span class="op">$</span><span class="va">raw</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'taxonomy' not found</span>
 <span class="r-in"><span><span class="va">taxonomy</span><span class="op">$</span><span class="va">kingdom</span></span></span>
@@ -177,21 +181,26 @@ taxonomic hierarchy</p></li>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'taxonomy' not found</span>
 <span class="r-in"><span><span class="va">taxonomy</span><span class="op">$</span><span class="va">subspecies</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'taxonomy' not found</span>
-<span class="r-in"><span><span class="va">more_taxa</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amytornis whitei"</span>, <span class="st">"Amytornis striatus"</span>, <span class="st">"Amytornis modestus (North, 1902)"</span>, <span class="st">"Amytornis modestus modestus"</span>, <span class="st">"Amytornis modestus cowarie"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu">make_taxonomy</span><span class="op">(</span>df <span class="op">=</span> <span class="va">more_taxa</span>, taxonomy_file <span class="op">=</span> <span class="va">temp_file</span>, taxa_col <span class="op">=</span> <span class="st">"name"</span>, needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df[taxa_col]:</span> Can't subset columns that don't exist.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `name` doesn't exist.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)</span></span></span>
+<span class="r-in"><span><span class="va">more_taxa</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>original_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amytornis whitei"</span>, <span class="st">"Amytornis striatus"</span>, <span class="st">"Amytornis modestus (North, 1902)"</span>, <span class="st">"Amytornis modestus modestus"</span>, <span class="st">"Amytornis modestus cowarie"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu">make_taxonomy</span><span class="op">(</span>x <span class="op">=</span> <span class="va">more_taxa</span>, taxonomy_file <span class="op">=</span> <span class="va">temp_file</span>, needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in make_taxonomy(x = more_taxa, taxonomy_file = temp_file, needed_ranks = c("species")):</span> argument "df" is missing, with no default</span>
 <span class="r-in"><span><span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'taxonomy' not found</span>
-<span class="r-in"><span><span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu">make_taxonomy</span><span class="op">(</span>df <span class="op">=</span> <span class="va">more_taxa</span>, limit <span class="op">=</span> <span class="cn">FALSE</span>, taxonomy_file <span class="op">=</span> <span class="va">temp_file</span>, taxa_col <span class="op">=</span> <span class="st">"name"</span>, needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in df[taxa_col]:</span> Can't subset columns that don't exist.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `name` doesn't exist.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># no dataframe supplied - all results in taxonomy_file returned</span></span></span>
+<span class="r-in"><span><span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu">make_taxonomy</span><span class="op">(</span>taxonomy_file <span class="op">=</span> <span class="va">temp_file</span>, needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"subspecies"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies")):</span> argument "df" is missing, with no default</span>
 <span class="r-in"><span><span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'taxonomy' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># clean up</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>object 'taxonomy' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">temp_file</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\RtmpATDOBd\\file46442bb34127"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\Rtmp0Qknd5\\file26b04fd75de"</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
