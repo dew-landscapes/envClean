@@ -50,24 +50,12 @@
       dplyr::left_join(taxonomy$taxonomy) %>%
       dplyr::select(kingdom
                     , taxa
-                    , best_key
                     , att_col
                     , tidyselect::any_of(tax_levels)
                     , tidyselect::any_of(context)
                     )
 
     # catch for subspecies -------
-    if(max_guess == "subspecies") {
-
-      attribute_df <- attribute_df %>%
-        dplyr::mutate(subspecies = taxa)
-
-      taxonomy$taxonomy <- taxonomy$taxonomy %>%
-        dplyr::filter(rank == "subspecies") %>%
-        dplyr::mutate(subspecies = taxa)
-
-    }
-
     tax_levels_list <- tax_levels %>%
       intersect(names(attribute_df)) %>%
       Map(function(x) NULL, .)
@@ -128,8 +116,7 @@
 
     att_result <-
       purrr::reduce(c(list(taxonomy$taxonomy %>%
-                             dplyr::select(kingdom
-                                           , taxa
+                             dplyr::select(taxa
                                            , tidyselect::any_of(names(tax_levels_list))
                                            )
                            )
@@ -137,8 +124,7 @@
                       )
                     , dplyr::left_join
                     ) %>%
-      dplyr::select(kingdom
-                    , taxa
+      dplyr::select(taxa
                     , tidyselect::any_of(context)
                     , tidyselect::contains(paste0(names(tax_levels_list), "_"))
                     ) %>%
@@ -150,14 +136,12 @@
       dplyr::left_join(envClean::lurank
                        , by = c("from" = "rank")
                        ) %>%
-      dplyr::group_by(kingdom
-                      , dplyr::across(tidyselect::any_of(context))
+      dplyr::group_by(dplyr::across(tidyselect::any_of(context))
                       , taxa
                       ) %>%
       dplyr::filter(sort == max(sort)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(kingdom
-                    , tidyselect::any_of(context)
+      dplyr::select(tidyselect::any_of(context)
                     , taxa
                     , att = att
                     , att_vals = vals
@@ -170,7 +154,7 @@
 
       res <- taxonomy$lutaxa %>%
         dplyr::filter(!is.na(taxa)) %>%
-        dplyr::distinct(taxa, kingdom) %>%
+        dplyr::distinct(taxa) %>%
         dplyr::left_join(att_result) %>%
         dplyr::mutate(dplyr::across(!!rlang::ensym(att_col)
                                     , \(x) dplyr::if_else(is.na(x)
