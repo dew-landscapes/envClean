@@ -40,8 +40,8 @@
 #' @param needed_ranks Character vector of ranks required in the returned list.
 #' Can be "all" or any combination of ranks from `envClean::lurank` greater than
 #' or equal to _subspecies_.
-#' @overrides Dataframe with (at least) columns: `taxa_col`, use_taxa,
-#' use_rank. Used to override results returned by `galah::search_taxa()`
+#' @overrides Dataframe with (at least) columns: `taxa_col`, `use_taxa`,
+#' `at_rank.` Used to override results returned by `galah::search_taxa()`
 #'
 #' @return Null or list (depending on `return_taxonomy`). Writes `taxonomy_file`.
 #' If list, then elements:
@@ -59,32 +59,8 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examples man/examples/tune_sdm_ex.R
 #'
-#' # setup
-#' temp_file <- tempfile()
-#' taxa_df <- tibble::tibble(names = c("Charadrius rubricollis", "Thinornis cucullatus", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
-#'
-#' # make taxonomy (returns list and writes taxonomy_file)
-#' taxonomy <- envClean::make_taxonomy(df = taxa_df, taxa_col = "names", taxonomy_file = temp_file, needed_ranks = c("kingdom", "genus", "species", "subspecies"))
-#' taxonomy$raw
-#' taxonomy$kingdom
-#' taxonomy$genus
-#' taxonomy$species
-#' taxonomy$subspecies
-#'
-#' # query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)
-#' more_taxa <- tibble::tibble(original_name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
-#' taxonomy <- envClean::make_taxonomy(df = more_taxa, taxonomy_file = temp_file, needed_ranks = c("species"))
-#' taxonomy$species
-#'
-#' # no dataframe supplied - all results in taxonomy_file returned
-#' taxonomy <- envClean::make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies"))
-#' taxonomy$subspecies
-#'
-#' # clean up
-#' rm(taxonomy)
-#' unlist(temp_file)
 #'
   make_taxonomy <- function(df = NULL
                             , taxa_col = "original_name"
@@ -281,6 +257,24 @@
         dplyr::distinct()
 
 
+      # overrides --------
+      if(!is.null(overrides)) {
+
+        new <- new %>%
+          dplyr::anti_join(overrides %>%
+                             dplyr::mutate(original_name = !!rlang::ensym(taxa_col)) %>%
+                             dplyr::distinct(original_name)
+                           )
+
+        add_to_new <- overrides %>%
+          dplyr::bind_cols(galah::search_taxa(overrides$use_taxa)) %>%
+          dplyr::select(-use_taxa, -at_rank)
+
+        new <- new %>%
+          dplyr::bind_rows(add_to_new)
+
+      }
+
       # save -------
 
       message("saving results to ", taxonomy_file)
@@ -325,24 +319,6 @@
         dplyr::filter(!is.na(taxa)) %>%
         dplyr::mutate(returned_rank = factor(returned_rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
         dplyr::select(original_name, match_type, returned_rank, matched_rank, taxa)
-
-      # overrides --------
-      if(!is.null(overrides)) {
-
-        long <- long %>%
-          dplyr::left_join(overrides %>%
-                             dplyr::rename(original_name = !!rlang::ensym(taxa_col))
-                           ) %>%
-          dplyr::mutate(taxa = dplyr::case_when(returned_rank == at_rank ~ use_taxa
-                                                , TRUE ~ taxa
-                                                )
-                        , changed = dplyr::case_when(returned_rank == at_rank ~ TRUE
-                                                     , TRUE ~ FALSE
-                                                     )
-                        ) %>%
-          dplyr::select(tidyselect::any_of(names(long)), changed)
-
-      }
 
       # needed ranks -------
       all_ranks <- purrr::map(needed_ranks

@@ -1,0 +1,75 @@
+
+  # setup
+  library("envClean")
+
+  temp_file <- tempfile()
+
+  taxa_df <- tibble::tibble(names = c("Charadrius rubricollis"
+                                      , "Thinornis cucullatus"
+                                      , "Melithreptus gularis laetior"
+                                      , "Melithreptus gularis gularis"
+                                      , "Eucalyptus viminalis"
+                                      , "Eucalyptus viminalis cygnetensis"
+                                      )
+                            )
+
+  # make taxonomy (returns list and writes taxonomy_file)
+  taxonomy <- make_taxonomy(df = taxa_df
+                            , taxa_col = "names"
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("kingdom", "genus", "species", "subspecies")
+                            )
+  taxonomy$raw
+  taxonomy$kingdom
+  taxonomy$genus
+  taxonomy$species
+  taxonomy$subspecies
+
+  # query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)
+  more_taxa <- tibble::tibble(original_name = c("Amytornis whitei"
+                                                , "Amytornis striatus"
+                                                , "Amytornis modestus (North, 1902)"
+                                                , "Amytornis modestus modestus"
+                                                , "Amytornis modestus cowarie"
+                                                )
+                              )
+
+  taxonomy <- make_taxonomy(df = more_taxa
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("species")
+                            )
+
+  taxonomy$species
+
+  # no dataframe supplied - all results in taxonomy_file returned
+  taxonomy <- make_taxonomy(taxonomy_file = temp_file
+                            , needed_ranks = c("subspecies")
+                            )
+
+  taxonomy$subspecies
+
+  # overrride
+  overrides <- tibble::tibble(original_name = c("Charadrius rubricollis")
+                              , use_taxa = c("Thinornis cucullatus")
+                              , at_rank = c("species")
+                              )
+
+  yet_more_taxa <- tibble::tibble(original_name = unique(c(overrides$original_name, overrides$use_taxa)))
+
+  # C. rubricollis binned to Phalarope lobatus at species level!
+  taxonomy <- make_taxonomy(df = yet_more_taxa
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("species")
+                            )
+
+  # add in override - C. rubricollis is binned to T. cucullats at species level
+  taxonomy <- make_taxonomy(df = yet_more_taxa
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("species")
+                            , overrides = overrides
+                            )
+
+
+  # clean up
+  rm(taxonomy)
+  unlist(temp_file)
