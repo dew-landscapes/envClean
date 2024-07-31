@@ -17,7 +17,8 @@ make_taxonomy(
   atlas = c("Australia"),
   return_taxonomy = TRUE,
   limit = TRUE,
-  needed_ranks = c("species")
+  needed_ranks = c("species"),
+  overrides = NULL
 )
 }
 \arguments{
@@ -86,30 +87,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 \code{envClean::make_gbif_taxonomy()}
 }
 \examples{
+man/examples/tune_sdm_ex.R
 
-# setup
-temp_file <- tempfile()
-taxa_df <- tibble::tibble(names = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
-
-# make taxonomy (returns list and writes taxonomy_file)
-taxonomy <- envClean::make_taxonomy(df = taxa_df, taxa_col = "names", taxonomy_file = temp_file, needed_ranks = c("kingdom", "genus", "species", "subspecies"))
-taxonomy$raw
-taxonomy$kingdom
-taxonomy$genus
-taxonomy$species
-taxonomy$subspecies
-
-# query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)
-more_taxa <- tibble::tibble(original_name = c("Amytornis whitei", "Amytornis striatus", "Amytornis modestus (North, 1902)", "Amytornis modestus modestus", "Amytornis modestus cowarie"))
-taxonomy <- envClean::make_taxonomy(df = more_taxa, taxonomy_file = temp_file, needed_ranks = c("species"))
-taxonomy$species
-
-# no dataframe supplied - all results in taxonomy_file returned
-taxonomy <- envClean::make_taxonomy(taxonomy_file = temp_file, needed_ranks = c("subspecies"))
-taxonomy$subspecies
-
-# clean up
-rm(taxonomy)
-unlist(temp_file)
 
 }
