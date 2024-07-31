@@ -329,7 +329,7 @@
       # overrides --------
       if(!is.null(overrides)) {
 
-        new_long <- long %>%
+        long <- long %>%
           dplyr::left_join(overrides %>%
                              dplyr::rename(original_name = !!rlang::ensym(taxa_col))
                            ) %>%
