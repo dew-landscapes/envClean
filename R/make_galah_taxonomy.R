@@ -40,6 +40,8 @@
 #' @param needed_ranks Character vector of ranks required in the returned list.
 #' Can be "all" or any combination of ranks from `envClean::lurank` greater than
 #' or equal to _subspecies_.
+#' @overrides Dataframe with (at least) columns: `taxa_col`, use_taxa,
+#' use_rank. Used to override results returned by `galah::search_taxa()`
 #'
 #' @return Null or list (depending on `return_taxonomy`). Writes `taxonomy_file`.
 #' If list, then elements:
@@ -61,7 +63,7 @@
 #'
 #' # setup
 #' temp_file <- tempfile()
-#' taxa_df <- tibble::tibble(names = c("blah", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
+#' taxa_df <- tibble::tibble(names = c("Charadrius rubricollis", "Thinornis cucullatus", "Melithreptus gularis laetior", "Melithreptus gularis gularis", "Eucalyptus viminalis", "Eucalyptus viminalis cygnetensis"))
 #'
 #' # make taxonomy (returns list and writes taxonomy_file)
 #' taxonomy <- envClean::make_taxonomy(df = taxa_df, taxa_col = "names", taxonomy_file = temp_file, needed_ranks = c("kingdom", "genus", "species", "subspecies"))
@@ -118,6 +120,7 @@
                             , return_taxonomy = TRUE
                             , limit = TRUE
                             , needed_ranks = c("species")
+                            , overrides = NULL
                             ) {
 
     # setup ------
@@ -322,6 +325,24 @@
         dplyr::filter(!is.na(taxa)) %>%
         dplyr::mutate(returned_rank = factor(returned_rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
         dplyr::select(original_name, match_type, returned_rank, matched_rank, taxa)
+
+      # overrides --------
+      if(!is.null(overrides)) {
+
+        new_long <- long %>%
+          dplyr::left_join(overrides %>%
+                             dplyr::rename(original_name = !!rlang::ensym(taxa_col))
+                           ) %>%
+          dplyr::mutate(taxa = dplyr::case_when(returned_rank == at_rank ~ use_taxa
+                                                , TRUE ~ taxa
+                                                )
+                        , changed = dplyr::case_when(returned_rank == at_rank ~ TRUE
+                                                     , TRUE ~ FALSE
+                                                     )
+                        ) %>%
+          dplyr::select(tidyselect::any_of(names(long)), changed)
+
+      }
 
       # needed ranks -------
       all_ranks <- purrr::map(needed_ranks
