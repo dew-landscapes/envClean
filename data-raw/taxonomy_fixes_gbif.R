@@ -5,7 +5,7 @@
 
   # fixes ------
 
-  taxonomy_fixes <- tibble::tribble(
+  taxonomy_fixes_gbif <- tibble::tribble(
     ~resolved_to, ~prefer, ~note,
     "Calyptorhynchus funereus", "Zanda funerea", "Yellow-tailed Black-Cockatoo",
     "Cracticus tibicen", "Gymnorhina tibicen", "Australian Magpie",
@@ -33,7 +33,7 @@
 
   # overrides -------
 
-  taxonomy_overrides <- tibble::tribble(
+  taxonomy_overrides_gbif <- tibble::tribble(
     ~original, ~prefer, ~prefer_rank, ~note,
     "Thinornis rubricollis", "Thinornis cucullatus", NA,"Hooded Plover",
     "Charadrius rubricollis", "Thinornis cucullatus", NA,"Hooded Plover",

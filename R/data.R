@@ -64,21 +64,6 @@
 #' }
 "lurank"
 
-#' Manual taxonomic fixes
-#'
-#' Can be used as argument to `envClean::make_taxa_taxonomy()`.
-#'
-#' @format A data frame with `r nrow(taxonomy_fixes)` rows and `r ncol(taxonomy_fixes)`
-#' variables:
-#' \describe{
-#'   \item{resolved_to}{Character. Taxa retrieved by `rgbif::name_backbone`,
-#'   usually run within `envClean::make_taxa_taxonomy`}
-#'   \item{prefer}{Character. Preferred taxon to use instead of `resolved_to`.}
-#'   \item{note}{Character. Currently has mostly common names.}
-#'   ...
-#' }
-"taxonomy_fixes"
-
 #' Manual taxonomic overrides
 #'
 #' Can be used as argument to `envClean::make_taxa_taxonomy()`.
@@ -87,7 +72,7 @@
 #' variables:
 #' \describe{
 #'   \item{original}{Character. Original names of taxa}
-#'   \item{prefer}{Character. Preferred taxon to use instead of any result resturned by the GBIF Backbone Taxonomy`.}
+#'   \item{prefer}{Character. Preferred taxon to use instead of any result resturned by the galah taxonomy`.}
 #'   \item{note}{Character. Currently has mostly common names.}
 #'   ...
 #' }
