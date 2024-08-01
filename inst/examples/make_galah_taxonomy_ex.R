@@ -4,18 +4,19 @@
 
   temp_file <- tempfile()
 
-  taxa_df <- tibble::tibble(names = c("Charadrius rubricollis"
+  taxa_df <- tibble::tibble(taxa = c("Charadrius rubricollis"
                                       , "Thinornis cucullatus"
                                       , "Melithreptus gularis laetior"
                                       , "Melithreptus gularis gularis"
                                       , "Eucalyptus viminalis"
                                       , "Eucalyptus viminalis cygnetensis"
+                                     , "Eucalyptus"
                                       )
                             )
 
   # make taxonomy (returns list and writes taxonomy_file)
   taxonomy <- make_taxonomy(df = taxa_df
-                            , taxa_col = "names"
+                            , taxa_col = "taxa"
                             , taxonomy_file = temp_file
                             , needed_ranks = c("kingdom", "genus", "species", "subspecies")
                             )
@@ -49,26 +50,25 @@
   taxonomy$subspecies
 
   # overrride
-  overrides <- tibble::tibble(original_name = c("Charadrius rubricollis")
-                              , use_taxa = c("Thinornis cucullatus")
-                              , at_rank = c("species")
-                              )
-
-  yet_more_taxa <- tibble::tibble(original_name = unique(c(overrides$original_name, overrides$use_taxa)))
+  overrides <- envClean::taxonomy_overrides
 
   # C. rubricollis binned to Phalarope lobatus at species level!
-  taxonomy <- make_taxonomy(df = yet_more_taxa
+  taxonomy <- make_taxonomy(df = overrides
                             , taxonomy_file = temp_file
                             , needed_ranks = c("species")
                             )
 
-  # add in override - C. rubricollis is binned to T. cucullats at species level
-  taxonomy <- make_taxonomy(df = yet_more_taxa
+  taxonomy$species
+
+  # add in override - C. rubricollis is binned to T. cucullatus at species level
+  taxonomy <- make_taxonomy(df = overrides
                             , taxonomy_file = temp_file
-                            , needed_ranks = c("species")
+                            , needed_ranks = c("species", "subspecies")
                             , overrides = overrides
                             )
 
+  taxonomy$species
+  taxonomy$subspecies
 
   # clean up
   rm(taxonomy)

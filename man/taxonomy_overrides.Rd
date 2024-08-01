@@ -5,11 +5,11 @@
 \alias{taxonomy_overrides}
 \title{Manual taxonomic overrides}
 \format{
-A data frame with 12 rows and 4
+A data frame with 1 rows and 5
 variables:
 \describe{
 \item{original}{Character. Original names of taxa}
-\item{prefer}{Character. Preferred taxon to use instead of any result resturned by the GBIF Backbone Taxonomy`.}
+\item{prefer}{Character. Preferred taxon to use instead of any result resturned by the galah taxonomy`.}
 \item{note}{Character. Currently has mostly common names.}
 ...
 }
