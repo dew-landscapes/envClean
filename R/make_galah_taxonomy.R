@@ -40,10 +40,17 @@
 #' @param needed_ranks Character vector of ranks required in the returned list.
 #' Can be "all" or any combination of ranks from `envClean::lurank` greater than
 #' or equal to _subspecies_.
-#' @overrides Dataframe with (at least) columns: `taxa_col`, `use_taxa`,
-#' `at_rank.` Used to override results returned by `galah::search_taxa()`
+#' @overrides Used to override results returned by `galah::search_taxa()`.
+#' Dataframe with (at least) columns: `taxa_col` and `taxa_to_search`.
+#' Can also contain any number of `use_x` columns where `x` is any of
+#' `r envFunc::vec_to_sentence(lurank$rank)`. A two step process then attempts
+#' to find better results than if searched on `taxa_col`. Step 1 searches for
+#' `taxa_to_search` instead of `taxa_col`. If any `use_x` columns are present,
+#' step 2 then checks that the results from step 1 have a result at `x`. If not,
+#' level `x` results will be taken from `use_x`.
 #'
-#' @return Null or list (depending on `return_taxonomy`). Writes `taxonomy_file`.
+#' @return Null or list (depending on `return_taxonomy`). Writes
+#' `taxonomy_file`. `taxa_col` will be `original_name` in any outputs.
 #' If list, then elements:
 #' \itemize{
 #'   \item raw - the 'raw' results returned from `galah::search_taxa()`, tweaked
@@ -59,7 +66,7 @@
 #'
 #' @export
 #'
-#' @examples man/examples/tune_sdm_ex.R
+#' @example inst/examples/make_galah_taxonomy_ex.R
 #'
 #'
   make_taxonomy <- function(df = NULL
@@ -84,9 +91,7 @@
                                               , "annual tussock grass"
                                               , "*no id"
                                               )
-                            , remove_strings = c("\\sx\\s.*" # blah x abc xyz
-                                                 , "\\sX\\s.*" # blah X abc xyz
-                                                 , "\\s\\-\\-\\s.*" # blah -- abc xyz
+                            , remove_strings = c("\\s\\-\\-\\s.*" # blah -- abc xyz
                                                  , "\\ssp\\.$" # blah sp.END
                                                  , "\\sssp\\.$" # blah ssp.END
                                                  , "\\sspec\\.$" # blah spec.END
@@ -116,9 +121,6 @@
     needed_ranks <- needed_ranks[needed_ranks >= "subspecies"]
 
     if(!is.null(df)) {
-
-      taxa_col <- names(df[taxa_col])
-
       # If taxonomy_file already exists, bring it in then remove any force_new
       if(file.exists(taxonomy_file)) {
 
@@ -128,6 +130,7 @@
           dplyr::ungroup() %>%
           dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name))
 
+        # remove any 'force_new'
         if(!is.null(force_new$timediff)) {
 
           previous <- previous %>%
@@ -140,7 +143,6 @@
                                        )
                           )
         }
-
 
         if(!is.null(force_new$original_name)) {
 
@@ -155,9 +157,12 @@
 
       }
 
-      # Collect any unfound taxa_col (and make a 'searched' name)
+      # Rename taxa_col (and make a 'searched' name)
+
+      rename_taxa_col <- c(original_name = names(df[taxa_col]))
+
       to_check <- df %>%
-        dplyr::rename(original_name = !!rlang::ensym(taxa_col)) %>%
+        dplyr::rename(tidyselect::all_of(rename_taxa_col)) %>%
         dplyr::distinct(dplyr::across(tidyselect::any_of(lurank$rank)), original_name) %>%
         dplyr::filter(!grepl(paste0(remove_taxa
                                     , collapse = "|"
@@ -251,27 +256,78 @@
       new <- previous %>%
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)) %>%
-        dplyr::group_by(original_name) %>%
-        dplyr::filter(stamp == max(stamp)) %>%
-        dplyr::ungroup() %>%
-        dplyr::distinct()
+        dplyr::distinct() %>%
+        dplyr::mutate(subspecies = dplyr::case_when(rank == "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
+                                                    , TRUE ~ NA_character_
+                                                    )
+                      ) %>%
+        dplyr::select(!matches("^issues$"))
 
+      out_names <- c(names(new), "override")
 
       # overrides --------
       if(!is.null(overrides)) {
 
+        # rename taxa_col
+        overrides <- overrides %>%
+          dplyr::rename(tidyselect::any_of(rename_taxa_col)) %>%
+          dplyr::mutate(taxa_to_search = dplyr::if_else(is.na(taxa_to_search)
+                                                        , original_name
+                                                        , taxa_to_search
+                                                        )
+                        )
+
         new <- new %>%
           dplyr::anti_join(overrides %>%
-                             dplyr::mutate(original_name = !!rlang::ensym(taxa_col)) %>%
                              dplyr::distinct(original_name)
                            )
 
-        add_to_new <- overrides %>%
-          dplyr::bind_cols(galah::search_taxa(overrides$use_taxa)) %>%
-          dplyr::select(-use_taxa, -at_rank)
+
+        # attempt 1: match by galah::search_taxa
+        combined_overrides <- overrides %>%
+          dplyr::bind_cols(galah::search_taxa(overrides$taxa_to_search)) %>%
+          dplyr::mutate(subspecies = dplyr::case_when(rank == "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
+                                                      , TRUE ~ NA_character_
+                                                      )
+                        )
+
+        # attempt 2: replace with override if match was not at suitable level in galah::search_taxa
+        if(any(grepl("use_", names(overrides)))) {
+
+          overrides_long <- overrides %>%
+            dplyr::select(original_name, tidyselect::matches("use_")) %>%
+            tidyr::pivot_longer(tidyselect::matches("use_"), names_to = "returned_rank", values_to = "new_taxa") %>%
+            dplyr::filter(!is.na(new_taxa)) %>%
+            dplyr::mutate(returned_rank = factor(gsub("use_", "", returned_rank), levels = levels(lurank$rank), ordered = TRUE))
+
+          combined_overrides <- combined_overrides %>%
+            tidyr::pivot_longer(tidyselect::any_of(lurank$rank), names_to = "returned_rank", values_to = "taxa") %>%
+            dplyr::left_join(overrides_long) %>%
+            dplyr::mutate(change_taxa =is.na(taxa) & !is.na(new_taxa)) %>%
+            dplyr::mutate(taxa = dplyr::case_when(change_taxa ~ new_taxa
+                                                  , TRUE ~ taxa
+                                                  )
+                          ) %>%
+            dplyr::select(-new_taxa, -change_taxa) %>%
+            tidyr::pivot_wider(names_from = returned_rank, values_from = taxa) %>%
+            dplyr::mutate(stamp = Sys.time()) %>%
+            dplyr::mutate(rank = factor(rank
+                                          , levels = levels(envClean::lurank$rank)
+                                          , ordered = TRUE
+                                          )
+                          )
+
+        }
 
         new <- new %>%
-          dplyr::bind_rows(add_to_new)
+          dplyr::bind_rows(combined_overrides %>%
+                             dplyr::mutate(override = TRUE)
+                           ) %>%
+          dplyr::select(tidyselect::any_of(out_names)) %>%
+          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override)) %>%
+          dplyr::relocate(subspecies, .after = "species") %>%
+          dplyr::distinct()
+
 
       }
 
@@ -300,17 +356,15 @@
 
       res <- list(raw = new %>%
                     {if(all(limit, !is.null(df))) (.) %>% dplyr::inner_join(df %>%
-                                                           dplyr::distinct(dplyr::across(!!rlang::ensym(taxa_col)))
-                                                         , by = c("original_name" = taxa_col)
-                                                         ) else (.)
-                      } %>%
-                    dplyr::mutate(subspecies = dplyr::if_else(rank <= "subspecies", scientific_name, NA_character_)) %>%
+                                                                              dplyr::rename(tidyselect::any_of(rename_taxa_col)) %>%
+                                                                              dplyr::distinct(original_name)
+                                                                            ) else (.)
+                    } %>%
                     dplyr::distinct()
                   )
 
       # long ------
       long <- res$raw %>%
-        dplyr::mutate(subspecies = dplyr::if_else(rank == "subspecies", scientific_name, NA_character_)) %>%
         dplyr::rename(matched_rank = rank) %>%
         tidyr::pivot_longer(tidyselect::matches(paste0(envClean::lurank$rank, collapse = "|"))
                             , names_to = "returned_rank"
@@ -318,7 +372,9 @@
                             ) %>%
         dplyr::filter(!is.na(taxa)) %>%
         dplyr::mutate(returned_rank = factor(returned_rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
-        dplyr::select(original_name, match_type, returned_rank, matched_rank, taxa)
+        dplyr::select(original_name, match_type, returned_rank, matched_rank, taxa
+                      , tidyselect::any_of("override")
+                      )
 
       # needed ranks -------
       all_ranks <- purrr::map(needed_ranks
@@ -335,7 +391,10 @@
                                   dplyr::group_by(original_name) %>%
                                   dplyr::filter(returned_rank == min(returned_rank)) %>%
                                   dplyr::ungroup() %>%
-                                  dplyr::distinct(original_name, match_type, matched_rank, returned_rank, taxa)
+                                  dplyr::distinct(original_name, match_type
+                                                  , matched_rank, returned_rank, taxa
+                                                  , dplyr::across(tidyselect::any_of("override"))
+                                                  )
 
                                 rank_taxonomy$taxonomy <- rank_taxonomy$lutaxa %>%
                                   dplyr::distinct(original_name, taxa) %>%

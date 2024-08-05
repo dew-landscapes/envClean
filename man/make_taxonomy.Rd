@@ -12,8 +12,8 @@ make_taxonomy(
   remove_taxa = c("bold:", "BOLD:", "unverified", "annual herb", "annual grass",
     "incertae sedis", "\\\\?", "another species", "not naturalised in SA",
     "unidentified", "unverified", "annual tussock grass", "*no id"),
-  remove_strings = c("\\\\sx\\\\s.*", "\\\\sX\\\\s.*", "\\\\s\\\\-\\\\-\\\\s.*",
-    "\\\\ssp\\\\.$", "\\\\sssp\\\\.$", "\\\\sspec\\\\.$", "dead"),
+  remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
+    "\\\\sspec\\\\.$", "dead"),
   atlas = c("Australia"),
   return_taxonomy = TRUE,
   limit = TRUE,
@@ -60,7 +60,8 @@ Can be "all" or any combination of ranks from \code{envClean::lurank} greater th
 or equal to \emph{subspecies}.}
 }
 \value{
-Null or list (depending on \code{return_taxonomy}). Writes \code{taxonomy_file}.
+Null or list (depending on \code{return_taxonomy}). Writes
+\code{taxonomy_file}. \code{taxa_col} will be \code{original_name} in any outputs.
 If list, then elements:
 \itemize{
 \item raw - the 'raw' results returned from \code{galah::search_taxa()}, tweaked
@@ -87,7 +88,79 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 \code{envClean::make_gbif_taxonomy()}
 }
 \examples{
-man/examples/tune_sdm_ex.R
 
+  # setup
+  library("envClean")
 
+  temp_file <- tempfile()
+
+  taxa_df <- tibble::tibble(taxa = c("Charadrius rubricollis"
+                                      , "Thinornis cucullatus"
+                                      , "Melithreptus gularis laetior"
+                                      , "Melithreptus gularis gularis"
+                                      , "Eucalyptus viminalis"
+                                      , "Eucalyptus viminalis cygnetensis"
+                                     , "Eucalyptus"
+                                      )
+                            )
+
+  # make taxonomy (returns list and writes taxonomy_file)
+  taxonomy <- make_taxonomy(df = taxa_df
+                            , taxa_col = "taxa"
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("kingdom", "genus", "species", "subspecies")
+                            )
+  taxonomy$raw
+  taxonomy$kingdom
+  taxonomy$genus
+  taxonomy$species
+  taxonomy$subspecies
+
+  # query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)
+  more_taxa <- tibble::tibble(original_name = c("Amytornis whitei"
+                                                , "Amytornis striatus"
+                                                , "Amytornis modestus (North, 1902)"
+                                                , "Amytornis modestus modestus"
+                                                , "Amytornis modestus cowarie"
+                                                )
+                              )
+
+  taxonomy <- make_taxonomy(df = more_taxa
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("species")
+                            )
+
+  taxonomy$species
+
+  # no dataframe supplied - all results in taxonomy_file returned
+  taxonomy <- make_taxonomy(taxonomy_file = temp_file
+                            , needed_ranks = c("subspecies")
+                            )
+
+  taxonomy$subspecies
+
+  # overrride
+  overrides <- envClean::taxonomy_overrides
+
+  # C. rubricollis binned to Phalarope lobatus at species level!
+  taxonomy <- make_taxonomy(df = overrides
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("species")
+                            )
+
+  taxonomy$species
+
+  # add in override - C. rubricollis is binned to T. cucullatus at species level
+  taxonomy <- make_taxonomy(df = overrides
+                            , taxonomy_file = temp_file
+                            , needed_ranks = c("species", "subspecies")
+                            , overrides = overrides
+                            )
+
+  taxonomy$species
+  taxonomy$subspecies
+
+  # clean up
+  rm(taxonomy)
+  unlist(temp_file)
 }
