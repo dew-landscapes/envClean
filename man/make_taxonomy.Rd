@@ -69,7 +69,21 @@ by column \code{rank} being an ordered factor as per \code{envClean::lurank}.
 \item needed_ranks - One element for each rank specified in \code{needed_ranks}.
 \itemize{
 \item lutaxa - dataframe. For each unique name in \code{taxa_col}, the best
-\code{taxa} to use (taking into account each \code{needed_ranks})
+\code{taxa} taxonomic bin to use, for each \code{original_name}, taking into
+account each level of \code{needed_ranks}
+\itemize{
+\item original_name - unique values from \code{taxa_col}
+\item match_type - directly from \code{galah::search_taxa()}
+\item matched_rank - \code{rank} column from \code{galah::search_taxa()}
+\item returned_rank - the rank of the \code{taxa} returned for each
+\code{original_name}. This will never be lower than \code{needed_rank} but
+may be higher than \code{needed_rank} if no match was available at
+\code{needed_rank}. Use this 'rank' to filter bins in a cleaning
+workflow
+\item taxa - the best taxa available for \code{original_name} at
+\code{needed_rank}, perhaps taking into account \code{overrides}
+\item override - is the \code{taxa} the result of an override?
+}
 \item taxonomy - dataframe. For each \code{taxa} in \code{lutaxa} a row of
 taxonomic hierarchy
 }
@@ -139,7 +153,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 
   taxonomy$subspecies
 
-  # overrride
+  # overrrides
   overrides <- envClean::taxonomy_overrides
 
   # C. rubricollis binned to Phalarope lobatus at species level!

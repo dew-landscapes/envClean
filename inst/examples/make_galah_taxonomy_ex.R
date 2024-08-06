@@ -49,7 +49,7 @@
 
   taxonomy$subspecies
 
-  # overrride
+  # overrrides
   overrides <- envClean::taxonomy_overrides
 
   # C. rubricollis binned to Phalarope lobatus at species level!

@@ -154,7 +154,19 @@ or equal to <em>subspecies</em>.</p></dd>
 If list, then elements:</p><ul><li><p>raw - the 'raw' results returned from <code><a href="https://galah.ala.org.au/R/reference/search_all.html" class="external-link">galah::search_taxa()</a></code>, tweaked
 by column <code>rank</code> being an ordered factor as per <code><a href="lurank.html">envClean::lurank</a></code>.</p></li>
 <li><p>needed_ranks - One element for each rank specified in <code>needed_ranks</code>.</p><ul><li><p>lutaxa - dataframe. For each unique name in <code>taxa_col</code>, the best
-<code>taxa</code> to use (taking into account each <code>needed_ranks</code>)</p></li>
+<code>taxa</code> taxonomic bin to use, for each <code>original_name</code>, taking into
+account each level of <code>needed_ranks</code></p><ul><li><p>original_name - unique values from <code>taxa_col</code></p></li>
+<li><p>match_type - directly from <code><a href="https://galah.ala.org.au/R/reference/search_all.html" class="external-link">galah::search_taxa()</a></code></p></li>
+<li><p>matched_rank - <code>rank</code> column from <code><a href="https://galah.ala.org.au/R/reference/search_all.html" class="external-link">galah::search_taxa()</a></code></p></li>
+<li><p>returned_rank - the rank of the <code>taxa</code> returned for each
+<code>original_name</code>. This will never be lower than <code>needed_rank</code> but
+may be higher than <code>needed_rank</code> if no match was available at
+<code>needed_rank</code>. Use this 'rank' to filter bins in a cleaning
+workflow</p></li>
+<li><p>taxa - the best taxa available for <code>original_name</code> at
+<code>needed_rank</code>, perhaps taking into account <code>overrides</code></p></li>
+<li><p>override - is the <code>taxa</code> the result of an override?</p></li>
+</ul></li>
 <li><p>taxonomy - dataframe. For each <code>taxa</code> in <code>lutaxa</code> a row of
 taxonomic hierarchy</p></li>
 </ul></li>
@@ -200,7 +212,7 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">Default node set to ALA (ala.org.au).</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">See all supported GBIF nodes with `show_all(atlases)`.</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">To change nodes, use e.g. `galah_config(atlas = "GBIF")`.</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpUz0u7r\file53c23c8139b.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -333,7 +345,7 @@ taxonomic hierarchy</p></li>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> NAs introduced by coercion</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpUz0u7r\file53c23c8139b.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
@@ -399,7 +411,7 @@ taxonomic hierarchy</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Amytornis whitei   Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… <span style="color: #BB0000;">NA</span>        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># overrride</span></span></span>
+<span class="r-in"><span>  <span class="co"># overrrides</span></span></span>
 <span class="r-in"><span>  <span class="va">overrides</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="taxonomy_overrides.html">taxonomy_overrides</a></span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># C. rubricollis binned to Phalarope lobatus at species level!</span></span></span>
@@ -408,7 +420,7 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>                            , needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                            <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpUz0u7r\file53c23c8139b.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
@@ -435,7 +447,7 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name, returned_rank)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpUz0u7r\file53c23c8139b.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -458,19 +470,19 @@ taxonomic hierarchy</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name          match_type matched_rank returned_rank taxa     override</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis exactMatch species      species       Thinorn… TRUE    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis exactMatch species      subspecies    Thinorn… TRUE    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   taxa                 kingdom  phylum   class order        family genus species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thinornis cucullatus Animalia Chordata Aves  Charadriifo… Chara… Thin… Thinor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   taxa                kingdom phylum class order family genus species subspecies</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thinornis cucullat… Animal… Chord… Aves  Char… Chara… Thin… Thinor… Thinornis…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># clean up</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">temp_file</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\RtmpUz0u7r\\file53c23c8139b"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\RtmpglyBLy\\file14c838127c5c"</span>
 </code></pre></div>
     </div>
   </div>

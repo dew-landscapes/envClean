@@ -58,7 +58,21 @@
 #'   \item needed_ranks - One element for each rank specified in `needed_ranks`.
 #'      \itemize{
 #'        \item lutaxa - dataframe. For each unique name in `taxa_col`, the best
-#'        `taxa` to use (taking into account each `needed_ranks`)
+#'        `taxa` taxonomic bin to use, for each `original_name`, taking into
+#'        account each level of `needed_ranks`
+#'          \itemize{
+#'            \item original_name - unique values from `taxa_col`
+#'            \item match_type - directly from `galah::search_taxa()`
+#'            \item matched_rank - `rank` column from `galah::search_taxa()`
+#'            \item returned_rank - the rank of the `taxa` returned for each
+#'            `original_name`. This will never be lower than `needed_rank` but
+#'            may be higher than `needed_rank` if no match was available at
+#'            `needed_rank`. Use this 'rank' to filter bins in a cleaning
+#'            workflow
+#'            \item taxa - the best taxa available for `original_name` at
+#'            `needed_rank`, perhaps taking into account `overrides`
+#'            \item override - is the `taxa` the result of an override?
+#'          }
 #'        \item taxonomy - dataframe. For each `taxa` in `lutaxa` a row of
 #'        taxonomic hierarchy
 #'      }
@@ -257,7 +271,7 @@
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)) %>%
         dplyr::distinct() %>%
-        dplyr::mutate(subspecies = dplyr::case_when(rank == "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
+        dplyr::mutate(subspecies = dplyr::case_when(rank <= "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
                                                     , TRUE ~ NA_character_
                                                     )
                       ) %>%
@@ -286,7 +300,7 @@
         # attempt 1: match by galah::search_taxa
         combined_overrides <- overrides %>%
           dplyr::bind_cols(galah::search_taxa(overrides$taxa_to_search)) %>%
-          dplyr::mutate(subspecies = dplyr::case_when(rank == "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
+          dplyr::mutate(subspecies = dplyr::case_when(rank <= "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
                                                       , TRUE ~ NA_character_
                                                       )
                         )
