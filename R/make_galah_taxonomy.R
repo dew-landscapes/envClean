@@ -300,10 +300,11 @@
         # attempt 1: match by galah::search_taxa
         combined_overrides <- overrides %>%
           dplyr::bind_cols(galah::search_taxa(overrides$taxa_to_search)) %>%
-          dplyr::mutate(subspecies = dplyr::case_when(rank <= "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
-                                                      , TRUE ~ NA_character_
-                                                      )
+          dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE)
+                        , subspecies = dplyr::case_when(rank <= "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
+                                                        , TRUE ~ NA_character_
                         )
+          )
 
         # attempt 2: replace with override if match was not at suitable level in galah::search_taxa
         if(any(grepl("use_", names(overrides)))) {
