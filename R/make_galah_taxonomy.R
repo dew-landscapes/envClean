@@ -31,6 +31,11 @@
 #' `remove_taxa` are removed (rows are removed).
 #' @param remove_strings Character. Text that matches `remove_strings` is
 #' removed from the string before searching (text, not row, is removed).
+#' @param tri_strings Character. Text that matches `tri_strings` is
+#' used to indicate if the original_name is trinomial (original_is_tri field in lutaxa).
+#' @param non_name_strings Character. Text that matches `non_name_strings` is
+#' used to remove non-names from original_names and count the number of words in the string
+#' to indicate if the original_name is trinomial (original_is_tri field in lutaxa).
 #' @param return_taxonomy Logical. If `TRUE`, a list is returned containing the
 #' best match for each original_name in `lutaxa` and additional elements named
 #' for their rank (see `envClean::lurank`) with unique rows for that rank. One
@@ -72,6 +77,11 @@
 #'            \item taxa - the best taxa available for `original_name` at
 #'            `needed_rank`, perhaps taking into account `overrides`
 #'            \item override - is the `taxa` the result of an override?
+#'            \item original_is_tri - is the `original_name` a trinomial?
+#'            Useful for extra filtering of cases where the returned rank is species
+#'            but is incorrect and is supposed to be subspecies or below.
+#'            Based on the `tri_strings` and more than two words derived after
+#'            removing `non_name_strings`.
 #'          }
 #'        \item taxonomy - dataframe. For each `taxa` in `lutaxa` a row of
 #'        taxonomic hierarchy
@@ -111,6 +121,24 @@
                                                  , "\\sspec\\.$" # blah spec.END
                                                  , "dead"
                                                  ) # blah not removed, everything else removed
+                            , tri_strings <- c("\\sssp\\.\\s"
+                                               , "\\svar\\.\\s"
+                                               , "\\ssubsp"
+                                               , "\\sform\\)"
+                                               , "\\sform\\s"
+                                               , "\\sf\\."
+                                               )
+                            , non_name_strings <- c("\\s\\([^\\)]+\\)"
+                                                    ,"\\svar\\."
+                                                    ,"\\ssp\\."
+                                                    ,"\\sssp\\."
+                                                    ,"\\ssubsp\\."
+                                                    ,"\\ssubspecies"
+                                                    ,"\\snov\\."
+                                                    ,"-"
+                                                    ,"\\sf\\."
+                                                    ,"\\sx\\s"
+                                                    )
                             , atlas = c("Australia")
                             , return_taxonomy = TRUE
                             , limit = TRUE
@@ -249,12 +277,7 @@
                                                               )
                                               )
                            ) %>%
-          dplyr::mutate(stamp = Sys.time()) %>%
-          dplyr::mutate(rank = factor(rank
-                                        , levels = levels(envClean::lurank$rank)
-                                        , ordered = TRUE
-                                        )
-                        )
+          dplyr::mutate(stamp = Sys.time())
 
         galah::galah_config(atlas = old_atlas)
 
@@ -275,7 +298,12 @@
                                                     , TRUE ~ NA_character_
                                                     )
                       ) %>%
-        dplyr::select(!matches("^issues$"))
+        dplyr::select(!matches("^issues$")) %>%
+        dplyr::mutate(rank = factor(rank
+                                    , levels = levels(envClean::lurank$rank)
+                                    , ordered = TRUE
+        )
+        )
 
       out_names <- c(names(new), "override")
 
@@ -337,12 +365,18 @@
         new <- new %>%
           dplyr::bind_rows(combined_overrides %>%
                              dplyr::mutate(override = TRUE)
-                           ) %>%
+          ) %>%
           dplyr::select(tidyselect::any_of(out_names)) %>%
-          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override)) %>%
+          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override)
+                        , words=stringr::str_count(gsub(paste(non_name_strings,collapse="|"),"",original_name),"\\w+")
+                        , original_is_tri=dplyr::case_when(grepl(paste(tri_strings,collapse="|"),original_name) ~ TRUE
+                                                           ,words>2 & !grepl("\\ssp\\.|\\sall\\ssubspecies",original_name) ~ TRUE
+                                                           ,.default = FALSE
+                        )
+          ) %>%
           dplyr::relocate(subspecies, .after = "species") %>%
+          dplyr::select(-words) %>%
           dplyr::distinct()
-
 
       }
 
@@ -388,6 +422,7 @@
         dplyr::filter(!is.na(taxa)) %>%
         dplyr::mutate(returned_rank = factor(returned_rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
         dplyr::select(original_name, match_type, returned_rank, matched_rank, taxa
+                      , original_is_tri
                       , tidyselect::any_of("override")
                       )
 
@@ -408,6 +443,7 @@
                                   dplyr::ungroup() %>%
                                   dplyr::distinct(original_name, match_type
                                                   , matched_rank, returned_rank, taxa
+                                                  , original_is_tri
                                                   , dplyr::across(tidyselect::any_of("override"))
                                                   )
 
