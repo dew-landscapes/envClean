@@ -121,14 +121,14 @@
                                                  , "\\sspec\\.$" # blah spec.END
                                                  , "dead"
                                                  ) # blah not removed, everything else removed
-                            , tri_strings <- c("\\sssp\\.\\s"
+                            , tri_strings = c("\\sssp\\.\\s"
                                                , "\\svar\\.\\s"
                                                , "\\ssubsp"
                                                , "\\sform\\)"
                                                , "\\sform\\s"
                                                , "\\sf\\."
                                                )
-                            , non_name_strings <- c("\\s\\([^\\)]+\\)"
+                            , non_name_strings = c("\\s\\([^\\)]+\\)"
                                                     ,"\\svar\\."
                                                     ,"\\ssp\\."
                                                     ,"\\sssp\\."
