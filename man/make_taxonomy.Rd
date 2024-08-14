@@ -14,6 +14,11 @@ make_taxonomy(
     "unidentified", "unverified", "annual tussock grass", "*no id"),
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "dead"),
+  tri_strings = c("\\\\sssp\\\\.", "\\\\svar\\\\.", "\\\\ssubsp\\\\.", "\\\\ssubspecies",
+    "\\\\sform", "\\\\sf\\\\.", "\\\\srace", "\\\\sp\\\\.v\\\\."),
+  non_name_strings = c("\\\\ssp\\\\.", "\\\\snov\\\\.", "-", "\\\\sf\\\\.",
+    "\\\\ss\\\\.str\\\\.", "\\\\ss\\\\.s\\\\.", "\\\\saff\\\\.", "\\\\scf\\\\.",
+    "\\\\slineage", "\\\\sgroup", "\\\\xet\\\\sal"),
   atlas = c("Australia"),
   return_taxonomy = TRUE,
   limit = TRUE,
@@ -34,18 +39,24 @@ ignored. .parquet file used, partitioned on kingdom. If using this file
 directly (rather than via return_taxonomy = TRUE) remember to ungroup the
 result returned via \code{arrow::open_dataset()}.}
 
-\item{force_new}{List with elements \code{taxa_col} and \code{difftime}. If
-\code{taxonomy_file} already exists any \code{taxa_col} matches between \code{force_new} and
-\code{taxonomy_file} will be requeried. Likewise any \code{original_name} that has not
-been searched since \code{difftime} will be requeried. Note the name \code{taxa_col}
-should be as provided as per the \code{taxa_col} argument. Set either to \code{NULL}
-to ignore.}
+\item{force_new}{List with elements \code{difftime} and any column name from
+\code{taxonomy_file}. If \code{taxonomy_file} already exists any column matches between
+\code{force_new} and \code{taxonomy_file}, matching levels within that column will be
+requeried. Likewise any \code{original_name} that has not been searched since
+\code{difftime} will be requeried. Set either to \code{NULL} to ignore.}
 
 \item{remove_taxa}{Character. Rows with regular expressions that match
 \code{remove_taxa} are removed (rows are removed).}
 
 \item{remove_strings}{Character. Text that matches \code{remove_strings} is
 removed from the string before searching (text, not row, is removed).}
+
+\item{tri_strings}{Character. Text that matches \code{tri_strings} is
+used to indicate if the original_name is trinomial (original_is_tri field in lutaxa).}
+
+\item{non_name_strings}{Character. Text that matches \code{non_name_strings} is
+used to remove non-names from original_names and count the number of words in the string
+to indicate if the original_name is trinomial (original_is_tri field in lutaxa).}
 
 \item{return_taxonomy}{Logical. If \code{TRUE}, a list is returned containing the
 best match for each original_name in \code{lutaxa} and additional elements named
@@ -83,6 +94,12 @@ workflow
 \item taxa - the best taxa available for \code{original_name} at
 \code{needed_rank}, perhaps taking into account \code{overrides}
 \item override - is the \code{taxa} the result of an override?
+\item original_is_tri - Experimental. Is the \code{original_name} a
+trinomial? Highlights cases where the matched rank is species but
+the \code{original_name} is guessed to be a subspecies. Guesses target
+the \code{tri_strings} and count if there are more than two words in
+the name, after removing \code{non_name_strings}. Note, this is only an
+(informed) guess at whether the \code{original_name} is trinomial.
 }
 \item taxonomy - dataframe. For each \code{taxa} in \code{lutaxa} a row of
 taxonomic hierarchy

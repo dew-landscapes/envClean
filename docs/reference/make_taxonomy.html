@@ -80,6 +80,11 @@ and for each of the original names provided, the best result at genus level
 <span>    <span class="st">"unidentified"</span>, <span class="st">"unverified"</span>, <span class="st">"annual tussock grass"</span>, <span class="st">"*no id"</span><span class="op">)</span>,</span>
 <span>  remove_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\s\\-\\-\\s.*"</span>, <span class="st">"\\ssp\\.$"</span>, <span class="st">"\\sssp\\.$"</span>,</span>
 <span>    <span class="st">"\\sspec\\.$"</span>, <span class="st">"dead"</span><span class="op">)</span>,</span>
+<span>  tri_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\sssp\\."</span>, <span class="st">"\\svar\\."</span>, <span class="st">"\\ssubsp\\."</span>, <span class="st">"\\ssubspecies"</span>,</span>
+<span>    <span class="st">"\\sform"</span>, <span class="st">"\\sf\\."</span>, <span class="st">"\\srace"</span>, <span class="st">"\\sp\\.v\\."</span><span class="op">)</span>,</span>
+<span>  non_name_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\ssp\\."</span>, <span class="st">"\\snov\\."</span>, <span class="st">"-"</span>, <span class="st">"\\sf\\."</span>,</span>
+<span>    <span class="st">"\\ss\\.str\\."</span>, <span class="st">"\\ss\\.s\\."</span>, <span class="st">"\\saff\\."</span>, <span class="st">"\\scf\\."</span>,</span>
+<span>    <span class="st">"\\slineage"</span>, <span class="st">"\\sgroup"</span>, <span class="st">"\\xet\\sal"</span><span class="op">)</span>,</span>
 <span>  atlas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Australia"</span><span class="op">)</span>,</span>
 <span>  return_taxonomy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  limit <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -109,12 +114,11 @@ result returned via <code><a href="https://arrow.apache.org/docs/r/reference/ope
 
 
 <dt>force_new</dt>
-<dd><p>List with elements <code>taxa_col</code> and <code>difftime</code>. If
-<code>taxonomy_file</code> already exists any <code>taxa_col</code> matches between <code>force_new</code> and
-<code>taxonomy_file</code> will be requeried. Likewise any <code>original_name</code> that has not
-been searched since <code>difftime</code> will be requeried. Note the name <code>taxa_col</code>
-should be as provided as per the <code>taxa_col</code> argument. Set either to <code>NULL</code>
-to ignore.</p></dd>
+<dd><p>List with elements <code>difftime</code> and any column name from
+<code>taxonomy_file</code>. If <code>taxonomy_file</code> already exists any column matches between
+<code>force_new</code> and <code>taxonomy_file</code>, matching levels within that column will be
+requeried. Likewise any <code>original_name</code> that has not been searched since
+<code>difftime</code> will be requeried. Set either to <code>NULL</code> to ignore.</p></dd>
 
 
 <dt>remove_taxa</dt>
@@ -125,6 +129,17 @@ to ignore.</p></dd>
 <dt>remove_strings</dt>
 <dd><p>Character. Text that matches <code>remove_strings</code> is
 removed from the string before searching (text, not row, is removed).</p></dd>
+
+
+<dt>tri_strings</dt>
+<dd><p>Character. Text that matches <code>tri_strings</code> is
+used to indicate if the original_name is trinomial (original_is_tri field in lutaxa).</p></dd>
+
+
+<dt>non_name_strings</dt>
+<dd><p>Character. Text that matches <code>non_name_strings</code> is
+used to remove non-names from original_names and count the number of words in the string
+to indicate if the original_name is trinomial (original_is_tri field in lutaxa).</p></dd>
 
 
 <dt>return_taxonomy</dt>
@@ -166,6 +181,12 @@ workflow</p></li>
 <li><p>taxa - the best taxa available for <code>original_name</code> at
 <code>needed_rank</code>, perhaps taking into account <code>overrides</code></p></li>
 <li><p>override - is the <code>taxa</code> the result of an override?</p></li>
+<li><p>original_is_tri - Experimental. Is the <code>original_name</code> a
+trinomial? Highlights cases where the matched rank is species but
+the <code>original_name</code> is guessed to be a subspecies. Guesses target
+the <code>tri_strings</code> and count if there are more than two words in
+the name, after removing <code>non_name_strings</code>. Note, this is only an
+(informed) guess at whether the <code>original_name</code> is trinomial.</p></li>
 </ul></li>
 <li><p>taxonomy - dataframe. For each <code>taxa</code> in <code>lutaxa</code> a row of
 taxonomic hierarchy</p></li>
@@ -202,24 +223,20 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>                            , needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"kingdom"</span>, <span class="st">"genus"</span>, <span class="st">"species"</span>, <span class="st">"subspecies"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                            <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 2 warnings in `dplyr::filter()`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> The first warning was:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `is.na(as.numeric(gsub("[^[[:alnum:]]+", "", original_name)))`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> NAs introduced by coercion</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> galah: version 2.0.2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">Default node set to ALA (ala.org.au).</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">See all supported GBIF nodes with `show_all(atlases)`.</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> <span style="color: #BB00BB;">To change nodes, use e.g. `galah_config(atlas = "GBIF")`.</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp0ikUbd\file190cc4a55dd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">raw</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 18</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name               search_term scientific_name scientific_name_auth…¹</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis      Charadrius… Phalaropus lob… (Linnaeus, 1758)      </span>
@@ -230,22 +247,22 @@ taxonomic hierarchy</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gularis laeti… Melithrept… Melithreptus (… Gould, 1875           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cucullatus        Thinornis … Thinornis cucu… (Vieillot, 1818)      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​scientific_name_authorship</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 13 more variables: taxon_concept_id &lt;chr&gt;, rank &lt;ord&gt;, match_type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more variables: taxon_concept_id &lt;chr&gt;, rank &lt;ord&gt;, match_type &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genus &lt;chr&gt;, species &lt;chr&gt;, vernacular_name &lt;chr&gt;, stamp &lt;dttm&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   subspecies &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   subspecies &lt;chr&gt;, original_is_tri &lt;lgl&gt;</span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">kingdom</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name                    match_type matched_rank returned_rank taxa   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis           exactMatch species      kingdom       Animal…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus                       exactMatch genus        kingdom       Plantae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus viminalis             exactMatch species      kingdom       Plantae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus viminalis cygnetensis exactMatch subspecies   kingdom       Plantae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gularis gularis     exactMatch subspecies   kingdom       Animal…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gularis laetior     exactMatch subspecies   kingdom       Animal…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cucullatus             exactMatch species      kingdom       Animal…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      kingdom       Anim… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus         exactMatch genus        kingdom       Plan… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus vimina… exactMatch species      kingdom       Plan… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus vimina… exactMatch subspecies   kingdom       Plan… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gula… exactMatch subspecies   kingdom       Anim… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gula… exactMatch subspecies   kingdom       Anim… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cuculla… exactMatch species      kingdom       Anim… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
@@ -256,16 +273,16 @@ taxonomic hierarchy</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">genus</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name                    match_type matched_rank returned_rank taxa   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis           exactMatch species      genus         Phalar…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus                       exactMatch genus        genus         Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus viminalis             exactMatch species      genus         Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus viminalis cygnetensis exactMatch subspecies   genus         Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gularis gularis     exactMatch subspecies   genus         Melith…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gularis laetior     exactMatch subspecies   genus         Melith…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cucullatus             exactMatch species      genus         Thinor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      genus         Phal… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus         exactMatch genus        genus         Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus vimina… exactMatch species      genus         Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus vimina… exactMatch subspecies   genus         Euca… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gula… exactMatch subspecies   genus         Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gula… exactMatch subspecies   genus         Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cuculla… exactMatch species      genus         Thin… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
@@ -278,16 +295,16 @@ taxonomic hierarchy</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name                    match_type matched_rank returned_rank taxa   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis           exactMatch species      species       Phalar…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus                       exactMatch genus        genus         Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus viminalis             exactMatch species      species       Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus viminalis cygnetensis exactMatch subspecies   species       Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gularis gularis     exactMatch subspecies   species       Melith…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gularis laetior     exactMatch subspecies   species       Melith…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cucullatus             exactMatch species      species       Thinor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      species       Phal… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus         exactMatch genus        genus         Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus vimina… exactMatch species      species       Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus vimina… exactMatch subspecies   species       Euca… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gula… exactMatch subspecies   species       Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gula… exactMatch subspecies   species       Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cuculla… exactMatch species      species       Thin… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 8</span></span>
@@ -301,28 +318,28 @@ taxonomic hierarchy</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">subspecies</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name                    match_type matched_rank returned_rank taxa   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis           exactMatch species      species       Phalar…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus                       exactMatch genus        genus         Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus viminalis             exactMatch species      species       Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus viminalis cygnetensis exactMatch subspecies   subspecies    Eucaly…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gularis gularis     exactMatch subspecies   subspecies    Melith…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gularis laetior     exactMatch subspecies   subspecies    Melith…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cucullatus             exactMatch species      species       Thinor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      subspecies    Phal… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus         exactMatch genus        subspecies    Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus vimina… exactMatch species      subspecies    Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus vimina… exactMatch subspecies   subspecies    Euca… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gula… exactMatch subspecies   subspecies    Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gula… exactMatch subspecies   subspecies    Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cuculla… exactMatch species      subspecies    Thin… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   taxa                kingdom phylum class order family genus species subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Phalaropus lobatus  Animal… Chord… Aves  Char… Scolo… Phal… Phalar… <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus          Plantae Charo… Equi… Myrt… Myrta… Euca… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus viminal… Plantae Charo… Equi… Myrt… Myrta… Euca… Eucaly… <span style="color: #BB0000;">NA</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Phalaropus lobatus  Animal… Chord… Aves  Char… Scolo… Phal… Phalar… Phalaropu…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Eucalyptus          Plantae Charo… Equi… Myrt… Myrta… Euca… <span style="color: #BB0000;">NA</span>      Eucalyptus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Eucalyptus viminal… Plantae Charo… Equi… Myrt… Myrta… Euca… Eucaly… Eucalyptu…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Eucalyptus viminal… Plantae Charo… Equi… Myrt… Myrta… Euca… Eucaly… Eucalyptu…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Melithreptus gular… Animal… Chord… Aves  Pass… Melip… Meli… Melith… Melithrep…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Melithreptus gular… Animal… Chord… Aves  Pass… Melip… Meli… Melith… Melithrep…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cucullat… Animal… Chord… Aves  Char… Chara… Thin… Thinor… <span style="color: #BB0000;">NA</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Thinornis cucullat… Animal… Chord… Aves  Char… Chara… Thin… Thinor… Thinornis…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># query more taxa (results are added to taxonomy_file but only the new taxa are returned (default `limit = TRUE`)</span></span></span>
@@ -339,26 +356,22 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>                            , needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                            <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 2 warnings in `dplyr::filter()`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> The first warning was:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `is.na(as.numeric(gsub("[^[[:alnum:]]+", "", original_name)))`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> NAs introduced by coercion</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp0ikUbd\file190cc4a55dd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name                    match_type   matched_rank returned_rank taxa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Amytornis modestus (North, 1902) canonicalMa… species      species       Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Amytornis modestus cowarie       exactMatch   subspecies   species       Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Amytornis modestus modestus      exactMatch   subspecies   species       Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Amytornis striatus               exactMatch   species      species       Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Amytornis whitei                 exactMatch   species      species       Amyt…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Amytornis modestu… canonical… species      species       Amyt… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Amytornis modestu… exactMatch subspecies   species       Amyt… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Amytornis modestu… exactMatch subspecies   species       Amyt… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Amytornis striatus exactMatch species      species       Amyt… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Amytornis whitei   exactMatch species      species       Amyt… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 8</span></span>
@@ -377,38 +390,38 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">subspecies</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    original_name                    match_type  matched_rank returned_rank taxa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Charadrius rubricollis           exactMatch  species      species       Phal…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Eucalyptus                       exactMatch  genus        genus         Euca…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Eucalyptus viminalis             exactMatch  species      species       Euca…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Eucalyptus viminalis cygnetensis exactMatch  subspecies   subspecies    Euca…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Melithreptus gularis gularis     exactMatch  subspecies   subspecies    Meli…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Melithreptus gularis laetior     exactMatch  subspecies   subspecies    Meli…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Thinornis cucullatus             exactMatch  species      species       Thin…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Amytornis modestus (North, 1902) canonicalM… species      species       Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Amytornis modestus cowarie       exactMatch  subspecies   subspecies    Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Amytornis modestus modestus      exactMatch  subspecies   subspecies    Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Amytornis striatus               exactMatch  species      species       Amyt…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Amytornis whitei                 exactMatch  species      species       Amyt…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    original_name     match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Amytornis modest… canonical… species      subspecies    Amyt… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Amytornis modest… exactMatch subspecies   subspecies    Amyt… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Amytornis modest… exactMatch subspecies   subspecies    Amyt… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Amytornis striat… exactMatch species      subspecies    Amyt… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Amytornis whitei  exactMatch species      subspecies    Amyt… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Charadrius rubri… exactMatch species      subspecies    Phal… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Eucalyptus        exactMatch genus        subspecies    Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Eucalyptus vimin… exactMatch species      subspecies    Euca… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Eucalyptus vimin… exactMatch subspecies   subspecies    Euca… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Melithreptus gul… exactMatch subspecies   subspecies    Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Melithreptus gul… exactMatch subspecies   subspecies    Meli… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Thinornis cucull… exactMatch species      subspecies    Thin… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    taxa               kingdom phylum class order family genus species subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Phalaropus lobatus Animal… Chord… Aves  Char… Scolo… Phal… Phalar… <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Eucalyptus         Plantae Charo… Equi… Myrt… Myrta… Euca… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Eucalyptus vimina… Plantae Charo… Equi… Myrt… Myrta… Euca… Eucaly… <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Eucalyptus vimina… Plantae Charo… Equi… Myrt… Myrta… Euca… Eucaly… Eucalyptu…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Melithreptus gula… Animal… Chord… Aves  Pass… Melip… Meli… Melith… Melithrep…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Melithreptus gula… Animal… Chord… Aves  Pass… Melip… Meli… Melith… Melithrep…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Thinornis cuculla… Animal… Chord… Aves  Char… Chara… Thin… Thinor… <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Amytornis modestus Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Amytornis modestu… Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… Amytornis…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Amytornis modestu… Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… Amytornis…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Amytornis striatus Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Amytornis whitei   Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… <span style="color: #BB0000;">NA</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Amytornis modestus Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… Amytornis…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Amytornis modestu… Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… Amytornis…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Amytornis modestu… Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… Amytornis…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Amytornis striatus Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… Amytornis…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Amytornis whitei   Animal… Chord… Aves  Pass… Malur… Amyt… Amytor… Amytornis…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Phalaropus lobatus Animal… Chord… Aves  Char… Scolo… Phal… Phalar… Phalaropu…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Eucalyptus         Plantae Charo… Equi… Myrt… Myrta… Euca… <span style="color: #BB0000;">NA</span>      Eucalyptus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Eucalyptus vimina… Plantae Charo… Equi… Myrt… Myrta… Euca… Eucaly… Eucalyptu…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Eucalyptus vimina… Plantae Charo… Equi… Myrt… Myrta… Euca… Eucaly… Eucalyptu…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Melithreptus gula… Animal… Chord… Aves  Pass… Melip… Meli… Melith… Melithrep…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Melithreptus gula… Animal… Chord… Aves  Pass… Melip… Meli… Melith… Melithrep…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Thinornis cuculla… Animal… Chord… Aves  Char… Chara… Thin… Thinor… Thinornis…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># overrrides</span></span></span>
@@ -420,22 +433,29 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>                            , needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                            <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp0ikUbd\file190cc4a55dd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name          match_type matched_rank returned_rank taxa             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis exactMatch species      species       Phalaropus lobat…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      species       Phal… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Gallirallus phili… higherMat… species      species       Hypo… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Sminthopsis fulig… exactMatch subspecies   species       Smin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Sminthopsis fulig… exactMatch subspecies   species       Smin… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   taxa               kingdom  phylum   class order          family genus species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Phalaropus lobatus Animalia Chordata Aves  Charadriiform… Scolo… Phal… Phalar…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   taxa                      kingdom  phylum   class   order family genus species</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Phalaropus lobatus        Animalia Chordata Aves    Char… Scolo… Phal… Phalar…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Hypotaenidia philippensis Animalia Chordata Aves    Grui… Ralli… Hypo… Hypota…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Sminthopsis fuliginosa    Animalia Chordata Mammal… Dasy… Dasyu… Smin… Sminth…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># add in override - C. rubricollis is binned to T. cucullatus at species level</span></span></span>
@@ -447,42 +467,57 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name, returned_rank)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpglyBLy\file14c838127c5c.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp0ikUbd\file190cc4a55dd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name          match_type matched_rank returned_rank taxa     override</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis exactMatch species      species       Thinorn… TRUE    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      species       Thin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Gallirallus phili… exactMatch subspecies   species       Hypo… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Sminthopsis fulig… exactMatch species      species       Smin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Sminthopsis fulig… exactMatch subspecies   species       Smin… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: override &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   taxa                 kingdom  phylum   class order        family genus species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thinornis cucullatus Animalia Chordata Aves  Charadriifo… Chara… Thin… Thinor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   taxa                      kingdom  phylum   class   order family genus species</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thinornis cucullatus      Animalia Chordata Aves    Char… Chara… Thin… Thinor…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Hypotaenidia philippensis Animalia Chordata Aves    Grui… Ralli… Hypo… Hypota…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Sminthopsis fuliginosa    Animalia Chordata Mammal… Dasy… Dasyu… Smin… Sminth…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">subspecies</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name          match_type matched_rank returned_rank taxa     override</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubricollis exactMatch species      subspecies    Thinorn… TRUE    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      species       Thin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Gallirallus phili… exactMatch subspecies   subspecies    Hypo… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Sminthopsis fulig… exactMatch species      species       Smin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Sminthopsis fulig… exactMatch subspecies   subspecies    Smin… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: override &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   taxa                kingdom phylum class order family genus species subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thinornis cucullat… Animal… Chord… Aves  Char… Chara… Thin… Thinor… Thinornis…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thinornis cucullat… Animal… Chord… Aves  Char… Chara… Thin… Thinor… <span style="color: #BB0000;">NA</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Hypotaenidia phili… Animal… Chord… Aves  Grui… Ralli… Hypo… Hypota… Hypotaeni…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Sminthopsis fuligi… Animal… Chord… Mamm… Dasy… Dasyu… Smin… Sminth… <span style="color: #BB0000;">NA</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Sminthopsis fuligi… Animal… Chord… Mamm… Dasy… Dasyu… Smin… Sminth… Sminthops…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># clean up</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">temp_file</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\RtmpglyBLy\\file14c838127c5c"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\Rtmp0ikUbd\\file190cc4a55dd"</span>
 </code></pre></div>
     </div>
   </div>
