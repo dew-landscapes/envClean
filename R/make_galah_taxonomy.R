@@ -21,12 +21,11 @@
 #' ignored. .parquet file used, partitioned on kingdom. If using this file
 #' directly (rather than via return_taxonomy = TRUE) remember to ungroup the
 #' result returned via `arrow::open_dataset()`.
-#' @param force_new List with elements `taxa_col` and `difftime`. If
-#' `taxonomy_file` already exists any `taxa_col` matches between `force_new` and
-#' `taxonomy_file` will be requeried. Likewise any `original_name` that has not
-#' been searched since `difftime` will be requeried. Note the name `taxa_col`
-#' should be as provided as per the `taxa_col` argument. Set either to `NULL`
-#' to ignore.
+#' @param force_new List with elements `difftime` and any column name from
+#' `taxonomy_file`. If `taxonomy_file` already exists any column matches between
+#' `force_new` and `taxonomy_file`, matching levels within that column will be
+#' requeried. Likewise any `original_name` that has not been searched since
+#' `difftime` will be requeried. Set either to `NULL` to ignore.
 #' @param remove_taxa Character. Rows with regular expressions that match
 #' `remove_taxa` are removed (rows are removed).
 #' @param remove_strings Character. Text that matches `remove_strings` is
@@ -77,11 +76,12 @@
 #'            \item taxa - the best taxa available for `original_name` at
 #'            `needed_rank`, perhaps taking into account `overrides`
 #'            \item override - is the `taxa` the result of an override?
-#'            \item original_is_tri - is the `original_name` a trinomial?
-#'            Useful for extra filtering of cases where the returned rank is species
-#'            but is incorrect and is supposed to be subspecies or below.
-#'            Based on the `tri_strings` and more than two words derived after
-#'            removing `non_name_strings`.
+#'            \item original_is_tri - Experimental. Is the `original_name` a
+#'            trinomial? Highlights cases where the matched rank is species but
+#'            the `original_name` is guessed to be a subspecies. Guesses target
+#'            the `tri_strings` and count if there are more than two words in
+#'            the name, after removing `non_name_strings`. Note, this is only an
+#'            (informed) guess at whether the `original_name` is trinomial.
 #'          }
 #'        \item taxonomy - dataframe. For each `taxa` in `lutaxa` a row of
 #'        taxonomic hierarchy
@@ -121,24 +121,27 @@
                                                  , "\\sspec\\.$" # blah spec.END
                                                  , "dead"
                                                  ) # blah not removed, everything else removed
-                            , tri_strings = c("\\sssp\\.\\s"
-                                               , "\\svar\\.\\s"
-                                               , "\\ssubsp"
-                                               , "\\sform\\)"
-                                               , "\\sform\\s"
-                                               , "\\sf\\."
-                                               )
-                            , non_name_strings = c("\\s\\([^\\)]+\\)"
-                                                    ,"\\svar\\."
-                                                    ,"\\ssp\\."
-                                                    ,"\\sssp\\."
-                                                    ,"\\ssubsp\\."
-                                                    ,"\\ssubspecies"
-                                                    ,"\\snov\\."
-                                                    ,"-"
-                                                    ,"\\sf\\."
-                                                    ,"\\sx\\s"
-                                                    )
+                            , tri_strings = c("\\sssp\\."
+                                              , "\\svar\\."
+                                              , "\\ssubsp\\."
+                                              , "\\ssubspecies"
+                                              , "\\sform"
+                                              , "\\sf\\."
+                                              , "\\srace"
+                                              , "\\sp\\.v\\."
+                                              )
+                            , non_name_strings = c("\\ssp\\."
+                                                   , "\\snov\\."
+                                                   , "-"
+                                                   , "\\sf\\."
+                                                   , "\\ss\\.str\\."
+                                                   , "\\ss\\.s\\."
+                                                   , "\\saff\\."
+                                                   , "\\scf\\."
+                                                   , "\\slineage"
+                                                   , "\\sgroup"
+                                                   , "\\xet\\sal"
+                                                   )
                             , atlas = c("Australia")
                             , return_taxonomy = TRUE
                             , limit = TRUE
@@ -172,7 +175,7 @@
           dplyr::ungroup() %>%
           dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name))
 
-        # remove any 'force_new'
+        # force_new -------
         if(!is.null(force_new$timediff)) {
 
           previous <- previous %>%
@@ -186,10 +189,18 @@
                           )
         }
 
-        if(!is.null(force_new$original_name)) {
+        if(any(names(force_new) %in% names(previous))) {
 
-          previous <- previous %>%
-            dplyr::filter(!(original_name %in% force_new[taxa_col]))
+          force_new_cols <- force_new[names(force_new) %in% names(previous)]
+
+          for(i in 1:length(force_new_cols)) {
+
+            x <- names(force_new_cols)[i]
+            y <- force_new_cols[[i]]
+
+            previous <- previous[! grepl(paste0("^", y, "$", collapse = "|"), previous[x][[1]]), ]
+
+          }
 
         }
 
@@ -223,13 +234,14 @@
                       , searched_name = stringr::str_squish(searched_name)
                       ) %>%
         # remove names that contain only NA, blanks, digits or dates
-        dplyr::filter(is.na(as.numeric(gsub("[^[[:alnum:]]+"
-                                            , ""
-                                            , original_name
-                                            )
+        dplyr::filter(suppressWarnings(is.na(as.numeric(gsub("[^[[:alnum:]]+"
+                                                             , ""
+                                                             , original_name
+                                                             )
+                                                        )
+                                             )
                                        )
-                            )
-                      , is.na(as.numeric(lubridate::dmy(original_name)))
+                      , suppressWarnings(is.na(as.numeric(lubridate::dmy(original_name))))
                       , !is.na(original_name)
                       , !is.na(searched_name)
                       , searched_name != ""
@@ -294,16 +306,15 @@
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)) %>%
         dplyr::distinct() %>%
+        dplyr::select(!matches("^issues$")) %>%
         dplyr::mutate(subspecies = dplyr::case_when(rank <= "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
                                                     , TRUE ~ NA_character_
                                                     )
-                      ) %>%
-        dplyr::select(!matches("^issues$")) %>%
-        dplyr::mutate(rank = factor(rank
-                                    , levels = levels(envClean::lurank$rank)
-                                    , ordered = TRUE
-        )
-        )
+                      , rank = factor(rank
+                                      , levels = levels(envClean::lurank$rank)
+                                      , ordered = TRUE
+                                      )
+                      )
 
       out_names <- c(names(new), "override")
 
@@ -365,23 +376,47 @@
         new <- new %>%
           dplyr::bind_rows(combined_overrides %>%
                              dplyr::mutate(override = TRUE)
-          ) %>%
+                           ) %>%
           dplyr::select(tidyselect::any_of(out_names)) %>%
-          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override)
-                        , words=stringr::str_count(gsub(paste(non_name_strings,collapse="|"),"",original_name),"\\w+")
-                        , original_is_tri=dplyr::case_when(grepl(paste(tri_strings,collapse="|"),original_name) ~ TRUE
-                                                           ,words>2 & !grepl("\\ssp\\.|\\sall\\ssubspecies",original_name) ~ TRUE
-                                                           ,.default = FALSE
-                        )
-          ) %>%
-          dplyr::relocate(subspecies, .after = "species") %>%
-          dplyr::select(-words) %>%
-          dplyr::distinct()
+          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
 
       }
 
-      # save -------
+      # original_is_tri -------
+      authors <- new %>%
+        dplyr::select(original_name, scientific_name_authorship) %>%
+        tidytext::unnest_tokens(word, scientific_name_authorship) %>%
+        dplyr::filter(!is.na(word)) %>%
+        tidyr::nest(authors = c(word))
 
+      new <- new %>%
+        # simple removals (non_name_strings and digits)
+        dplyr::mutate(check_name = gsub(paste0(c(tri_strings, non_name_strings), collapse = "|"), "", original_name)
+                      , check_name = gsub("[[:digit:]]+", "", check_name)
+                      , check_name = stringr::str_squish(check_name)
+                      ) %>%
+        # convert to 'long' format on each word boundary in original_name
+        tidytext::unnest_tokens(word, check_name, to_lower = FALSE, drop = FALSE) %>%
+        # add in a row number
+        dplyr::group_by(original_name) %>%
+        dplyr::mutate(row_n = dplyr::row_number()) %>%
+        dplyr::ungroup() %>%
+        # filter capitals (Authors) that are not the 'first' word
+        dplyr::filter(! (row_n > 1 & grepl("[A-Z]", word))) %>%
+        # filter rows that match 'authors'
+        dplyr::left_join(authors) %>%
+        dplyr::filter(purrr::map2_lgl(word, authors
+                                      , \(x, y) ! base::tolower(x) %in% base::tolower(y)
+                                      )
+                      ) %>%
+        dplyr::count(original_name, name = "words") %>%
+        dplyr::right_join(new) %>%
+        dplyr::mutate(original_is_tri = words > 2) %>%
+        dplyr::select(-words) %>%
+        dplyr::distinct()
+
+
+      # save -------
       message("saving results to ", taxonomy_file)
 
       arrow::write_dataset(new
