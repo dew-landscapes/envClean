@@ -14,11 +14,12 @@ make_taxonomy(
     "unidentified", "unverified", "annual tussock grass", "*no id"),
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "dead"),
-  tri_strings = c("\\\\sssp\\\\.", "\\\\svar\\\\.", "\\\\ssubsp\\\\.", "\\\\ssubspecies",
-    "\\\\sform", "\\\\sf\\\\.", "\\\\srace", "\\\\sp\\\\.v\\\\."),
-  non_name_strings = c("\\\\ssp\\\\.", "\\\\snov\\\\.", "-", "\\\\sf\\\\.",
-    "\\\\ss\\\\.str\\\\.", "\\\\ss\\\\.s\\\\.", "\\\\saff\\\\.", "\\\\scf\\\\.",
-    "\\\\slineage", "\\\\sgroup", "\\\\xet\\\\sal"),
+  not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
+    "cf", "lineage", "group", "et", "al", "and", "pl"),
+  tri_strings = c("\\\\sssp\\\\s", "\\\\sssp\\\\.\\\\s", "\\\\svar\\\\s",
+    "\\\\svar\\\\.\\\\s", "\\\\ssubsp\\\\.", "\\\\ssubspecies", "\\\\sform\\\\)",
+    "\\\\sform\\\\s", "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)",
+    "\\\\sp\\\\.v\\\\."),
   atlas = c("Australia"),
   return_taxonomy = TRUE,
   limit = TRUE,
@@ -27,12 +28,13 @@ make_taxonomy(
 )
 }
 \arguments{
-\item{df}{Dataframe with \code{taxa_col}. Can be NULL only if taxonomy_file
+\item{df}{Dataframe with \code{taxa_col}. Can be \code{NULL} only if taxonomy_file
 already exists.}
 
 \item{taxa_col}{Character or index. Name or index of column with taxa names.
-Each unique taxa in this column will appear in the results list element
-\code{lutaxa}in a column called \code{original_name}}
+Each unique taxa in this column will be queried against \code{galah::search_taxa}
+and appear in the results list element \code{lutaxa}in a column called
+\code{original_name}}
 
 \item{taxonomy_file}{Character. File path to save results to. File type
 ignored. .parquet file used, partitioned on kingdom. If using this file
@@ -45,18 +47,19 @@ result returned via \code{arrow::open_dataset()}.}
 requeried. Likewise any \code{original_name} that has not been searched since
 \code{difftime} will be requeried. Set either to \code{NULL} to ignore.}
 
-\item{remove_taxa}{Character. Rows with regular expressions that match
-\code{remove_taxa} are removed (rows are removed).}
+\item{remove_taxa}{Character. Rows with regular expressions in \code{taxa_col}
+that match \code{remove_taxa} are removed (rows are removed).}
 
 \item{remove_strings}{Character. Text that matches \code{remove_strings} is
-removed from the string before searching (text, not row, is removed).}
+removed from the \code{taxa_col} before searching (text, not row, is removed).}
+
+\item{not_names}{Character. Text that matches \code{non_name_strings} is used to
+remove non-names from original_names before a word count to indicate (guess)
+if the original_name is trinomial (original_is_tri field in lutaxa).}
 
 \item{tri_strings}{Character. Text that matches \code{tri_strings} is
-used to indicate if the original_name is trinomial (original_is_tri field in lutaxa).}
-
-\item{non_name_strings}{Character. Text that matches \code{non_name_strings} is
-used to remove non-names from original_names and count the number of words in the string
-to indicate if the original_name is trinomial (original_is_tri field in lutaxa).}
+used to indicate if the original_name is trinomial (original_is_tri field in
+output lutaxa).}
 
 \item{return_taxonomy}{Logical. If \code{TRUE}, a list is returned containing the
 best match for each original_name in \code{lutaxa} and additional elements named
@@ -69,6 +72,15 @@ element per rank provided in \code{needed_ranks}}
 \item{needed_ranks}{Character vector of ranks required in the returned list.
 Can be "all" or any combination of ranks from \code{envClean::lurank} greater than
 or equal to \emph{subspecies}.}
+
+\item{overrides}{Used to override results returned by \code{galah::search_taxa()}.
+Dataframe with (at least) columns: \code{taxa_col} and \code{taxa_to_search}.
+Can also contain any number of \code{use_x} columns where \code{x} is any of
+kingdom, phylum, class, order, family, genus, species, subspecies, variety and form. A two step process then attempts
+to find better results than if searched on \code{taxa_col}. Step 1 searches for
+\code{taxa_to_search} instead of \code{taxa_col}. If any \code{use_x} columns are present,
+step 2 then checks that the results from step 1 have a result at \code{x}. If not,
+level \code{x} results will be taken from \code{use_x}.}
 }
 \value{
 Null or list (depending on \code{return_taxonomy}). Writes
@@ -76,7 +88,10 @@ Null or list (depending on \code{return_taxonomy}). Writes
 If list, then elements:
 \itemize{
 \item raw - the 'raw' results returned from \code{galah::search_taxa()}, tweaked
-by column \code{rank} being an ordered factor as per \code{envClean::lurank}.
+by: column \code{rank} is an ordered factor as per \code{envClean::lurank};
+rank_adj is a new column that will reflect the rank column unless rank is
+less than subspecies, in which case it will be subspecies; and
+original_is_tri is a new column
 \item needed_ranks - One element for each rank specified in \code{needed_ranks}.
 \itemize{
 \item lutaxa - dataframe. For each unique name in \code{taxa_col}, the best
@@ -95,11 +110,13 @@ workflow
 \code{needed_rank}, perhaps taking into account \code{overrides}
 \item override - is the \code{taxa} the result of an override?
 \item original_is_tri - Experimental. Is the \code{original_name} a
-trinomial? Highlights cases where the matched rank is species but
-the \code{original_name} is guessed to be a subspecies. Guesses target
-the \code{tri_strings} and count if there are more than two words in
-the name, after removing \code{non_name_strings}. Note, this is only an
-(informed) guess at whether the \code{original_name} is trinomial.
+trinomial? Highlights cases where the matched rank is > subspecies
+but the \code{original_name} is probably a subspecies. Guesses
+are based on a word count after removal of: \code{not_names}; numbers;
+punctuation; capitalised words that are not the first word; and single
+letter 'words'. \code{tri_strings} override the guess - flagging TRUE.
+Note, clearly, this is only an (informed) guess at whether the
+\code{original_name} is trinomial.
 }
 \item taxonomy - dataframe. For each \code{taxa} in \code{lutaxa} a row of
 taxonomic hierarchy
@@ -126,13 +143,20 @@ Previous \code{envClean::make_taxonomy()} function is still available via
   temp_file <- tempfile()
 
   taxa_df <- tibble::tibble(taxa = c("Charadrius rubricollis"
-                                      , "Thinornis cucullatus"
-                                      , "Melithreptus gularis laetior"
-                                      , "Melithreptus gularis gularis"
-                                      , "Eucalyptus viminalis"
-                                      , "Eucalyptus viminalis cygnetensis"
+                                     , "Thinornis cucullatus"
+                                     , "Melithreptus gularis laetior"
+                                     , "Melithreptus gularis gularis"
+                                     , "Eucalyptus viminalis"
+                                     , "Eucalyptus viminalis cygnetensis"
                                      , "Eucalyptus"
-                                      )
+                                     , "Charadrius mongolus all subspecies"
+                                     , "Bettongia lesueur Barrow and Boodie Islands subspecies"
+                                     , "Lagorchestes hirsutus Central Australian subspecies"
+                                     , "Perameles gunnii Victorian subspecies"
+                                     , "Pterostylis sp. Rock ledges (pl. 185, Bates & Weber 1990)"
+                                     , "Spyridium glabrisepalum"
+                                     , "Spyridium eriocephalum var. glabrisepalum"
+                                     )
                             )
 
   # make taxonomy (returns list and writes taxonomy_file)
@@ -193,5 +217,5 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 
   # clean up
   rm(taxonomy)
-  unlist(temp_file)
+  unlist(paste0(temp_file, ".parquet"))
 }

@@ -12,11 +12,12 @@
 #' Previous `envClean::make_taxonomy()` function is still available via
 #' `envClean::make_gbif_taxonomy()`
 #'
-#' @param df Dataframe with `taxa_col`. Can be NULL only if taxonomy_file
+#' @param df Dataframe with `taxa_col`. Can be `NULL` only if taxonomy_file
 #' already exists.
 #' @param taxa_col Character or index. Name or index of column with taxa names.
-#' Each unique taxa in this column will appear in the results list element
-#' `lutaxa`in a column called `original_name`
+#' Each unique taxa in this column will be queried against `galah::search_taxa`
+#' and appear in the results list element `lutaxa`in a column called
+#' `original_name`
 #' @param taxonomy_file Character. File path to save results to. File type
 #' ignored. .parquet file used, partitioned on kingdom. If using this file
 #' directly (rather than via return_taxonomy = TRUE) remember to ungroup the
@@ -26,15 +27,16 @@
 #' `force_new` and `taxonomy_file`, matching levels within that column will be
 #' requeried. Likewise any `original_name` that has not been searched since
 #' `difftime` will be requeried. Set either to `NULL` to ignore.
-#' @param remove_taxa Character. Rows with regular expressions that match
-#' `remove_taxa` are removed (rows are removed).
+#' @param remove_taxa Character. Rows with regular expressions in `taxa_col`
+#' that match `remove_taxa` are removed (rows are removed).
 #' @param remove_strings Character. Text that matches `remove_strings` is
-#' removed from the string before searching (text, not row, is removed).
+#' removed from the `taxa_col` before searching (text, not row, is removed).
+#' @param not_names Character. Text that matches `non_name_strings` is used to
+#' remove non-names from original_names before a word count to indicate (guess)
+#' if the original_name is trinomial (original_is_tri field in lutaxa).
 #' @param tri_strings Character. Text that matches `tri_strings` is
-#' used to indicate if the original_name is trinomial (original_is_tri field in lutaxa).
-#' @param non_name_strings Character. Text that matches `non_name_strings` is
-#' used to remove non-names from original_names and count the number of words in the string
-#' to indicate if the original_name is trinomial (original_is_tri field in lutaxa).
+#' used to indicate if the original_name is trinomial (original_is_tri field in
+#' output lutaxa).
 #' @param return_taxonomy Logical. If `TRUE`, a list is returned containing the
 #' best match for each original_name in `lutaxa` and additional elements named
 #' for their rank (see `envClean::lurank`) with unique rows for that rank. One
@@ -44,7 +46,7 @@
 #' @param needed_ranks Character vector of ranks required in the returned list.
 #' Can be "all" or any combination of ranks from `envClean::lurank` greater than
 #' or equal to _subspecies_.
-#' @overrides Used to override results returned by `galah::search_taxa()`.
+#' @param overrides Used to override results returned by `galah::search_taxa()`.
 #' Dataframe with (at least) columns: `taxa_col` and `taxa_to_search`.
 #' Can also contain any number of `use_x` columns where `x` is any of
 #' `r envFunc::vec_to_sentence(lurank$rank)`. A two step process then attempts
@@ -58,7 +60,10 @@
 #' If list, then elements:
 #' \itemize{
 #'   \item raw - the 'raw' results returned from `galah::search_taxa()`, tweaked
-#'     by column `rank` being an ordered factor as per `envClean::lurank`.
+#'     by: column `rank` is an ordered factor as per `envClean::lurank`;
+#'     rank_adj is a new column that will reflect the rank column unless rank is
+#'     less than subspecies, in which case it will be subspecies; and
+#'     original_is_tri is a new column
 #'   \item needed_ranks - One element for each rank specified in `needed_ranks`.
 #'      \itemize{
 #'        \item lutaxa - dataframe. For each unique name in `taxa_col`, the best
@@ -77,11 +82,13 @@
 #'            `needed_rank`, perhaps taking into account `overrides`
 #'            \item override - is the `taxa` the result of an override?
 #'            \item original_is_tri - Experimental. Is the `original_name` a
-#'            trinomial? Highlights cases where the matched rank is species but
-#'            the `original_name` is guessed to be a subspecies. Guesses target
-#'            the `tri_strings` and count if there are more than two words in
-#'            the name, after removing `non_name_strings`. Note, this is only an
-#'            (informed) guess at whether the `original_name` is trinomial.
+#'            trinomial? Highlights cases where the matched rank is > subspecies
+#'            but the `original_name` is probably a subspecies. Guesses
+#'            are based on a word count after removal of: `not_names`; numbers;
+#'            punctuation; capitalised words that are not the first word; and single
+#'            letter 'words'. `tri_strings` override the guess - flagging TRUE.
+#'            Note, clearly, this is only an (informed) guess at whether the
+#'            `original_name` is trinomial.
 #'          }
 #'        \item taxonomy - dataframe. For each `taxa` in `lutaxa` a row of
 #'        taxonomic hierarchy
@@ -121,27 +128,36 @@
                                                  , "\\sspec\\.$" # blah spec.END
                                                  , "dead"
                                                  ) # blah not removed, everything else removed
-                            , tri_strings = c("\\sssp\\."
-                                              , "\\svar\\."
+                            , not_names = c("sp"
+                                            , "ssp"
+                                            , "var"
+                                            , "subsp"
+                                            , "subspecies"
+                                            , "form"
+                                            , "race"
+                                            , "nov"
+                                            , "aff"
+                                            , "cf"
+                                            , "lineage"
+                                            , "group"
+                                            , "et"
+                                            , "al"
+                                            , "and"
+                                            , "pl"
+                                            )
+                            , tri_strings = c("\\sssp\\s"
+                                              ,"\\sssp\\.\\s"
+                                              , "\\svar\\s"
+                                              , "\\svar\\.\\s"
                                               , "\\ssubsp\\."
                                               , "\\ssubspecies"
-                                              , "\\sform"
+                                              , "\\sform\\)"
+                                              , "\\sform\\s"
                                               , "\\sf\\."
-                                              , "\\srace"
+                                              , "\\srace\\s"
+                                              , "\\srace\\)"
                                               , "\\sp\\.v\\."
                                               )
-                            , non_name_strings = c("\\ssp\\."
-                                                   , "\\snov\\."
-                                                   , "-"
-                                                   , "\\sf\\."
-                                                   , "\\ss\\.str\\."
-                                                   , "\\ss\\.s\\."
-                                                   , "\\saff\\."
-                                                   , "\\scf\\."
-                                                   , "\\slineage"
-                                                   , "\\sgroup"
-                                                   , "\\xet\\sal"
-                                                   )
                             , atlas = c("Australia")
                             , return_taxonomy = TRUE
                             , limit = TRUE
@@ -305,16 +321,9 @@
       new <- previous %>%
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)) %>%
-        dplyr::distinct() %>%
         dplyr::select(!matches("^issues$")) %>%
-        dplyr::mutate(subspecies = dplyr::case_when(rank <= "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
-                                                    , TRUE ~ NA_character_
-                                                    )
-                      , rank = factor(rank
-                                      , levels = levels(envClean::lurank$rank)
-                                      , ordered = TRUE
-                                      )
-                      )
+        dplyr::distinct() %>%
+        make_subspecies_col()
 
       out_names <- c(names(new), "override")
 
@@ -337,13 +346,9 @@
 
 
         # attempt 1: match by galah::search_taxa
-        combined_overrides <- overrides %>%
+        searched_overrides <- overrides %>%
           dplyr::bind_cols(galah::search_taxa(overrides$taxa_to_search)) %>%
-          dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE)
-                        , subspecies = dplyr::case_when(rank <= "subspecies" ~ gsub("\\s\\(.*\\)\\s", " ", scientific_name)
-                                                        , TRUE ~ NA_character_
-                        )
-          )
+          make_subspecies_col()
 
         # attempt 2: replace with override if match was not at suitable level in galah::search_taxa
         if(any(grepl("use_", names(overrides)))) {
@@ -354,10 +359,10 @@
             dplyr::filter(!is.na(new_taxa)) %>%
             dplyr::mutate(returned_rank = factor(gsub("use_", "", returned_rank), levels = levels(lurank$rank), ordered = TRUE))
 
-          combined_overrides <- combined_overrides %>%
+          combined_overrides <- searched_overrides %>%
             tidyr::pivot_longer(tidyselect::any_of(lurank$rank), names_to = "returned_rank", values_to = "taxa") %>%
             dplyr::left_join(overrides_long) %>%
-            dplyr::mutate(change_taxa =is.na(taxa) & !is.na(new_taxa)) %>%
+            dplyr::mutate(change_taxa = is.na(taxa) & !is.na(new_taxa)) %>%
             dplyr::mutate(taxa = dplyr::case_when(change_taxa ~ new_taxa
                                                   , TRUE ~ taxa
                                                   )
@@ -365,11 +370,7 @@
             dplyr::select(-new_taxa, -change_taxa) %>%
             tidyr::pivot_wider(names_from = returned_rank, values_from = taxa) %>%
             dplyr::mutate(stamp = Sys.time()) %>%
-            dplyr::mutate(rank = factor(rank
-                                          , levels = levels(envClean::lurank$rank)
-                                          , ordered = TRUE
-                                          )
-                          )
+            make_subspecies_col()
 
         }
 
@@ -377,8 +378,7 @@
           dplyr::bind_rows(combined_overrides %>%
                              dplyr::mutate(override = TRUE)
                            ) %>%
-          dplyr::select(tidyselect::any_of(out_names)) %>%
-          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
+          dplyr::select(tidyselect::any_of(out_names))
 
       }
 
@@ -390,13 +390,16 @@
         tidyr::nest(authors = c(word))
 
       new <- new %>%
-        # simple removals (non_name_strings and digits)
-        dplyr::mutate(check_name = gsub(paste0(c(tri_strings, non_name_strings), collapse = "|"), "", original_name)
-                      , check_name = gsub("[[:digit:]]+", "", check_name)
-                      , check_name = stringr::str_squish(check_name)
+        # simple removals (digits)
+        dplyr::mutate(original_name = stringr::str_squish(original_name)
+                      , check_name = gsub("[[:digit:]]+", "", original_name)
                       ) %>%
         # convert to 'long' format on each word boundary in original_name
-        tidytext::unnest_tokens(word, check_name, to_lower = FALSE, drop = FALSE) %>%
+        tidytext::unnest_tokens(word, check_name, to_lower = FALSE) %>%
+        # filter single letter words
+        dplyr::filter(! (base::nchar(word) == 1)) %>%
+        # filter not_names
+        dplyr::filter(! (base::tolower(word) %in% not_names)) %>%
         # add in a row number
         dplyr::group_by(original_name) %>%
         dplyr::mutate(row_n = dplyr::row_number()) %>%
@@ -411,10 +414,37 @@
                       ) %>%
         dplyr::count(original_name, name = "words") %>%
         dplyr::right_join(new) %>%
-        dplyr::mutate(original_is_tri = words > 2) %>%
+        dplyr::mutate(original_is_tri = dplyr::case_when(
+          # a few cases referencing 'all subspecies"
+          base::grepl("all\\ssubspecies", original_name) ~ FALSE,
+          # the original name matches tri_strings
+          base::grepl(paste0(tri_strings
+                             , collapse = "|"
+                             )
+                      , original_name
+                      ) ~ TRUE,
+          # more than 2 words (after cleaning up words in original_name)
+          words > 2 ~ TRUE,
+          # odd case where the matched name has tri_string but the original_name didn't
+          base::grepl(paste0(tri_strings
+                             , collapse = "|"
+                             )
+                      , scientific_name
+                      ) ~ TRUE,
+          # anything else is not a trinomial
+          TRUE ~ FALSE
+          )
+          ) %>%
         dplyr::select(-words) %>%
         dplyr::distinct()
 
+      # NA override?-----
+      if("override" %in% names(new)) {
+
+        new <- new %>%
+          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
+
+      }
 
       # save -------
       message("saving results to ", taxonomy_file)

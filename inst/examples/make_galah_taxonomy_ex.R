@@ -5,13 +5,20 @@
   temp_file <- tempfile()
 
   taxa_df <- tibble::tibble(taxa = c("Charadrius rubricollis"
-                                      , "Thinornis cucullatus"
-                                      , "Melithreptus gularis laetior"
-                                      , "Melithreptus gularis gularis"
-                                      , "Eucalyptus viminalis"
-                                      , "Eucalyptus viminalis cygnetensis"
+                                     , "Thinornis cucullatus"
+                                     , "Melithreptus gularis laetior"
+                                     , "Melithreptus gularis gularis"
+                                     , "Eucalyptus viminalis"
+                                     , "Eucalyptus viminalis cygnetensis"
                                      , "Eucalyptus"
-                                      )
+                                     , "Charadrius mongolus all subspecies"
+                                     , "Bettongia lesueur Barrow and Boodie Islands subspecies"
+                                     , "Lagorchestes hirsutus Central Australian subspecies"
+                                     , "Perameles gunnii Victorian subspecies"
+                                     , "Pterostylis sp. Rock ledges (pl. 185, Bates & Weber 1990)"
+                                     , "Spyridium glabrisepalum"
+                                     , "Spyridium eriocephalum var. glabrisepalum"
+                                     )
                             )
 
   # make taxonomy (returns list and writes taxonomy_file)
@@ -72,4 +79,4 @@
 
   # clean up
   rm(taxonomy)
-  unlist(temp_file)
+  unlist(paste0(temp_file, ".parquet"))

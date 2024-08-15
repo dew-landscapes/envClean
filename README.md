@@ -157,6 +157,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |`envClean::make_gbif_taxonomy()`  |function                   |Make taxonomy lookups                                                         |
 |`envClean::make_ind_status()`     |function                   |Make indigenous status lookup                                                 |
 |`envClean::make_lifeform()`       |function                   |Get unique lifeform across taxa, perhaps including further context            |
+|`envClean::make_subspecies_col()` |function                   |Make a subspecies column                                                      |
 |`envClean::make_taxonomy()`       |function                   |Get taxonomy via code{galah::taxa_search()}                                   |
 |`envClean::rec_vis_sit_tax()`     |function                   |How many records, visits, sites and taxa in a dataframe                       |
 |`envClean::reduce_geo_rel()`      |function                   |Reduce data frame to a single spatial reliability within a context            |
