@@ -373,7 +373,7 @@
                           , rank_adj = dplyr::case_when(change_taxa ~ returned_rank
                                                         , TRUE ~ rank_adj
                                                         )
-                          , rank_adj = factor(rank_adj, levels = lurank$rank, ordered = TRUE)
+                          , rank_adj = factor(rank_adj, levels = levels(new$rank_adj), ordered = TRUE)
                           ) %>%
             dplyr::group_by(original_name) %>%
             dplyr::mutate(rank_adj = max(rank_adj)) %>%

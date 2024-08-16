@@ -138,7 +138,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 \examples{
 
   # setup
-  library("envClean")
+  # library("envClean")
 
   temp_file <- tempfile()
 
@@ -156,6 +156,9 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Pterostylis sp. Rock ledges (pl. 185, Bates & Weber 1990)"
                                      , "Spyridium glabrisepalum"
                                      , "Spyridium eriocephalum var. glabrisepalum"
+                                     , "Petrogale lateralis (MacDonnell Ranges race)"
+                                     , "Gehyra montium (revised)"
+                                     , "Korthalsella japonica f. japonica"
                                      )
                             )
 
