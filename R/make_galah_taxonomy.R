@@ -144,6 +144,7 @@
                                             , "al"
                                             , "and"
                                             , "pl"
+                                            , "revised"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
@@ -360,17 +361,25 @@
             dplyr::mutate(returned_rank = factor(gsub("use_", "", returned_rank), levels = levels(lurank$rank), ordered = TRUE))
 
           combined_overrides <- searched_overrides %>%
-            tidyr::pivot_longer(tidyselect::any_of(lurank$rank), names_to = "returned_rank", values_to = "taxa") %>%
+            tidyr::pivot_longer(tidyselect::any_of(lurank$rank)
+                                , names_to = "returned_rank"
+                                , values_to = "taxa"
+                                ) %>%
             dplyr::left_join(overrides_long) %>%
             dplyr::mutate(change_taxa = is.na(taxa) & !is.na(new_taxa)) %>%
             dplyr::mutate(taxa = dplyr::case_when(change_taxa ~ new_taxa
                                                   , TRUE ~ taxa
                                                   )
+                          , rank_adj = dplyr::case_when(change_taxa ~ returned_rank
+                                                        , TRUE ~ rank_adj
+                                                        )
+                          , rank_adj = factor(rank_adj, levels = lurank$rank, ordered = TRUE)
                           ) %>%
+            dplyr::group_by(original_name) %>%
+            dplyr::mutate(rank_adj = max(rank_adj)) %>%
+            dplyr::ungroup() %>%
             dplyr::select(-new_taxa, -change_taxa) %>%
-            tidyr::pivot_wider(names_from = returned_rank, values_from = taxa) %>%
-            dplyr::mutate(stamp = Sys.time()) %>%
-            make_subspecies_col()
+            tidyr::pivot_wider(names_from = returned_rank, values_from = taxa)
 
         }
 
@@ -390,9 +399,11 @@
         tidyr::nest(authors = c(word))
 
       new <- new %>%
-        # simple removals (digits)
+        # simple removals (digits then hyphens)
         dplyr::mutate(original_name = stringr::str_squish(original_name)
                       , check_name = gsub("[[:digit:]]+", "", original_name)
+                      # make sure hyphenated names come through as one, not two, names
+                      , check_name = gsub("[a-z]\\-[a-z]", "", check_name)
                       ) %>%
         # convert to 'long' format on each word boundary in original_name
         tidytext::unnest_tokens(word, check_name, to_lower = FALSE) %>%
