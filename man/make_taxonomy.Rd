@@ -203,7 +203,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
   # C. rubricollis binned to Phalarope lobatus at species level!
   taxonomy <- make_taxonomy(df = overrides
                             , taxonomy_file = temp_file
-                            , needed_ranks = c("species")
+                            , needed_ranks = c("species", "subspecies")
                             )
 
   taxonomy$species

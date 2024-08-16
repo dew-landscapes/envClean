@@ -323,6 +323,9 @@
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)) %>%
         dplyr::select(!matches("^issues$")) %>%
+        dplyr::group_by(original_name) %>%
+        dplyr::filter(stamp == max(stamp)) %>%
+        dplyr::ungroup() %>%
         dplyr::distinct() %>%
         make_subspecies_col()
 
@@ -330,6 +333,18 @@
 
       # overrides --------
       if(!is.null(overrides)) {
+
+        if("override" %in% names(new)) {
+
+          new <- new %>%
+            dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
+
+        } else {
+
+          new <- new %>% dplyr::mutate(override = FALSE)
+
+        }
+
 
         # rename taxa_col
         overrides <- overrides %>%
@@ -340,6 +355,24 @@
                                                         )
                         )
 
+        ## check unique overrides------
+        overrides <- overrides %>%
+          dplyr::distinct()
+
+        override_check <- overrides %>%
+          dplyr::count(original_name) %>%
+          dplyr::filter(n > 1)
+
+        if(nrow(override_check)) {
+
+          stop("duplicates exist in override column '"
+               , taxa_col
+               , "': "
+               , envFunc::vec_to_sentence(override_check$original_name)
+               )
+
+        }
+
         new <- new %>%
           dplyr::anti_join(overrides %>%
                              dplyr::distinct(original_name)
@@ -349,6 +382,7 @@
         # attempt 1: match by galah::search_taxa
         searched_overrides <- overrides %>%
           dplyr::bind_cols(galah::search_taxa(overrides$taxa_to_search)) %>%
+          dplyr::select(- matches("issues")) %>%
           make_subspecies_col()
 
         # attempt 2: replace with override if match was not at suitable level in galah::search_taxa
@@ -388,6 +422,14 @@
                              dplyr::mutate(override = TRUE)
                            ) %>%
           dplyr::select(tidyselect::any_of(out_names))
+
+      }
+
+      # final cleanup of override col
+      if("override" %in% names(new)) {
+
+        new <- new %>%
+          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
 
       }
 
@@ -448,14 +490,6 @@
           ) %>%
         dplyr::select(-words) %>%
         dplyr::distinct()
-
-      # NA override?-----
-      if("override" %in% names(new)) {
-
-        new <- new %>%
-          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
-
-      }
 
       # save -------
       message("saving results to ", taxonomy_file)
