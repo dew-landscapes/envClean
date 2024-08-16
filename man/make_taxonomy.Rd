@@ -15,7 +15,7 @@ make_taxonomy(
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "dead"),
   not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
-    "cf", "lineage", "group", "et", "al", "and", "pl"),
+    "cf", "lineage", "group", "et", "al", "and", "pl", "revised"),
   tri_strings = c("\\\\sssp\\\\s", "\\\\sssp\\\\.\\\\s", "\\\\svar\\\\s",
     "\\\\svar\\\\.\\\\s", "\\\\ssubsp\\\\.", "\\\\ssubspecies", "\\\\sform\\\\)",
     "\\\\sform\\\\s", "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)",
