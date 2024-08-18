@@ -77,7 +77,7 @@ and for each of the original names provided, the best result at genus level
 <span>  force_new <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>original_name <span class="op">=</span> <span class="cn">NULL</span>, timediff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/difftime.html" class="external-link">as.difftime</a></span><span class="op">(</span><span class="fl">26</span>, units <span class="op">=</span> <span class="st">"weeks"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  remove_taxa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bold:"</span>, <span class="st">"BOLD:"</span>, <span class="st">"unverified"</span>, <span class="st">"annual herb"</span>, <span class="st">"annual grass"</span>,</span>
 <span>    <span class="st">"incertae sedis"</span>, <span class="st">"\\?"</span>, <span class="st">"another species"</span>, <span class="st">"not naturalised in SA"</span>,</span>
-<span>    <span class="st">"unidentified"</span>, <span class="st">"unverified"</span>, <span class="st">"annual tussock grass"</span>, <span class="st">"*no id"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"unidentified"</span>, <span class="st">"unverified"</span>, <span class="st">"annual tussock grass"</span>, <span class="st">"*no id"</span>, <span class="st">"spec\\."</span><span class="op">)</span>,</span>
 <span>  remove_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\s\\-\\-\\s.*"</span>, <span class="st">"\\ssp\\.$"</span>, <span class="st">"\\sssp\\.$"</span>,</span>
 <span>    <span class="st">"\\sspec\\.$"</span>, <span class="st">"dead"</span><span class="op">)</span>,</span>
 <span>  not_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sp"</span>, <span class="st">"ssp"</span>, <span class="st">"var"</span>, <span class="st">"subsp"</span>, <span class="st">"subspecies"</span>, <span class="st">"form"</span>, <span class="st">"race"</span>, <span class="st">"nov"</span>, <span class="st">"aff"</span>,</span>
@@ -110,9 +110,7 @@ and appear in the results list element <code>lutaxa</code>in a column called
 
 <dt>taxonomy_file</dt>
 <dd><p>Character. File path to save results to. File type
-ignored. .parquet file used, partitioned on kingdom. If using this file
-directly (rather than via return_taxonomy = TRUE) remember to ungroup the
-result returned via <code><a href="https://arrow.apache.org/docs/r/reference/open_dataset.html" class="external-link">arrow::open_dataset()</a></code>.</p></dd>
+ignored. .parquet file used.</p></dd>
 
 
 <dt>force_new</dt>
@@ -254,7 +252,8 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp4YRe6N\file46a023751e4a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpSU9VgT\file5a4c5a6b7354.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -460,7 +459,8 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp4YRe6N\file46a023751e4a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpSU9VgT\file5a4c5a6b7354.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
@@ -535,7 +535,8 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp4YRe6N\file46a023751e4a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpSU9VgT\file5a4c5a6b7354.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -570,7 +571,8 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name, returned_rank)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\Rtmp4YRe6N\file46a023751e4a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpSU9VgT\file5a4c5a6b7354.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -618,7 +620,7 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>  <span class="co"># clean up</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">temp_file</span>, <span class="st">".parquet"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\Rtmp4YRe6N\\file46a023751e4a.parquet"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\RtmpSU9VgT\\file5a4c5a6b7354.parquet"</span>
 </code></pre></div>
     </div>
   </div>

@@ -137,6 +137,7 @@ The following functions and data sets are provided in `envClean`. See https://ac
 |`envClean::bin_taxa()`            |function                   |Add code{taxa} column                                                         |
 |`envClean::cleaning_summary()`    |function                   |Describte change in taxa, records, visits and sites between cleaning steps    |
 |`envClean::cleaning_text()`       |function                   |Write a sentence describing change in taxa, records, visits and sites between |
+|`envClean::clean_quotes()`        |function                   |Remove any ' or " from specified columns in a dataframe                       |
 |`envClean::filter_counts()`       |function                   |Filter any context with less instances than a threshold value                 |
 |`envClean::filter_geo_range()`    |function                   |Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)   |
 |`envClean::filter_prop()`         |function                   |Filter taxa recorded at less than x percent of visits                         |

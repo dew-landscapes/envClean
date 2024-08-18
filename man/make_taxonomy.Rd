@@ -11,7 +11,7 @@ make_taxonomy(
   force_new = list(original_name = NULL, timediff = as.difftime(26, units = "weeks")),
   remove_taxa = c("bold:", "BOLD:", "unverified", "annual herb", "annual grass",
     "incertae sedis", "\\\\?", "another species", "not naturalised in SA",
-    "unidentified", "unverified", "annual tussock grass", "*no id"),
+    "unidentified", "unverified", "annual tussock grass", "*no id", "spec\\\\."),
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "dead"),
   not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
@@ -37,9 +37,7 @@ and appear in the results list element \code{lutaxa}in a column called
 \code{original_name}}
 
 \item{taxonomy_file}{Character. File path to save results to. File type
-ignored. .parquet file used, partitioned on kingdom. If using this file
-directly (rather than via return_taxonomy = TRUE) remember to ungroup the
-result returned via \code{arrow::open_dataset()}.}
+ignored. .parquet file used.}
 
 \item{force_new}{List with elements \code{difftime} and any column name from
 \code{taxonomy_file}. If \code{taxonomy_file} already exists any column matches between
