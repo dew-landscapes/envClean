@@ -502,9 +502,16 @@
                   , file = taxonomy_file
                   )
 
+      no_matches <- new %>%
+        dplyr::filter(dplyr::if_all(tidyselect::any_of(lurank$rank)
+                                    , \(x) is.na(x)
+                                    )
+                      ) %>%
+        dplyr::pull(original_name)
+
       message("The following were completely unmatched: "
-              , envFunc::vec_to_sentence(new$original_name[is.na(new$scientific_name)])
-              , ". Perhaps add an override for each unmatched taxa?"
+              , envFunc::vec_to_sentence(no_matches)
+              , ". Consider providing more taxonomic levels, or an override, for each unmatched taxa?"
               )
 
     }

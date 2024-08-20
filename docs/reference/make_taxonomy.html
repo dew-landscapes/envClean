@@ -240,6 +240,7 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>                                     , <span class="st">"Petrogale lateralis (MacDonnell Ranges race)"</span></span></span>
 <span class="r-in"><span>                                     , <span class="st">"Gehyra montium (revised)"</span></span></span>
 <span class="r-in"><span>                                     , <span class="st">"Korthalsella japonica f. japonica"</span></span></span>
+<span class="r-in"><span>                                     , <span class="st">"Not a taxa"</span></span></span>
 <span class="r-in"><span>                                     <span class="op">)</span></span></span>
 <span class="r-in"><span>                            <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -250,17 +251,21 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>                            , needed_ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"kingdom"</span>, <span class="st">"genus"</span>, <span class="st">"species"</span>, <span class="st">"subspecies"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                            <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Matched <span style="font-weight: bold;">17 of 18</span> taxonomic search terms in selected atlas (Australia).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">1 unmatched search term:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Not a taxa"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpAhRu7c\file3fc8791b3cad.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpIDGFb7\file4160482b3aa4.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Not a taxa. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">raw</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 19</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 18 × 19</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    original_name              search_term scientific_name scientific_name_auth…¹</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Bettongia lesueur Barrow … Bettongia … Bettongia lesu… <span style="color: #BB0000;">NA</span>                    </span>
@@ -274,12 +279,13 @@ taxonomic hierarchy</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Lagorchestes hirsutus Cen… Lagorchest… Lagorchestes h… Gould, 1844           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Melithreptus gularis gula… Melithrept… Melithreptus (… (Gould, 1837)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Melithreptus gularis laet… Melithrept… Melithreptus (… Gould, 1875           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Perameles gunnii Victoria… Perameles … Perameles gunn… <span style="color: #BB0000;">NA</span>                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> Petrogale lateralis (MacD… Petrogale … Petrogale late… Gould, 1842           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> Pterostylis sp. Rock ledg… Pterostyli… Pterostylis     R.Br.                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Spyridium eriocephalum va… Spyridium … Spyridium erio… J.M.Black             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> Spyridium glabrisepalum    Spyridium … Spyridium erio… J.M.Black             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> Thinornis cucullatus       Thinornis … Thinornis cucu… (Vieillot, 1818)      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Not a taxa                 Not a taxa  <span style="color: #BB0000;">NA</span>              <span style="color: #BB0000;">NA</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> Perameles gunnii Victoria… Perameles … Perameles gunn… <span style="color: #BB0000;">NA</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> Petrogale lateralis (MacD… Petrogale … Petrogale late… Gould, 1842           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Pterostylis sp. Rock ledg… Pterostyli… Pterostylis     R.Br.                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> Spyridium eriocephalum va… Spyridium … Spyridium erio… J.M.Black             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> Spyridium glabrisepalum    Spyridium … Spyridium erio… J.M.Black             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> Thinornis cucullatus       Thinornis … Thinornis cucu… (Vieillot, 1818)      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​scientific_name_authorship</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15 more variables: taxon_concept_id &lt;chr&gt;, rank &lt;ord&gt;, match_type &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span>
@@ -459,8 +465,8 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpAhRu7c\file3fc8791b3cad.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpIDGFb7\file4160482b3aa4.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Not a taxa. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
@@ -535,8 +541,8 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpAhRu7c\file3fc8791b3cad.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpIDGFb7\file4160482b3aa4.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Not a taxa. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -579,8 +585,8 @@ taxonomic hierarchy</p></li>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name, returned_rank)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpAhRu7c\file3fc8791b3cad.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: . Perhaps add an override for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to H:/temp/nige\RtmpIDGFb7\file4160482b3aa4.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Not a taxa. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -644,7 +650,7 @@ taxonomic hierarchy</p></li>
 <span class="r-in"><span>  <span class="co"># clean up</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">temp_file</span>, <span class="st">".parquet"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\RtmpAhRu7c\\file3fc8791b3cad.parquet"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "H:/temp/nige\\RtmpIDGFb7\\file4160482b3aa4.parquet"</span>
 </code></pre></div>
     </div>
   </div>

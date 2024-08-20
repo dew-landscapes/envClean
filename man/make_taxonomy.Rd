@@ -157,6 +157,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Petrogale lateralis (MacDonnell Ranges race)"
                                      , "Gehyra montium (revised)"
                                      , "Korthalsella japonica f. japonica"
+                                     , "Not a taxa"
                                      )
                             )
 
