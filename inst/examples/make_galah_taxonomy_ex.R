@@ -1,6 +1,6 @@
 
   # setup
-  library("envClean")
+  # library("envClean")
 
   temp_file <- tempfile()
 
@@ -18,6 +18,9 @@
                                      , "Pterostylis sp. Rock ledges (pl. 185, Bates & Weber 1990)"
                                      , "Spyridium glabrisepalum"
                                      , "Spyridium eriocephalum var. glabrisepalum"
+                                     , "Petrogale lateralis (MacDonnell Ranges race)"
+                                     , "Gehyra montium (revised)"
+                                     , "Korthalsella japonica f. japonica"
                                      )
                             )
 
@@ -62,7 +65,7 @@
   # C. rubricollis binned to Phalarope lobatus at species level!
   taxonomy <- make_taxonomy(df = overrides
                             , taxonomy_file = temp_file
-                            , needed_ranks = c("species")
+                            , needed_ranks = c("species", "subspecies")
                             )
 
   taxonomy$species

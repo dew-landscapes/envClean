@@ -11,11 +11,11 @@ make_taxonomy(
   force_new = list(original_name = NULL, timediff = as.difftime(26, units = "weeks")),
   remove_taxa = c("bold:", "BOLD:", "unverified", "annual herb", "annual grass",
     "incertae sedis", "\\\\?", "another species", "not naturalised in SA",
-    "unidentified", "unverified", "annual tussock grass", "*no id"),
+    "unidentified", "unverified", "annual tussock grass", "*no id", "spec\\\\."),
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "dead"),
   not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
-    "cf", "lineage", "group", "et", "al", "and", "pl"),
+    "cf", "lineage", "group", "et", "al", "and", "pl", "revised"),
   tri_strings = c("\\\\sssp\\\\s", "\\\\sssp\\\\.\\\\s", "\\\\svar\\\\s",
     "\\\\svar\\\\.\\\\s", "\\\\ssubsp\\\\.", "\\\\ssubspecies", "\\\\sform\\\\)",
     "\\\\sform\\\\s", "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)",
@@ -37,9 +37,7 @@ and appear in the results list element \code{lutaxa}in a column called
 \code{original_name}}
 
 \item{taxonomy_file}{Character. File path to save results to. File type
-ignored. .parquet file used, partitioned on kingdom. If using this file
-directly (rather than via return_taxonomy = TRUE) remember to ungroup the
-result returned via \code{arrow::open_dataset()}.}
+ignored. .parquet file used.}
 
 \item{force_new}{List with elements \code{difftime} and any column name from
 \code{taxonomy_file}. If \code{taxonomy_file} already exists any column matches between
@@ -138,7 +136,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 \examples{
 
   # setup
-  library("envClean")
+  # library("envClean")
 
   temp_file <- tempfile()
 
@@ -156,6 +154,9 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Pterostylis sp. Rock ledges (pl. 185, Bates & Weber 1990)"
                                      , "Spyridium glabrisepalum"
                                      , "Spyridium eriocephalum var. glabrisepalum"
+                                     , "Petrogale lateralis (MacDonnell Ranges race)"
+                                     , "Gehyra montium (revised)"
+                                     , "Korthalsella japonica f. japonica"
                                      )
                             )
 
@@ -200,7 +201,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
   # C. rubricollis binned to Phalarope lobatus at species level!
   taxonomy <- make_taxonomy(df = overrides
                             , taxonomy_file = temp_file
-                            , needed_ranks = c("species")
+                            , needed_ranks = c("species", "subspecies")
                             )
 
   taxonomy$species

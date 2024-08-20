@@ -19,9 +19,7 @@
 #' and appear in the results list element `lutaxa`in a column called
 #' `original_name`
 #' @param taxonomy_file Character. File path to save results to. File type
-#' ignored. .parquet file used, partitioned on kingdom. If using this file
-#' directly (rather than via return_taxonomy = TRUE) remember to ungroup the
-#' result returned via `arrow::open_dataset()`.
+#' ignored. .parquet file used.
 #' @param force_new List with elements `difftime` and any column name from
 #' `taxonomy_file`. If `taxonomy_file` already exists any column matches between
 #' `force_new` and `taxonomy_file`, matching levels within that column will be
@@ -121,6 +119,7 @@
                                               , "unverified"
                                               , "annual tussock grass"
                                               , "*no id"
+                                              , "spec\\."
                                               )
                             , remove_strings = c("\\s\\-\\-\\s.*" # blah -- abc xyz
                                                  , "\\ssp\\.$" # blah sp.END
@@ -144,6 +143,7 @@
                                             , "al"
                                             , "and"
                                             , "pl"
+                                            , "revised"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
@@ -186,10 +186,9 @@
       if(file.exists(taxonomy_file)) {
 
         # previous -------
-        previous <- arrow::open_dataset(taxonomy_file) %>%
-          dplyr::collect() %>%
-          dplyr::ungroup() %>%
-          dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name))
+        previous <- rio::import(taxonomy_file) %>%
+          dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name)) %>%
+          clean_quotes()
 
         # force_new -------
         if(!is.null(force_new$timediff)) {
@@ -232,6 +231,7 @@
 
       to_check <- df %>%
         dplyr::rename(tidyselect::all_of(rename_taxa_col)) %>%
+        clean_quotes() %>%
         dplyr::distinct(dplyr::across(tidyselect::any_of(lurank$rank)), original_name) %>%
         dplyr::filter(!grepl(paste0(remove_taxa
                                     , collapse = "|"
@@ -322,13 +322,30 @@
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)) %>%
         dplyr::select(!matches("^issues$")) %>%
+        clean_quotes() %>%
+        dplyr::group_by(original_name) %>%
+        dplyr::filter(stamp == max(stamp)) %>%
+        dplyr::ungroup() %>%
         dplyr::distinct() %>%
         make_subspecies_col()
 
-      out_names <- c(names(new), "override")
+      out_names <- c(names(new), "override") %>%
+        grep("searched_name", ., value = TRUE, invert = TRUE)
 
       # overrides --------
       if(!is.null(overrides)) {
+
+        if("override" %in% names(new)) {
+
+          new <- new %>%
+            dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
+
+        } else {
+
+          new <- new %>% dplyr::mutate(override = FALSE)
+
+        }
+
 
         # rename taxa_col
         overrides <- overrides %>%
@@ -337,7 +354,26 @@
                                                         , original_name
                                                         , taxa_to_search
                                                         )
-                        )
+                        ) %>%
+          clean_quotes()
+
+        ## check unique overrides------
+        overrides <- overrides %>%
+          dplyr::distinct()
+
+        override_check <- overrides %>%
+          dplyr::count(original_name) %>%
+          dplyr::filter(n > 1)
+
+        if(nrow(override_check)) {
+
+          stop("duplicates exist in override column '"
+               , taxa_col
+               , "': "
+               , envFunc::vec_to_sentence(override_check$original_name)
+               )
+
+        }
 
         new <- new %>%
           dplyr::anti_join(overrides %>%
@@ -348,6 +384,8 @@
         # attempt 1: match by galah::search_taxa
         searched_overrides <- overrides %>%
           dplyr::bind_cols(galah::search_taxa(overrides$taxa_to_search)) %>%
+          dplyr::select(- matches("issues")) %>%
+          clean_quotes() %>%
           make_subspecies_col()
 
         # attempt 2: replace with override if match was not at suitable level in galah::search_taxa
@@ -360,17 +398,26 @@
             dplyr::mutate(returned_rank = factor(gsub("use_", "", returned_rank), levels = levels(lurank$rank), ordered = TRUE))
 
           combined_overrides <- searched_overrides %>%
-            tidyr::pivot_longer(tidyselect::any_of(lurank$rank), names_to = "returned_rank", values_to = "taxa") %>%
+            tidyr::pivot_longer(tidyselect::any_of(lurank$rank)
+                                , names_to = "returned_rank"
+                                , values_to = "taxa"
+                                ) %>%
             dplyr::left_join(overrides_long) %>%
             dplyr::mutate(change_taxa = is.na(taxa) & !is.na(new_taxa)) %>%
             dplyr::mutate(taxa = dplyr::case_when(change_taxa ~ new_taxa
                                                   , TRUE ~ taxa
                                                   )
+                          , rank_adj = dplyr::case_when(change_taxa ~ returned_rank
+                                                        , TRUE ~ rank_adj
+                                                        )
+                          , rank_adj = factor(rank_adj, levels = levels(new$rank_adj), ordered = TRUE)
                           ) %>%
+            dplyr::group_by(original_name) %>%
+            dplyr::mutate(rank_adj = max(rank_adj)) %>%
+            dplyr::ungroup() %>%
             dplyr::select(-new_taxa, -change_taxa) %>%
             tidyr::pivot_wider(names_from = returned_rank, values_from = taxa) %>%
-            dplyr::mutate(stamp = Sys.time()) %>%
-            make_subspecies_col()
+            dplyr::select(tidyselect::any_of(out_names))
 
         }
 
@@ -382,6 +429,14 @@
 
       }
 
+      # final cleanup of override col
+      if("override" %in% names(new)) {
+
+        new <- new %>%
+          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
+
+      }
+
       # original_is_tri -------
       authors <- new %>%
         dplyr::select(original_name, scientific_name_authorship) %>%
@@ -390,9 +445,11 @@
         tidyr::nest(authors = c(word))
 
       new <- new %>%
-        # simple removals (digits)
+        # simple removals (digits then hyphens)
         dplyr::mutate(original_name = stringr::str_squish(original_name)
                       , check_name = gsub("[[:digit:]]+", "", original_name)
+                      # make sure hyphenated names come through as one, not two, names
+                      , check_name = gsub("[a-z]\\-[a-z]", "", check_name)
                       ) %>%
         # convert to 'long' format on each word boundary in original_name
         tidytext::unnest_tokens(word, check_name, to_lower = FALSE) %>%
@@ -438,20 +495,17 @@
         dplyr::select(-words) %>%
         dplyr::distinct()
 
-      # NA override?-----
-      if("override" %in% names(new)) {
-
-        new <- new %>%
-          dplyr::mutate(override = dplyr::if_else(is.na(override), FALSE, override))
-
-      }
-
       # save -------
       message("saving results to ", taxonomy_file)
 
-      arrow::write_dataset(new
-                           , path = taxonomy_file
-                           )
+      rio::export(new
+                  , file = taxonomy_file
+                  )
+
+      message("The following were completely unmatched: "
+              , envFunc::vec_to_sentence(new$original_name[is.na(new$scientific_name)])
+              , ". Perhaps add an override for each unmatched taxa?"
+              )
 
     }
 
@@ -462,9 +516,7 @@
       if(!exists("new", inherits = FALSE)) {
 
         # if make_taxonomy called with df = NULL
-        new <- arrow::open_dataset(taxonomy_file) %>%
-          dplyr::collect() %>%
-          dplyr::ungroup()
+        new <- rio::import(taxonomy_file)
 
       }
 
@@ -498,7 +550,8 @@
                                 this_rank <- as.character(x)
 
                                 base <- long %>%
-                                  dplyr::filter(returned_rank >= x)
+                                  dplyr::filter(returned_rank >= x) %>%
+                                  dplyr::distinct()
 
                                 rank_taxonomy <- list()
 
@@ -520,6 +573,14 @@
                                                    ) %>%
                                   dplyr::select(-original_name) %>%
                                   dplyr::distinct()
+
+                                if(any(purrr::map_lgl(rank_taxonomy$taxonomy, \(x) is.list(x)))) {
+
+                                  stop("Duplicates have created list columns. The following taxa are duplicated: "
+                                       , rank_taxonomy$taxonomy %>% dplyr::count(taxa) %>% dplyr::filter(n > 1) %>% dplyr::inner_join(rank_taxonomy$lutaxa) %>% dplyr::pull(original_name) %>% unique() %>% envFunc::vec_to_sentence()
+                                       )
+
+                                }
 
                                 return(rank_taxonomy)
 
