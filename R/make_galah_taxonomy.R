@@ -54,7 +54,8 @@
 #' level `x` results will be taken from `use_x`.
 #'
 #' @return Null or list (depending on `return_taxonomy`). Writes
-#' `taxonomy_file`. `taxa_col` will be `original_name` in any outputs.
+#' `taxonomy_file`. `taxa_col` will be `original_name` in any outputs. Note that
+#' `taxa_col`, as `original_name`, will have any quotes removed.
 #' If list, then elements:
 #' \itemize{
 #'   \item raw - the 'raw' results returned from `galah::search_taxa()`, tweaked
@@ -144,6 +145,7 @@
                                             , "and"
                                             , "pl"
                                             , "revised"
+                                            , "nov"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
@@ -191,6 +193,7 @@
           clean_quotes()
 
         # force_new -------
+        ## timediff--------
         if(!is.null(force_new$timediff)) {
 
           previous <- previous %>%
@@ -204,6 +207,7 @@
                           )
         }
 
+        ## other force_new-------
         if(any(names(force_new) %in% names(previous))) {
 
           force_new_cols <- force_new[names(force_new) %in% names(previous)]
@@ -225,6 +229,7 @@
 
       }
 
+      # to_check---------
       # Rename taxa_col (and make a 'searched' name)
 
       rename_taxa_col <- c(original_name = names(df[taxa_col]))
@@ -233,6 +238,7 @@
         dplyr::rename(tidyselect::all_of(rename_taxa_col)) %>%
         clean_quotes() %>%
         dplyr::distinct(dplyr::across(tidyselect::any_of(lurank$rank)), original_name) %>%
+        # Remove 'remove_taxa"
         dplyr::filter(!grepl(paste0(remove_taxa
                                     , collapse = "|"
                                     )
@@ -240,7 +246,14 @@
                              )
                       , original_name != ""
                       ) %>%
+        # Don't check taxa that already have a result
         dplyr::anti_join(previous) %>%
+        # Don't check taxa that will be checked in overrides
+        {if(!is.null(overrides)) (.) %>%
+           dplyr::anti_join(overrides %>%
+                            dplyr::select(tidyselect::all_of(rename_taxa_col))
+                            ) else (.)} %>%
+        # Remove strings
         dplyr::mutate(searched_name = gsub(paste0(remove_strings
                                                     , collapse = "|"
                                                     )
@@ -410,14 +423,15 @@
                           , rank_adj = dplyr::case_when(change_taxa ~ returned_rank
                                                         , TRUE ~ rank_adj
                                                         )
-                          , rank_adj = factor(rank_adj, levels = levels(new$rank_adj), ordered = TRUE)
+                          , rank_adj = factor(rank_adj, levels = levels(lurank$rank), ordered = TRUE)
                           ) %>%
             dplyr::group_by(original_name) %>%
-            dplyr::mutate(rank_adj = max(rank_adj)) %>%
+            dplyr::mutate(rank_adj = max(rank_adj, na.rm = TRUE)) %>%
             dplyr::ungroup() %>%
             dplyr::select(-new_taxa, -change_taxa) %>%
             tidyr::pivot_wider(names_from = returned_rank, values_from = taxa) %>%
-            dplyr::select(tidyselect::any_of(out_names))
+            dplyr::select(tidyselect::any_of(out_names)) %>%
+            dplyr::mutate(stamp = Sys.time())
 
         }
 
@@ -530,7 +544,8 @@
       res <- list(raw = new %>%
                     {if(all(limit, !is.null(df))) (.) %>% dplyr::inner_join(df %>%
                                                                               dplyr::rename(tidyselect::any_of(rename_taxa_col)) %>%
-                                                                              dplyr::distinct(original_name)
+                                                                              dplyr::distinct(original_name) %>%
+                                                                              clean_quotes()
                                                                             ) else (.)
                     } %>%
                     dplyr::distinct()
