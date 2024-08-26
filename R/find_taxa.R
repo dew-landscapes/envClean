@@ -4,28 +4,29 @@
 #' match genus level records, not species records, such as
 #' _Eucalyptus leucoxylon_.
 #'
-#' @param taxa Character. Taxa name to find.
+#' @param taxa_to_find Character. Taxa name to find.
 #' @param taxa_cols Character. Name of column(s) across data frames containing
 #' taxa information.
-#' @param lookup_taxa Dataframe with columns names matching `taxa_cols`.
+#' @param lutaxa Dataframe with column names matching `taxa_cols`, usually,
+#' say, `taxonomy$species$lutaxa` as a result of `make_taxonomy()`.
 #' @param filt_df_prefix Character. Prefix used in each of the data frames
 #' created at each step in the filtering process.
 #'
 #' @return
 #' @export
 #'
-#' @example inst/examples/find_taxa.R
-find_taxa <- function(taxa
+#' @example inst/examples/find_taxa_ex.R
+find_taxa <- function(taxa_to_find
                       , taxa_cols = c("original_name", "taxa")
-                      , lookup_taxa
+                      , lutaxa
                       , filt_df_prefix = "flor_"
                       ) {
 
   cols_out <- c("name", "taxas")
 
-  find_string <- paste0(taxa, collapse = "|")
+  find_string <- paste0(taxa_to_find, collapse = "|")
 
-  to_find <- lookup_taxa %>%
+  to_find <- lutaxa %>%
     dplyr::filter(if_any(any_of(taxa_cols)
                          , ~ grepl(find_string, .)
                          )
@@ -47,6 +48,7 @@ find_taxa <- function(taxa
                                                )
                   ) %>%
     dplyr::filter(has_stamp) %>%
+    dplyr::filter(purrr::map_lgl(obj, \(x) ! "sf" %in% class(x))) %>%
     dplyr::mutate(nrow = purrr::map_dbl(obj
                                         , nrow
                                         )
@@ -57,32 +59,20 @@ find_taxa <- function(taxa
                                      )
                   ) %>%
     tidyr::unnest(cols = c(ctime)) %>%
-    dplyr::mutate(obj = purrr::map(obj
-                             , . %>%
-                               stats::setNames(gsub(paste0(taxa_cols
-                                                    , collapse = "|"
-                                                    )
-                                             , "taxa"
-                                             , names(.)
-                                             )
-                                        ) %>%
-                               dplyr::filter(grepl(paste0(to_find
-                                                          , collapse = "|"
-                                                          )
-                                                   , taxa
-                                                   )
-                                             ) %>%
-                               dplyr::count(taxa
-                                            , name = "n"
-                                            )
-                             )
-                  , summary = purrr::map_chr(obj
-                                  , ~paste0(taxa
-                                           , " has "
-                                           , sum(.$n)
-                                           , " records"
+    dplyr::mutate(founds = purrr::map(obj
+                                      , \(x) x %>%
+                                        dplyr::select(tidyselect::any_of(taxa_cols)) %>%
+                                        dplyr::filter(dplyr::if_any(tidyselect::any_of(taxa_cols), \(x) x %in% to_find))
+                                      )
+                  , taxa = taxa_to_find
+                  , records = purrr::map_dbl(founds, base::nrow)
+                  , found = purrr::map_chr(founds
+                                           , \(x) x %>%
+                                             dplyr::distinct() %>%
+                                             base::unlist() %>%
+                                             base::unique() %>%
+                                             envFunc::vec_to_sentence()
                                            )
-                                  )
                   ) %>%
     dplyr::arrange(desc(nrow), ctime)
 
