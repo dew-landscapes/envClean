@@ -21,6 +21,7 @@
                                      , "Petrogale lateralis (MacDonnell Ranges race)"
                                      , "Gehyra montium (revised)"
                                      , "Korthalsella japonica f. japonica"
+                                     , "Galaxias sp. nov. 'Hunter'"
                                      , "Not a taxa"
                                      )
                             )
