@@ -15,7 +15,7 @@ make_taxonomy(
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "dead"),
   not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
-    "cf", "lineage", "group", "et", "al", "and", "pl", "revised"),
+    "cf", "lineage", "group", "et", "al", "and", "pl", "revised", "nov"),
   tri_strings = c("\\\\sssp\\\\s", "\\\\sssp\\\\.\\\\s", "\\\\svar\\\\s",
     "\\\\svar\\\\.\\\\s", "\\\\ssubsp\\\\.", "\\\\ssubspecies", "\\\\sform\\\\)",
     "\\\\sform\\\\s", "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)",
@@ -82,7 +82,8 @@ level \code{x} results will be taken from \code{use_x}.}
 }
 \value{
 Null or list (depending on \code{return_taxonomy}). Writes
-\code{taxonomy_file}. \code{taxa_col} will be \code{original_name} in any outputs.
+\code{taxonomy_file}. \code{taxa_col} will be \code{original_name} in any outputs. Note that
+\code{taxa_col}, as \code{original_name}, will have any quotes removed.
 If list, then elements:
 \itemize{
 \item raw - the 'raw' results returned from \code{galah::search_taxa()}, tweaked
@@ -157,6 +158,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Petrogale lateralis (MacDonnell Ranges race)"
                                      , "Gehyra montium (revised)"
                                      , "Korthalsella japonica f. japonica"
+                                     , "Galaxias sp. nov. 'Hunter'"
                                      , "Not a taxa"
                                      )
                             )

@@ -2,8 +2,8 @@
 
 #' Add `taxa` column
 #'
-#' `taxa` column is the best match for the name in `taxa_col` based on the
-#' GBIF Backbone Taxonomy.
+#' `taxa` column in returned data frame is the best match for the name in
+#' `taxa_col` based on the supplied taxonomy.
 #'
 #' @param df Dataframe to attribute with best result from GBIF Backbone Taxonomy
 #' @param taxa_col Character. Name of column in `df` with taxa.

@@ -5,19 +5,20 @@
 \title{Find how taxa changed through the cleaning/filtering/tidying process}
 \usage{
 find_taxa(
-  taxa,
+  taxa_to_find,
   taxa_cols = c("original_name", "taxa"),
-  lookup_taxa,
+  lutaxa,
   filt_df_prefix = "flor_"
 )
 }
 \arguments{
-\item{taxa}{Character. Taxa name to find.}
+\item{taxa_to_find}{Character. Taxa name to find.}
 
 \item{taxa_cols}{Character. Name of column(s) across data frames containing
 taxa information.}
 
-\item{lookup_taxa}{Dataframe with columns names matching \code{taxa_cols}.}
+\item{lutaxa}{Dataframe with column names matching \code{taxa_cols}, usually,
+say, \code{taxonomy$species$lutaxa} as a result of \code{make_taxonomy()}.}
 
 \item{filt_df_prefix}{Character. Prefix used in each of the data frames
 created at each step in the filtering process.}
@@ -30,7 +31,7 @@ match genus level records, not species records, such as
 \examples{
 
 
-library(envClean)
+# library(envClean)
 
 # Example taxa
 use_taxa <- "Eucalyptus gracilis"
@@ -59,19 +60,25 @@ flor_recent <- flor_single \%>\%
   dplyr::ungroup() \%>\%
   envFunc::add_time_stamp()
 
-# Make sure required taxonomy objects are available
-taxa <- make_taxa_taxonomy(df = data.frame(original_name = use_taxa))
+# make_taxonomy
+taxa <- make_taxonomy(df = flor_recent)
 
-# Filter taxonomy
-  # As lutaxa only contains `use_taxa`, this removes all other taxa
-  # Normally, you'd have a row in lutaxa for every taxa
+# bin taxa
 flor_taxa <- flor_recent \%>\%
-  filter_taxa(context = context
-              , taxonomy = taxa
-              )
+  bin_taxa(taxonomy = taxa$species)
+
+# distinct over bins
+flor_bin <- flor_taxa \%>\%
+  dplyr::distinct(taxa, dplyr::across(tidyselect::any_of(context)))
 
 # How did records of 'taxa' change through the filtering?
-find_taxa(taxa = use_taxa
-          , lookup_taxa = taxa$lutaxa
+# Eucalyptus gracilis
+find_taxa("Eucalyptus gracilis"
+          , lutaxa = taxa$species$lutaxa
+          )
+
+# Chenopodium nutans
+find_taxa("Chenopodium nutans"
+          , lutaxa = taxa$species$lutaxa
           )
 }

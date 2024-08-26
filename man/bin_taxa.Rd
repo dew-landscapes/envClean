@@ -22,6 +22,6 @@ kingdom for each taxa.}
 Dataframe with added column \code{taxa}, and possibly \code{include_level}s
 }
 \description{
-\code{taxa} column is the best match for the name in \code{taxa_col} based on the
-GBIF Backbone Taxonomy.
+\code{taxa} column in returned data frame is the best match for the name in
+\code{taxa_col} based on the supplied taxonomy.
 }

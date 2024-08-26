@@ -71,9 +71,13 @@
 #' @format A data frame with `r nrow(taxonomy_overrides)` rows and `r ncol(taxonomy_overrides)`
 #' variables:
 #' \describe{
-#'   \item{original}{Character. Original names of taxa}
-#'   \item{prefer}{Character. Preferred taxon to use instead of any result resturned by the galah taxonomy`.}
-#'   \item{note}{Character. Currently has mostly common names.}
+#'   \item{original_name}{Character. Original names of taxa}
+#'   \item{taxa_to_search}{Character. Try searching for this taxa (often the
+#'   same as original_name)}
+#'   \item{use_}{Character. Any number of `use_` columns, such as `use_species`
+#'   and/or `use_subspecies`. If no match is found for `taxa_to_search` these
+#'   names will be used at the rank they imply}
+#'   \item{note}{Usually a rationale for the inclusion}
 #'   ...
 #' }
 "taxonomy_overrides"

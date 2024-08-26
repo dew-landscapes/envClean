@@ -29,16 +29,24 @@ flor_recent <- flor_single %>%
   dplyr::ungroup() %>%
   envFunc::add_time_stamp()
 
-# Make sure required taxonomy objects are available
-taxa <- make_taxonomy(df = data.frame(original_name = use_taxa))
+# make_taxonomy
+taxa <- make_taxonomy(df = flor_recent)
 
-# Filter taxonomy
-  # As lutaxa only contains `use_taxa`, this removes all other taxa
-  # Normally, you'd have a row in lutaxa for every taxa
+# bin taxa
 flor_taxa <- flor_recent %>%
   bin_taxa(taxonomy = taxa$species)
 
+# distinct over bins
+flor_bin <- flor_taxa %>%
+  dplyr::distinct(taxa, dplyr::across(tidyselect::any_of(context)))
+
 # How did records of 'taxa' change through the filtering?
-find_taxa(taxa = use_taxa
-          , lookup_taxa = taxa$species$lutaxa
+# Eucalyptus gracilis
+find_taxa("Eucalyptus gracilis"
+          , lutaxa = taxa$species$lutaxa
+          )
+
+# Chenopodium nutans
+find_taxa("Chenopodium nutans"
+          , lutaxa = taxa$species$lutaxa
           )
