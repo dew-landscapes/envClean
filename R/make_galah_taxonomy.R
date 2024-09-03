@@ -247,12 +247,16 @@
                       , original_name != ""
                       ) %>%
         # Don't check taxa that already have a result
-        dplyr::anti_join(previous) %>%
+        dplyr::anti_join(previous %>%
+                           clean_quotes()
+                         ) %>%
         # Don't check taxa that will be checked in overrides
         {if(!is.null(overrides)) (.) %>%
            dplyr::anti_join(overrides %>%
-                            dplyr::select(tidyselect::all_of(rename_taxa_col))
-                            ) else (.)} %>%
+                              dplyr::select(tidyselect::all_of(rename_taxa_col)) %>%
+                              clean_quotes()
+                            ) else (.)
+          } %>%
         # Remove strings
         dplyr::mutate(searched_name = gsub(paste0(remove_strings
                                                     , collapse = "|"
@@ -324,7 +328,13 @@
 
       } else {
 
-        new <- tibble::tibble(original_name = NA_character_)
+        # Hack to ensure all column names available even when there are no taxa to search
+        # e.g. because all df is overrides
+        new <- base::suppressMessages(galah::search_taxa(c("Eucalyptus viminalis", "blah"))) %>%
+          dplyr::mutate(original_name = search_term
+                        , stamp = Sys.time()
+                        ) %>%
+          dplyr::filter(search_term == "blah")
 
       }
 
@@ -333,11 +343,13 @@
 
       new <- previous %>%
         dplyr::bind_rows(new) %>%
-        dplyr::filter(!is.na(original_name)) %>%
+        dplyr::filter(!is.na(original_name)
+                      , original_name != "blah"
+                      ) %>%
         dplyr::select(!matches("^issues$")) %>%
         clean_quotes() %>%
         dplyr::group_by(original_name) %>%
-        dplyr::filter(stamp == max(stamp)) %>%
+        dplyr::filter(stamp == base::suppressWarnings(base::max(stamp))) %>%
         dplyr::ungroup() %>%
         dplyr::distinct() %>%
         make_subspecies_col()
@@ -398,7 +410,6 @@
         searched_overrides <- overrides %>%
           dplyr::bind_cols(galah::search_taxa(overrides$taxa_to_search)) %>%
           dplyr::select(- matches("issues")) %>%
-          clean_quotes() %>%
           make_subspecies_col()
 
         # attempt 2: replace with override if match was not at suitable level in galah::search_taxa
@@ -412,9 +423,10 @@
 
           combined_overrides <- searched_overrides %>%
             tidyr::pivot_longer(tidyselect::any_of(lurank$rank)
-                                , names_to = "returned_rank"
+                                , names_to = "matched_rank"
                                 , values_to = "taxa"
                                 ) %>%
+            dplyr::mutate(returned_rank = matched_rank) %>%
             dplyr::left_join(overrides_long) %>%
             dplyr::mutate(change_taxa = is.na(taxa) & !is.na(new_taxa)) %>%
             dplyr::mutate(taxa = dplyr::case_when(change_taxa ~ new_taxa
@@ -426,9 +438,9 @@
                           , rank_adj = factor(rank_adj, levels = levels(lurank$rank), ordered = TRUE)
                           ) %>%
             dplyr::group_by(original_name) %>%
-            dplyr::mutate(rank_adj = max(rank_adj, na.rm = TRUE)) %>%
+            dplyr::mutate(rank_adj = min(rank_adj, na.rm = TRUE)) %>%
             dplyr::ungroup() %>%
-            dplyr::select(-new_taxa, -change_taxa) %>%
+            dplyr::select(-new_taxa, -change_taxa, -matched_rank) %>%
             tidyr::pivot_wider(names_from = returned_rank, values_from = taxa) %>%
             dplyr::select(tidyselect::any_of(out_names)) %>%
             dplyr::mutate(stamp = Sys.time())
@@ -523,10 +535,14 @@
                       ) %>%
         dplyr::pull(original_name)
 
-      message("The following were completely unmatched: "
-              , envFunc::vec_to_sentence(no_matches)
-              , ". Consider providing more taxonomic levels, or an override, for each unmatched taxa?"
-              )
+      if(length(no_matches)) {
+
+        message("The following were completely unmatched: "
+                , envFunc::vec_to_sentence(no_matches)
+                , ". Consider providing more taxonomic levels, or an override, for each unmatched taxa?"
+                )
+
+      }
 
     }
 
