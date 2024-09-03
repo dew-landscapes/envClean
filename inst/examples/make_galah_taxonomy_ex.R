@@ -70,7 +70,8 @@
                             , needed_ranks = c("species", "subspecies")
                             )
 
-  taxonomy$species
+  taxonomy$species$lutaxa %>%
+    dplyr::filter(grepl("rubricollis", original_name))
 
   # add in override - C. rubricollis is binned to T. cucullatus at species level
   taxonomy <- make_taxonomy(df = overrides
@@ -79,8 +80,8 @@
                             , overrides = overrides
                             )
 
-  taxonomy$species
-  taxonomy$subspecies
+  taxonomy$species$lutaxa %>%
+    dplyr::filter(grepl("rubricollis", original_name))
 
   # clean up
   rm(taxonomy)
