@@ -1,0 +1,10 @@
+pandoc: 3.1.1
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  010_overview: 010_overview.html
+last_built: 2024-09-04T01:11Z
+urls:
+  reference: https://acanthiza.github.io/envClean/reference
+  article: https://acanthiza.github.io/envClean/articles
+
