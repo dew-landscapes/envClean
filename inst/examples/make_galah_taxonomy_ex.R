@@ -83,6 +83,18 @@
   taxonomy$species$lutaxa %>%
     dplyr::filter(grepl("rubricollis", original_name))
 
+
+  # tweak_species example
+  make_taxonomy(df = tibble::tibble(original_name = "Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)")
+                , tweak_species = FALSE
+                )$raw %>%
+    dplyr::select(original_name, scientific_name, species)
+
+  make_taxonomy(df = tibble::tibble(original_name = "Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)")
+                , tweak_species = TRUE
+                )$raw %>%
+    dplyr::select(original_name, scientific_name, species)
+
   # clean up
   rm(taxonomy)
   unlist(paste0(temp_file, ".parquet"))

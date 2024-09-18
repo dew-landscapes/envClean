@@ -21,6 +21,7 @@ make_taxonomy(
     "\\\\sform\\\\s", "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)",
     "\\\\sp\\\\.v\\\\."),
   atlas = c("Australia"),
+  tweak_species = TRUE,
   return_taxonomy = TRUE,
   limit = TRUE,
   needed_ranks = c("species"),
@@ -59,6 +60,8 @@ if the original_name is trinomial (original_is_tri field in lutaxa).}
 used to indicate if the original_name is trinomial (original_is_tri field in
 output lutaxa).}
 
+\item{atlas}{Character. Name of galah atlas to use.}
+
 \item{return_taxonomy}{Logical. If \code{TRUE}, a list is returned containing the
 best match for each original_name in \code{lutaxa} and additional elements named
 for their rank (see \code{envClean::lurank}) with unique rows for that rank. One
@@ -79,6 +82,10 @@ to find better results than if searched on \code{taxa_col}. Step 1 searches for
 \code{taxa_to_search} instead of \code{taxa_col}. If any \code{use_x} columns are present,
 step 2 then checks that the results from step 1 have a result at \code{x}. If not,
 level \code{x} results will be taken from \code{use_x}.}
+
+\item{tweak_species.}{Logical. If \code{TRUE} (default) and the returned \code{species}
+column result ends in a full stop, the values returned in the \code{species}
+column will be directly taken from the \code{scientific_name} column. See details.}
 }
 \value{
 Null or list (depending on \code{return_taxonomy}). Writes
@@ -131,6 +138,15 @@ and for each of the original names provided, the best result at genus level
 \emph{or higher} (in cases where no genus level match was available).
 }
 \details{
+The argument \code{tweak_species} replaces the \code{galah::search_taxa()} result in
+the \code{species} column with the result in the \code{scientific_name} column. This
+attempt to deal with instances where \code{galah::search_taxa()} returns odd
+results in \code{species} but good results in \code{scientific_name}. e.g.
+galah::search_taxa("Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)")
+returns \code{spec.} in the species column but
+\verb{Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)} in the
+\code{scientific_name} column
+
 Previous \code{envClean::make_taxonomy()} function is still available via
 \code{envClean::make_gbif_taxonomy()}
 }
@@ -219,6 +235,18 @@ Previous \code{envClean::make_taxonomy()} function is still available via
 
   taxonomy$species$lutaxa \%>\%
     dplyr::filter(grepl("rubricollis", original_name))
+
+
+  # tweak_species example
+  make_taxonomy(df = tibble::tibble(original_name = "Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)")
+                , tweak_species = FALSE
+                )$raw \%>\%
+    dplyr::select(original_name, scientific_name, species)
+
+  make_taxonomy(df = tibble::tibble(original_name = "Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)")
+                , tweak_species = TRUE
+                )$raw \%>\%
+    dplyr::select(original_name, scientific_name, species)
 
   # clean up
   rm(taxonomy)
