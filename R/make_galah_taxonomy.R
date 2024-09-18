@@ -9,6 +9,15 @@
 #' and for each of the original names provided, the best result at genus level
 #' _or higher_ (in cases where no genus level match was available).
 #'
+#' The argument `tweak_species` replaces the `galah::search_taxa()` result in
+#' the `species` column with the result in the `scientific_name` column. This
+#' attempt to deal with instances where `galah::search_taxa()` returns odd
+#' results in `species` but good results in `scientific_name`. e.g.
+#' galah::search_taxa("Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)")
+#' returns `spec.` in the species column but
+#' `Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)` in the
+#' `scientific_name` column
+#'
 #' Previous `envClean::make_taxonomy()` function is still available via
 #' `envClean::make_gbif_taxonomy()`
 #'
@@ -35,6 +44,10 @@
 #' @param tri_strings Character. Text that matches `tri_strings` is
 #' used to indicate if the original_name is trinomial (original_is_tri field in
 #' output lutaxa).
+#' @param atlas Character. Name of galah atlas to use.
+#' @param tweak_species. Logical. If `TRUE` (default) and the returned `species`
+#' column result ends in a full stop, the values returned in the `species`
+#' column will be directly taken from the `scientific_name` column. See details.
 #' @param return_taxonomy Logical. If `TRUE`, a list is returned containing the
 #' best match for each original_name in `lutaxa` and additional elements named
 #' for their rank (see `envClean::lurank`) with unique rows for that rank. One
@@ -161,6 +174,7 @@
                                               , "\\sp\\.v\\."
                                               )
                             , atlas = c("Australia")
+                            , tweak_species = TRUE
                             , return_taxonomy = TRUE
                             , limit = TRUE
                             , needed_ranks = c("species")
@@ -353,6 +367,16 @@
         dplyr::ungroup() %>%
         dplyr::distinct() %>%
         make_subspecies_col()
+
+      if(tweak_species) {
+
+        new <- new %>%
+          dplyr::mutate(species = dplyr::case_when(grepl("\\.$", species) ~ scientific_name
+                                                   , TRUE ~ species
+                                                   )
+                        )
+
+      }
 
       out_names <- c(names(new), "override") %>%
         grep("searched_name", ., value = TRUE, invert = TRUE)
