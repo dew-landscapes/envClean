@@ -592,15 +592,17 @@
                   )
 
       # long ------
+      pivot_ranks <- envClean::lurank$rank[envClean::lurank$rank != "kingdom"]
+
       long <- res$raw %>%
         dplyr::rename(matched_rank = rank) %>%
-        tidyr::pivot_longer(tidyselect::matches(paste0(envClean::lurank$rank, collapse = "|"))
+        tidyr::pivot_longer(tidyselect::matches(paste0(pivot_ranks, collapse = "|"))
                             , names_to = "returned_rank"
                             , values_to = "taxa"
                             ) %>%
         dplyr::filter(!is.na(taxa)) %>%
         dplyr::mutate(returned_rank = factor(returned_rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
-        dplyr::select(original_name, match_type, returned_rank, matched_rank, taxa
+        dplyr::select(original_name, kingdom, match_type, returned_rank, matched_rank, taxa
                       , original_is_tri
                       , tidyselect::any_of("override")
                       )
