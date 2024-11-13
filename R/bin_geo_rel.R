@@ -49,8 +49,6 @@
 
     res[adj_col] <- res$rel_metres
 
-    context <- unique(c(context, extra_cols))
-
     if(!is.null(over_ride_na)) {
 
       for(i in seq_along(over_ride_na)) {
