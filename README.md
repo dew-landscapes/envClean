@@ -137,6 +137,8 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::add_height()`          | function                   | Generate best guess of height for each taxa\*context                          |
 | `envClean::add_lifeform()`        | function                   | Generate best guess of lifeform for each taxa\*context                        |
 | `envClean::aoi`                   | sf and data.frame          | Simple feature to define a geographic area of interest.                       |
+| `envClean::bin_date()`            | function                   | Add temporal bins to a dataframe                                              |
+| `envClean::bin_geo_rel()`         | function                   | Add a spatial reliability column, binned to contexts                          |
 | `envClean::bin_taxa()`            | function                   | Add code{taxa} column                                                         |
 | `envClean::cleaning_summary()`    | function                   | Describte change in taxa, records, visits and sites between cleaning steps    |
 | `envClean::cleaning_text()`       | function                   | Write a sentence describing change in taxa, records, visits and sites between |
@@ -151,6 +153,7 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::flor_all`              | tbl_df, tbl and data.frame | Example of data combined from several data sources.                           |
 | `envClean::get_taxonomy()`        | function                   | Get GBIF backbone taxonomy                                                    |
 | `envClean::luclean`               | tbl_df, tbl and data.frame | Dataframe of cleaning steps                                                   |
+| `envClean::lurank`                | tbl_df, tbl and data.frame | Dataframe of taxonomic ranks                                                  |
 | `envClean::make_attribute()`      | function                   | Title                                                                         |
 | `envClean::make_con_status()`     | function                   | Make conservation status from existing status codes                           |
 | `envClean::make_cover()`          | function                   | Make a single (numeric, proportion) cover column from different sorts of      |

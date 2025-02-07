@@ -34,6 +34,12 @@
     <loc>/reference/aoi.html</loc>
   </url>
   <url>
+    <loc>/reference/bin_date.html</loc>
+  </url>
+  <url>
+    <loc>/reference/bin_geo_rel.html</loc>
+  </url>
+  <url>
     <loc>/reference/bin_taxa.html</loc>
   </url>
   <url>
@@ -77,6 +83,9 @@
   </url>
   <url>
     <loc>/reference/luclean.html</loc>
+  </url>
+  <url>
+    <loc>/reference/lurank.html</loc>
   </url>
   <url>
     <loc>/reference/make_attribute.html</loc>
