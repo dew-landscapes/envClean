@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+box-sizing: border-box;
+min-width: 200px;
+max-width: 980px;
+margin: 0 auto;
+padding: 45px;
+padding-top: 0px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<h1 id="envclean-an-r-package-to-help-clean-large-unstructured-data-sets"><code>envClean</code>:
+an R package to help clean large unstructured data set(s)</h1>
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+<p>The goal of <code>envClean</code> is to help clean large,
+unstructured, biological (or <code>env</code>ironmental) data sets.</p>
+<p>It assumes the desired end result is a plausible list of taxa
+recorded at space and time locations for use in further analysis. This
+is <em>not the same</em> as an authoritative checklist of taxa for any
+space and time locations.</p>
+<p>While there are many implied and explicit decisions to make
+(e.g. there may be a lot of work to set up for new data sets), there is
+no manual input required once those decisions are made - these functions
+have the potential to provide an automated workflow from combined data
+through to analysis-ready data. Some help with reporting on the cleaning
+process also included.</p>
+<h2 id="installation">Installation</h2>
+<p><code>envClean</code> is not on <a href="https://CRAN.R-project.org">CRAN</a>.</p>
+<p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;Acanthiza/envClean&quot;</span>)</span></code></pre></div>
+<p>Load <code>envClean</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;envClean&quot;</span>)</span></code></pre></div>
+<h2 id="filtering-an-area-of-interest">Filtering an ‘area of
+interest’</h2>
+<p>An area of interest, or geographic range, sets the spatial boundary
+for the cleaning. Adding geographic (or spatial) bins based on a raster
+that spans the area of interest is another way to achieve the same
+end.</p>
+<p>This example uses the <code>flor_all</code> data frame and the simple
+feature <code>aoi</code>. Converting <code>flor_all</code> to
+<code>sf</code> allows plotting them together.</p>
+<p>Load <code>flor_all</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>flor_all <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">as_tibble</span>(flor_all)</span></code></pre></div>
+<p>Convert <code>flor_all</code> to <code>sf</code> and plot together
+with <code>aoi</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  flor_all_sf <span class="ot">&lt;-</span> flor_all <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    sf<span class="sc">::</span><span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;long&quot;</span>, <span class="st">&quot;lat&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>                 , <span class="at">crs =</span> <span class="dv">4326</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>                 )</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  tmap<span class="sc">::</span><span class="fu">tm_shape</span>(aoi</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>           , <span class="at">bbox =</span> sf<span class="sc">::</span><span class="fu">st_bbox</span>(flor_all_sf)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>           ) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    tmap<span class="sc">::</span><span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  tmap<span class="sc">::</span><span class="fu">tm_shape</span>(flor_all_sf) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>    tmap<span class="sc">::</span><span class="fu">tm_dots</span>()</span></code></pre></div>
+<div class="figure">
+
+<img src="data:image/png;base64,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" alt="Records from `flor_all` plotted over the area of interest `aoi`." width="100%" />
+<p class="caption">
+Records from `flor_all` plotted over the area of interest `aoi`.
+</p>
+
+</div>
+
+<p>Filtering <code>flor_all</code> to <code>aoi</code> is done with
+<code>filter_geo_range</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  flor_aoi <span class="ot">&lt;-</span> <span class="fu">filter_geo_range</span>(flor_all</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                         , <span class="at">use_aoi =</span> aoi</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                         ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    envFunc<span class="sc">::</span><span class="fu">add_time_stamp</span>()</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; Joining with `by = join_by(long, lat)`</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  flor_aoi</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1,419 × 10</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;     long   lat      area data_name site       date       original_name          rel_metres month  year</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;                       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  1  140. -34.5 81695918. GBIF      2573957849 2020-02-22 Eremophila glabra             500     2  2020</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  2  140. -34.5 81695918. GBIF      3902768443 2022-08-14 Triodia scariosa               NA     8  2022</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  3  140. -34.5 81695918. GBIF      3902326597 2022-08-14 Beyeria lechenaultii           NA     8  2022</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;  4  140. -34.5 81695918. GBIF      3902042262 2022-08-14 Walsholaria magniflora         NA     8  2022</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;  5  140. -34.5 81695918. GBIF      3058875475 2019-09-01 Triodia scariosa              564     9  2019</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  6  140. -34.5 81695918. GBIF      3058756300 2019-09-01 Westringia rigida             564     9  2019</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;  7  140. -34.5 81695918. GBIF      3902151141 2022-08-14 Phebalium bullatum             NA     8  2022</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;  8  140. -34.5 81695918. GBIF      3902634058 2022-08-14 Acacia rigens                  NA     8  2022</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt;  9  140. -34.5 81695918. GBIF      3902018286 2022-08-14 Exocarpos aphyllus             NA     8  2022</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 10  140. -34.5 81695918. GBIF      3923355578 2022-08-14 Maireana radiata               NA     8  2022</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; # ℹ 1,409 more rows</span></span></code></pre></div>
+<p>Check that spatial filter worked.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  flor_aoi_sf <span class="ot">&lt;-</span> flor_aoi <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    sf<span class="sc">::</span><span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;long&quot;</span>, <span class="st">&quot;lat&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                 , <span class="at">crs =</span> <span class="dv">4326</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                 )</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  tmap<span class="sc">::</span><span class="fu">tm_shape</span>(aoi</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>           , <span class="at">bbox =</span> sf<span class="sc">::</span><span class="fu">st_bbox</span>(flor_all_sf)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>           ) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    tmap<span class="sc">::</span><span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  tmap<span class="sc">::</span><span class="fu">tm_shape</span>(flor_aoi_sf) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    tmap<span class="sc">::</span><span class="fu">tm_dots</span>()</span></code></pre></div>
+<img src="data:image/png;base64,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" width="100%" />
+
+<h2 id="what-else-is-in-envclean">What else is in
+<code>envClean</code></h2>
+<p>The following functions and data sets are provided in
+<code>envClean</code>. See <a href="https://acanthiza.github.io/envClean/">https://acanthiza.github.io/envClean/</a>
+for more examples.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">object</th>
+<th align="left">class</th>
+<th align="left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>envClean::add_cover()</code></td>
+<td align="left">function</td>
+<td align="left">Generate best guess of cover for each taxa*context</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::add_height()</code></td>
+<td align="left">function</td>
+<td align="left">Generate best guess of height for each
+taxa*context</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::add_lifeform()</code></td>
+<td align="left">function</td>
+<td align="left">Generate best guess of lifeform for each
+taxa*context</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::aoi</code></td>
+<td align="left">sf and data.frame</td>
+<td align="left">Simple feature to define a geographic area of
+interest.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::bin_taxa()</code></td>
+<td align="left">function</td>
+<td align="left">Add code{taxa} column</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::cleaning_summary()</code></td>
+<td align="left">function</td>
+<td align="left">Describte change in taxa, records, visits and sites
+between cleaning steps</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::cleaning_text()</code></td>
+<td align="left">function</td>
+<td align="left">Write a sentence describing change in taxa, records,
+visits and sites between</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::clean_quotes()</code></td>
+<td align="left">function</td>
+<td align="left">Remove any ’ or ” from specified columns in a
+dataframe</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::filter_counts()</code></td>
+<td align="left">function</td>
+<td align="left">Filter any context with less instances than a threshold
+value</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::filter_geo_range()</code></td>
+<td align="left">function</td>
+<td align="left">Filter a dataframe with e/n or lat/long to an area of
+interest polygon (sf)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::filter_prop()</code></td>
+<td align="left">function</td>
+<td align="left">Filter taxa recorded at less than x percent of
+visits</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::filter_taxa()</code></td>
+<td align="left">function</td>
+<td align="left">Clean/Tidy to one row per taxa*Visit</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::filter_text_col()</code></td>
+<td align="left">function</td>
+<td align="left">Filter a dataframe column on character string(s)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::find_outliers()</code></td>
+<td align="left">function</td>
+<td align="left">Find local outliers</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::find_taxa()</code></td>
+<td align="left">function</td>
+<td align="left">Find how taxa changed through the
+cleaning/filtering/tidying process</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::flor_all</code></td>
+<td align="left">tbl_df, tbl and data.frame</td>
+<td align="left">Example of data combined from several data
+sources.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::get_taxonomy()</code></td>
+<td align="left">function</td>
+<td align="left">Get GBIF backbone taxonomy</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::luclean</code></td>
+<td align="left">tbl_df, tbl and data.frame</td>
+<td align="left">Dataframe of cleaning steps</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::make_attribute()</code></td>
+<td align="left">function</td>
+<td align="left">Title</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::make_con_status()</code></td>
+<td align="left">function</td>
+<td align="left">Make conservation status from existing status
+codes</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::make_cover()</code></td>
+<td align="left">function</td>
+<td align="left">Make a single (numeric, proportion) cover column from
+different sorts of</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::make_effort_mod()</code></td>
+<td align="left">function</td>
+<td align="left">Distribution of credible values for taxa richness.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::make_effort_mod_pca()</code></td>
+<td align="left">function</td>
+<td align="left">Model the effect of principal components axes on taxa
+richness.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::make_env_pca()</code></td>
+<td align="left">function</td>
+<td align="left">Principal components analysis and various outputs from
+environmental data</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::make_gbif_taxonomy()</code></td>
+<td align="left">function</td>
+<td align="left">Make taxonomy lookups</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::make_ind_status()</code></td>
+<td align="left">function</td>
+<td align="left">Make indigenous status lookup</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::make_lifeform()</code></td>
+<td align="left">function</td>
+<td align="left">Get unique lifeform across taxa, perhaps including
+further context</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::make_subspecies_col()</code></td>
+<td align="left">function</td>
+<td align="left">Make a subspecies column</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::make_taxonomy()</code></td>
+<td align="left">function</td>
+<td align="left">Get taxonomy via code{galah::taxa_search()}</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::rec_vis_sit_tax()</code></td>
+<td align="left">function</td>
+<td align="left">How many records, visits, sites and taxa in a
+dataframe</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>envClean::reduce_geo_rel()</code></td>
+<td align="left">function</td>
+<td align="left">Reduce data frame to a single spatial reliability
+within a context</td>
+</tr>
+<tr class="even">
+<td align="left"><code>envClean::taxonomy_overrides</code></td>
+<td align="left">tbl_df, tbl and data.frame</td>
+<td align="left">Manual taxonomic overrides</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

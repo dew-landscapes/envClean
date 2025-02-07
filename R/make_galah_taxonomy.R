@@ -159,6 +159,8 @@
                                             , "pl"
                                             , "revised"
                                             , "nov"
+                                            , "sensu"
+                                            , "lato"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
