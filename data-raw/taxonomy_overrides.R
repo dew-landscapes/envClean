@@ -18,5 +18,6 @@ taxonomy_overrides <- tibble::tribble(
   "Melanodryas cucullata westralis", "Melanodryas cucullata westralensis", "Melanodryas cucullata", "Melanodryas cucullata westralensis", "Western Hooded Robin", # different spelling in EGIS expert distributions layer that is not matched to subspecies by galah::search_taxa
   "Strepera versicolor malanoptera", "Strepera versicolor melanoptera", "Strepera versicolor", "Strepera versicolor melanoptera", "Black-winged Currawong", # different spelling in EGIS expert distributions layer that is not matched to subspecies by galah::search_taxa
   "Rhipidura fuliginosa", "Rhipidura albiscapa", "Rhipidura albiscapa", NA, "Grey Fantail", # Rhipidura fuliginosa is New Zealand Fantail erroneously recorded as Grey Fantail in Aus mainly in last ten years via iNaturalist.
-  "Acrocephalus stentoreus", "Acrocephalus australis", "Acrocephalus australis", NA, "Australian Reed Warbler" # Clamorous Reed Warbler records should be Australian
+  "Acrocephalus stentoreus", "Acrocephalus australis", "Acrocephalus australis", NA, "Australian Reed Warbler", # Clamorous Reed Warbler records should be Australian
+  "Anas superciliosa X Anas platyrhynchos", "Anas superciliosa X platyrhynchos", "Anas superciliosa X platyrhynchos", NA, "Pacific Black Duck x Mallard hybrid" # duplicates of Pacific Black Duck x Mallard hybrid in galah taxonomy. Using the one that returns a sensible common name from bdbsa.
   )
