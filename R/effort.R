@@ -245,10 +245,10 @@
       tidyr::unnest(cols = grep("cut_pc", names(.), value = TRUE))
 
     effort_mod$mod_pred <- effort_mod$preds %>%
-      tidybayes::add_epred_draws(effort_mod$mod
-                                 , re_formula = NA
-                                 , value = response
-                                 ) %>%
+      tidybayes::add_predicted_draws(effort_mod$mod
+                                     , re_formula = NA
+                                     , value = response
+                                     ) %>%
       dplyr::ungroup()
 
 
