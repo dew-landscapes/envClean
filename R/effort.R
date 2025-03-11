@@ -35,9 +35,9 @@
                          )
 
     env_pca$pca_pca <- stats::prcomp(env_pca$pca_data[,-exclude_cols]
-                   , center = TRUE
-                   , scale. = TRUE
-                   )
+                                     , center = TRUE
+                                     , scale. = TRUE
+                                     )
 
     env_pca$pca_res_cell <- env_pca$pca_data %>%
       dplyr::select(tidyselect::any_of(context)) %>%
@@ -67,14 +67,14 @@
                                          )
                     , brks = purrr::map(brks,~tibble::enframe(.,name = NULL, value = "brks"))
                     , brks = purrr::map(brks,. %>% dplyr::distinct(brks))
-                    , mids = purrr::map(brks,. %>% dplyr::mutate(mid = (brks+lead(brks))/2))
+                    , mids = purrr::map(brks,. %>% dplyr::mutate(mid = (brks + dplyr::lead(brks)) / 2))
                     , mids = purrr::map(mids,. %>%
                                           dplyr::mutate(mid = dplyr::if_else(mid == -Inf
-                                                                             , min(.$brks[is.finite(.$brks)])+min(.$mid[is.finite(.$mid)])
+                                                                             , min(.$brks[is.finite(.$brks)]) + min(.$mid[is.finite(.$mid)])
                                                                              , mid
                                                                              )
                                           , mid = dplyr::if_else(mid == Inf
-                                                                 , max(.$brks[is.finite(.$brks)])+max(.$mid[is.finite(.$mid)])
+                                                                 , max(.$brks[is.finite(.$brks)]) + max(.$mid[is.finite(.$mid)])
                                                                  , mid
                                                           )
                                           ) %>%
@@ -124,19 +124,23 @@
 
   }
 
-#' Model the effect of principal components axes on taxa richness.
+#' Model the effect of principal components on taxa richness.
 #'
 #' @param df Dataframe. Cleaned data specifying context.
 #' @param env_prcomp Output from env_pca.
 #' @param context Character. Column names that define context, usually a 'visit'
 #' to a 'cell'.
+#' @param response Character. Name to give the 'response' variable column.
+#' Default is 'sr' for 'species richness'.
+#' @param response_min_thresh Numeric. Threshold below which to filter `df`
+#' before running the model. Default '2' excludes singleton sites.
 #' @param threshold_lo,threshold_hi Numeric between 0 and 1 specifying the
 #' threshold above/below which richness is excessively above or below 'normal'
 #' and should be filtered.
 #' @param effort_col Character (or `NULL`). Name of column with some measure of
 #' effort. If `NULL`, all contexts will be used.
-#' @param effort_thresh Numeric. `effort_col` (if used) will be filtered below
-#' this threshold.
+#' @param effort_col_thresh Numeric. `effort_col` (if used) will be filtered
+#' below this threshold. This could be used to, say, filter very small quadrats.
 #' @param out_file Character. Optional path to save output.
 #' @param ... Passed to `rstanarm::stan_glm()`.
 #'
@@ -148,10 +152,12 @@
   make_effort_mod_pca <- function(df
                                   , env_prcomp
                                   , context = "cell"
+                                  , response = "sr"
+                                  , response_min_thresh = 2
                                   , threshold_lo = 0.05/2
                                   , threshold_hi = 0.05/2
                                   , effort_col = "qsize"
-                                  , effort_thresh = 3*3
+                                  , effort_col_thresh = 3*3
                                   , out_file = NULL
                                   , ...
                                   ) {
@@ -160,53 +166,46 @@
 
       df %>%
         dplyr::filter(!is.na(!!rlang::ensym(effort_col))
-                      , !!ensym(effort_col) >= effort_thresh
+                      , !!rlang::ensym(effort_col) >= effort_col_thresh
                       )
 
     } else df
 
     effort_mod <- list()
 
-    response <- "sr"
-
     effort_mod$dat_all <- df %>%
       dplyr::distinct(taxa
                       , dplyr::across(tidyselect::any_of(context))
                       ) %>%
       dplyr::count(dplyr::across(tidyselect::any_of(context))
-                   , name = "sr"
+                   , name = response
                    )
 
-    effort_mod$dat_exp <- df_for_mod %>%
-        dplyr::distinct(taxa
-                        , dplyr::across(tidyselect::any_of(context))
-                        ) %>%
-        dplyr::count(dplyr::across(tidyselect::any_of(context))
-                     , name = "sr"
-                     ) %>%
-        dplyr::inner_join(env_prcomp$pca_res_cell) %>%
-        dplyr::select(!!rlang::ensym(response)
-                      , everything()
+    effort_mod$dat_exp <- effort_mod$dat_all |>
+      dplyr::filter(!!rlang::ensym(response) >= response_min_thresh) %>%
+      dplyr::inner_join(env_prcomp$pca_res_cell) %>%
+      dplyr::select(!!rlang::ensym(response)
+                    , everything()
+                    ) %>%
+      tidyr::pivot_longer(contains("pc")
+                          , names_to = "pc"
+                          ) %>%
+      dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
+      dplyr::mutate(cut_pc = purrr::map2(value
+                                         , brks
+                                         , ~cut(.x,breaks=unique(unlist(.y)))
+                                         )
+                    ) %>%
+      dplyr::select(-brks) %>%
+      tidyr::pivot_wider(names_from = "pc"
+                         , values_from = c(value,"cut_pc")
+                         ) %>%
+      stats::setNames(gsub("value_|pc_"
+                           , ""
+                           , names(.)
+                           )
                       ) %>%
-        tidyr::pivot_longer(contains("pc")
-                            , names_to = "pc"
-                            ) %>%
-        dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
-        dplyr::mutate(cut_pc = purrr::map2(value
-                                           , brks
-                                           , ~cut(.x,breaks=unique(unlist(.y)))
-                                           )
-                      ) %>%
-        dplyr::select(-brks) %>%
-        tidyr::pivot_wider(names_from = "pc"
-                           , values_from = c(value,"cut_pc")
-                           ) %>%
-        stats::setNames(gsub("value_|pc_"
-                             , ""
-                             , names(.)
-                             )
-                        ) %>%
-        tidyr::unnest(cols = 1:ncol(.))
+      tidyr::unnest(cols = 1:ncol(.))
 
     #--------model-------
 
@@ -227,41 +226,42 @@
                   , ...
                   )
 
-    effort_mod$preds <- env_prcomp$pca_brks %>%
-      dplyr::pull(mids, name = pc) %>%
-      purrr::cross_df() %>%
-      tidyr::pivot_longer(1:ncol(.),names_to = "pc") %>%
-      dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
+    blah <- env_prcomp$pca_brks %>%
+      dplyr::pull(mids, name = pc)
+
+    effort_mod$preds <- expand.grid(blah) |>
+      tibble::as_tibble() %>%
+      tidyr::pivot_longer(1:ncol(.), names_to = "pc") %>%
+      dplyr::left_join(env_prcomp$pca_brks[, c("pc", "brks")]) %>%
       dplyr::mutate(cut_pc = purrr::map2(value
                                          , brks
-                                         , ~cut(.x,breaks=unique(unlist(.y)))
+                                         , \(a, b) cut(a, breaks = unique(unlist(b)))
                                          )
                     ) %>%
       dplyr::select(-brks) %>%
-      tidyr::pivot_wider(names_from = "pc", values_from = c(value,"cut_pc")) %>%
-      stats::setNames(gsub("value_|pc_","",names(.))) %>%
+      tidyr::pivot_wider(names_from = "pc", values_from = c(value, "cut_pc")) %>%
+      stats::setNames(gsub("value_|pc_", "", names(.))) %>%
       tidyr::unnest(cols = 1:ncol(.))  %>%
-      tidyr::unnest(cols = grep("cut_pc",names(.),value = TRUE))
+      tidyr::unnest(cols = grep("cut_pc", names(.), value = TRUE))
 
     effort_mod$mod_pred <- effort_mod$preds %>%
-      tidybayes::add_predicted_draws(effort_mod$mod
-                                     #, ndraws = draws
-                                     , re_formula = NA
-                                     , value = response
-                                     ) %>%
+      tidybayes::add_epred_draws(effort_mod$mod
+                                 , re_formula = NA
+                                 , value = response
+                                 ) %>%
       dplyr::ungroup()
 
 
      #------residuals--------
 
     effort_mod$mod_resid <- tibble::tibble(fitted = stats::fitted(effort_mod$mod)
-                               , residual = stats::residuals(effort_mod$mod)
-                               ) %>%
-      dplyr::mutate(stand_resid = residual/stats::sd(.$residual)) %>%
+                                           , residual = stats::residuals(effort_mod$mod)
+                                           ) %>%
+      dplyr::mutate(stand_resid = residual / stats::sd(.$residual)) %>%
       dplyr::bind_cols(effort_mod$dat_exp)
 
     effort_mod$mod_resid_plot <- ggplot2::ggplot(effort_mod$mod_resid
-                                                 ,aes(fitted,stand_resid)
+                                                 ,aes(fitted, stand_resid)
                                                  ) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth()
@@ -269,21 +269,26 @@
 
     #--------result---------
 
+    extreme_value <- function(hilo, thresh, col) {
+
+
+
+    }
+
     effort_mod$mod_res <- effort_mod$mod_pred %>%
       dplyr::group_by(dplyr::across(contains("pc"))) %>%
       dplyr::summarise(runs = n()
                        , n_check = nrow(tibble::as_tibble(effort_mod$mod))
-                       , mod_med = stats::quantile(sr,0.5,na.rm=TRUE)
-                       , mod_mean = mean(sr,na.rm=TRUE)
-                       , mod_ci90_lo = stats::quantile(sr, 0.05,na.rm=TRUE)
-                       , mod_ci90_up = stats::quantile(sr, 0.95,na.rm=TRUE)
-                       , extreme_sr_lo = stats::quantile(sr, probs = 0 + threshold_lo, na.rm=TRUE)
-                       , extreme_sr_hi = stats::quantile(sr, probs = 1 - threshold_hi, na.rm=TRUE)
-                       , text = paste0(round(mod_med,2)," (",round(mod_ci90_lo,2)," to ",round(mod_ci90_up,2),")")
+                       , mod_med = stats::quantile(!!rlang::ensym(response), 0.5, na.rm = TRUE)
+                       , mod_mean = mean(!!rlang::ensym(response),na.rm=TRUE)
+                       , mod_ci90_lo = stats::quantile(!!rlang::ensym(response), 0.05, na.rm = TRUE)
+                       , mod_ci90_up = stats::quantile(!!rlang::ensym(response), 0.95, na.rm = TRUE)
+                       , extreme_sr_lo = stats::quantile(!!rlang::ensym(response), probs = 0 + threshold_lo, na.rm=TRUE)
+                       , extreme_sr_hi = stats::quantile(!!rlang::ensym(response), probs = 1 - threshold_hi, na.rm=TRUE)
                        ) %>%
       dplyr::ungroup() %>%
-      dplyr::mutate_if(is.numeric,round,2) %>%
-      dplyr::mutate(pc_group = paste0(cut_pc1,cut_pc2,cut_pc3))
+      dplyr::mutate_if(is.numeric, round, 2) %>%
+      dplyr::mutate(pc_group = paste0(cut_pc1, cut_pc2, cut_pc3))
 
 
     #--------explore---------
@@ -298,7 +303,7 @@
       ggplot2::facet_wrap(~cut_pc2, scales = "free_y") +
       ggplot2::theme(axis.text.x = element_text(angle = 90
                                                 , vjust = 0.5
-                                                , hjust=1
+                                                , hjust = 1
                                                 )
                      ) +
       ggplot2::scale_colour_viridis_d()
@@ -310,8 +315,8 @@
                                                      )
                                                 ) +
       ggplot2::geom_point() +
-      ggplot2::facet_wrap(~cut_pc2, scales = "free_y") +
-      ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      ggplot2::facet_wrap(~ cut_pc2, scales = "free_y") +
+      ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
       ggplot2::scale_colour_viridis_d()
 
 
@@ -326,40 +331,38 @@
 
     }
 
-    is_there_an_effort_col <- !is.null(effort_col)
-
     effort_mod$mod_cell_result <- env_prcomp$pca_res_col %>%
       {if(!is.null(effort_col)) (.) %>% dplyr::left_join(eff) else (.)} %>%
       dplyr::inner_join(effort_mod$dat_all) %>%
-      dplyr::select(!matches("^pc")) %>%
+      dplyr::select(! tidyselect::matches("^pc")) %>%
       dplyr::left_join(effort_mod$mod_res) %>%
-      dplyr::mutate(keep_hi = sr < extreme_sr_hi
-                    , keep_lo = sr > extreme_sr_lo
+      dplyr::mutate(keep_hi = !!rlang::ensym(response) <= extreme_sr_hi
+                    , keep_lo = !!rlang::ensym(response) >= extreme_sr_lo
                     , keep_qsize = FALSE
                     ) %>%
-      {if(is_there_an_effort_col) (.) %>% dplyr::mutate(keep_qsize = !(!!ensym(effort_col) == 0 | is.na(!!ensym(effort_col)))) else (.)} %>%
-      dplyr::mutate(keep = as.logical(keep_hi*keep_lo)
-                    , keep = if_else(!keep, keep_qsize, keep)
+      {if(!is.null(effort_col)) (.) %>% dplyr::mutate(keep_qsize = !(!!ensym(effort_col) == 0 | is.na(!!ensym(effort_col)))) else (.)} %>%
+      dplyr::mutate(keep = as.logical(keep_hi * keep_lo)
+                    , keep = dplyr::if_else(!keep, keep_qsize, keep)
                     ) %>%
-      dplyr::mutate(colour = if_else(keep,"black",colour))
+      dplyr::mutate(colour = dplyr::if_else(keep, "black", colour))
 
-    max_y <- max(effort_mod$mod_cell_result$sr[effort_mod$mod_cell_result$keep_hi == TRUE])
+    max_y <- max(effort_mod$mod_cell_result[[response]][effort_mod$mod_cell_result$keep_hi == TRUE])
 
     effort_mod$mod_cell_plot <- ggplot2::ggplot(effort_mod$mod_cell_result
                                                 ,aes(cut_pc1
-                                                     , sr
+                                                     , !!rlang::ensym(response)
                                                      , colour = colour
                                                      )
                                                 ) +
       ggplot2::geom_jitter() +
-      ggplot2::facet_grid(cut_pc2~cut_pc3) +
-      ggplot2::coord_cartesian(y = c(0,max_y)) +
+      ggplot2::facet_grid(cut_pc2 ~ cut_pc3) +
+      ggplot2::coord_cartesian(y = c(0, max_y)) +
       ggplot2::scale_colour_identity() +
       ggplot2::theme_dark() +
-      ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
     effort_mod$mod_cell_tab <- effort_mod$mod_cell_result %>%
-      dplyr::count(keep_hi,keep_lo,keep_qsize,keep)
+      dplyr::count(keep_hi, keep_lo, keep_qsize, keep)
 
     if(!is.null(out_file)) {
 
