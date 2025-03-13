@@ -176,6 +176,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Korthalsella japonica f. japonica"
                                      , "Galaxias sp. nov. 'Hunter'"
                                      , "Not a taxa"
+                                     , "Senna artemisioides subsp x artemisioides"
                                      )
                             )
 
@@ -200,19 +201,22 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                                 )
                               )
 
-  taxonomy <- make_taxonomy(df = more_taxa
-                            , taxonomy_file = temp_file
-                            , needed_ranks = c("species")
-                            )
-
-  taxonomy$species
+  make_taxonomy(df = more_taxa
+                , taxonomy_file = temp_file
+                , needed_ranks = c("species")
+                )
 
   # no dataframe supplied - all results in taxonomy_file returned
-  taxonomy <- make_taxonomy(taxonomy_file = temp_file
-                            , needed_ranks = c("subspecies")
-                            )
+  make_taxonomy(taxonomy_file = temp_file
+                , needed_ranks = c("subspecies")
+                )
 
-  taxonomy$subspecies
+  # Try automatic overrides
+  auto_overrides <- make_unmatched_overrides(df = taxa_df
+                                             , taxa_col = "taxa"
+                                             , taxonomy = taxonomy
+                                             , target_rank = "species"
+                                             )
 
   # overrrides
   overrides <- envClean::taxonomy_overrides

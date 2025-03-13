@@ -81,8 +81,6 @@
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The goal of <code>envClean</code> is to help clean large, unstructured, biological (or <code>env</code>ironmental) data sets.</p>
-<p>It assumes the desired end result is a plausible list of taxa recorded at space and time locations for use in further analysis. This is <em>not the same</em> as an authoritative checklist of taxa for any space and time locations.</p>
-<p>While there are many implied and explicit decisions to make (e.g. there may be a lot of work to set up for new data sets), there is no manual input required once those decisions are made - these functions have the potential to provide an automated workflow from combined data through to analysis-ready data. Some help with reporting on the cleaning process also included.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -93,12 +91,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Acanthiza/envClean"</span><span class="op">)</span></span></code></pre></div>
 <p>Load <code>envClean</code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://acanthiza.github.io/envClean/" class="external-link">"envClean"</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'envClean'</span></span>
-<span><span class="co">#&gt; The following objects are masked _by_ '.GlobalEnv':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     flor_all, taxonomy_overrides</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://acanthiza.github.io/envClean/" class="external-link">"envClean"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="filtering-an-area-of-interest">Filtering an ‘area of interest’<a class="anchor" aria-label="anchor" href="#filtering-an-area-of-interest"></a>
@@ -111,7 +104,7 @@
 <p>Convert <code>flor_all</code> to <code>sf</code> and plot together with <code>aoi</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span>  <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
 <span>                 , crs <span class="op">=</span> <span class="fl">4326</span></span>
 <span>                 <span class="op">)</span></span>
@@ -130,9 +123,9 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <p>Filtering <code>flor_all</code> to <code>aoi</code> is done with <code>filter_geo_range</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span>  <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/envClean/man/filter_geo_range.html" class="external-link">filter_geo_range</a></span><span class="op">(</span><span class="va">flor_all</span></span>
+<span>  <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/filter_geo_range.html">filter_geo_range</a></span><span class="op">(</span><span class="va">flor_all</span></span>
 <span>                         , use_aoi <span class="op">=</span> <span class="va">aoi</span></span>
-<span>                         <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>                         <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">envFunc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html" class="external-link">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Joining with `by = join_by(long, lat)`</span></span>
 <span></span>
@@ -154,7 +147,7 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <p>Check that spatial filter worked.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span>  <span class="va">flor_aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_aoi</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">flor_aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_aoi</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
 <span>                 , crs <span class="op">=</span> <span class="fl">4326</span></span>
 <span>                 <span class="op">)</span></span>
@@ -174,9 +167,9 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <p>The following functions and data sets are provided in <code>envClean</code>. See <a href="https://acanthiza.github.io/envClean/" class="external-link uri">https://acanthiza.github.io/envClean/</a> for more examples.</p>
 <table class="table">
 <colgroup>
-<col width="30%">
-<col width="26%">
-<col width="42%">
+<col width="27%">
+<col width="19%">
+<col width="53%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">object</th>
@@ -185,9 +178,159 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left"><code><a href="reference/add_cover.html">envClean::add_cover()</a></code></td>
+<td align="left">function</td>
+<td align="left">Generate best guess of cover for each taxa*context</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/add_height.html">envClean::add_height()</a></code></td>
+<td align="left">function</td>
+<td align="left">Generate best guess of height for each taxa*context</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/add_lifeform.html">envClean::add_lifeform()</a></code></td>
+<td align="left">function</td>
+<td align="left">Generate best guess of lifeform for each taxa*context</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/aoi.html">envClean::aoi</a></code></td>
+<td align="left">sf and data.frame</td>
+<td align="left">Simple feature to define a geographic area of interest.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/bin_date.html">envClean::bin_date()</a></code></td>
+<td align="left">function</td>
+<td align="left">Add temporal bins to a dataframe</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/bin_geo_rel.html">envClean::bin_geo_rel()</a></code></td>
+<td align="left">function</td>
+<td align="left">Add a spatial reliability column, binned to contexts</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/bin_taxa.html">envClean::bin_taxa()</a></code></td>
+<td align="left">function</td>
+<td align="left">Add code{taxa} column</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/cleaning_summary.html">envClean::cleaning_summary()</a></code></td>
+<td align="left">function</td>
+<td align="left">Describte change in taxa, records, visits and sites between cleaning steps</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/cleaning_text.html">envClean::cleaning_text()</a></code></td>
+<td align="left">function</td>
+<td align="left">Write a sentence describing change in taxa, records, visits and sites between</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/clean_quotes.html">envClean::clean_quotes()</a></code></td>
+<td align="left">function</td>
+<td align="left">Remove any ’ or ” from specified columns in a dataframe</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/filter_counts.html">envClean::filter_counts()</a></code></td>
+<td align="left">function</td>
+<td align="left">Filter any context with less instances than a threshold value</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/filter_geo_range.html">envClean::filter_geo_range()</a></code></td>
+<td align="left">function</td>
+<td align="left">Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/filter_prop.html">envClean::filter_prop()</a></code></td>
+<td align="left">function</td>
+<td align="left">Filter taxa recorded at less than x percent of visits</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/filter_taxa.html">envClean::filter_taxa()</a></code></td>
+<td align="left">function</td>
+<td align="left">Clean/Tidy to one row per taxa*Visit</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/filter_text_col.html">envClean::filter_text_col()</a></code></td>
+<td align="left">function</td>
+<td align="left">Filter a dataframe column on character string(s)</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/find_outliers.html">envClean::find_outliers()</a></code></td>
+<td align="left">function</td>
+<td align="left">Find local outliers</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/find_taxa.html">envClean::find_taxa()</a></code></td>
+<td align="left">function</td>
+<td align="left">Find how taxa changed through the cleaning/filtering/tidying process</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/flor_all.html">envClean::flor_all</a></code></td>
+<td align="left">tbl_df, tbl and data.frame</td>
+<td align="left">Example of data combined from several data sources.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/get_taxonomy.html">envClean::get_taxonomy()</a></code></td>
+<td align="left">function</td>
+<td align="left">Get GBIF backbone taxonomy</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/luclean.html">envClean::luclean</a></code></td>
+<td align="left">tbl_df, tbl and data.frame</td>
+<td align="left">Dataframe of cleaning steps</td>
+</tr>
+<tr class="odd">
 <td align="left"><code><a href="reference/lurank.html">envClean::lurank</a></code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Dataframe of taxonomic ranks</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/make_attribute.html">envClean::make_attribute()</a></code></td>
+<td align="left">function</td>
+<td align="left">Title</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/make_con_status.html">envClean::make_con_status()</a></code></td>
+<td align="left">function</td>
+<td align="left">Make conservation status from existing status codes</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/make_cover.html">envClean::make_cover()</a></code></td>
+<td align="left">function</td>
+<td align="left">Make a single (numeric, proportion) cover column from different sorts of</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/make_effort_mod.html">envClean::make_effort_mod()</a></code></td>
+<td align="left">function</td>
+<td align="left">Distribution of credible values for taxa richness.</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/make_effort_mod_pca.html">envClean::make_effort_mod_pca()</a></code></td>
+<td align="left">function</td>
+<td align="left">Model the effect of principal components on taxa richness.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/make_env_pca.html">envClean::make_env_pca()</a></code></td>
+<td align="left">function</td>
+<td align="left">Principal components analysis and various outputs from environmental data</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/make_gbif_taxonomy.html">envClean::make_gbif_taxonomy()</a></code></td>
+<td align="left">function</td>
+<td align="left">Make taxonomy lookups</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/make_ind_status.html">envClean::make_ind_status()</a></code></td>
+<td align="left">function</td>
+<td align="left">Make indigenous status lookup</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/make_lifeform.html">envClean::make_lifeform()</a></code></td>
+<td align="left">function</td>
+<td align="left">Get unique lifeform across taxa, perhaps including further context</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/make_subspecies_col.html">envClean::make_subspecies_col()</a></code></td>
+<td align="left">function</td>
+<td align="left">Make a subspecies column</td>
 </tr>
 <tr class="even">
 <td align="left"><code><a href="reference/make_taxonomy.html">envClean::make_taxonomy()</a></code></td>
@@ -195,9 +338,29 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <td align="left">Get taxonomy via code{galah::taxa_search()}</td>
 </tr>
 <tr class="odd">
+<td align="left"><code><a href="reference/make_unmatched_overrides.html">envClean::make_unmatched_overrides()</a></code></td>
+<td align="left">function</td>
+<td align="left">Attempt to find a taxa for names with no match in code{galah::search_taxa()}</td>
+</tr>
+<tr class="even">
+<td align="left"><code><a href="reference/rec_vis_sit_tax.html">envClean::rec_vis_sit_tax()</a></code></td>
+<td align="left">function</td>
+<td align="left">How many records, visits, sites and taxa in a dataframe</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/reduce_geo_rel.html">envClean::reduce_geo_rel()</a></code></td>
+<td align="left">function</td>
+<td align="left">Reduce data frame to a single spatial reliability within a context</td>
+</tr>
+<tr class="even">
 <td align="left"><code><a href="reference/taxonomy_overrides.html">envClean::taxonomy_overrides</a></code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Manual taxonomic overrides</td>
+</tr>
+<tr class="odd">
+<td align="left"><code><a href="reference/try_name_via_gbif.html">envClean::try_name_via_gbif()</a></code></td>
+<td align="left">function</td>
+<td align="left">Attempt to find an unmatched scientific name using GBIF Backbone Taxonomy</td>
 </tr>
 </tbody>
 </table>

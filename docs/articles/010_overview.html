@@ -80,7 +80,7 @@ Environment and Water</h4>
                         <h4 data-toc-skip class="author">Nigel
 Willoughby</h4>
             
-            <h4 data-toc-skip class="date">Tuesday, 11 March, 2025</h4>
+            <h4 data-toc-skip class="date">Thursday, 13 March, 2025</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/vignettes/010_overview.Rmd" class="external-link"><code>vignettes/010_overview.Rmd</code></a></small>
       <div class="hidden name"><code>010_overview.Rmd</code></div>
@@ -107,13 +107,13 @@ Willoughby</h4>
 <span>              <span class="op">)</span></span>
 <span></span>
 <span>  <span class="co">#  Load data</span></span>
-<span>  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/envClean/man/flor_all.html" class="external-link">flor_all</a></span><span class="op">)</span></span>
+<span>  <span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/flor_all.html">flor_all</a></span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># What crs to use for maps?</span></span>
 <span>  <span class="va">use_crs</span> <span class="op">&lt;-</span> <span class="fl">3577</span> <span class="co"># actually an epsg code. see epsg.io</span></span>
 <span>  </span>
 <span>  <span class="co"># set area of interest coordinate reference system</span></span>
-<span>  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/envClean/man/aoi.html" class="external-link">aoi</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="../reference/aoi.html">aoi</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">use_crs</span><span class="op">)</span></span>
 <span>  </span></code></pre></div>
 <div class="section level2">
