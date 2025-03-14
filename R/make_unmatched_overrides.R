@@ -79,8 +79,7 @@ make_unmatched_overrides <- function(df
       dplyr::anti_join(unmatched_via_gbif) |>
       dplyr::mutate(searched_name = gsub("\\sX\\s.*|\\sx\\s.*", "", original_name)) %>%
       dplyr::mutate(res = purrr::map(searched_name, galah::search_taxa)) |>
-      tidyr::unnest(cols = c(res)) |>
-      dplyr::filter(! is.na(!!rlang::ensym(target_rank)))
+      tidyr::unnest(cols = c(res))
 
     if(! target_rank %in% names(unmatched_hybrids)) {
 
