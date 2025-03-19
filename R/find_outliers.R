@@ -1,6 +1,8 @@
 
 #' Find local outliers
 #'
+#' You're probably better off using `flag_local_outliers()` instead
+#'
 #' @param df Dataframe with `context` and all other columns defining the space
 #' in which to look for outliers.
 #' @param context  Character. Name of columns defining context.

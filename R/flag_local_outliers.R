@@ -16,11 +16,11 @@
 #' @export
 #'
 #' @examples
-flag_local_outlier <- function(df
-                               , context
-                               , iqrMult = 2
-                               , ...
-                               ) {
+flag_local_outliers <- function(df
+                                , context
+                                , iqrMult = 2
+                                , ...
+                                ) {
 
   lof <- dbscan::lof(df |>
                        dplyr::select(! tidyselect::any_of(context))

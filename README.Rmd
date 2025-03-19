@@ -40,6 +40,14 @@ Load `envClean`
 library("envClean")
 ```
 
+## Other packages/resources
+
+* The book [Cleaning Biodiversity Data in R](https://cleaning-data-r.ala.org.au/)
+* R packages:
+    + [CoordinateCleaner](https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html)
+    + [bdc](https://cran.r-project.org/web/packages/bdc/index.html)
+
+
 ## Filtering an 'area of interest'
 
 An area of interest, or geographic range, sets the spatial boundary for the cleaning. Adding geographic (or spatial) bins based on a raster that spans the area of interest is another way to achieve the same end.

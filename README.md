@@ -27,6 +27,14 @@ Load `envClean`
 library("envClean")
 ```
 
+## Other packages/resources
+
+- The book [Cleaning Biodiversity Data in
+  R](https://cleaning-data-r.ala.org.au/)
+- R packages:
+  - [CoordinateCleaner](https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html)
+  - [bdc](https://cran.r-project.org/web/packages/bdc/index.html)
+
 ## Filtering an ‘area of interest’
 
 An area of interest, or geographic range, sets the spatial boundary for
@@ -138,6 +146,7 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::filter_text_col()`          | function                   | Filter a dataframe column on character string(s)                              |
 | `envClean::find_outliers()`            | function                   | Find local outliers                                                           |
 | `envClean::find_taxa()`                | function                   | Find how taxa changed through the cleaning/filtering/tidying process          |
+| `envClean::flag_local_outliers()`      | function                   | Find local outliers                                                           |
 | `envClean::flor_all`                   | tbl_df, tbl and data.frame | Example of data combined from several data sources.                           |
 | `envClean::get_taxonomy()`             | function                   | Get GBIF backbone taxonomy                                                    |
 | `envClean::luclean`                    | tbl_df, tbl and data.frame | Dataframe of cleaning steps                                                   |

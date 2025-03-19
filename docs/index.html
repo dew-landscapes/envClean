@@ -19,7 +19,7 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -45,7 +45,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -59,7 +59,7 @@
 <li>
   <a href="https://github.com/Acanthiza/envClean/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -70,7 +70,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -92,6 +92,20 @@
 <p>Load <code>envClean</code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://acanthiza.github.io/envClean/" class="external-link">"envClean"</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="other-packagesresources">Other packages/resources<a class="anchor" aria-label="anchor" href="#other-packagesresources"></a>
+</h2>
+<ul>
+<li>The book <a href="https://cleaning-data-r.ala.org.au/" class="external-link">Cleaning Biodiversity Data in R</a>
+</li>
+<li>R packages:
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html" class="external-link">CoordinateCleaner</a></li>
+<li><a href="https://cran.r-project.org/web/packages/bdc/index.html" class="external-link">bdc</a></li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="filtering-an-area-of-interest">Filtering an ‘area of interest’<a class="anchor" aria-label="anchor" href="#filtering-an-area-of-interest"></a>
@@ -263,101 +277,106 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 <td align="left">Find how taxa changed through the cleaning/filtering/tidying process</td>
 </tr>
 <tr class="even">
+<td align="left"><code><a href="reference/flag_local_outliers.html">envClean::flag_local_outliers()</a></code></td>
+<td align="left">function</td>
+<td align="left">Find local outliers</td>
+</tr>
+<tr class="odd">
 <td align="left"><code><a href="reference/flor_all.html">envClean::flor_all</a></code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Example of data combined from several data sources.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/get_taxonomy.html">envClean::get_taxonomy()</a></code></td>
 <td align="left">function</td>
 <td align="left">Get GBIF backbone taxonomy</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/luclean.html">envClean::luclean</a></code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Dataframe of cleaning steps</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/lurank.html">envClean::lurank</a></code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Dataframe of taxonomic ranks</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/make_attribute.html">envClean::make_attribute()</a></code></td>
 <td align="left">function</td>
 <td align="left">Title</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/make_con_status.html">envClean::make_con_status()</a></code></td>
 <td align="left">function</td>
 <td align="left">Make conservation status from existing status codes</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/make_cover.html">envClean::make_cover()</a></code></td>
 <td align="left">function</td>
 <td align="left">Make a single (numeric, proportion) cover column from different sorts of</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/make_effort_mod.html">envClean::make_effort_mod()</a></code></td>
 <td align="left">function</td>
 <td align="left">Distribution of credible values for taxa richness.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/make_effort_mod_pca.html">envClean::make_effort_mod_pca()</a></code></td>
 <td align="left">function</td>
 <td align="left">Model the effect of principal components on taxa richness.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/make_env_pca.html">envClean::make_env_pca()</a></code></td>
 <td align="left">function</td>
 <td align="left">Principal components analysis and various outputs from environmental data</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/make_gbif_taxonomy.html">envClean::make_gbif_taxonomy()</a></code></td>
 <td align="left">function</td>
 <td align="left">Make taxonomy lookups</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/make_ind_status.html">envClean::make_ind_status()</a></code></td>
 <td align="left">function</td>
 <td align="left">Make indigenous status lookup</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/make_lifeform.html">envClean::make_lifeform()</a></code></td>
 <td align="left">function</td>
 <td align="left">Get unique lifeform across taxa, perhaps including further context</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/make_subspecies_col.html">envClean::make_subspecies_col()</a></code></td>
 <td align="left">function</td>
 <td align="left">Make a subspecies column</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/make_taxonomy.html">envClean::make_taxonomy()</a></code></td>
 <td align="left">function</td>
 <td align="left">Get taxonomy via code{galah::taxa_search()}</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/make_unmatched_overrides.html">envClean::make_unmatched_overrides()</a></code></td>
 <td align="left">function</td>
 <td align="left">Attempt to find a taxa for names with no match in code{galah::search_taxa()}</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/rec_vis_sit_tax.html">envClean::rec_vis_sit_tax()</a></code></td>
 <td align="left">function</td>
 <td align="left">How many records, visits, sites and taxa in a dataframe</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/reduce_geo_rel.html">envClean::reduce_geo_rel()</a></code></td>
 <td align="left">function</td>
 <td align="left">Reduce data frame to a single spatial reliability within a context</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code><a href="reference/taxonomy_overrides.html">envClean::taxonomy_overrides</a></code></td>
 <td align="left">tbl_df, tbl and data.frame</td>
 <td align="left">Manual taxonomic overrides</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code><a href="reference/try_name_via_gbif.html">envClean::try_name_via_gbif()</a></code></td>
 <td align="left">function</td>
 <td align="left">Attempt to find an unmatched scientific name using GBIF Backbone Taxonomy</td>
@@ -415,16 +434,16 @@ Records from <code>flor_all</code> plotted over the area of interest <code>aoi</
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>

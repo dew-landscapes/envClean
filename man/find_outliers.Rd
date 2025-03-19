@@ -32,5 +32,5 @@ in which to look for outliers.}
 \code{\link[ggplot2:geom_boxplot]{ggplot2::geom_boxplot()}} default value is \code{1.5}.}
 }
 \description{
-Find local outliers
+You're probably better off using \code{flag_local_outliers()} instead
 }
