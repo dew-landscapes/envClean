@@ -41,9 +41,9 @@
 #' @param not_names Character. Text that matches `non_name_strings` is used to
 #' remove non-names from original_names before a word count to indicate (guess)
 #' if the original_name is trinomial (original_is_tri field in lutaxa).
-#' @param tri_strings Character. Text that matches `tri_strings` is
-#' used to indicate if the original_name is trinomial (original_is_tri field in
-#' output lutaxa).
+#' @param tri_strings,bi_strings Character. Text that matches these strings is
+#' used to indicate if the original_name is trinomial or binomial. `original_is`
+#' (bin)omial or (tri)nomial appear in the resulting `lutaxa`.
 #' @param atlas Character. Name of galah atlas to use.
 #' @param tweak_species. Logical. If `TRUE` (default) and the returned `species`
 #' column result ends in a full stop, the values returned in the `species`
@@ -75,7 +75,7 @@
 #'     by: column `rank` is an ordered factor as per `envClean::lurank`;
 #'     rank_adj is a new column that will reflect the rank column unless rank is
 #'     less than subspecies, in which case it will be subspecies; and
-#'     original_is_tri is a new column
+#'     original_is_(bi or tri) are new columns
 #'   \item needed_ranks - One element for each rank specified in `needed_ranks`.
 #'      \itemize{
 #'        \item lutaxa - dataframe. For each unique name in `taxa_col`, the best
@@ -176,7 +176,8 @@
                                               , "\\srace\\)"
                                               , "\\sp\\.v\\."
                                               )
-                            , bi_strings = c("\\ssp\\s"
+                            , bi_strings = c("all\\ssubspecies"
+                                             , "\\ssp\\s"
                                              ,"\\ssp\\.\\s"
                                              , "\\sspecies"
                                              )
@@ -550,8 +551,6 @@
           )
           ) %>%
         dplyr::mutate(original_is_bi = dplyr::case_when(
-          # a few cases referencing 'all subspecies"
-          ! base::grepl("all\\ssubspecies", original_name) ~ TRUE,
           # the original name matches tri_strings
           base::grepl(paste0(bi_strings
                              , collapse = "|"
@@ -560,13 +559,13 @@
                       ) ~ TRUE,
           # more than 2 words (after cleaning up words in original_name)
           words == 2 ~ TRUE,
-          # odd case where the matched name has tri_string but the original_name didn't
+          # odd case where the matched name has string but the original_name didn't
           base::grepl(paste0(bi_strings
                              , collapse = "|"
                              )
                       , scientific_name
                       ) ~ TRUE,
-          # anything else is not a trinomial
+          # anything else is not a binomial
           TRUE ~ FALSE
           )
           ) %>%
@@ -633,6 +632,7 @@
         dplyr::mutate(returned_rank = factor(returned_rank, levels = levels(lurank$rank), ordered = TRUE)) %>%
         dplyr::select(original_name, kingdom, match_type, returned_rank, matched_rank, taxa
                       , original_is_tri
+                      , original_is_bi
                       , tidyselect::any_of("override")
                       )
 
@@ -655,6 +655,7 @@
                                   dplyr::distinct(original_name, match_type
                                                   , matched_rank, returned_rank, taxa
                                                   , original_is_tri
+                                                  , original_is_bi
                                                   , dplyr::across(tidyselect::any_of("override"))
                                                   )
 
