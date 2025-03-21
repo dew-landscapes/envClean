@@ -137,7 +137,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-in"><span>                                     , <span class="st">"Gehyra montium (revised)"</span></span></span>
 <span class="r-in"><span>                                     , <span class="st">"Korthalsella japonica f. japonica"</span></span></span>
 <span class="r-in"><span>                                     , <span class="st">"Galaxias sp. nov. 'Hunter'"</span></span></span>
-<span class="r-in"><span>                                     , <span class="st">"Not a taxa"</span></span></span>
+<span class="r-in"><span>                                     , <span class="st">"Some rubbish"</span></span></span>
 <span class="r-in"><span>                                     , <span class="st">"Senna artemisioides subsp x artemisioides"</span></span></span>
 <span class="r-in"><span>                                     <span class="op">)</span></span></span>
 <span class="r-in"><span>                            <span class="op">)</span></span></span>
@@ -151,13 +151,13 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Matched <span style="font-weight: bold;">17 of 20</span> taxonomic search terms in selected atlas (Australia).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">3 unmatched search terms:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Galaxias sp. nov. Hunter", "Not a taxa", "Senna artemisioides subsp x</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">artemisioides"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Galaxias sp. nov. Hunter", "Senna artemisioides subsp x artemisioides",</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">"Some rubbish"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpAzKe3K\file34c82a3c10b9.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Not a taxa and Senna artemisioides subsp x artemisioides. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpSKj2BQ\file55484ef01592.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Senna artemisioides subsp x artemisioides and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::filter()`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `returned_rank == min(returned_rank)`.</span>
@@ -168,7 +168,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">raw</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 19</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 20</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    original_name              search_term scientific_name scientific_name_auth…¹</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Bettongia lesueur Barrow … Bettongia … Bettongia lesu… <span style="color: #BB0000;">NA</span>                    </span>
@@ -183,24 +183,26 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Lagorchestes hirsutus Cen… Lagorchest… Lagorchestes h… Gould, 1844           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Melithreptus gularis gula… Melithrept… Melithreptus (… (Gould, 1837)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Melithreptus gularis laet… Melithrept… Melithreptus (… Gould, 1875           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> Not a taxa                 Not a taxa  <span style="color: #BB0000;">NA</span>              <span style="color: #BB0000;">NA</span>                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> Perameles gunnii Victoria… Perameles … Perameles gunn… <span style="color: #BB0000;">NA</span>                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Petrogale lateralis (MacD… Petrogale … Petrogale late… Gould, 1842           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> Pterostylis sp. Rock ledg… Pterostyli… Pterostylis     R.Br.                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> Senna artemisioides subsp… Senna arte… <span style="color: #BB0000;">NA</span>              <span style="color: #BB0000;">NA</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> Perameles gunnii Victoria… Perameles … Perameles gunn… <span style="color: #BB0000;">NA</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> Petrogale lateralis (MacD… Petrogale … Petrogale late… Gould, 1842           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Pterostylis sp. Rock ledg… Pterostyli… Pterostylis     R.Br.                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> Senna artemisioides subsp… Senna arte… <span style="color: #BB0000;">NA</span>              <span style="color: #BB0000;">NA</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> Some rubbish               Some rubbi… <span style="color: #BB0000;">NA</span>              <span style="color: #BB0000;">NA</span>                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> Spyridium eriocephalum va… Spyridium … Spyridium erio… J.M.Black             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> Spyridium glabrisepalum    Spyridium … Spyridium erio… J.M.Black             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> Thinornis cucullatus       Thinornis … Thinornis cucu… (Vieillot, 1818)      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​scientific_name_authorship</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15 more variables: taxon_concept_id &lt;chr&gt;, rank &lt;ord&gt;, match_type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 16 more variables: taxon_concept_id &lt;chr&gt;, rank &lt;ord&gt;, match_type &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genus &lt;chr&gt;, species &lt;chr&gt;, vernacular_name &lt;chr&gt;, stamp &lt;dttm&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   subspecies &lt;chr&gt;, rank_adj &lt;ord&gt;, original_is_tri &lt;lgl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   subspecies &lt;chr&gt;, rank_adj &lt;ord&gt;, original_is_tri &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">kingdom</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 variables: original_name &lt;chr&gt;, match_type &lt;chr&gt;, matched_rank &lt;ord&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   returned_rank &lt;ord&gt;, taxa &lt;chr&gt;, original_is_tri &lt;lgl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 variables: original_name &lt;chr&gt;, match_type &lt;chr&gt;, matched_rank &lt;ord&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   returned_rank &lt;ord&gt;, taxa &lt;chr&gt;, original_is_tri &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 2</span></span>
@@ -208,7 +210,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">genus</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    original_name     match_type matched_rank returned_rank taxa  original_is_tri</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Bettongia lesueu… exactMatch subspecies   genus         Bett… TRUE           </span>
@@ -228,6 +230,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Spyridium erioce… exactMatch variety      genus         Spyr… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> Spyridium glabri… exactMatch variety      genus         Spyr… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> Thinornis cucull… exactMatch species      genus         Thin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 13 × 7</span></span>
@@ -249,7 +252,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    original_name     match_type matched_rank returned_rank taxa  original_is_tri</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Bettongia lesueu… exactMatch subspecies   species       Bett… TRUE           </span>
@@ -269,6 +272,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Spyridium erioce… exactMatch variety      species       Spyr… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> Spyridium glabri… exactMatch variety      species       Spyr… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> Thinornis cucull… exactMatch species      species       Thin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 8</span></span>
@@ -291,7 +295,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">subspecies</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    original_name     match_type matched_rank returned_rank taxa  original_is_tri</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Bettongia lesueu… exactMatch subspecies   subspecies    Bett… TRUE           </span>
@@ -311,6 +315,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Spyridium erioce… exactMatch variety      subspecies    Spyr… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> Spyridium glabri… exactMatch variety      subspecies    Spyr… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> Thinornis cucull… exactMatch species      species       Thin… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 9</span></span>
@@ -350,12 +355,12 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpAzKe3K\file34c82a3c10b9.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Not a taxa and Senna artemisioides subsp x artemisioides. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpSKj2BQ\file55484ef01592.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Senna artemisioides subsp x artemisioides and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $raw</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 19</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 20</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name               search_term scientific_name scientific_name_auth…¹</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Amytornis modestus (North,… Amytornis … Amytornis (Amy… (North, 1902)         </span>
@@ -364,14 +369,15 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Amytornis striatus          Amytornis … Amytornis (Mag… (Gould, 1840)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Amytornis whitei            Amytornis … Amytornis (Mag… Mathews, 1910         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​scientific_name_authorship</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15 more variables: taxon_concept_id &lt;chr&gt;, rank &lt;ord&gt;, match_type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 16 more variables: taxon_concept_id &lt;chr&gt;, rank &lt;ord&gt;, match_type &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genus &lt;chr&gt;, species &lt;chr&gt;, vernacular_name &lt;chr&gt;, stamp &lt;dttm&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   subspecies &lt;chr&gt;, rank_adj &lt;ord&gt;, original_is_tri &lt;lgl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   subspecies &lt;chr&gt;, rank_adj &lt;ord&gt;, original_is_tri &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $species$lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Amytornis modestu… canonical… species      species       Amyt… FALSE          </span>
@@ -379,6 +385,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Amytornis modestu… exactMatch subspecies   species       Amyt… TRUE           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Amytornis striatus exactMatch species      species       Amyt… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Amytornis whitei   exactMatch species      species       Amyt… FALSE          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $species$taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 8</span></span>
@@ -414,11 +421,11 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15       Lagorchestes hirsutus Central Australian subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16                              Melithreptus gularis gularis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17                              Melithreptus gularis laetior</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                Not a taxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                     Perameles gunnii Victorian subspecies</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20              Petrogale lateralis (MacDonnell Ranges race)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Pterostylis sp. Rock ledges (pl. 185, Bates &amp; Weber 1990)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                 Senna artemisioides subsp x artemisioides</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                     Perameles gunnii Victorian subspecies</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19              Petrogale lateralis (MacDonnell Ranges race)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Pterostylis sp. Rock ledges (pl. 185, Bates &amp; Weber 1990)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                 Senna artemisioides subsp x artemisioides</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                              Some rubbish</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23                 Spyridium eriocephalum var. glabrisepalum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24                                   Spyridium glabrisepalum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25                                      Thinornis cucullatus</span>
@@ -440,11 +447,11 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15       Lagorchestes hirsutus Central Australian subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16                              Melithreptus gularis gularis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17                              Melithreptus gularis laetior</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                Not a taxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                     Perameles gunnii Victorian subspecies</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20              Petrogale lateralis (MacDonnell Ranges race)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Pterostylis sp. Rock ledges (pl. 185, Bates &amp; Weber 1990)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                 Senna artemisioides subsp x artemisioides</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                     Perameles gunnii Victorian subspecies</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19              Petrogale lateralis (MacDonnell Ranges race)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Pterostylis sp. Rock ledges (pl. 185, Bates &amp; Weber 1990)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                 Senna artemisioides subsp x artemisioides</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                              Some rubbish</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23                 Spyridium eriocephalum var. glabrisepalum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24                                   Spyridium glabrisepalum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25                                      Thinornis cucullatus</span>
@@ -466,10 +473,10 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15                                  Lagorchestes hirsutus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16              Melithreptus (Eidopsarus) gularis gularis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17              Melithreptus (Eidopsarus) gularis laetior</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                  Perameles gunnii Victorian subspecies</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                    Petrogale lateralis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                            Pterostylis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                  Perameles gunnii Victorian subspecies</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                    Petrogale lateralis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                            Pterostylis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23              Spyridium eriocephalum var. glabrisepalum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24              Spyridium eriocephalum var. glabrisepalum</span>
@@ -493,9 +500,9 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16              (Gould, 1837)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17                Gould, 1875</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18                       &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                       &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                Gould, 1842</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                      R.Br.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                Gould, 1842</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                      R.Br.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                       &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22                       &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23                  J.M.Black</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24                  J.M.Black</span>
@@ -518,10 +525,10 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15 https://biodiversity.org.au/afd/taxa/6e3213e1-c33b-45ae-9e05-6019211dd454</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16 https://biodiversity.org.au/afd/taxa/5ae49193-9e02-4a8d-a573-112cbf35c350</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17 https://biodiversity.org.au/afd/taxa/8742561c-c7e4-445c-97b6-ac63db433f6c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                      &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                           ALA_DR22912_428</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 https://biodiversity.org.au/afd/taxa/a610443a-5830-4d3c-a34a-092bf3adcb96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                        https://id.biodiversity.org.au/taxon/apni/51726566</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                           ALA_DR22912_428</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 https://biodiversity.org.au/afd/taxa/a610443a-5830-4d3c-a34a-092bf3adcb96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                        https://id.biodiversity.org.au/taxon/apni/51726566</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23                          https://id.biodiversity.org.au/node/apni/2887920</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24                          https://id.biodiversity.org.au/node/apni/2887920</span>
@@ -544,10 +551,10 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15    species canonicalMatch Animalia   Chordata      Mammalia   Diprotodontia</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16 subspecies     exactMatch Animalia   Chordata          Aves   Passeriformes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17 subspecies     exactMatch Animalia   Chordata          Aves   Passeriformes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18       &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 subspecies     exactMatch Animalia   Chordata      Mammalia Peramelemorphia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20    species canonicalMatch Animalia   Chordata      Mammalia   Diprotodontia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21      genus     exactMatch  Plantae Charophyta Equisetopsida     Asparagales</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 subspecies     exactMatch Animalia   Chordata      Mammalia Peramelemorphia</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19    species canonicalMatch Animalia   Chordata      Mammalia   Diprotodontia</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20      genus     exactMatch  Plantae Charophyta Equisetopsida     Asparagales</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21       &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;            &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22       &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;            &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23    variety     exactMatch  Plantae Charophyta Equisetopsida         Rosales</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24    variety     exactMatch  Plantae Charophyta Equisetopsida         Rosales</span>
@@ -570,40 +577,40 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15 Macropodidae Lagorchestes  Lagorchestes hirsutus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16 Meliphagidae Melithreptus   Melithreptus gularis</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meliphagidae Melithreptus   Melithreptus gularis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18         &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  Peramelidae    Perameles       Perameles gunnii</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Macropodidae    Petrogale    Petrogale lateralis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  Orchidaceae  Pterostylis                   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  Peramelidae    Perameles       Perameles gunnii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Macropodidae    Petrogale    Petrogale lateralis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  Orchidaceae  Pterostylis                   &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21         &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22         &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23   Rhamnaceae    Spyridium Spyridium eriocephalum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24   Rhamnaceae    Spyridium Spyridium eriocephalum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Charadriidae    Thinornis   Thinornis cucullatus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  vernacular_name               stamp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Thick-billed Grasswren 2025-03-19 05:28:12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Cowarie Thick-billed Grasswren 2025-03-19 05:28:12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Macdonnell Ranges Thick-billed Grasswren 2025-03-19 05:28:12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                             Striated Grasswren 2025-03-19 05:28:12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                           &lt;NA&gt; 2025-03-19 05:28:12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Burrowing Bettong (barrow And Boodie Islands) 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                             Lesser Sand Plover 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                           Red-necked Phalarope 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               Studley Park Gum 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                    Ribbon Gum 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        Rough-barked Manna-gum 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                          &lt;NA&gt; 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                             Centralian Dtella 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                             Jointed Mistletoe 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                           Rufous Hare-wallaby 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16            Black-chinned Honeyeater (eastern) 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                      Golden-backed Honeyeater 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                          &lt;NA&gt; 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19           Eastern Barred Bandicoot (mainland) 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                     Black-footed Rock-wallaby 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                    Greenhoods 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                          &lt;NA&gt; 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                        Macgillivray Spyridium 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                        Macgillivray Spyridium 2025-03-19 05:28:10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                 Hooded Plover 2025-03-19 05:28:10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Thick-billed Grasswren 2025-03-21 02:22:33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Cowarie Thick-billed Grasswren 2025-03-21 02:22:33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Macdonnell Ranges Thick-billed Grasswren 2025-03-21 02:22:33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                             Striated Grasswren 2025-03-21 02:22:33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                           &lt;NA&gt; 2025-03-21 02:22:33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Burrowing Bettong (barrow And Boodie Islands) 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                             Lesser Sand Plover 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                           Red-necked Phalarope 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               Studley Park Gum 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                    Ribbon Gum 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        Rough-barked Manna-gum 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                          &lt;NA&gt; 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                             Centralian Dtella 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                             Jointed Mistletoe 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                           Rufous Hare-wallaby 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16            Black-chinned Honeyeater (eastern) 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                      Golden-backed Honeyeater 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18           Eastern Barred Bandicoot (mainland) 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                     Black-footed Rock-wallaby 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                    Greenhoods 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                          &lt;NA&gt; 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                          &lt;NA&gt; 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                        Macgillivray Spyridium 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                        Macgillivray Spyridium 2025-03-21 02:22:31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                 Hooded Plover 2025-03-21 02:22:31</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                subspecies   rank_adj</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                    &lt;NA&gt;    species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                              Amytornis modestus cowarie subspecies</span>
@@ -622,44 +629,44 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                   &lt;NA&gt;    species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16                           Melithreptus gularis gularis subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17                           Melithreptus gularis laetior subspecies</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                   &lt;NA&gt;       &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                  Perameles gunnii Victorian subspecies subspecies</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                   &lt;NA&gt;    species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                   &lt;NA&gt;      genus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                  Perameles gunnii Victorian subspecies subspecies</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                   &lt;NA&gt;    species</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                   &lt;NA&gt;      genus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                   &lt;NA&gt;       &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                   &lt;NA&gt;       &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23              Spyridium eriocephalum var. glabrisepalum subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24              Spyridium eriocephalum var. glabrisepalum subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                   &lt;NA&gt;    species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    original_is_tri</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4            FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5            FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7            FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8            FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9            FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25           FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    original_is_tri original_is_bi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3             TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4            FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5            FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6             TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7            FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8            FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9            FALSE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10           FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12           FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13           FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20           FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22           FALSE           TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24            TRUE          FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25           FALSE           TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $subspecies</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $subspecies$lutaxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 22 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 22 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    original_name     match_type matched_rank returned_rank taxa  original_is_tri</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Amytornis modest… canonical… species      species       Amyt… FALSE          </span>
@@ -673,6 +680,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Eucalyptus        exactMatch genus        genus         Euca… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Eucalyptus vimin… exactMatch species      species       Euca… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 12 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $subspecies$taxonomy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 21 × 9</span></span>
@@ -715,7 +723,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Matched <span style="font-weight: bold;">0 of 1</span> taxonomic search terms in selected atlas (Australia).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">1 unmatched search term:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Not a taxa"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Some rubbish"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::mutate()`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `res = purrr::map(searched_name, galah::search_taxa)`.</span>
@@ -737,19 +745,20 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpAzKe3K\file34c82a3c10b9.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Not a taxa and Senna artemisioides subsp x artemisioides. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpSKj2BQ\file55484ef01592.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Senna artemisioides subsp x artemisioides and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span><span class="op">$</span><span class="va">lutaxa</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"rubricollis"</span>, <span class="va">original_name</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      species       Phal… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Thinornis rubrico… higherMat… species      species       Thin… TRUE           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: original_is_bi &lt;lgl&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># add in override - C. rubricollis is binned to T. cucullatus at species level</span></span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">overrides</span></span></span>
@@ -763,20 +772,20 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name, returned_rank)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpAzKe3K\file34c82a3c10b9.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Not a taxa and Senna artemisioides subsp x artemisioides. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpSKj2BQ\file55484ef01592.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter, Senna artemisioides subsp x artemisioides and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">taxonomy</span><span class="op">$</span><span class="va">species</span><span class="op">$</span><span class="va">lutaxa</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"rubricollis"</span>, <span class="va">original_name</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name      match_type matched_rank returned_rank taxa  original_is_tri</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Charadrius rubric… exactMatch species      species       Thin… FALSE          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Thinornis rubrico… exactMatch subspecies   species       Thin… TRUE           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: override &lt;lgl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: original_is_bi &lt;lgl&gt;, override &lt;lgl&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># tweak_species example</span></span></span>
@@ -787,7 +796,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpAzKe3K\file34c85eb25a29.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpSKj2BQ\file554836a2ddb.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
@@ -802,7 +811,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpAzKe3K\file34c83a89584f.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\RtmpSKj2BQ\file5548670a14a9.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
@@ -813,7 +822,7 @@ entities for which a match is desired.</p></dd>
 <span class="r-in"><span>  <span class="co"># clean up</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">temp_file</span>, <span class="st">".parquet"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:/temp/nige\\RtmpAzKe3K\\file34c82a3c10b9.parquet"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:/temp/nige\\RtmpSKj2BQ\\file55484ef01592.parquet"</span>
 </code></pre></div>
     </div>
   </div>

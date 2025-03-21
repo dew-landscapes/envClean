@@ -20,6 +20,8 @@ make_taxonomy(
     "\\\\svar\\\\.\\\\s", "\\\\ssubsp\\\\.", "\\\\ssubspecies", "\\\\sform\\\\)",
     "\\\\sform\\\\s", "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)",
     "\\\\sp\\\\.v\\\\."),
+  bi_strings = c("all\\\\ssubspecies", "\\\\ssp\\\\s", "\\\\ssp\\\\.\\\\s",
+    "\\\\sspecies"),
   atlas = c("Australia"),
   tweak_species = TRUE,
   return_taxonomy = TRUE,
@@ -56,9 +58,9 @@ removed from the \code{taxa_col} before searching (text, not row, is removed).}
 remove non-names from original_names before a word count to indicate (guess)
 if the original_name is trinomial (original_is_tri field in lutaxa).}
 
-\item{tri_strings}{Character. Text that matches \code{tri_strings} is
-used to indicate if the original_name is trinomial (original_is_tri field in
-output lutaxa).}
+\item{tri_strings, bi_strings}{Character. Text that matches these strings is
+used to indicate if the original_name is trinomial or binomial. \code{original_is}
+(bin)omial or (tri)nomial appear in the resulting \code{lutaxa}.}
 
 \item{atlas}{Character. Name of galah atlas to use.}
 
@@ -97,7 +99,7 @@ If list, then elements:
 by: column \code{rank} is an ordered factor as per \code{envClean::lurank};
 rank_adj is a new column that will reflect the rank column unless rank is
 less than subspecies, in which case it will be subspecies; and
-original_is_tri is a new column
+original_is_(bi or tri) are new columns
 \item needed_ranks - One element for each rank specified in \code{needed_ranks}.
 \itemize{
 \item lutaxa - dataframe. For each unique name in \code{taxa_col}, the best
@@ -115,14 +117,15 @@ workflow
 \item taxa - the best taxa available for \code{original_name} at
 \code{needed_rank}, perhaps taking into account \code{overrides}
 \item override - is the \code{taxa} the result of an override?
-\item original_is_tri - Experimental. Is the \code{original_name} a
-trinomial? Highlights cases where the matched rank is > subspecies
-but the \code{original_name} is probably a subspecies. Guesses
-are based on a word count after removal of: \code{not_names}; numbers;
-punctuation; capitalised words that are not the first word; and single
-letter 'words'. \code{tri_strings} override the guess - flagging TRUE.
+\item original_is_tri,original_is_bi - Experimental. Is the
+\code{original_name} a trinomial or binomiail? Highlights cases where
+the matched rank is > subspecies but the \code{original_name} is
+probably a subspecies. Guesses are based on a word count after
+removal of: \code{not_names}; numbers; punctuation; capitalised words
+that are not the first word; and single letter 'words'.
+\code{bi_strings} or \code{tri_strings} override the guess - flagging TRUE.
 Note, clearly, this is only an (informed) guess at whether the
-\code{original_name} is trinomial.
+\code{original_name} is binomial or trinomial.
 }
 \item taxonomy - dataframe. For each \code{taxa} in \code{lutaxa} a row of
 taxonomic hierarchy
@@ -175,7 +178,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Gehyra montium (revised)"
                                      , "Korthalsella japonica f. japonica"
                                      , "Galaxias sp. nov. 'Hunter'"
-                                     , "Not a taxa"
+                                     , "Some rubbish"
                                      , "Senna artemisioides subsp x artemisioides"
                                      )
                             )

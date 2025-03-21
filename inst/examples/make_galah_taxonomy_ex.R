@@ -22,7 +22,7 @@
                                      , "Gehyra montium (revised)"
                                      , "Korthalsella japonica f. japonica"
                                      , "Galaxias sp. nov. 'Hunter'"
-                                     , "Not a taxa"
+                                     , "Some rubbish"
                                      , "Senna artemisioides subsp x artemisioides"
                                      )
                             )

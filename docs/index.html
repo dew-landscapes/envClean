@@ -108,75 +108,8 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="filtering-an-area-of-interest">Filtering an ‘area of interest’<a class="anchor" aria-label="anchor" href="#filtering-an-area-of-interest"></a>
-</h2>
-<p>An area of interest, or geographic range, sets the spatial boundary for the cleaning. Adding geographic (or spatial) bins based on a raster that spans the area of interest is another way to achieve the same end.</p>
-<p>This example uses the <code>flor_all</code> data frame and the simple feature <code>aoi</code>. Converting <code>flor_all</code> to <code>sf</code> allows plotting them together.</p>
-<p>Load <code>flor_all</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">flor_all</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">flor_all</span><span class="op">)</span></span></code></pre></div>
-<p>Convert <code>flor_all</code> to <code>sf</code> and plot together with <code>aoi</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span>  <span class="va">flor_all_sf</span> <span class="op">&lt;-</span> <span class="va">flor_all</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
-<span>                 , crs <span class="op">=</span> <span class="fl">4326</span></span>
-<span>                 <span class="op">)</span></span>
-<span></span>
-<span>  <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">aoi</span></span>
-<span>           , bbox <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span></span>
-<span>           <span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_symbols.html" class="external-link">tm_dots</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="reference/figures/README-aoi-1.png" alt="Records from `flor_all` plotted over the area of interest `aoi`." width="100%"><p class="caption">
-Records from <code>flor_all</code> plotted over the area of interest <code>aoi</code>.
-</p>
-</div>
-<p>Filtering <code>flor_all</code> to <code>aoi</code> is done with <code>filter_geo_range</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span>  <span class="va">flor_aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/filter_geo_range.html">filter_geo_range</a></span><span class="op">(</span><span class="va">flor_all</span></span>
-<span>                         , use_aoi <span class="op">=</span> <span class="va">aoi</span></span>
-<span>                         <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">envFunc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/envFunc/man/add_time_stamp.html" class="external-link">add_time_stamp</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(long, lat)`</span></span>
-<span></span>
-<span>  <span class="va">flor_aoi</span></span>
-<span><span class="co">#&gt; # A tibble: 1,419 × 10</span></span>
-<span><span class="co">#&gt;     long   lat      area data_name site       date       original_name          rel_metres month  year</span></span>
-<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;                       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1  140. -34.5 81695918. GBIF      2573957849 2020-02-22 Eremophila glabra             500     2  2020</span></span>
-<span><span class="co">#&gt;  2  140. -34.5 81695918. GBIF      3902768443 2022-08-14 Triodia scariosa               NA     8  2022</span></span>
-<span><span class="co">#&gt;  3  140. -34.5 81695918. GBIF      3902326597 2022-08-14 Beyeria lechenaultii           NA     8  2022</span></span>
-<span><span class="co">#&gt;  4  140. -34.5 81695918. GBIF      3902042262 2022-08-14 Walsholaria magniflora         NA     8  2022</span></span>
-<span><span class="co">#&gt;  5  140. -34.5 81695918. GBIF      3058875475 2019-09-01 Triodia scariosa              564     9  2019</span></span>
-<span><span class="co">#&gt;  6  140. -34.5 81695918. GBIF      3058756300 2019-09-01 Westringia rigida             564     9  2019</span></span>
-<span><span class="co">#&gt;  7  140. -34.5 81695918. GBIF      3902151141 2022-08-14 Phebalium bullatum             NA     8  2022</span></span>
-<span><span class="co">#&gt;  8  140. -34.5 81695918. GBIF      3902634058 2022-08-14 Acacia rigens                  NA     8  2022</span></span>
-<span><span class="co">#&gt;  9  140. -34.5 81695918. GBIF      3902018286 2022-08-14 Exocarpos aphyllus             NA     8  2022</span></span>
-<span><span class="co">#&gt; 10  140. -34.5 81695918. GBIF      3923355578 2022-08-14 Maireana radiata               NA     8  2022</span></span>
-<span><span class="co">#&gt; # ℹ 1,409 more rows</span></span></code></pre></div>
-<p>Check that spatial filter worked.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span>  <span class="va">flor_aoi_sf</span> <span class="op">&lt;-</span> <span class="va">flor_aoi</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
-<span>                 , crs <span class="op">=</span> <span class="fl">4326</span></span>
-<span>                 <span class="op">)</span></span>
-<span></span>
-<span>  <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">aoi</span></span>
-<span>           , bbox <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">flor_all_sf</span><span class="op">)</span></span>
-<span>           <span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">flor_aoi_sf</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">tmap</span><span class="fu">::</span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_symbols.html" class="external-link">tm_dots</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-flor_aoi-1.png" width="100%"></p>
-</div>
-<div class="section level2">
-<h2 id="what-else-is-in-envclean">What else is in <code>envClean</code>
-<a class="anchor" aria-label="anchor" href="#what-else-is-in-envclean"></a>
+<h2 id="what-is-in-envclean">What is in <code>envClean</code>
+<a class="anchor" aria-label="anchor" href="#what-is-in-envclean"></a>
 </h2>
 <p>The following functions and data sets are provided in <code>envClean</code>. See <a href="https://acanthiza.github.io/envClean/" class="external-link uri">https://acanthiza.github.io/envClean/</a> for more examples.</p>
 <table class="table">

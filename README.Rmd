@@ -47,69 +47,7 @@ library("envClean")
     + [CoordinateCleaner](https://cran.r-project.org/web/packages/CoordinateCleaner/vignettes/Cleaning_GBIF_data_with_CoordinateCleaner.html)
     + [bdc](https://cran.r-project.org/web/packages/bdc/index.html)
 
-
-## Filtering an 'area of interest'
-
-An area of interest, or geographic range, sets the spatial boundary for the cleaning. Adding geographic (or spatial) bins based on a raster that spans the area of interest is another way to achieve the same end.
-
-This example uses the `flor_all` data frame and the simple feature `aoi`. Converting `flor_all` to `sf` allows plotting them together.
-
-Load `flor_all`
-
-```{r}
-flor_all <- tibble::as_tibble(flor_all)
-```
-
-Convert `flor_all` to `sf` and plot together with `aoi`.
-
-```{r aoi, fig.cap = "Records from `flor_all` plotted over the area of interest `aoi`."}
-
-  flor_all_sf <- flor_all %>%
-    sf::st_as_sf(coords = c("long", "lat")
-                 , crs = 4326
-                 )
-
-  tmap::tm_shape(aoi
-           , bbox = sf::st_bbox(flor_all_sf)
-           ) +
-    tmap::tm_polygons() +
-  tmap::tm_shape(flor_all_sf) +
-    tmap::tm_dots()
-
-```
-
-Filtering `flor_all` to `aoi` is done with `filter_geo_range`.
-
-```{r flor_all_aoi}
-
-  flor_aoi <- filter_geo_range(flor_all
-                         , use_aoi = aoi
-                         ) %>%
-    envFunc::add_time_stamp()
-
-  flor_aoi
-
-```
-
-Check that spatial filter worked.
-
-```{r flor_aoi}
-
-  flor_aoi_sf <- flor_aoi %>%
-    sf::st_as_sf(coords = c("long", "lat")
-                 , crs = 4326
-                 )
-
-  tmap::tm_shape(aoi
-           , bbox = sf::st_bbox(flor_all_sf)
-           ) +
-    tmap::tm_polygons() +
-  tmap::tm_shape(flor_aoi_sf) +
-    tmap::tm_dots()
-
-```
-
-## What else is in `envClean`
+## What is in `envClean`
 
 The following functions and data sets are provided in `envClean`. See https://acanthiza.github.io/envClean/ for more examples.
 
