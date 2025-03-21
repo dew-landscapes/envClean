@@ -93,14 +93,15 @@
 #'            \item taxa - the best taxa available for `original_name` at
 #'            `needed_rank`, perhaps taking into account `overrides`
 #'            \item override - is the `taxa` the result of an override?
-#'            \item original_is_tri - Experimental. Is the `original_name` a
-#'            trinomial? Highlights cases where the matched rank is > subspecies
-#'            but the `original_name` is probably a subspecies. Guesses
-#'            are based on a word count after removal of: `not_names`; numbers;
-#'            punctuation; capitalised words that are not the first word; and single
-#'            letter 'words'. `tri_strings` override the guess - flagging TRUE.
+#'            \item original_is_tri,original_is_bi - Experimental. Is the
+#'            `original_name` a trinomial or binomiail? Highlights cases where
+#'            the matched rank is > subspecies but the `original_name` is
+#'            probably a subspecies. Guesses are based on a word count after
+#'            removal of: `not_names`; numbers; punctuation; capitalised words
+#'            that are not the first word; and single letter 'words'.
+#'            `bi_strings` or `tri_strings` override the guess - flagging TRUE.
 #'            Note, clearly, this is only an (informed) guess at whether the
-#'            `original_name` is trinomial.
+#'            `original_name` is binomial or trinomial.
 #'          }
 #'        \item taxonomy - dataframe. For each `taxa` in `lutaxa` a row of
 #'        taxonomic hierarchy
@@ -175,6 +176,10 @@
                                               , "\\srace\\)"
                                               , "\\sp\\.v\\."
                                               )
+                            , bi_strings = c("\\ssp\\s"
+                                             ,"\\ssp\\.\\s"
+                                             , "\\sspecies"
+                                             )
                             , atlas = c("Australia")
                             , tweak_species = TRUE
                             , return_taxonomy = TRUE
@@ -489,7 +494,7 @@
 
       }
 
-      # original_is_tri -------
+      # original_is_bi or tri -------
       authors <- new %>%
         dplyr::select(original_name, scientific_name_authorship) %>%
         tidytext::unnest_tokens(word, scientific_name_authorship) %>%
@@ -544,6 +549,28 @@
           TRUE ~ FALSE
           )
           ) %>%
+        dplyr::mutate(original_is_bi = dplyr::case_when(
+          # a few cases referencing 'all subspecies"
+          ! base::grepl("all\\ssubspecies", original_name) ~ TRUE,
+          # the original name matches tri_strings
+          base::grepl(paste0(bi_strings
+                             , collapse = "|"
+                             )
+                      , original_name
+                      ) ~ TRUE,
+          # more than 2 words (after cleaning up words in original_name)
+          words == 2 ~ TRUE,
+          # odd case where the matched name has tri_string but the original_name didn't
+          base::grepl(paste0(bi_strings
+                             , collapse = "|"
+                             )
+                      , scientific_name
+                      ) ~ TRUE,
+          # anything else is not a trinomial
+          TRUE ~ FALSE
+          )
+          ) %>%
+        dplyr::mutate(original_is_bi = dplyr::if_else(original_is_tri, FALSE, original_is_bi)) |>
         dplyr::select(-words) %>%
         dplyr::distinct()
 
