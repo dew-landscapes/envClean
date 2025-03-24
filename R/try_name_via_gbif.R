@@ -7,6 +7,7 @@
 #' `galah::search_taxa()`.
 #'
 #' @param name Character. Taxa name to search.
+#' @param target_rank Character. Level within `envClean::lurank$rank` to target.
 #'
 #' @return If no match, NULL. If matched, a tibble ready for input to the
 #' overrides argument of `make_taxonomy()`.
@@ -15,7 +16,9 @@
 #' @examples
 #' galah::search_taxa("Peziza vesiculosa Bull.: Fr.") # Homonym issue
 #' try_name_via_gbif("Peziza vesiculosa Bull.: Fr.")
-try_name_via_gbif <- function(name) {
+try_name_via_gbif <- function(name
+                              , target_rank
+) {
 
   qry <- rgbif::name_backbone(name = name)
 
@@ -23,13 +26,24 @@ try_name_via_gbif <- function(name) {
   # Direct galah::search_taxa on any returned gbif scientific name
   if(all(qry$matchType != "NONE", qry$scientificName != name)) {
 
-    result <- galah::search_taxa(qry$scientificName)
+    result1 <- galah::search_taxa(qry$scientificName)
 
-  } else result <- NULL
+    if(all(c("scientific_name", "kingdom") %in% names(result1))) {
+
+      result1 |>
+        dplyr::add_count(kingdom, scientific_name) |>
+        dplyr::select(-search_term) |>
+        dplyr::filter(n == max(n)) |>
+        dplyr::distinct()
+
+    }
+
+  }
+
 
   # attempt 2 -------
   # Try searching using gbif common name
-  if(all(qry$matchType != "NONE", ! all(c("scientific_name") %in% names(result)))) {
+  if(all(qry$matchType != "NONE", ! all(c("scientific_name", target_rank) %in% names(result1)))) {
 
     qry <- qry |>
       dplyr::pull(usageKey) |>
@@ -37,31 +51,63 @@ try_name_via_gbif <- function(name) {
 
     if(!is.null(qry$data$vernacularName)) {
 
-      result <- qry$data |>
+      result2 <- qry$data |>
         dplyr::filter(language == "eng") %>%
         {if("preferred" %in% names(.)) (.) %>% dplyr::filter(! isFALSE(preferred)) else (.)} %>%
         {if("area" %in% names(.)) (.) |> dplyr::filter(area == "eng") else (.)} |>
         dplyr::pull(vernacularName) |>
         gsub("\\,.*", "", x = _)
 
-      result <- if(length(result)) galah::search_taxa(result) else NULL
+      if(length(result2)) {
+
+        result2 <- galah::search_taxa(result2)
+
+        if(all(c("scientific_name", "match_type", "kingdom") %in% names(result2))) {
+
+          result2 |>
+            dplyr::filter(match_type == "vernacularMatch") |>
+            dplyr::add_count(kingdom, scientific_name) |>
+            dplyr::select(-search_term) |>
+            dplyr::filter(n == max(n)) |>
+            dplyr::distinct()
+
+        }
+
+      }
 
     }
 
-    result <- if(all(c("scientific_name") %in% names(result))) {
+  }
 
-      result |>
-        dplyr::filter(match_type == "vernacularMatch") |>
-        dplyr::add_count(kingdom, scientific_name) |>
-        dplyr::select(-search_term) |>
-        dplyr::filter(n == max(n)) |>
-        dplyr::distinct()
 
-    } else NULL
+  # best attempt ----
+  if(exists("result1")) {
+
+    result <- result1 %>%
+      {if(all(exists("result2"), "scientific_name" %in% names(result2))) dplyr::bind_rows(., result2) else .}
+
+  } else if(all(!exists("result1"), exists("result2"))) {
+
+    result <- result2
+
+  } else {
+
+    result <- NULL
 
   }
 
-  if(!exists("result", inherits = FALSE)) result <- NULL
+  result <- if(all(c("scientific_name") %in% names(result))) {
+
+    result |>
+      dplyr::mutate(rank = factor(rank, levels = levels(envClean::lurank$rank), ordered = TRUE)) |>
+      dplyr::filter(rank == min(rank, na.rm = TRUE)) |>
+      dplyr::select(-tidyr::any_of("n")) |>
+      dplyr::add_count(kingdom, scientific_name) |>
+      dplyr::filter(n == max(n)) |>
+      dplyr::distinct() |>
+      dplyr::slice(1)
+
+  }
 
   return(result)
 
