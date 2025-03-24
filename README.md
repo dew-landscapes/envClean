@@ -60,7 +60,7 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::find_outliers()`            | function                   | Find local outliers                                                           |
 | `envClean::find_taxa()`                | function                   | Find how taxa changed through the cleaning/filtering/tidying process          |
 | `envClean::flag_local_outliers()`      | function                   | Find local outliers                                                           |
-| `envClean::flor_all`                   | tbl_df, tbl and data.frame | Example of data combined from several data sources.                           |
+| `envClean::flor_all`                   | data.frame                 | Example of data combined from several data sources.                           |
 | `envClean::get_taxonomy()`             | function                   | Get GBIF backbone taxonomy                                                    |
 | `envClean::luclean`                    | tbl_df, tbl and data.frame | Dataframe of cleaning steps                                                   |
 | `envClean::lurank`                     | tbl_df, tbl and data.frame | Dataframe of taxonomic ranks                                                  |

@@ -4,10 +4,12 @@
 \alias{try_name_via_gbif}
 \title{Attempt to find an unmatched scientific name using GBIF Backbone Taxonomy}
 \usage{
-try_name_via_gbif(name)
+try_name_via_gbif(name, target_rank)
 }
 \arguments{
 \item{name}{Character. Taxa name to search.}
+
+\item{target_rank}{Character. Level within \code{envClean::lurank$rank} to target.}
 }
 \value{
 If no match, NULL. If matched, a tibble ready for input to the
