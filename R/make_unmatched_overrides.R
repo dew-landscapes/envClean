@@ -68,7 +68,7 @@ make_unmatched_overrides <- function(df
       ) |>
       tidyr::unnest(cols = c(res))
 
-    if(! target_rank %in% names(unmatched_via_gbif)) {
+    if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_via_gbif)), ! "scientific_name" %in% names(unmatched_via_gbif))) {
 
       rm(unmatched_via_gbif)
 
@@ -86,7 +86,7 @@ make_unmatched_overrides <- function(df
       dplyr::mutate(res = purrr::map(searched_name, galah::search_taxa)) |>
       tidyr::unnest(cols = c(res))
 
-    if(! target_rank %in% names(unmatched_hybrids)) {
+    if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_hybrids)), ! "scientific_name" %in% names(unmatched_hybrids))) {
 
       rm(unmatched_hybrids)
 
