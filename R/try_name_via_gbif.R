@@ -30,13 +30,17 @@ try_name_via_gbif <- function(name
 
     if(all(c("scientific_name", "kingdom") %in% names(result1))) {
 
-      result1 |>
+      result1 <- result1 |>
         dplyr::add_count(kingdom, scientific_name) |>
         dplyr::select(-search_term) |>
         dplyr::filter(n == max(n)) |>
         dplyr::distinct()
 
     }
+
+  } else {
+
+    result1 <- NULL
 
   }
 
@@ -64,31 +68,27 @@ try_name_via_gbif <- function(name
 
         if(all(c("scientific_name", "match_type", "kingdom") %in% names(result2))) {
 
-          result2 |>
+          result2 <- result2 |>
             dplyr::filter(match_type == "vernacularMatch") |>
             dplyr::add_count(kingdom, scientific_name) |>
             dplyr::select(-search_term) |>
             dplyr::filter(n == max(n)) |>
             dplyr::distinct()
 
-        }
+        } else { result2 <- NULL }
 
-      }
+      } else { result2 <- NULL }
 
-    }
+    } else { result2 <- NULL }
 
-  }
+  } else { result2 <- NULL }
 
 
   # best attempt ----
-  if(exists("result1")) {
+  if(any(!is.null("result1"), !is.null("result2"))) {
 
     result <- result1 %>%
-      {if(all(exists("result2"), "scientific_name" %in% names(result2))) dplyr::bind_rows(., result2) else .}
-
-  } else if(all(!exists("result1"), exists("result2"))) {
-
-    result <- result2
+      dplyr::bind_rows(result2)
 
   } else {
 
@@ -96,7 +96,7 @@ try_name_via_gbif <- function(name
 
   }
 
-  result <- if(all(c("scientific_name") %in% names(result))) {
+  result <- if(c("scientific_name") %in% names(result)) {
 
     result |>
       dplyr::mutate(rank = factor(rank, levels = levels(envClean::lurank$rank), ordered = TRUE)) |>
@@ -107,7 +107,7 @@ try_name_via_gbif <- function(name
       dplyr::distinct() |>
       dplyr::slice(1)
 
-  }
+  } else NULL
 
   return(result)
 
