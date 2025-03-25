@@ -163,7 +163,6 @@
                                             , "nov"
                                             , "sensu"
                                             , "lato"
-                                            , "nc"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
