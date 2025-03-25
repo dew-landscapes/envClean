@@ -13,7 +13,7 @@ make_taxonomy(
     "incertae sedis", "\\\\?", "another species", "not naturalised in SA",
     "unidentified", "unverified", "annual tussock grass", "*no id", "spec\\\\."),
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
-    "\\\\sspec\\\\.$", "dead"),
+    "\\\\sspec\\\\.$", "dead", "sp.\\\\s.*\\\\(NC\\\\)"),
   not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
     "cf", "lineage", "group", "et", "al", "and", "pl", "revised", "nov", "sensu", "lato"),
   tri_strings = c("\\\\sssp\\\\s", "\\\\sssp\\\\.\\\\s", "\\\\svar\\\\s",
@@ -180,6 +180,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Galaxias sp. nov. 'Hunter'"
                                      , "Some rubbish"
                                      , "Senna artemisioides subsp x artemisioides"
+                                     , "Halosarcia sp.  (NC)"
                                      )
                             )
 

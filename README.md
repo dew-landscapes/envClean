@@ -6,8 +6,25 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `envClean` is to help clean large, unstructured, biological
-(or `env`ironmental) data sets.
+The goal of `envClean` is to help clean large amounts of unstructured,
+biological data (for further analysis elsewhere).
+
+Not all functions will be relevant to all projects.
+
+If a typical species list from a typical observer is required, then
+`make_effort_mod()` may be useful to filter out excessively rich or
+depauperate lists.
+
+If many data sources are included in the incoming data, taxonomic
+alignment via `make_taxonomy()` is likely to be required. If those data
+sources are likely to contain duplicates, using taxonomic, geographic
+and temporal bins may be the easiest way to ensure duplicates are
+removed.
+
+Some functions could be considered ‘experimental’. `add_cover()` uses
+principal components analysis on environmental variables to generate a
+best guess for percentage cover where some records are missing that
+attribute.
 
 ## Installation
 
@@ -28,6 +45,9 @@ library("envClean")
 ```
 
 ## Other packages/resources
+
+These are unrelated to `envClean` and are possibly much better
+documented:
 
 - The book [Cleaning Biodiversity Data in
   R](https://cleaning-data-r.ala.org.au/)
