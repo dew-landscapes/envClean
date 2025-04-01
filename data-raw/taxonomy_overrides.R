@@ -29,5 +29,5 @@ taxonomy_overrides <- tibble::tribble(
   "Anas clypeata", "Spatula clypeata", "Spatula clypeata", NA, "Northern Shoveler",
   "Dacelo novaehollandiae", "Dacelo novaeguineae", "Dacelo novaeguineae", NA, "Laughing Kookaburra",
   "Puffinus griseus", "Ardenna grisea", "Ardenna grisea", NA, "Sooty Shearwater",
-  "Aptenodes patagonicus", "Aptenodytes patagonicus", NA, "King Penguin"
+  "Aptenodes patagonicus", "Aptenodytes patagonicus", "Aptenodytes patagonicus", NA, "King Penguin"
   )
