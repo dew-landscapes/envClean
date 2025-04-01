@@ -18,7 +18,7 @@
 #' try_name_via_gbif("Peziza vesiculosa Bull.: Fr.")
 try_name_via_gbif <- function(name
                               , target_rank
-) {
+                              ) {
 
   qry <- rgbif::name_backbone(name = name)
 
@@ -32,9 +32,18 @@ try_name_via_gbif <- function(name
 
       result1 <- result1 |>
         dplyr::add_count(kingdom, scientific_name) |>
-        dplyr::select(-search_term) |>
         dplyr::filter(n == max(n)) |>
         dplyr::distinct()
+
+      # catch for scientific_name == name but result was otherwise good
+      if(result1$scientific_name == name) {
+
+        result1$scientific_name = result1$search_term
+
+      }
+
+      result1 <- result1 |>
+        dplyr::select(- search_term)
 
     }
 

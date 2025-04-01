@@ -141,6 +141,7 @@
                                                  , "\\sssp\\.$" # blah ssp.END
                                                  , "\\sspec\\.$" # blah spec.END
                                                  , "dead"
+                                                 , "sp.\\s.*\\(NC\\)"
                                                  ) # blah not removed, everything else removed
                             , not_names = c("sp"
                                             , "ssp"
@@ -504,19 +505,18 @@
 
       new <- new %>%
         # simple removals (digits then hyphens)
-        dplyr::mutate(original_name = stringr::str_squish(original_name)
-                      , check_name = gsub("[[:digit:]]+", "", original_name)
+        dplyr::mutate(check_name = gsub("[[:digit:]]+", "", search_term)
                       # make sure hyphenated names come through as one, not two, names
                       , check_name = gsub("[a-z]\\-[a-z]", "", check_name)
                       ) %>%
-        # convert to 'long' format on each word boundary in original_name
+        # convert to 'long' format on each word boundary in search_term
         tidytext::unnest_tokens(word, check_name, to_lower = FALSE) %>%
         # filter single letter words
         dplyr::filter(! (base::nchar(word) == 1)) %>%
         # filter not_names
         dplyr::filter(! (base::tolower(word) %in% not_names)) %>%
-        # add in a row number
-        dplyr::group_by(original_name) %>%
+        # add in a row number for each word in the name
+        dplyr::group_by(search_term) %>%
         dplyr::mutate(row_n = dplyr::row_number()) %>%
         dplyr::ungroup() %>%
         # filter capitals (Authors) that are not the 'first' word
@@ -531,16 +531,16 @@
         dplyr::right_join(new) %>%
         dplyr::mutate(original_is_tri = dplyr::case_when(
           # a few cases referencing 'all subspecies"
-          base::grepl("all\\ssubspecies", original_name) ~ FALSE,
+          base::grepl("all\\ssubspecies", search_term) ~ FALSE,
           # the original name matches tri_strings
           base::grepl(paste0(tri_strings
                              , collapse = "|"
                              )
-                      , original_name
+                      , search_term
                       ) ~ TRUE,
-          # more than 2 words (after cleaning up words in original_name)
+          # more than 2 words (after cleaning up words in search_term)
           words > 2 ~ TRUE,
-          # odd case where the matched name has tri_string but the original_name didn't
+          # odd case where the matched name has tri_string but the search_term didn't
           base::grepl(paste0(tri_strings
                              , collapse = "|"
                              )
@@ -555,11 +555,11 @@
           base::grepl(paste0(bi_strings
                              , collapse = "|"
                              )
-                      , original_name
+                      , search_term
                       ) ~ TRUE,
-          # more than 2 words (after cleaning up words in original_name)
+          # more than 2 words (after cleaning up words in search_term)
           words == 2 ~ TRUE,
-          # odd case where the matched name has string but the original_name didn't
+          # odd case where the matched name has string but the search_term didn't
           base::grepl(paste0(bi_strings
                              , collapse = "|"
                              )

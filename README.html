@@ -609,8 +609,21 @@ an R package to help clean large unstructured data set(s)</h1>
 
 <!-- badges: end -->
 
-<p>The goal of <code>envClean</code> is to help clean large,
-unstructured, biological (or <code>env</code>ironmental) data sets.</p>
+<p>The goal of <code>envClean</code> is to help clean large amounts of
+unstructured, biological data (for further analysis elsewhere).</p>
+<p>Not all functions will be relevant to all projects.</p>
+<p>If a typical species list from a typical observer is required, then
+<code>make_effort_mod()</code> may be useful to filter out excessively
+rich or depauperate lists.</p>
+<p>If many data sources are included in the incoming data, taxonomic
+alignment via <code>make_taxonomy()</code> is likely to be required. If
+those data sources are likely to contain duplicates, using taxonomic,
+geographic and temporal bins may be the easiest way to ensure duplicates
+are removed.</p>
+<p>Some functions could be considered ‘experimental’.
+<code>add_cover()</code> uses principal components analysis on
+environmental variables to generate a best guess for percentage cover
+where some records are missing that attribute.</p>
 <h2 id="installation">Installation</h2>
 <p><code>envClean</code> is not on <a href="https://CRAN.R-project.org">CRAN</a>.</p>
 <p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
@@ -619,6 +632,8 @@ unstructured, biological (or <code>env</code>ironmental) data sets.</p>
 <p>Load <code>envClean</code></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;envClean&quot;</span>)</span></code></pre></div>
 <h2 id="other-packagesresources">Other packages/resources</h2>
+<p>These are unrelated to <code>envClean</code> and are possibly much
+better documented:</p>
 <ul>
 <li>The book <a href="https://cleaning-data-r.ala.org.au/">Cleaning
 Biodiversity Data in R</a></li>
