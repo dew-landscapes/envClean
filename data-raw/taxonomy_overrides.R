@@ -25,5 +25,9 @@ taxonomy_overrides <- tibble::tribble(
   "Anas superciliosa x Anas platyrhynchos", "Anas superciliosa X platyrhynchos", "Anas superciliosa X platyrhynchos", NA, "Pacific Black Duck x Mallard hybrid", # duplicates of Pacific Black Duck x Mallard hybrid in galah taxonomy. Using the one that returns a sensible common name from bdbsa.
   "Lolium perenne X Lolium rigidum", "Lolium perenne X rigidum",  "Lolium perenne X rigidum", NA, "Perennial Rye-Grass X Wimmera Rye-Grass Hybrid", # duplicates in galah taxonomy due to different case 'x'
   "Lolium perenne x Lolium rigidum", "Lolium perenne X rigidum",  "Lolium perenne X rigidum", NA, "Perennial Rye-Grass X Wimmera Rye-Grass Hybrid", # duplicates in galah taxonomy due to different case 'x'
-  "Porzana pusilla", "Zapornia pusilla", "Zapornia pusilla", NA, "Baillon's Crake"
+  "Porzana pusilla", "Zapornia pusilla", "Zapornia pusilla", NA, "Baillon's Crake",
+  "Anas clypeata", "Spatula clypeata", "Spatula clypeata", NA, "Northern Shoveler",
+  "Dacelo novaehollandiae", "Dacelo novaeguineae", "Dacelo novaeguineae", NA, "Laughing Kookaburra",
+  "Puffinus griseus", "Ardenna grisea", "Ardenna grisea", NA, "Sooty Shearwater",
+  "Aptenodes patagonicus", "Aptenodytes patagonicus", NA, "King Penguin"
   )
