@@ -18,7 +18,7 @@
 #' try_name_via_gbif("Peziza vesiculosa Bull.: Fr.")
 try_name_via_gbif <- function(name
                               , target_rank
-                              ) {
+) {
 
   qry <- rgbif::name_backbone(name = name)
 
@@ -45,6 +45,10 @@ try_name_via_gbif <- function(name
       result1 <- result1 |>
         dplyr::select(- search_term)
 
+    } else {
+
+      result1 <- NULL
+
     }
 
   } else {
@@ -67,7 +71,7 @@ try_name_via_gbif <- function(name
       result2 <- qry$data %>%
         {if("area" %in% names(.)) (.) |> dplyr::filter(language == "eng" & area == "eng"|language == "eng" & is.na(area)|area == "eng" & is.na(language))
           else (.) |> dplyr::filter(language == "eng") } %>%
-        {if("preferred" %in% names(.)) (.) %>% dplyr::filter(! isFALSE(preferred)) else (.)} %>%
+        {if("preferred" %in% names(.)) (.) %>% dplyr::filter(preferred==TRUE|is.na(preferred)) else (.)} %>%
         dplyr::distinct(vernacularName) |>
         dplyr::pull(vernacularName) |>
         gsub("\\,.*", "", x = _)
