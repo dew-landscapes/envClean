@@ -55,10 +55,11 @@ try_name_via_gbif <- function(name
 
     if(!is.null(qry$data$vernacularName)) {
 
-      result2 <- qry$data |>
-        dplyr::filter(language == "eng") %>%
+      result2 <- qry$data %>%
+        {if("area" %in% names(.)) (.) |> dplyr::filter(language == "eng" & area == "eng"|language == "eng" & is.na(area)|area == "eng" & is.na(language))
+          else (.) |> dplyr::filter(language == "eng") } %>%
         {if("preferred" %in% names(.)) (.) %>% dplyr::filter(! isFALSE(preferred)) else (.)} %>%
-        {if("area" %in% names(.)) (.) |> dplyr::filter(area == "eng") else (.)} |>
+        dplyr::distinct(vernacularName) |>
         dplyr::pull(vernacularName) |>
         gsub("\\,.*", "", x = _)
 
