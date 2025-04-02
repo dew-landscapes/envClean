@@ -451,26 +451,25 @@
           overrides_long <- overrides %>%
             dplyr::select(original_name, tidyselect::matches("use_")) %>%
             tidyr::pivot_longer(tidyselect::matches("use_"), names_to = "returned_rank", values_to = "new_taxa") %>%
-            dplyr::filter(!is.na(new_taxa)) %>%
             dplyr::mutate(returned_rank = factor(gsub("use_", "", returned_rank), levels = levels(lurank$rank), ordered = TRUE))
 
           combined_overrides <- searched_overrides %>%
+            dplyr::mutate(subspecies = dplyr::if_else(is.na(use_subspecies), NA, subspecies)
+                          , rank_adj = dplyr::if_else(is.na(use_subspecies), "species", rank_adj)
+            ) |>
             tidyr::pivot_longer(tidyselect::any_of(lurank$rank)
                                 , names_to = "matched_rank"
                                 , values_to = "taxa"
-                                ) %>%
+            ) %>%
             dplyr::mutate(returned_rank = matched_rank) %>%
             dplyr::left_join(overrides_long) %>%
-            dplyr::mutate(change_taxa = is.na(taxa) & !is.na(new_taxa)) %>%
-            dplyr::mutate(taxa = dplyr::case_when(change_taxa ~ new_taxa
-                                                  , TRUE ~ taxa
-                                                  )
-                          , rank_adj = dplyr::case_when(change_taxa ~ returned_rank
-                                                        , TRUE ~ rank_adj
-                                                        )
+            dplyr::mutate(change_taxa = (is.na(taxa) & !is.na(new_taxa))|taxa != new_taxa
+                          , taxa = dplyr::if_else(change_taxa, new_taxa, taxa)
+                          , rank_adj = dplyr::if_else(change_taxa, returned_rank, rank_adj)
                           , rank_adj = factor(rank_adj, levels = levels(lurank$rank), ordered = TRUE)
-                          ) %>%
-            dplyr::group_by(original_name) %>%
+            ) %>%
+            dplyr::filter(!is.na(taxa)) |>
+            dplyr::group_by(original_name) |>
             dplyr::mutate(rank_adj = min(rank_adj, na.rm = TRUE)) %>%
             dplyr::ungroup() %>%
             dplyr::select(-new_taxa, -change_taxa, -matched_rank) %>%
