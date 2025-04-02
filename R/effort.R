@@ -85,19 +85,26 @@
 
     # Put breaks back into pcaEnvres
     env_pca$pca_res_cell_cut <- env_pca$pca_res_cell_long %>%
+      tidyr::nest(data = -pc) |>
       dplyr::left_join(env_pca$pca_brks[,c("pc","brks")]) %>%
-      dplyr::mutate(cut_pc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
+      dplyr::mutate(cut_pc = purrr::map2(data
+                                         , brks
+                                         , \(x, y) cut(x$value
+                                                       , breaks = unique(unlist(y))
+                                                       )
+                                         )
+                    ) %>%
       dplyr::select(-brks) %>%
-      tidyr::pivot_wider(names_from = "pc", values_from = c(value,"cut_pc")) %>%
-      stats::setNames(gsub("value_|pc_","",names(.))) %>%
-      tidyr::unnest(cols = contains("pc"))
+      tidyr::unnest(cols = c(data, cut_pc)) |>
+      tidyr::pivot_wider(names_from = "pc", values_from = c(value, "cut_pc")) %>%
+      stats::setNames(gsub("value_|pc_", "", names(.))) %>%
+      tidyr::unnest(cols = matches("pc"))
 
     # Generate colours for pcas
     env_pca$pca_res_col <- env_pca$pca_res_cell_cut %>%
-      dplyr::left_join(env_pca$pca_res_cell) %>%
       dplyr::mutate(dplyr::across(where(is.factor),factor)) %>%
       dplyr::mutate(dplyr::across(where(is.factor)
-                           , ~as.numeric(.)/length(levels(.))
+                           , \(x) as.numeric(x)/length(levels(x))
                            , .names = "rgb_{col}"
                            )
                     ) %>%
