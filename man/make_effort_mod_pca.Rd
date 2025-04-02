@@ -8,6 +8,7 @@ make_effort_mod_pca(
   df,
   env_prcomp,
   context = "cell",
+  cores = 4,
   response = "sr",
   response_min_thresh = 2,
   threshold_lo = 0.05/2,
@@ -25,6 +26,9 @@ make_effort_mod_pca(
 
 \item{context}{Character. Column names that define context, usually a 'visit'
 to a 'cell'.}
+
+\item{cores}{Numeric. Number of cores available for running chains in
+rstanarm model.}
 
 \item{response}{Character. Name to give the 'response' variable column.
 Default is 'sr' for 'species richness'.}

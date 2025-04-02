@@ -85,19 +85,26 @@
 
     # Put breaks back into pcaEnvres
     env_pca$pca_res_cell_cut <- env_pca$pca_res_cell_long %>%
+      tidyr::nest(data = -pc) |>
       dplyr::left_join(env_pca$pca_brks[,c("pc","brks")]) %>%
-      dplyr::mutate(cut_pc = purrr::map2(value,brks,~cut(.x,breaks=unique(unlist(.y))))) %>%
+      dplyr::mutate(cut_pc = purrr::map2(data
+                                         , brks
+                                         , \(x, y) cut(x$value
+                                                       , breaks = unique(unlist(y))
+                                                       )
+                                         )
+                    ) %>%
       dplyr::select(-brks) %>%
-      tidyr::pivot_wider(names_from = "pc", values_from = c(value,"cut_pc")) %>%
-      stats::setNames(gsub("value_|pc_","",names(.))) %>%
-      tidyr::unnest(cols = contains("pc"))
+      tidyr::unnest(cols = c(data, cut_pc)) |>
+      tidyr::pivot_wider(names_from = "pc", values_from = c(value, "cut_pc")) %>%
+      stats::setNames(gsub("value_|pc_", "", names(.))) %>%
+      tidyr::unnest(cols = matches("pc"))
 
     # Generate colours for pcas
     env_pca$pca_res_col <- env_pca$pca_res_cell_cut %>%
-      dplyr::left_join(env_pca$pca_res_cell) %>%
       dplyr::mutate(dplyr::across(where(is.factor),factor)) %>%
       dplyr::mutate(dplyr::across(where(is.factor)
-                           , ~as.numeric(.)/length(levels(.))
+                           , \(x) as.numeric(x)/length(levels(x))
                            , .names = "rgb_{col}"
                            )
                     ) %>%
@@ -130,6 +137,8 @@
 #' @param env_prcomp Output from env_pca.
 #' @param context Character. Column names that define context, usually a 'visit'
 #' to a 'cell'.
+#' @param cores Numeric. Number of cores available for running chains in
+#' rstanarm model.
 #' @param response Character. Name to give the 'response' variable column.
 #' Default is 'sr' for 'species richness'.
 #' @param response_min_thresh Numeric. Threshold below which to filter `df`
@@ -152,6 +161,7 @@
   make_effort_mod_pca <- function(df
                                   , env_prcomp
                                   , context = "cell"
+                                  , cores = 4
                                   , response = "sr"
                                   , response_min_thresh = 2
                                   , threshold_lo = 0.05/2
@@ -161,6 +171,10 @@
                                   , out_file = NULL
                                   , ...
                                   ) {
+
+    # stan options
+    options(mc.cores = cores)
+    rstan::rstan_options(auto_write = TRUE)
 
     df_for_mod <- if(!is.null(effort_col)) {
 

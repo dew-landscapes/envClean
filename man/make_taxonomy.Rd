@@ -181,6 +181,7 @@ Previous \code{envClean::make_taxonomy()} function is still available via
                                      , "Some rubbish"
                                      , "Senna artemisioides subsp x artemisioides"
                                      , "Halosarcia sp.  (NC)"
+                                     , "TERMITOIDAE sp." # 'epifamily'
                                      )
                             )
 
