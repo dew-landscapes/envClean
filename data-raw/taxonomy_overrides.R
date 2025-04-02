@@ -30,5 +30,12 @@ taxonomy_overrides <- tibble::tribble(
   "Dacelo novaehollandiae", "Dacelo novaeguineae", "Dacelo novaeguineae", NA, "Laughing Kookaburra",
   "Puffinus griseus", "Ardenna grisea", "Ardenna grisea", NA, "Sooty Shearwater",
   "Aptenodes patagonicus", "Aptenodytes patagonicus", "Aptenodytes patagonicus", NA, "King Penguin",
-  "Puffinis gravis", "Ardenna gravis", "Ardenna gravis", NA, "Great Shearwater"
+  "Puffinis gravis", "Ardenna gravis", "Ardenna gravis", NA, "Great Shearwater",
+  "Sericornis maculatus", "Sericornis maculatus", "Sericornis maculatus", NA, "Spotted Scrubwren", # former subspecies now accepted as a species by Birds SA and BDBSA taxonomy
+  "Sericornis frontalis maculatus", "Sericornis maculatus", "Sericornis maculatus", NA, "Spotted Scrubwren",
+  "Sericornis (Sericornis) frontalis maculatus", "Sericornis maculatus", "Sericornis maculatus", NA, "Spotted Scrubwren",
+  "Sericornis frontalis ashbyi", "Sericornis maculatus ashbyi", "Sericornis maculatus", "Sericornis maculatus ashbyi", "Spotted Scrubwren",
+  "Sericornis (Sericornis) frontalis ashbyi", "Sericornis maculatus ashbyi", "Sericornis maculatus", "Sericornis maculatus ashbyi", "Spotted Scrubwren",
+  "Sericornis frontalis mellori", "Sericornis maculatus mellori", "Sericornis maculatus", "Sericornis maculatus mellori", "Spotted Scrubwren",
+  "Sericornis (Sericornis) frontalis mellori", "Sericornis maculatus mellori", "Sericornis maculatus", "Sericornis maculatus mellori", "Spotted Scrubwren"
   )
