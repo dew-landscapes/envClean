@@ -137,6 +137,8 @@
 #' @param env_prcomp Output from env_pca.
 #' @param context Character. Column names that define context, usually a 'visit'
 #' to a 'cell'.
+#' @param cores Numeric. Number of cores available for running chains in
+#' rstanarm model.
 #' @param response Character. Name to give the 'response' variable column.
 #' Default is 'sr' for 'species richness'.
 #' @param response_min_thresh Numeric. Threshold below which to filter `df`
@@ -159,6 +161,7 @@
   make_effort_mod_pca <- function(df
                                   , env_prcomp
                                   , context = "cell"
+                                  , cores = 4
                                   , response = "sr"
                                   , response_min_thresh = 2
                                   , threshold_lo = 0.05/2
@@ -168,6 +171,10 @@
                                   , out_file = NULL
                                   , ...
                                   ) {
+
+    # stan options
+    options(mc.cores = cores)
+    rstan::rstan_options(auto_write = TRUE)
 
     df_for_mod <- if(!is.null(effort_col)) {
 
