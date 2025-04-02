@@ -26,7 +26,8 @@
 
     env_pca$pca_data <- env_df %>%
       janitor::remove_constant() %>%
-      stats::na.omit()
+      stats::na.omit() |>
+      dplyr::distinct()
 
     exclude_cols <- grep(paste0(context
                                 , collapse = "|"
@@ -173,6 +174,7 @@
                                   ) {
 
     # stan options
+    old_cores <- options()$mc.cores
     options(mc.cores = cores)
     rstan::rstan_options(auto_write = TRUE)
 
@@ -197,29 +199,10 @@
 
     effort_mod$dat_exp <- effort_mod$dat_all |>
       dplyr::filter(!!rlang::ensym(response) >= response_min_thresh) %>%
-      dplyr::inner_join(env_prcomp$pca_res_cell) %>%
+      dplyr::inner_join(env_prcomp$pca_res_cell_cut |> dplyr::distinct()) %>%
       dplyr::select(!!rlang::ensym(response)
                     , everything()
-                    ) %>%
-      tidyr::pivot_longer(contains("pc")
-                          , names_to = "pc"
-                          ) %>%
-      dplyr::left_join(env_prcomp$pca_brks[,c("pc","brks")]) %>%
-      dplyr::mutate(cut_pc = purrr::map2(value
-                                         , brks
-                                         , ~cut(.x,breaks=unique(unlist(.y)))
-                                         )
-                    ) %>%
-      dplyr::select(-brks) %>%
-      tidyr::pivot_wider(names_from = "pc"
-                         , values_from = c(value,"cut_pc")
-                         ) %>%
-      stats::setNames(gsub("value_|pc_"
-                           , ""
-                           , names(.)
-                           )
-                      ) %>%
-      tidyr::unnest(cols = 1:ncol(.))
+                    )
 
     #--------model-------
 
@@ -246,17 +229,18 @@
     effort_mod$preds <- expand.grid(blah) |>
       tibble::as_tibble() %>%
       tidyr::pivot_longer(1:ncol(.), names_to = "pc") %>%
+      tidyr::nest(value = value) |>
       dplyr::left_join(env_prcomp$pca_brks[, c("pc", "brks")]) %>%
       dplyr::mutate(cut_pc = purrr::map2(value
                                          , brks
-                                         , \(a, b) cut(a, breaks = unique(unlist(b)))
+                                         , \(a, b) cut(a$value, breaks = unique(unlist(b)))
                                          )
                     ) %>%
       dplyr::select(-brks) %>%
+      tidyr::unnest(cols = c(value, cut_pc)) |>
       tidyr::pivot_wider(names_from = "pc", values_from = c(value, "cut_pc")) %>%
       stats::setNames(gsub("value_|pc_", "", names(.))) %>%
-      tidyr::unnest(cols = 1:ncol(.))  %>%
-      tidyr::unnest(cols = grep("cut_pc", names(.), value = TRUE))
+      tidyr::unnest(cols = 1:ncol(.))
 
     effort_mod$mod_pred <- effort_mod$preds %>%
       tidybayes::add_predicted_draws(effort_mod$mod
@@ -275,7 +259,7 @@
       dplyr::bind_cols(effort_mod$dat_exp)
 
     effort_mod$mod_resid_plot <- ggplot2::ggplot(effort_mod$mod_resid
-                                                 ,aes(fitted, stand_resid)
+                                                 , ggplot2::aes(fitted, stand_resid)
                                                  ) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth()
@@ -283,18 +267,12 @@
 
     #--------result---------
 
-    extreme_value <- function(hilo, thresh, col) {
-
-
-
-    }
-
     effort_mod$mod_res <- effort_mod$mod_pred %>%
       dplyr::group_by(dplyr::across(contains("pc"))) %>%
-      dplyr::summarise(runs = n()
+      dplyr::summarise(runs = dplyr::n()
                        , n_check = nrow(tibble::as_tibble(effort_mod$mod))
                        , mod_med = stats::quantile(!!rlang::ensym(response), 0.5, na.rm = TRUE)
-                       , mod_mean = mean(!!rlang::ensym(response),na.rm=TRUE)
+                       , mod_mean = mean(!!rlang::ensym(response), na.rm = TRUE)
                        , mod_ci90_lo = stats::quantile(!!rlang::ensym(response), 0.05, na.rm = TRUE)
                        , mod_ci90_up = stats::quantile(!!rlang::ensym(response), 0.95, na.rm = TRUE)
                        , extreme_sr_lo = stats::quantile(!!rlang::ensym(response), probs = 0 + threshold_lo, na.rm=TRUE)
@@ -308,29 +286,29 @@
     #--------explore---------
 
     effort_mod$mod_med_plot <- ggplot2::ggplot(effort_mod$mod_res
-                                               ,aes(cut_pc1
-                                                    , mod_med
-                                                    , colour = cut_pc3
-                                                    )
+                                               , ggplot2::aes(cut_pc1
+                                                              , mod_med
+                                                              , colour = cut_pc3
+                                                              )
                                                ) +
       ggplot2::geom_jitter() +
       ggplot2::facet_wrap(~cut_pc2, scales = "free_y") +
-      ggplot2::theme(axis.text.x = element_text(angle = 90
-                                                , vjust = 0.5
-                                                , hjust = 1
-                                                )
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90
+                                                         , vjust = 0.5
+                                                         , hjust = 1
+                                                         )
                      ) +
       ggplot2::scale_colour_viridis_d()
 
     effort_mod$mod_mean_plot <- ggplot2::ggplot(effort_mod$mod_res
-                                                ,aes(cut_pc1
-                                                     , mod_mean
-                                                     , colour = cut_pc3
-                                                     )
+                                                , ggplot2::aes(cut_pc1
+                                                               , mod_mean
+                                                               , colour = cut_pc3
+                                                               )
                                                 ) +
       ggplot2::geom_point() +
       ggplot2::facet_wrap(~ cut_pc2, scales = "free_y") +
-      ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)) +
       ggplot2::scale_colour_viridis_d()
 
 
@@ -354,26 +332,27 @@
                     , keep_lo = !!rlang::ensym(response) >= extreme_sr_lo
                     , keep_qsize = FALSE
                     ) %>%
-      {if(!is.null(effort_col)) (.) %>% dplyr::mutate(keep_qsize = !(!!ensym(effort_col) == 0 | is.na(!!ensym(effort_col)))) else (.)} %>%
+      {if(!is.null(effort_col)) (.) %>% dplyr::mutate(keep_qsize = !(!!rlang::ensym(effort_col) == 0 | is.na(!!rlang::ensym(effort_col)))) else (.)} %>%
       dplyr::mutate(keep = as.logical(keep_hi * keep_lo)
                     , keep = dplyr::if_else(!keep, keep_qsize, keep)
                     ) %>%
-      dplyr::mutate(colour = dplyr::if_else(keep, "black", colour))
+      dplyr::mutate(colour = dplyr::if_else(keep, "black", colour)) |>
+      dplyr::distinct()
 
     max_y <- max(effort_mod$mod_cell_result[[response]][effort_mod$mod_cell_result$keep_hi == TRUE])
 
     effort_mod$mod_cell_plot <- ggplot2::ggplot(effort_mod$mod_cell_result
-                                                ,aes(cut_pc1
-                                                     , !!rlang::ensym(response)
-                                                     , colour = colour
-                                                     )
+                                                , ggplot2::aes(cut_pc1
+                                                               , !!rlang::ensym(response)
+                                                               , colour = colour
+                                                               )
                                                 ) +
       ggplot2::geom_jitter() +
       ggplot2::facet_grid(cut_pc2 ~ cut_pc3) +
       ggplot2::coord_cartesian(y = c(0, max_y)) +
       ggplot2::scale_colour_identity() +
       ggplot2::theme_dark() +
-      ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
 
     effort_mod$mod_cell_tab <- effort_mod$mod_cell_result %>%
       dplyr::count(keep_hi, keep_lo, keep_qsize, keep)
@@ -388,7 +367,9 @@
 
     }
 
-    invisible(effort_mod)
+    options(mc.cores = old_cores)
+
+    return(invisible(effort_mod))
 
   }
 
