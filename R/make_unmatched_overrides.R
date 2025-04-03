@@ -70,7 +70,8 @@ make_unmatched_overrides <- function(df
 
     if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_via_gbif)), ! "scientific_name" %in% names(unmatched_via_gbif))) {
 
-      rm(unmatched_via_gbif)
+      unmatched_via_gbif <- unmatched_via_gbif |>
+        dplyr::slice(0)
 
     } else {
 
@@ -88,7 +89,8 @@ make_unmatched_overrides <- function(df
 
     if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_hybrids)), ! "scientific_name" %in% names(unmatched_hybrids))) {
 
-      rm(unmatched_hybrids)
+      unmatched_hybrids <- unmatched_hybrids |>
+        dplyr::slice(0)
 
     } else {
 
