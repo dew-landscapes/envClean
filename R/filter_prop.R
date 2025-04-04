@@ -26,11 +26,11 @@
     thresh <- if(isTRUE(!is.null(keep))) {
 
       dont_drop_df <- df %>%
-        dplyr::mutate(visits = n_distinct(dplyr::across(tidyselect::any_of(context)))) %>%
+        dplyr::mutate(visits = dplyr::n_distinct(dplyr::across(tidyselect::any_of(context)))) %>%
         dplyr::filter(taxa %in% keep) %>%
-        dplyr::count(taxa,visits,name = "records") %>%
-        dplyr::mutate(per = round(100*records/visits,2)) %>%
-        dplyr::filter(records > min_sites/2) %>%
+        dplyr::count(taxa, visits, name = "records") %>%
+        dplyr::mutate(per = round(100 * records / visits, 2)) %>%
+        dplyr::filter(records > min_sites / 2) %>%
         dplyr::pull(per) %>%
         min(c(., default_per))
 
@@ -38,10 +38,10 @@
 
     drop_taxa <- df %>%
       dplyr::mutate(n_visits = dplyr::n_distinct(dplyr::across(tidyselect::any_of(context)))) %>%
-      dplyr::group_by(taxa,n_visits) %>%
-      dplyr::summarise(n_records = n()) %>%
+      dplyr::group_by(taxa, n_visits) %>%
+      dplyr::summarise(n_records = dplyr::n()) %>%
       dplyr::ungroup() %>%
-      dplyr::mutate(per = 100*n_records/n_visits) %>%
+      dplyr::mutate(per = 100 * n_records / n_visits) %>%
       dplyr::filter(per < thresh) %>%
       dplyr::distinct(taxa)
 
