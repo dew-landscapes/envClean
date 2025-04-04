@@ -12,7 +12,8 @@ add_cover(
   lucover_col = "cover_mid",
   small_cov = 0.009,
   remove_all_small = TRUE,
-  fix_1to100 = TRUE
+  fix_1to100 = TRUE,
+  cov_func = max
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ taxa are assigned \code{small_cov} are removed.}
 
 \item{fix_1to100}{Logical. Any values found in \code{cover} field of \code{df} that are
 between above 1 and less than or equal to 100 are divided by 100.}
+
+\item{cov_func}{Function to summarise cover values for any context with more
+than one cover value.}
 
 \item{lucover_co}{Character. Name of column in lucover containing cover
 values to use for any \code{cover_code}}

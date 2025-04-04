@@ -9,9 +9,9 @@ make_taxonomy(
   taxa_col = "original_name",
   taxonomy_file = tempfile(),
   force_new = list(original_name = NULL, timediff = as.difftime(26, units = "weeks")),
-  remove_taxa = c("bold:", "BOLD:", "unverified", "annual herb", "annual grass",
-    "incertae sedis", "\\\\?", "another species", "not naturalised in SA",
-    "unidentified", "unverified", "annual tussock grass", "*no id", "spec\\\\."),
+  remove_taxa = c("bold:", "unverified", "undetermined", "unidentified", "annual herb",
+    "annual grass", "incertae sedis", "\\\\?", "another species",
+    "not naturalised in sa", "annual tussock grass", "*no id", "spec\\\\."),
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "dead", "sp.\\\\s.*\\\\(NC\\\\)"),
   not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
@@ -48,8 +48,8 @@ ignored. .parquet file used.}
 requeried. Likewise any \code{original_name} that has not been searched since
 \code{difftime} will be requeried. Set either to \code{NULL} to ignore.}
 
-\item{remove_taxa}{Character. Rows with regular expressions in \code{taxa_col}
-that match \code{remove_taxa} are removed (rows are removed).}
+\item{remove_taxa}{Character. Rows with regular expressions in
+\code{tolower(taxa_col)} that match \code{remove_taxa} are removed (rows are removed).}
 
 \item{remove_strings}{Character. Text that matches \code{remove_strings} is
 removed from the \code{taxa_col} before searching (text, not row, is removed).}

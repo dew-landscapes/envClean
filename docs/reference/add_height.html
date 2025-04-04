@@ -60,7 +60,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_height</span><span class="op">(</span><span class="va">df</span>, context <span class="op">=</span> <span class="st">"cell"</span>, <span class="va">env_prcomp</span>, <span class="va">lustr</span>, lustr_col <span class="op">=</span> <span class="st">"ht"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_height</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  context <span class="op">=</span> <span class="st">"cell"</span>,</span>
+<span>  <span class="va">env_prcomp</span>,</span>
+<span>  <span class="va">lustr</span>,</span>
+<span>  lustr_col <span class="op">=</span> <span class="st">"ht"</span>,</span>
+<span>  ht_func <span class="op">=</span> <span class="va">max</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,6 +93,11 @@
 <dt id="arg-lustr-col">lustr_col<a class="anchor" aria-label="anchor" href="#arg-lustr-col"></a></dt>
 <dd><p>Character. Name of column in lustr containing height
 values to use for any <code>lifeform</code></p></dd>
+
+
+<dt id="arg-ht-func">ht_func<a class="anchor" aria-label="anchor" href="#arg-ht-func"></a></dt>
+<dd><p>Function to summarise height values for any context with more
+than one cover value.</p></dd>
 
 </dl></div>
     <div id="value">

@@ -68,7 +68,8 @@
 <span>  lucover_col <span class="op">=</span> <span class="st">"cover_mid"</span>,</span>
 <span>  small_cov <span class="op">=</span> <span class="fl">0.009</span>,</span>
 <span>  remove_all_small <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  fix_1to100 <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  fix_1to100 <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cov_func <span class="op">=</span> <span class="va">max</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -105,6 +106,11 @@ taxa are assigned <code>small_cov</code> are removed.</p></dd>
 <dt id="arg-fix-to-">fix_1to100<a class="anchor" aria-label="anchor" href="#arg-fix-to-"></a></dt>
 <dd><p>Logical. Any values found in <code>cover</code> field of <code>df</code> that are
 between above 1 and less than or equal to 100 are divided by 100.</p></dd>
+
+
+<dt id="arg-cov-func">cov_func<a class="anchor" aria-label="anchor" href="#arg-cov-func"></a></dt>
+<dd><p>Function to summarise cover values for any context with more
+than one cover value.</p></dd>
 
 
 <dt id="arg-lucover-co">lucover_co<a class="anchor" aria-label="anchor" href="#arg-lucover-co"></a></dt>

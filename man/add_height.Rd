@@ -4,7 +4,14 @@
 \alias{add_height}
 \title{Generate best guess of height for each taxa*context}
 \usage{
-add_height(df, context = "cell", env_prcomp, lustr, lustr_col = "ht")
+add_height(
+  df,
+  context = "cell",
+  env_prcomp,
+  lustr,
+  lustr_col = "ht",
+  ht_func = max
+)
 }
 \arguments{
 \item{df}{Dataframe with context, taxa and height columns.}
@@ -17,6 +24,9 @@ add_height(df, context = "cell", env_prcomp, lustr, lustr_col = "ht")
 
 \item{lustr_col}{Character. Name of column in lustr containing height
 values to use for any \code{lifeform}}
+
+\item{ht_func}{Function to summarise height values for any context with more
+than one cover value.}
 }
 \value{
 Dataframe with cov_col removed and replaced with best guess height in
