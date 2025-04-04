@@ -34,8 +34,8 @@
 #' `force_new` and `taxonomy_file`, matching levels within that column will be
 #' requeried. Likewise any `original_name` that has not been searched since
 #' `difftime` will be requeried. Set either to `NULL` to ignore.
-#' @param remove_taxa Character. Rows with regular expressions in `taxa_col`
-#' that match `remove_taxa` are removed (rows are removed).
+#' @param remove_taxa Character. Rows with regular expressions in
+#' `tolower(taxa_col)` that match `remove_taxa` are removed (rows are removed).
 #' @param remove_strings Character. Text that matches `remove_strings` is
 #' removed from the `taxa_col` before searching (text, not row, is removed).
 #' @param not_names Character. Text that matches `non_name_strings` is used to
@@ -122,16 +122,15 @@
                                                                         )
                                                )
                             , remove_taxa = c("bold:"
-                                              , "BOLD:"
                                               , "unverified"
+                                              , "undetermined"
+                                              , "unidentified"
                                               , "annual herb"
                                               , "annual grass"
                                               , "incertae sedis"
                                               , "\\?"
                                               , "another species"
-                                              , "not naturalised in SA"
-                                              , "unidentified"
-                                              , "unverified"
+                                              , "not naturalised in sa"
                                               , "annual tussock grass"
                                               , "*no id"
                                               , "spec\\."
@@ -212,7 +211,7 @@
 
         # previous -------
         previous <- rio::import(taxonomy_file) %>%
-          dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), original_name)) %>%
+          dplyr::filter(!grepl(paste0(remove_taxa, collapse = "|"), tolower(original_name))) %>%
           clean_quotes()
 
         # force_new -------
@@ -265,7 +264,7 @@
         dplyr::filter(!grepl(paste0(remove_taxa
                                     , collapse = "|"
                                     )
-                             , original_name
+                             , tolower(original_name)
                              )
                       , original_name != ""
                       ) %>%
