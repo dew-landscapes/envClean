@@ -14,6 +14,8 @@
 #' taxa are assigned `small_cov` are removed.
 #' @param fix_1to100 Logical. Any values found in `cover` field of `df` that are
 #' between above 1 and less than or equal to 100 are divided by 100.
+#' @param cov_func Function to summarise cover values for any context with more
+#' than one cover value.
 #'
 #' @return Dataframe with cov_col removed and replaced with best guess cover in
 #' column use_cover
@@ -28,14 +30,15 @@
                         , small_cov = 0.009
                         , remove_all_small = TRUE
                         , fix_1to100 = TRUE
+                        , cov_func = max
                         ) {
 
     lucover_col <- as.character(lucover_col)[[1]]
 
     site_use_cover <- df %>%
-      dplyr::filter(if_any(tidyselect::contains("cover")
-                           , \(x) !is.na(x)
-                           )
+      dplyr::filter(dplyr::if_any(tidyselect::contains("cover")
+                                  , \(x) !is.na(x)
+                                  )
                     ) %>%
       {if(fix_1to100) (.) %>% dplyr::mutate(cover = dplyr::case_when(cover > 1 & cover <= 100 ~ cover / 100
                                                                      , cover > 100 ~ NA
@@ -54,7 +57,7 @@
       dplyr::group_by(taxa
                       , dplyr::across(tidyselect::any_of(context))
                       ) %>%
-      dplyr::summarise(site_use_cover = median(site_use_cover)) %>%
+      dplyr::summarise(site_use_cover = cov_func(site_use_cover)) %>%
       dplyr::ungroup()
 
     pca_use_cover <- df %>%
@@ -68,16 +71,16 @@
                          dplyr::group_by(taxa
                                          , dplyr::across(tidyselect::contains("cut_pc"))
                                          ) %>%
-                         dplyr::summarise(pca_use_cover = median(site_use_cover
-                                                                 , na.rm = TRUE
-                                                                 )
+                         dplyr::summarise(pca_use_cover = cov_func(site_use_cover
+                                                                   , na.rm = TRUE
+                                                                   )
                                           ) %>%
                          dplyr::ungroup()
                        )
 
     taxa_use_cover <- site_use_cover %>%
       dplyr::group_by(taxa) %>%
-      dplyr::summarise(taxa_use_cover = median(site_use_cover
+      dplyr::summarise(taxa_use_cover = cov_func(site_use_cover
                                                , na.rm = TRUE
                                                )
                        ) %>%

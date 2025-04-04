@@ -8,6 +8,8 @@
 #' @param lustr Dataframe. Lookup from `lifeform` to numeric height values
 #' @param lustr_col Character. Name of column in lustr containing height
 #' values to use for any `lifeform`
+#' @param ht_func Function to summarise height values for any context with more
+#' than one cover value.
 #'
 #' @return Dataframe with cov_col removed and replaced with best guess height in
 #' column use_height
@@ -19,6 +21,7 @@
                         , env_prcomp
                         , lustr
                         , lustr_col = "ht"
+                        , ht_func = max
                         ) {
 
     site_use_height <- df %>%
@@ -34,7 +37,7 @@
       dplyr::group_by(taxa
                       , dplyr::across(tidyselect::any_of(context))
                       ) %>%
-      dplyr::summarise(site_use_height = median(site_use_height)) %>%
+      dplyr::summarise(site_use_height = ht_func(site_use_height)) %>%
       dplyr::ungroup()
 
     pca_use_height <- df %>%
@@ -48,7 +51,7 @@
                          dplyr::group_by(taxa
                                          , dplyr::across(tidyselect::contains("cut_pc"))
                                          ) %>%
-                         dplyr::summarise(pca_use_height = median(site_use_height
+                         dplyr::summarise(pca_use_height = ht_func(site_use_height
                                                                  , na.rm = TRUE
                                                                  )
                                           ) %>%
@@ -57,7 +60,7 @@
 
     taxa_use_height <- site_use_height %>%
       dplyr::group_by(taxa) %>%
-      dplyr::summarise(taxa_use_height = median(site_use_height
+      dplyr::summarise(taxa_use_height = ht_func(site_use_height
                                                , na.rm = TRUE
                                                )
                        ) %>%
