@@ -96,8 +96,10 @@ make_unmatched_overrides <- function(df
 
     } else {
 
-      unmatched_hybrids <- unmatched_hybrids |>
-        dplyr::filter(! is.na(!!rlang::ensym(target_rank)))
+      unmatched_hybrids <- unmatched_hybrids %>%
+        {if(target_rank == "subspecies") dplyr::filter(., ! is.na(scientific_name))
+          else dplyr::filter(., ! is.na(!!rlang::ensym(target_rank)))
+        }
 
     }
 
