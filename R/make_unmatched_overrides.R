@@ -75,8 +75,10 @@ make_unmatched_overrides <- function(df
 
     } else {
 
-      unmatched_via_gbif <- unmatched_via_gbif |>
-        dplyr::filter(! is.na(!!rlang::ensym(target_rank)))
+      unmatched_via_gbif <- unmatched_via_gbif %>%
+        {if(target_rank == "subspecies") dplyr::filter(., ! is.na(scientific_name))
+          else dplyr::filter(., ! is.na(!!rlang::ensym(target_rank)))
+          }
 
     }
 
