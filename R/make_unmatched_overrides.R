@@ -104,7 +104,7 @@ make_unmatched_overrides <- function(df
     }
 
     # altogether ------
-    if(any(exists("unmatched_hybrids"), exists("unmatched_via_gbif"))) {
+    if(any(nrow("unmatched_hybrids"), nrow("unmatched_via_gbif"))) {
 
       overrides_unmatched <- unmatched |>
         dplyr::left_join(dplyr::bind_rows(mget(ls(pattern = "^unmatched_"))
