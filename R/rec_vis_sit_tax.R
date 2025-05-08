@@ -18,10 +18,10 @@ rec_vis_sit_tax <- function(df
   visit_cols <- unique(c(site_cols, visit_cols))
 
   df %>%
-    dplyr::summarise(taxa = dplyr::n_distinct(across(any_of(taxa_cols)))
+    dplyr::summarise(taxa = dplyr::n_distinct(dplyr::across(tidyselect::any_of(taxa_cols)))
                      , records = nrow(.)
-                     , visits = dplyr::n_distinct(across(any_of(visit_cols)))
-                     , sites = dplyr::n_distinct(across(any_of(site_cols)))
+                     , visits = dplyr::n_distinct(dplyr::across(tidyselect::any_of(visit_cols)))
+                     , sites = dplyr::n_distinct(dplyr::across(tidyselect::any_of(site_cols)))
                      )
 
 }
