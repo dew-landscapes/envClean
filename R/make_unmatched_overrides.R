@@ -75,8 +75,10 @@ make_unmatched_overrides <- function(df
 
     } else {
 
-      unmatched_via_gbif <- unmatched_via_gbif |>
-        dplyr::filter(! is.na(!!rlang::ensym(target_rank)))
+      unmatched_via_gbif <- unmatched_via_gbif %>%
+        {if(target_rank == "subspecies") dplyr::filter(., ! is.na(scientific_name))
+          else dplyr::filter(., ! is.na(!!rlang::ensym(target_rank)))
+          }
 
     }
 
@@ -94,13 +96,15 @@ make_unmatched_overrides <- function(df
 
     } else {
 
-      unmatched_hybrids <- unmatched_hybrids |>
-        dplyr::filter(! is.na(!!rlang::ensym(target_rank)))
+      unmatched_hybrids <- unmatched_hybrids %>%
+        {if(target_rank == "subspecies") dplyr::filter(., ! is.na(scientific_name))
+          else dplyr::filter(., ! is.na(!!rlang::ensym(target_rank)))
+        }
 
     }
 
     # altogether ------
-    if(any(exists("unmatched_hybrids"), exists("unmatched_via_gbif"))) {
+    if(any(nrow(unmatched_hybrids), nrow(unmatched_via_gbif))) {
 
       overrides_unmatched <- unmatched |>
         dplyr::left_join(dplyr::bind_rows(mget(ls(pattern = "^unmatched_"))
