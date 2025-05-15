@@ -47,7 +47,7 @@ make_unmatched_overrides <- function(df
                   |(original_is_tri & returned_rank > "subspecies" & target_rank == "subspecies")
     ) |>
     dplyr::filter(!!rlang::ensym(taxa_col) != ""
-                  , !grepl("sp\\.$|another\\s|unverified|\\?", original_name)
+                  , !grepl("sp\\.|another\\s|unverified|\\?", original_name)
                   , grepl(".*\\s.*", original_name)
     ) |>
     # dplyr::sample_n(200) |> # TESTING
