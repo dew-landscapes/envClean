@@ -20,11 +20,6 @@ taxonomy_overrides <- tibble::tribble(
   "Rhipidura fuliginosa", "Rhipidura albiscapa", "Rhipidura albiscapa", NA, "Grey Fantail", # Rhipidura fuliginosa is New Zealand Fantail erroneously recorded as Grey Fantail in Aus mainly in last ten years via iNaturalist.
   "Rhipidura (Rhipidura) fuliginosa", "Rhipidura albiscapa", "Rhipidura albiscapa", NA, "Grey Fantail", # Rhipidura fuliginosa is New Zealand Fantail erroneously recorded as Grey Fantail in Aus mainly in last ten years via iNaturalist.
   "Acrocephalus stentoreus", "Acrocephalus australis", "Acrocephalus australis", NA, "Australian Reed Warbler", # Clamorous Reed Warbler records should be Australian
-  "Anas superciliosa X Anas platyrhynchos", "Anas superciliosa X platyrhynchos", "Anas superciliosa X platyrhynchos", NA, "Pacific Black Duck x Mallard hybrid", # duplicates of Pacific Black Duck x Mallard hybrid in galah taxonomy. Using the one that returns a sensible common name from bdbsa.
-  "Anas superciliosa x anas platyrhynchos", "Anas superciliosa X platyrhynchos", "Anas superciliosa X platyrhynchos", NA, "Pacific Black Duck x Mallard hybrid", # duplicates of Pacific Black Duck x Mallard hybrid in galah taxonomy. Using the one that returns a sensible common name from bdbsa.
-  "Anas superciliosa x Anas platyrhynchos", "Anas superciliosa X platyrhynchos", "Anas superciliosa X platyrhynchos", NA, "Pacific Black Duck x Mallard hybrid", # duplicates of Pacific Black Duck x Mallard hybrid in galah taxonomy. Using the one that returns a sensible common name from bdbsa.
-  "Lolium perenne X Lolium rigidum", "Lolium perenne X rigidum",  "Lolium perenne X rigidum", NA, "Perennial Rye-Grass X Wimmera Rye-Grass Hybrid", # duplicates in galah taxonomy due to different case 'x'
-  "Lolium perenne x Lolium rigidum", "Lolium perenne X rigidum",  "Lolium perenne X rigidum", NA, "Perennial Rye-Grass X Wimmera Rye-Grass Hybrid", # duplicates in galah taxonomy due to different case 'x'
   "Porzana pusilla", "Zapornia pusilla", "Zapornia pusilla", NA, "Baillon's Crake",
   "Anas clypeata", "Spatula clypeata", "Spatula clypeata", NA, "Northern Shoveler",
   "Dacelo novaehollandiae", "Dacelo novaeguineae", "Dacelo novaeguineae", NA, "Laughing Kookaburra",
