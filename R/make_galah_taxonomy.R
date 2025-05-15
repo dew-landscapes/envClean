@@ -141,6 +141,8 @@
                                                  , "\\sspec\\.$" # blah spec.END
                                                  , "dead"
                                                  , "sp.\\s.*\\(NC\\)"
+                                                 , "\\sx\\s.*" # hybrids
+                                                 , "\\sX\\s.*" # hybrids
                                                  ) # blah not removed, everything else removed
                             , not_names = c("sp"
                                             , "ssp"
@@ -162,6 +164,7 @@
                                             , "nov"
                                             , "sensu"
                                             , "lato"
+                                            , "hybrid"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
