@@ -148,6 +148,7 @@
                                                  , "\\sx\\s.*" # hybrids
                                                  , "\\sX\\s.*" # hybrids
                                                  , "unknown"
+                                                 , "\\scultivar$"
                                                  ) # blah not removed, everything else removed
                             , not_names = c("sp"
                                             , "ssp"
@@ -375,14 +376,29 @@
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)
                       , original_name != "blah"
-                      ) %>%
+        ) %>%
         dplyr::select(!matches("^issues$")) %>%
         clean_quotes() %>%
         dplyr::group_by(original_name) %>%
         dplyr::filter(stamp == base::suppressWarnings(base::max(stamp))) %>%
         dplyr::ungroup() %>%
         dplyr::distinct() %>%
-        make_subspecies_col()
+        make_subspecies_col() %>%
+        # fix uninomials returned as species
+        dplyr::mutate(species = dplyr::if_else(stringr::str_count(species, "\\w+") == 1
+                                               , NA
+                                               , species
+        )
+        , rank_adj = as.character(rank_adj)
+        , rank_adj = dplyr::if_else(is.na(species) & rank_adj == "species"
+                                    , "genus"
+                                    , rank_adj
+        )
+        , rank_adj = factor(rank_adj
+                            , levels = levels(envClean::lurank$rank)
+                            , ordered = TRUE
+        )
+        )
 
       if(tweak_species) {
 
