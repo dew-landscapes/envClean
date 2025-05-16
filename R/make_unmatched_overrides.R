@@ -15,6 +15,9 @@
 #' entities for which a match is desired.
 #' @param taxonomy Result of call to `make_taxonomy()`
 #' @param target_rank Character. Level within `envClean::lurank$rank` to target
+#' @param remove_taxa Character. Taxa with regular expressions in
+#' `tolower(taxa_col)` that match `remove_taxa` will not be searched or
+#' have overrides constructed.
 #'
 #' @return Tibble in appropriate form to pass to the overrides argument of
 #' `make_taxonomy()`
@@ -25,6 +28,34 @@ make_unmatched_overrides <- function(df
                                      , taxa_col = "original_name"
                                      , taxonomy
                                      , target_rank = "species"
+                                     , remove_taxa = c("bold:"
+                                                       , "unverified"
+                                                       , "undetermined"
+                                                       , "unidentified"
+                                                       , "annual herb"
+                                                       , "annual grass"
+                                                       , "incertae sedis"
+                                                       , "\\?"
+                                                       , "another\\s"
+                                                       , "not naturalised in sa"
+                                                       , "annual tussock grass"
+                                                       , "*no id"
+                                                       , "spec\\."
+                                                       , "\\s\\-\\-\\s.*" # blah -- abc xyz
+                                                       , "\\ssp\\.$" # blah sp.END
+                                                       , "\\sssp\\.$" # blah ssp.END
+                                                       , "\\sspec\\.$" # blah spec.END
+                                                       , "\\ssp$"
+                                                       , "\\sssp$"
+                                                       , "\\ssp\\d$"
+                                                       , "dead"
+                                                       , "sp.\\s.*\\(NC\\)"
+                                                       , "unknown"
+                                                       , "\\sgroup$"
+                                                       , "\\sspecies$"
+                                                       , "aquatic grass"
+                                                       , "hybrid"
+                                     ) # blah not removed, everything else removed
 ) {
 
   # catch taxa_col == "taxa"
@@ -47,7 +78,7 @@ make_unmatched_overrides <- function(df
                   |(original_is_tri & returned_rank > "subspecies" & target_rank == "subspecies")
     ) |>
     dplyr::filter(!!rlang::ensym(taxa_col) != ""
-                  , !grepl("sp\\.|another\\s|unverified|\\?", original_name)
+                  , !grepl(paste0(remove_taxa, collapse = "|"), tolower(original_name))
                   , grepl(".*\\s.*", original_name)
     ) |>
     # dplyr::sample_n(200) |> # TESTING
@@ -78,7 +109,7 @@ make_unmatched_overrides <- function(df
       unmatched_via_gbif <- unmatched_via_gbif %>%
         {if(target_rank == "subspecies") dplyr::filter(., ! is.na(scientific_name))
           else dplyr::filter(., ! is.na(!!rlang::ensym(target_rank)))
-          }
+        }
 
     }
 
