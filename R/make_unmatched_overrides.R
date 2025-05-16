@@ -160,7 +160,7 @@ make_unmatched_overrides <- function(df
                       , tidyr::any_of(tidyr::matches(target_rank))
                       , note
         ) %>%
-        dplyr::mutate(taxa_to_search = dplyr::ifelse(is.na(note)
+        dplyr::mutate(taxa_to_search = dplyr::if_else(is.na(note)
                                                      , gsub("\\s*\\([^\\)]+\\)", "", taxa_to_search)
                                                      , taxa_to_search
                                                      )
