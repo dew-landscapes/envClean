@@ -159,6 +159,12 @@ make_unmatched_overrides <- function(df
                       , tidyr::any_of(tidyr::matches(target_rank))
                       , note
         ) %>%
+        dplyr::mutate(taxa_to_search = dplyr::ifelse(is.na(note)
+                                                     , gsub("\\s*\\([^\\)]+\\)", "", taxa_to_search)
+                                                     , taxa_to_search
+                                                     )
+                      , taxa_to_search = stringr::str_squish(taxa_to_search)
+        ) %>%
         {if("species" %in% names(.)) dplyr::mutate(., use_species = dplyr::case_when(! is.na(species) & ! grepl("\\.$", species) ~ species
                                                                                      , ! is.na(taxa_to_search) & (is.na(species)|grepl("\\.$", species)) ~ taxa_to_search
                                                                                      , .default = !!rlang::ensym(taxa_col)
