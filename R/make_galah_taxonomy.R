@@ -129,20 +129,25 @@
                                               , "annual grass"
                                               , "incertae sedis"
                                               , "\\?"
-                                              , "another species"
+                                              , "another\\s"
                                               , "not naturalised in sa"
                                               , "annual tussock grass"
                                               , "*no id"
                                               , "spec\\."
+                                              , "aquatic grass"
                                               )
                             , remove_strings = c("\\s\\-\\-\\s.*" # blah -- abc xyz
                                                  , "\\ssp\\.$" # blah sp.END
                                                  , "\\sssp\\.$" # blah ssp.END
                                                  , "\\sspec\\.$" # blah spec.END
+                                                 , "\\ssp$"
+                                                 , "\\sssp$"
+                                                 , "\\ssp\\d$"
                                                  , "dead"
                                                  , "sp.\\s.*\\(NC\\)"
                                                  , "\\sx\\s.*" # hybrids
                                                  , "\\sX\\s.*" # hybrids
+                                                 , "unknown"
                                                  ) # blah not removed, everything else removed
                             , not_names = c("sp"
                                             , "ssp"
