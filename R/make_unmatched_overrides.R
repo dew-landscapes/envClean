@@ -55,6 +55,7 @@ make_unmatched_overrides <- function(df
                                                        , "\\sspecies$"
                                                        , "aquatic grass"
                                                        , "hybrid"
+                                                       , "\\scultivar$"
                                      ) # blah not removed, everything else removed
 ) {
 
@@ -78,8 +79,8 @@ make_unmatched_overrides <- function(df
                   |(original_is_tri & returned_rank > "subspecies" & target_rank == "subspecies")
     ) |>
     dplyr::filter(!!rlang::ensym(taxa_col) != ""
-                  , !grepl(paste0(remove_taxa, collapse = "|"), tolower(original_name))
-                  , grepl(".*\\s.*", original_name)
+                  , !grepl(paste0(remove_taxa, collapse = "|"), tolower(!!rlang::ensym(taxa_col)))
+                  , grepl(".*\\s.*", !!rlang::ensym(taxa_col))
     ) |>
     # dplyr::sample_n(200) |> # TESTING
     dplyr::select(!!rlang::ensym(taxa_col))
@@ -116,7 +117,7 @@ make_unmatched_overrides <- function(df
     # hybrids --------
     unmatched_hybrids <- unmatched |>
       dplyr::anti_join(unmatched_via_gbif) |>
-      dplyr::mutate(searched_name = gsub("\\sX\\s.*|\\sx\\s.*", "", original_name)) %>%
+      dplyr::mutate(searched_name = gsub("\\sX\\s.*|\\sx\\s.*", "", !!rlang::ensym(taxa_col))) %>%
       dplyr::mutate(res = purrr::map(searched_name, galah::search_taxa)) |>
       tidyr::unnest(cols = c(res))
 
