@@ -76,11 +76,12 @@ and for each of the original names provided, the best result at genus level
 <span>  taxonomy_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  force_new <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>original_name <span class="op">=</span> <span class="cn">NULL</span>, timediff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/difftime.html" class="external-link">as.difftime</a></span><span class="op">(</span><span class="fl">26</span>, units <span class="op">=</span> <span class="st">"weeks"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  remove_taxa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bold:"</span>, <span class="st">"unverified"</span>, <span class="st">"undetermined"</span>, <span class="st">"unidentified"</span>, <span class="st">"annual herb"</span>,</span>
-<span>    <span class="st">"annual grass"</span>, <span class="st">"incertae sedis"</span>, <span class="st">"\\?"</span>, <span class="st">"another species"</span>,</span>
-<span>    <span class="st">"not naturalised in sa"</span>, <span class="st">"annual tussock grass"</span>, <span class="st">"*no id"</span>, <span class="st">"spec\\."</span><span class="op">)</span>,</span>
+<span>    <span class="st">"annual grass"</span>, <span class="st">"incertae sedis"</span>, <span class="st">"\\?"</span>, <span class="st">"another\\s"</span>, <span class="st">"not naturalised in sa"</span>,</span>
+<span>    <span class="st">"annual tussock grass"</span>, <span class="st">"*no id"</span>, <span class="st">"spec\\."</span>, <span class="st">"aquatic grass"</span><span class="op">)</span>,</span>
 <span>  remove_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\s\\-\\-\\s.*"</span>, <span class="st">"\\ssp\\.$"</span>, <span class="st">"\\sssp\\.$"</span>,</span>
-<span>    <span class="st">"\\sspec\\.$"</span>, <span class="st">"dead"</span>, <span class="st">"sp.\\s.*\\(NC\\)"</span>, <span class="st">"\\sx\\s.*"</span>,</span>
-<span>    <span class="st">"\\sX\\s.*"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"\\sspec\\.$"</span>, <span class="st">"\\ssp$"</span>, <span class="st">"\\sssp$"</span>, <span class="st">"\\ssp\\d$"</span>, <span class="st">"dead"</span>,</span>
+<span>    <span class="st">"sp.\\s.*\\(NC\\)"</span>, <span class="st">"\\sx\\s.*"</span>, <span class="st">"\\sX\\s.*"</span>, <span class="st">"unknown"</span>,</span>
+<span>    <span class="st">"\\scultivar$"</span><span class="op">)</span>,</span>
 <span>  not_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sp"</span>, <span class="st">"ssp"</span>, <span class="st">"var"</span>, <span class="st">"subsp"</span>, <span class="st">"subspecies"</span>, <span class="st">"form"</span>, <span class="st">"race"</span>, <span class="st">"nov"</span>, <span class="st">"aff"</span>,</span>
 <span>    <span class="st">"cf"</span>, <span class="st">"lineage"</span>, <span class="st">"group"</span>, <span class="st">"et"</span>, <span class="st">"al"</span>, <span class="st">"and"</span>, <span class="st">"pl"</span>, <span class="st">"revised"</span>, <span class="st">"nov"</span>, <span class="st">"sensu"</span>, <span class="st">"lato"</span>,</span>
 <span>    <span class="st">"hybrid"</span><span class="op">)</span>,</span>
@@ -286,7 +287,7 @@ returns <code>spec.</code> in the species column but
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6RXWTU\file71b8516f3f6a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\RtmpgBwqe8\file49e82ce62bbd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::filter()`.</span>
@@ -494,7 +495,7 @@ returns <code>spec.</code> in the species column but
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6RXWTU\file71b8516f3f6a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\RtmpgBwqe8\file49e82ce62bbd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -739,33 +740,33 @@ returns <code>spec.</code> in the species column but
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26           &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27   Charadriidae    Thinornis   Thinornis cucullatus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  vernacular_name               stamp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Thick-billed Grasswren 2025-05-15 02:42:39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Cowarie Thick-billed Grasswren 2025-05-15 02:42:39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Macdonnell Ranges Thick-billed Grasswren 2025-05-15 02:42:39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                             Striated Grasswren 2025-05-15 02:42:39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                           &lt;NA&gt; 2025-05-15 02:42:39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Burrowing Bettong (barrow And Boodie Islands) 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                             Lesser Sand Plover 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                           Red-necked Phalarope 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               Studley Park Gum 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                    Ribbon Gum 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        Rough-barked Manna-gum 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                          &lt;NA&gt; 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                             Centralian Dtella 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                     Samphires 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                             Jointed Mistletoe 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                           Rufous Hare-wallaby 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17            Black-chinned Honeyeater (eastern) 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                      Golden-backed Honeyeater 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19           Eastern Barred Bandicoot (mainland) 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                     Black-footed Rock-wallaby 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                    Greenhoods 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                 Desert Cassia 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                          &lt;NA&gt; 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                        Macgillivray Spyridium 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                        Macgillivray Spyridium 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                    White Ants 2025-05-15 02:42:37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                 Hooded Plover 2025-05-15 02:42:37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Thick-billed Grasswren 2025-05-16 05:00:18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Cowarie Thick-billed Grasswren 2025-05-16 05:00:18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Macdonnell Ranges Thick-billed Grasswren 2025-05-16 05:00:18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                             Striated Grasswren 2025-05-16 05:00:18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                           &lt;NA&gt; 2025-05-16 05:00:18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Burrowing Bettong (barrow And Boodie Islands) 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                             Lesser Sand Plover 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                           Red-necked Phalarope 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               Studley Park Gum 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                    Ribbon Gum 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        Rough-barked Manna-gum 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                          &lt;NA&gt; 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                             Centralian Dtella 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                     Samphires 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                             Jointed Mistletoe 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                           Rufous Hare-wallaby 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17            Black-chinned Honeyeater (eastern) 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                      Golden-backed Honeyeater 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19           Eastern Barred Bandicoot (mainland) 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                     Black-footed Rock-wallaby 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                    Greenhoods 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                 Desert Cassia 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                          &lt;NA&gt; 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                        Macgillivray Spyridium 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                        Macgillivray Spyridium 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                    White Ants 2025-05-16 05:00:17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                 Hooded Plover 2025-05-16 05:00:17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                subspecies   rank_adj</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                    &lt;NA&gt;    species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                              Amytornis modestus cowarie subspecies</span>
@@ -866,15 +867,30 @@ returns <code>spec.</code> in the species column but
 <span class="r-in"><span>                                             , target_rank <span class="op">=</span> <span class="st">"species"</span></span></span>
 <span class="r-in"><span>                                             <span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::mutate()`.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33% |  ETA:  4s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% |  ETA:  2s</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There were 2 warnings in `dplyr::mutate()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> The first warning was:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `res = purrr::map(...)`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Unknown or uninitialised column: `scientificName`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Unknown or uninitialised column: `vernacularName`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Run <a href="x-r-run:dplyr::last_dplyr_warnings()">dplyr::last_dplyr_warnings()</a> to see the 1 remaining warning.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Matched <span style="font-weight: bold;">0 of 1</span> taxonomic search terms in selected atlas (Australia).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">1 unmatched search term:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Galaxias sp. nov. Hunter"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Matched <span style="font-weight: bold;">0 of 1</span> taxonomic search terms in selected atlas (Australia).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">1 unmatched search term:</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Some rubbish"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::mutate()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> In argument: `res = purrr::map(searched_name, galah::search_taxa)`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Caused by warning:</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Search returned multiple taxa due to a homonym issue.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Please provide another rank in your search to clarify taxa.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Use a `tibble` to clarify taxa, see `?search_taxa`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Homonym issue with "Galaxias sp. nov. Hunter".</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># overrrides</span></span></span>
 <span class="r-in"><span>  <span class="va">overrides</span> <span class="op">&lt;-</span> <span class="fu">envClean</span><span class="fu">::</span><span class="va"><a href="taxonomy_overrides.html">taxonomy_overrides</a></span></span></span>
@@ -891,7 +907,7 @@ returns <code>spec.</code> in the species column but
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6RXWTU\file71b8516f3f6a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\RtmpgBwqe8\file49e82ce62bbd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Aptenodes patagonicus, Corybas X dentatus, Galaxias sp. nov. Hunter, Puffinis gravis, Puffinus griseus, Some rubbish and Corybas x dentatus. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -918,7 +934,7 @@ returns <code>spec.</code> in the species column but
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name, returned_rank)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6RXWTU\file71b8516f3f6a.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\RtmpgBwqe8\file49e82ce62bbd.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -942,13 +958,13 @@ returns <code>spec.</code> in the species column but
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6RXWTU\file71b87de8324c.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\RtmpgBwqe8\file49e84e74b06.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name                                          scientific_name species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Acacia sp. Small Red-leaved Wattle (J.B.Williams 9503… Acacia sp. Sma… spec.  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Acacia sp. Small Red-leaved Wattle (J.B.Williams 9503… Acacia sp. Sma… <span style="color: #BB0000;">NA</span>     </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu">make_taxonomy</span><span class="op">(</span>df <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>original_name <span class="op">=</span> <span class="st">"Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                , tweak_species <span class="op">=</span> <span class="cn">TRUE</span></span></span>
@@ -957,18 +973,18 @@ returns <code>spec.</code> in the species column but
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6RXWTU\file71b869f61728.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\RtmpgBwqe8\file49e81fde179e.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   original_name                                          scientific_name species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Acacia sp. Small Red-leaved Wattle (J.B.Williams 9503… Acacia sp. Sma… Acacia…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Acacia sp. Small Red-leaved Wattle (J.B.Williams 9503… Acacia sp. Sma… <span style="color: #BB0000;">NA</span>     </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># clean up</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">temp_file</span>, <span class="st">".parquet"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:/temp/joel\\Rtmp6RXWTU\\file71b8516f3f6a.parquet"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:/temp/joel\\RtmpgBwqe8\\file49e82ce62bbd.parquet"</span>
 </code></pre></div>
     </div>
   </div>

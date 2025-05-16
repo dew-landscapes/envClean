@@ -8,7 +8,13 @@ make_unmatched_overrides(
   df,
   taxa_col = "original_name",
   taxonomy,
-  target_rank = "species"
+  target_rank = "species",
+  remove_taxa = c("bold:", "unverified", "undetermined", "unidentified", "annual herb",
+    "annual grass", "incertae sedis", "\\\\?", "another\\\\s", "not naturalised in sa",
+    "annual tussock grass", "*no id", "spec\\\\.", "\\\\s\\\\-\\\\-\\\\s.*",
+    "\\\\ssp\\\\.$", "\\\\sssp\\\\.$", "\\\\sspec\\\\.$", "\\\\ssp$", "\\\\sssp$",
+    "\\\\ssp\\\\d$", "dead", "sp.\\\\s.*\\\\(NC\\\\)", "unknown", "\\\\sgroup$",
+    "\\\\sspecies$", "aquatic grass", "hybrid", "\\\\scultivar$")
 )
 }
 \arguments{
@@ -20,6 +26,10 @@ entities for which a match is desired.}
 \item{taxonomy}{Result of call to \code{make_taxonomy()}}
 
 \item{target_rank}{Character. Level within \code{envClean::lurank$rank} to target}
+
+\item{remove_taxa}{Character. Taxa with regular expressions in
+\code{tolower(taxa_col)} that match \code{remove_taxa} will not be searched or
+have overrides constructed.}
 }
 \value{
 Tibble in appropriate form to pass to the overrides argument of
