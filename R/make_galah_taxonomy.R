@@ -149,6 +149,7 @@
                                                  , "\\sX\\s.*" # hybrids
                                                  , "unknown"
                                                  , "\\scultivar$"
+                                                 , "\\scomplex$"
                                                  ) # blah not removed, everything else removed
                             , not_names = c("sp"
                                             , "ssp"
