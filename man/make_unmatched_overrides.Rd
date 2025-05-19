@@ -9,12 +9,13 @@ make_unmatched_overrides(
   taxa_col = "original_name",
   taxonomy,
   target_rank = "species",
+  hybrids = FALSE,
   remove_taxa = c("bold:", "unverified", "undetermined", "unidentified", "annual herb",
     "annual grass", "incertae sedis", "\\\\?", "another\\\\s", "not naturalised in sa",
     "annual tussock grass", "*no id", "spec\\\\.", "\\\\s\\\\-\\\\-\\\\s.*",
-    "\\\\ssp\\\\.$", "\\\\sssp\\\\.$", "\\\\sspec\\\\.$", "\\\\ssp$", "\\\\sssp$",
-    "\\\\ssp\\\\d$", "dead", "sp.\\\\s.*\\\\(NC\\\\)", "unknown", "\\\\sgroup$",
-    "\\\\sspecies$", "aquatic grass", "hybrid", "\\\\scultivar$")
+    "\\\\ssp\\\\.", "\\\\sspec\\\\.", "\\\\ssp$", "\\\\ssp\\\\d$", "\\\\ssp\\\\s",
+    "dead", "unknown", "\\\\sgroup$", "\\\\sspecies$", "aquatic grass", "hybrid",
+    "\\\\scultivar$", "\\\\scomplex$")
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ entities for which a match is desired.}
 \item{taxonomy}{Result of call to \code{make_taxonomy()}}
 
 \item{target_rank}{Character. Level within \code{envClean::lurank$rank} to target}
+
+\item{hybrids}{Logical. Create overrides for hybrids (e.g. original names with 'x')?}
 
 \item{remove_taxa}{Character. Taxa with regular expressions in
 \code{tolower(taxa_col)} that match \code{remove_taxa} will not be searched or
