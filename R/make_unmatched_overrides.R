@@ -53,6 +53,9 @@ make_unmatched_overrides <- function(df
                                                        , "\\sspp\\s"
                                                        , "\\sssp\\."
                                                        , "\\sssp\\s"
+                                                       , "\\ssubsp\\."
+                                                       , "\\svar\\."
+                                                       , "\\sf\\."
                                                        , "dead"
                                                        , "unknown"
                                                        , "\\sgroup$"
@@ -61,6 +64,8 @@ make_unmatched_overrides <- function(df
                                                        , "hybrid"
                                                        , "\\scultivar$"
                                                        , "\\scomplex$"
+                                                       , "\\ssect\\."
+                                                       , "\\(NC\\)"
                                      )
 ) {
 
