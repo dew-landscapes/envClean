@@ -13,9 +13,11 @@ make_unmatched_overrides(
   remove_taxa = c("bold:", "unverified", "undetermined", "unidentified", "annual herb",
     "annual grass", "incertae sedis", "\\\\?", "another\\\\s", "not naturalised in sa",
     "annual tussock grass", "*no id", "spec\\\\.", "\\\\s\\\\-\\\\-\\\\s.*",
-    "\\\\ssp\\\\.", "\\\\sspec\\\\.", "\\\\ssp$", "\\\\ssp\\\\d$", "\\\\ssp\\\\s",
-    "dead", "unknown", "\\\\sgroup$", "\\\\sspecies$", "aquatic grass", "hybrid",
-    "\\\\scultivar$", "\\\\scomplex$")
+    "\\\\ssp\\\\.", "\\\\sspec\\\\.", "\\\\ssp$", "\\\\ssp\\\\d", "\\\\ssp\\\\s",
+    "\\\\sspp\\\\.", "\\\\sspp\\\\s", "\\\\sssp\\\\.", "\\\\sssp\\\\s",
+    "\\\\ssubsp\\\\.", "\\\\svar\\\\.", "\\\\sf\\\\.", "dead", "unknown", "\\\\sgroup$",
+    "\\\\sspecies$", "aquatic grass", "hybrid", "\\\\scultivar$", "\\\\scomplex$",
+    "\\\\ssect\\\\.", "\\\\(NC\\\\)")
 )
 }
 \arguments{
