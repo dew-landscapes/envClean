@@ -192,6 +192,8 @@
                                              , "\\ssp\\s"
                                              ,"\\ssp\\.\\s"
                                              , "\\sspecies"
+                                             , "\\sspp\\.\\s"
+                                             , "\\sspp\\s"
                                              )
                             , atlas = c("Australia")
                             , tweak_species = TRUE
@@ -555,26 +557,31 @@
         dplyr::count(original_name, name = "words") %>%
         dplyr::right_join(new) %>%
         dplyr::mutate(original_is_tri = dplyr::case_when(
-          # a few cases referencing 'all subspecies"
-          base::grepl("all\\ssubspecies", search_term) ~ FALSE,
+          # no binomial strings indicating a species
+          base::grepl(paste0(bi_strings
+                             , collapse = "|"
+          )
+          , search_term
+          ) ~ FALSE,
           # the original name matches tri_strings
           base::grepl(paste0(tri_strings
                              , collapse = "|"
-                             )
-                      , search_term
-                      ) ~ TRUE,
+          )
+          , search_term
+          ) ~ TRUE,
           # more than 2 words (after cleaning up words in search_term)
           words > 2 ~ TRUE,
           # odd case where the matched name has tri_string but the search_term didn't
           base::grepl(paste0(tri_strings
                              , collapse = "|"
-                             )
-                      , scientific_name
-                      ) ~ TRUE,
+          )
+          , scientific_name
+          ) ~ TRUE,
+
           # anything else is not a trinomial
           TRUE ~ FALSE
-          )
-          ) %>%
+        )
+        ) %>%
         dplyr::mutate(original_is_bi = dplyr::case_when(
           # the original name matches tri_strings
           base::grepl(paste0(bi_strings
