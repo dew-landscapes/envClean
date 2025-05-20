@@ -16,9 +16,11 @@
 #' @param taxonomy Result of call to `make_taxonomy()`
 #' @param target_rank Character. Level within `envClean::lurank$rank` to target
 #' @param hybrids Logical. Create overrides for hybrids (e.g. original names with 'x')?
-#' @param remove_taxa Character. Taxa with regular expressions in
-#' `tolower(taxa_col)` that match `remove_taxa` will not be searched or
-#' have overrides constructed.
+#' @param include_unmatched Logical. Create overrides for taxa not matched via gbif using their original names?
+#' @param remove_taxa Character. Taxa with regular expressions in `tolower(taxa_col)` that match `remove_taxa`
+#' will not be searched or have overrides constructed.
+#' @param tri_strings Character. Taxa names with these strings that indicate a trinomial will not be included
+#' as a binomial override (i.e. avoids the use_species column in the overrides being populated with trinomial names).
 #'
 #' @return Tibble in appropriate form to pass to the overrides argument of
 #' `make_taxonomy()`
@@ -30,6 +32,7 @@ make_unmatched_overrides <- function(df
                                      , taxonomy
                                      , target_rank = "species"
                                      , hybrids = FALSE
+                                     , include_unmatched = TRUE
                                      , remove_taxa = c("bold:"
                                                        , "unverified"
                                                        , "undetermined"
@@ -51,11 +54,7 @@ make_unmatched_overrides <- function(df
                                                        , "\\ssp\\s"
                                                        , "\\sspp\\."
                                                        , "\\sspp\\s"
-                                                       , "\\sssp\\."
-                                                       , "\\sssp\\s"
-                                                       , "\\ssubsp\\."
-                                                       , "\\svar\\."
-                                                       , "\\sf\\."
+                                                       , "\\sspp$"
                                                        , "dead"
                                                        , "unknown"
                                                        , "\\sgroup$"
@@ -65,7 +64,20 @@ make_unmatched_overrides <- function(df
                                                        , "\\scultivar$"
                                                        , "\\scomplex$"
                                                        , "\\ssect\\."
-                                                       , "\\(NC\\)"
+                                                       , "\\ss\\.\\sstr\\."
+                                     )
+                                     , tri_strings = c("\\sssp\\s"
+                                                       ,"\\sssp\\."
+                                                       , "\\svar\\s"
+                                                       , "\\svar\\."
+                                                       , "\\ssubsp\\."
+                                                       , "\\ssubspecies"
+                                                       , "\\sform\\)"
+                                                       , "\\sform\\s"
+                                                       , "\\sf\\."
+                                                       , "\\srace\\s"
+                                                       , "\\srace\\)"
+                                                       , "\\sp\\.v\\."
                                      )
 ) {
 
@@ -156,7 +168,7 @@ make_unmatched_overrides <- function(df
     }
 
     # altogether ------
-    if(any(nrow(unmatched_hybrids), nrow(unmatched_via_gbif))) {
+    if(any(nrow(unmatched_hybrids), nrow(unmatched_via_gbif), include_unmatched)) {
 
       overrides_unmatched <- unmatched |>
         dplyr::left_join(dplyr::bind_rows(mget(ls(pattern = "^unmatched_"))
@@ -165,6 +177,7 @@ make_unmatched_overrides <- function(df
           dplyr::filter(! is.na(!!rlang::ensym(taxa_col))) |>
           dplyr::select(!!rlang::ensym(taxa_col)
                         , tidyr::any_of(tidyr::matches(target_rank))
+                        , rank
                         , scientific_name
                         , kingdom
                         , note
@@ -178,25 +191,27 @@ make_unmatched_overrides <- function(df
                       , taxa_to_search = scientific_name
                       , use_kingdom = kingdom
                       , tidyr::any_of(tidyr::matches(target_rank))
+                      , rank
                       , note
         ) %>%
-        dplyr::mutate(taxa_to_search = dplyr::if_else(is.na(note)
-                                                     , gsub("\\s*\\([^\\)]+\\)", "", taxa_to_search)
-                                                     , taxa_to_search
-                                                     )
-                      , taxa_to_search = stringr::str_squish(taxa_to_search)
+        {if(!include_unmatched) dplyr::filter(., !is.na(note)) else .} |>
+        dplyr::left_join(taxonomy[[target_rank]]$lutaxa |>
+                           dplyr::select(original_name, original_is_bi, original_is_tri)
         ) %>%
-        {if("species" %in% names(.)) dplyr::mutate(., use_species = dplyr::case_when(! is.na(species) & ! grepl("\\.$", species) ~ species
-                                                                                     , ! is.na(taxa_to_search) & (is.na(species)|grepl("\\.$", species)) ~ taxa_to_search
+        {if("species" %in% names(.)) dplyr::mutate(., use_species = dplyr::case_when(! is.na(species) & ! grepl("\\.$", species) & stringr::str_count(species, "\\w+") > 1 ~ species
+                                                                                     , ! is.na(taxa_to_search) & stringr::str_count(taxa_to_search, "\\w+") > 1 ~ taxa_to_search
                                                                                      , .default = !!rlang::ensym(taxa_col)
         )
-        ) else dplyr::mutate(., use_species = dplyr::if_else(! is.na(taxa_to_search)
+        ) else dplyr::mutate(., use_species = dplyr::if_else(! is.na(taxa_to_search) & stringr::str_count(taxa_to_search, "\\w+") > 1
                                                              , taxa_to_search
                                                              , !!rlang::ensym(taxa_col)
         )
         )
         } |>
-        dplyr::mutate(use_subspecies = dplyr::if_else(! is.na(taxa_to_search) & target_rank == "subspecies"
+        dplyr::filter(stringr::str_count(use_species, "\\w+") > 1
+                      , !grepl(paste(tri_strings, collapse = "|"), use_species)
+                      ) |>
+        dplyr::mutate(use_subspecies = dplyr::if_else(! is.na(taxa_to_search) & target_rank == "subspecies" & (rank <= "subspecies"|original_is_tri)
                                                       , taxa_to_search
                                                       , NA
         )
@@ -204,8 +219,15 @@ make_unmatched_overrides <- function(df
                                           , taxa_to_search
                                           , !!rlang::ensym(taxa_col)
         )
+        ) %>%
+        dplyr::mutate(across(c(use_species, use_subspecies)
+                             , \(x) dplyr::if_else(is.na(note)
+                                                   , stringr::str_squish(gsub("\\s*\\([^\\)]+\\)", "", x))
+                                                   , x
+                             )
+        )
         ) |>
-        dplyr::select(-tidyr::any_of("species")) |>
+        dplyr::select(-tidyr::any_of(c("species", "original_is_bi", "original_is_tri"))) |>
         dplyr::relocate(use_kingdom, note, .after = dplyr::last_col())
 
     } else overrides_unmatched <- tibble::tibble()
