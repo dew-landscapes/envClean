@@ -174,6 +174,7 @@
                                             , "sensu"
                                             , "lato"
                                             , "hybrid"
+                                            , "complex"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
