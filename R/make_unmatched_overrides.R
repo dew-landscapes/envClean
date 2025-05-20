@@ -227,7 +227,7 @@ make_unmatched_overrides <- function(df
                              )
         )
         ) |>
-        dplyr::select(-tidyr::any_of(c("species", "original_is_bi", "original_is_tri"))) |>
+        dplyr::select(-tidyr::any_of(c("species", "original_is_bi", "original_is_tri", "rank"))) |>
         dplyr::relocate(use_kingdom, note, .after = dplyr::last_col())
 
     } else overrides_unmatched <- tibble::tibble()
