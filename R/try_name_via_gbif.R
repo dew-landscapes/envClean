@@ -110,7 +110,7 @@ try_name_via_gbif <- function(name
 
   }
 
-  result <- if(c("scientific_name") %in% names(result)) {
+  result <- if(all(c("scientific_name", "rank") %in% names(result))) {
 
     result |>
       dplyr::mutate(rank = factor(rank, levels = levels(envClean::lurank$rank), ordered = TRUE)) |>
