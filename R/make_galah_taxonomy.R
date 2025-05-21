@@ -396,7 +396,7 @@
                                                , species
         )
         , rank_adj = as.character(rank_adj)
-        , rank_adj = dplyr::if_else(is.na(species) & rank_adj == "species"
+        , rank_adj = dplyr::if_else(is.na(species) & rank_adj %in% c("species", "subspecies")
                                     , "genus"
                                     , rank_adj
         )
