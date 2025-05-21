@@ -123,7 +123,10 @@ make_unmatched_overrides <- function(df
       ) |>
       tidyr::unnest(cols = c(res))
 
-    if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_via_gbif)), ! "scientific_name" %in% names(unmatched_via_gbif))) {
+    if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_via_gbif))
+           , (target_rank == "subspecies" & ! "species" %in% names(unmatched_via_gbif))
+           , ! "scientific_name" %in% names(unmatched_via_gbif))
+    ) {
 
       unmatched_via_gbif <- unmatched_via_gbif |>
         dplyr::slice(0)
@@ -146,7 +149,10 @@ make_unmatched_overrides <- function(df
         dplyr::mutate(res = purrr::map(searched_name, galah::search_taxa)) |>
         tidyr::unnest(cols = c(res))
 
-      if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_hybrids)), ! "scientific_name" %in% names(unmatched_hybrids))) {
+      if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_hybrids))
+             , (target_rank == "subspecies" & ! "species" %in% names(unmatched_via_gbif))
+             , ! "scientific_name" %in% names(unmatched_hybrids))
+      ) {
 
         unmatched_hybrids <- unmatched_hybrids |>
           dplyr::slice(0)
@@ -210,7 +216,7 @@ make_unmatched_overrides <- function(df
         } |>
         dplyr::filter(stringr::str_count(use_species, "\\w+") == 2|grepl("-", use_species)|!is.na(note)
                       , !grepl(paste(tri_strings, collapse = "|"), use_species)
-                      ) |>
+        ) |>
         dplyr::mutate(use_subspecies = dplyr::if_else(! is.na(taxa_to_search) & target_rank == "subspecies" & (rank <= "subspecies"|original_is_tri)
                                                       , taxa_to_search
                                                       , NA
