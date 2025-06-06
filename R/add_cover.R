@@ -117,6 +117,22 @@
                       , use_cover
                       )
 
+    result <- result |>
+      dplyr::mutate(cut_cover = cut(use_cover
+                                    , breaks = c(-1, lucover[lucover_col][[1]], 1.1)
+                                    )
+                    ) |>
+      dplyr::left_join(lucover |>
+                         dplyr::mutate(cut_cover = cut(!!rlang::ensym(lucover_col)
+                                                       , breaks = c(-1, lucover[lucover_col][[1]], 1.1)
+                                                       )
+                                       ) |>
+                         dplyr::select(cover_code, cut_cover)
+                       ) |>
+      dplyr::select(-tidyselect::matches("cut_")
+                    , use_cover_code = cover_code
+                    )
+
     return(result)
 
   }
