@@ -48,12 +48,12 @@ Imports:
     tidytext,
     tmap
 Remotes:
-    github::acanthiza/envFunc,
-    github::acanthiza/envRaster,
-    github::acanthiza/envReport,
-    github::acanthiza/envEcosystems
-URL: https://acanthiza.github.io/envClean/
-BugReports: https://github.com/Acanthiza/envClean/issues
+    github::dew-landscapes/envFunc,
+    github::dew-landscapes/envRaster,
+    github::dew-landscapes/envReport,
+    github::dew-landscapes/envEcosystems
+URL: https://dew-landscapes.github.io/envClean/
+BugReports: https://github.com/dew-landscapes/envClean/issues
 Depends: 
     R (>= 2.10)
 Suggests: 

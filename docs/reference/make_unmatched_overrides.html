@@ -11,7 +11,7 @@ associated taxonomic information."><!-- mathjax --><script src="https://cdnjs.cl
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -36,7 +36,7 @@ associated taxonomic information."><!-- mathjax --><script src="https://cdnjs.cl
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -44,22 +44,22 @@ associated taxonomic information."><!-- mathjax --><script src="https://cdnjs.cl
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/Acanthiza/envClean/" class="external-link">
+  <a href="https://github.com/dew-landscapes/envClean/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Attempt to find a taxa for names with no match in <code>galah::search_taxa()</code></h1>
-    <small class="dont-index">Source: <a href="https://github.com/Acanthiza/envClean/blob/HEAD/R/make_unmatched_overrides.R" class="external-link"><code>R/make_unmatched_overrides.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/dew-landscapes/envClean/blob/HEAD/R/make_unmatched_overrides.R" class="external-link"><code>R/make_unmatched_overrides.R</code></a></small>
     <div class="hidden name"><code>make_unmatched_overrides.Rd</code></div>
     </div>
 
@@ -89,7 +89,7 @@ associated taxonomic information.</p>
 <span>    <span class="st">"\\ssp\\."</span>, <span class="st">"\\sspec\\."</span>, <span class="st">"\\ssp$"</span>, <span class="st">"\\ssp\\d"</span>, <span class="st">"\\ssp\\s"</span>,</span>
 <span>    <span class="st">"\\sspp\\."</span>, <span class="st">"\\sspp\\s"</span>, <span class="st">"\\sspp$"</span>, <span class="st">"dead"</span>, <span class="st">"unknown"</span>, <span class="st">"\\sgroup$"</span>,</span>
 <span>    <span class="st">"\\sspecies$"</span>, <span class="st">"aquatic grass"</span>, <span class="st">"hybrid"</span>, <span class="st">"\\scultivar$"</span>, <span class="st">"\\scomplex$"</span>,</span>
-<span>    <span class="st">"\\ssect\\."</span>, <span class="st">"\\ss\\.\\sstr\\."</span><span class="op">)</span>,</span>
+<span>    <span class="st">"\\ssect\\."</span>, <span class="st">"\\ss\\.\\sstr\\."</span>, <span class="st">"\\(includes\\s"</span><span class="op">)</span>,</span>
 <span>  tri_strings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"\\sssp\\s"</span>, <span class="st">"\\sssp\\."</span>, <span class="st">"\\svar\\s"</span>, <span class="st">"\\svar\\."</span>,</span>
 <span>    <span class="st">"\\ssubsp\\."</span>, <span class="st">"\\ssubspecies"</span>, <span class="st">"\\sform\\)"</span>, <span class="st">"\\sform\\s"</span>,</span>
 <span>    <span class="st">"\\sf\\."</span>, <span class="st">"\\srace\\s"</span>, <span class="st">"\\srace\\)"</span>, <span class="st">"\\sp\\.v\\."</span><span class="op">)</span></span>
@@ -98,49 +98,47 @@ associated taxonomic information.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>df</dt>
+
+
+<dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
 <dd><p>Dataframe of biological records</p></dd>
 
 
-<dt>taxa_col</dt>
+<dt id="arg-taxa-col">taxa_col<a class="anchor" aria-label="anchor" href="#arg-taxa-col"></a></dt>
 <dd><p>Character. Name of column in <code>df</code> containing the taxonomic
 entities for which a match is desired.</p></dd>
 
 
-<dt>taxonomy</dt>
+<dt id="arg-taxonomy">taxonomy<a class="anchor" aria-label="anchor" href="#arg-taxonomy"></a></dt>
 <dd><p>Result of call to <code><a href="make_taxonomy.html">make_taxonomy()</a></code></p></dd>
 
 
-<dt>target_rank</dt>
+<dt id="arg-target-rank">target_rank<a class="anchor" aria-label="anchor" href="#arg-target-rank"></a></dt>
 <dd><p>Character. Level within <code>envClean::lurank$rank</code> to target</p></dd>
 
 
-<dt>hybrids</dt>
+<dt id="arg-hybrids">hybrids<a class="anchor" aria-label="anchor" href="#arg-hybrids"></a></dt>
 <dd><p>Logical. Create overrides for hybrids (e.g. original names with 'x')?</p></dd>
 
 
-<dt>include_unmatched</dt>
+<dt id="arg-include-unmatched">include_unmatched<a class="anchor" aria-label="anchor" href="#arg-include-unmatched"></a></dt>
 <dd><p>Logical. Create overrides for taxa not matched via gbif using their original names?</p></dd>
 
 
-<dt>remove_taxa</dt>
+<dt id="arg-remove-taxa">remove_taxa<a class="anchor" aria-label="anchor" href="#arg-remove-taxa"></a></dt>
 <dd><p>Character. Taxa with regular expressions in <code>tolower(taxa_col)</code> that match <code>remove_taxa</code>
 will not be searched or have overrides constructed.</p></dd>
 
 
-<dt>tri_strings</dt>
+<dt id="arg-tri-strings">tri_strings<a class="anchor" aria-label="anchor" href="#arg-tri-strings"></a></dt>
 <dd><p>Character. Taxa names with these strings that indicate a trinomial will not be included
 as a binomial override (i.e. avoids the use_species column in the overrides being populated with trinomial names).</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Tibble in appropriate form to pass to the overrides argument of
+    <p>Tibble in appropriate form to pass to the overrides argument of
 <code><a href="make_taxonomy.html">make_taxonomy()</a></code></p>
-
-
     </div>
 
     <div id="ref-examples">
@@ -189,7 +187,7 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6pX7BG\file4af8d20380d.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\Rtmp0q2S55\file207c283f6778.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There was 1 warning in `dplyr::filter()`.</span>
@@ -397,7 +395,7 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6pX7BG\file4af8d20380d.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\Rtmp0q2S55\file207c283f6778.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -642,33 +640,33 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26           &lt;NA&gt;         &lt;NA&gt;                   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27   Charadriidae    Thinornis   Thinornis cucullatus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  vernacular_name               stamp</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Thick-billed Grasswren 2025-05-21 00:43:29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Cowarie Thick-billed Grasswren 2025-05-21 00:43:29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Macdonnell Ranges Thick-billed Grasswren 2025-05-21 00:43:29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                             Striated Grasswren 2025-05-21 00:43:29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                           &lt;NA&gt; 2025-05-21 00:43:29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Burrowing Bettong (barrow And Boodie Islands) 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                             Lesser Sand Plover 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                           Red-necked Phalarope 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               Studley Park Gum 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                    Ribbon Gum 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        Rough-barked Manna-gum 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                          &lt;NA&gt; 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                             Centralian Dtella 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                     Samphires 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                             Jointed Mistletoe 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                           Rufous Hare-wallaby 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17            Black-chinned Honeyeater (eastern) 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                      Golden-backed Honeyeater 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19           Eastern Barred Bandicoot (mainland) 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                     Black-footed Rock-wallaby 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                    Greenhoods 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                 Desert Cassia 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                          &lt;NA&gt; 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                        Macgillivray Spyridium 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                        Macgillivray Spyridium 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                    White Ants 2025-05-21 00:43:27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                 Hooded Plover 2025-05-21 00:43:27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                         Thick-billed Grasswren 2025-06-06 05:27:14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Cowarie Thick-billed Grasswren 2025-06-06 05:27:14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Macdonnell Ranges Thick-billed Grasswren 2025-06-06 05:27:14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                             Striated Grasswren 2025-06-06 05:27:14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                           &lt;NA&gt; 2025-06-06 05:27:14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Burrowing Bettong (barrow And Boodie Islands) 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                             Lesser Sand Plover 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                           Red-necked Phalarope 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                               Studley Park Gum 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                    Ribbon Gum 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                        Rough-barked Manna-gum 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                          &lt;NA&gt; 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                             Centralian Dtella 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                     Samphires 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                             Jointed Mistletoe 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                           Rufous Hare-wallaby 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17            Black-chinned Honeyeater (eastern) 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                      Golden-backed Honeyeater 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19           Eastern Barred Bandicoot (mainland) 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                     Black-footed Rock-wallaby 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                    Greenhoods 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                 Desert Cassia 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                          &lt;NA&gt; 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                        Macgillivray Spyridium 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                        Macgillivray Spyridium 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                    White Ants 2025-06-06 05:27:12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                 Hooded Plover 2025-06-06 05:27:12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                subspecies   rank_adj</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                    &lt;NA&gt;    species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                              Amytornis modestus cowarie subspecies</span>
@@ -791,7 +789,7 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6pX7BG\file4af8d20380d.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\Rtmp0q2S55\file207c283f6778.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Aptenodes patagonicus, Corybas X dentatus, Galaxias sp. nov. Hunter, Puffinis gravis, Puffinus griseus, Some rubbish and Corybas x dentatus. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -818,7 +816,7 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name, returned_rank)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6pX7BG\file4af8d20380d.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\Rtmp0q2S55\file207c283f6778.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following were completely unmatched: Galaxias sp. nov. Hunter and Some rubbish. Consider providing more taxonomic levels, or an override, for each unmatched taxa?</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
@@ -842,7 +840,7 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6pX7BG\file4af82524c39.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\Rtmp0q2S55\file207c6dd52196.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
@@ -857,7 +855,7 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/joel\Rtmp6pX7BG\file4af824202c67.parquet</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to C:/temp/nige\Rtmp0q2S55\file207c38fa547.parquet</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
@@ -868,7 +866,7 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 <span class="r-in"><span>  <span class="co"># clean up</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">taxonomy</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">temp_file</span>, <span class="st">".parquet"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:/temp/joel\\Rtmp6pX7BG\\file4af8d20380d.parquet"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C:/temp/nige\\Rtmp0q2S55\\file207c283f6778.parquet"</span>
 </code></pre></div>
     </div>
   </div>
@@ -883,15 +881,15 @@ as a binomial override (i.e. avoids the use_species column in the overrides bein
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
