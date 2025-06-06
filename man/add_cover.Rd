@@ -13,7 +13,7 @@ add_cover(
   small_cov = 0.009,
   remove_all_small = TRUE,
   fix_1to100 = TRUE,
-  cov_func = max
+  cov_func = median
 )
 }
 \arguments{
@@ -24,6 +24,9 @@ add_cover(
 \item{env_prcomp}{List. Result from call to \code{envClean::env_pca()}}
 
 \item{lucover}{Dataframe. Lookup from \code{cover_code} to numeric cover values}
+
+\item{lucover_col}{Character. Name of column in lucover containing cover
+values to use for any \code{cover_code}}
 
 \item{small_cov}{A small cover value assigned to any record for which there
 is no available site, pca or taxa cover value.}
@@ -36,13 +39,13 @@ between above 1 and less than or equal to 100 are divided by 100.}
 
 \item{cov_func}{Function to summarise cover values for any context with more
 than one cover value.}
-
-\item{lucover_co}{Character. Name of column in lucover containing cover
-values to use for any \code{cover_code}}
 }
 \value{
-Dataframe with cov_col removed and replaced with best guess cover in
-column use_cover
+Dataframe with taxa, context and the following 'cover' columns:
+\code{cover_adj} a best guess proportion cover; \code{use_cover_code} the
+\code{cover_code} values from \code{lucover} that correspond to the best guess value;
+\code{use_cover} the \code{lucover_col} column that corresponds to the
+best guess value.
 }
 \description{
 Generate best guess of cover for each taxa*context
