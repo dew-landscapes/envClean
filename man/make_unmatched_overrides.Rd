@@ -8,7 +8,19 @@ make_unmatched_overrides(
   df,
   taxa_col = "original_name",
   taxonomy,
-  target_rank = "species"
+  target_rank = "species",
+  hybrids = FALSE,
+  include_unmatched = TRUE,
+  remove_taxa = c("bold:", "unverified", "undetermined", "unidentified", "annual herb",
+    "annual grass", "incertae sedis", "\\\\?", "another\\\\s", "not naturalised in sa",
+    "annual tussock grass", "*no id", "spec\\\\.", "\\\\s\\\\-\\\\-\\\\s.*",
+    "\\\\ssp\\\\.", "\\\\sspec\\\\.", "\\\\ssp$", "\\\\ssp\\\\d", "\\\\ssp\\\\s",
+    "\\\\sspp\\\\.", "\\\\sspp\\\\s", "\\\\sspp$", "dead", "unknown", "\\\\sgroup$",
+    "\\\\sspecies$", "aquatic grass", "hybrid", "\\\\scultivar$", "\\\\scomplex$",
+    "\\\\ssect\\\\.", "\\\\ss\\\\.\\\\sstr\\\\."),
+  tri_strings = c("\\\\sssp\\\\s", "\\\\sssp\\\\.", "\\\\svar\\\\s", "\\\\svar\\\\.",
+    "\\\\ssubsp\\\\.", "\\\\ssubspecies", "\\\\sform\\\\)", "\\\\sform\\\\s",
+    "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)", "\\\\sp\\\\.v\\\\.")
 )
 }
 \arguments{
@@ -20,6 +32,16 @@ entities for which a match is desired.}
 \item{taxonomy}{Result of call to \code{make_taxonomy()}}
 
 \item{target_rank}{Character. Level within \code{envClean::lurank$rank} to target}
+
+\item{hybrids}{Logical. Create overrides for hybrids (e.g. original names with 'x')?}
+
+\item{include_unmatched}{Logical. Create overrides for taxa not matched via gbif using their original names?}
+
+\item{remove_taxa}{Character. Taxa with regular expressions in \code{tolower(taxa_col)} that match \code{remove_taxa}
+will not be searched or have overrides constructed.}
+
+\item{tri_strings}{Character. Taxa names with these strings that indicate a trinomial will not be included
+as a binomial override (i.e. avoids the use_species column in the overrides being populated with trinomial names).}
 }
 \value{
 Tibble in appropriate form to pass to the overrides argument of

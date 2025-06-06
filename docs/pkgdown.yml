@@ -1,6 +1,7 @@
-pandoc: '3.2'
-pkgdown: 2.1.1
+pandoc: 3.1.1
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   010_overview: 010_overview.html
-last_built: 2025-04-04T22:45Z
+last_built: 2025-05-21T00:42Z
+

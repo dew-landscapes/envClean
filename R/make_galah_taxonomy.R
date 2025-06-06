@@ -129,18 +129,29 @@
                                               , "annual grass"
                                               , "incertae sedis"
                                               , "\\?"
-                                              , "another species"
+                                              , "another\\s"
                                               , "not naturalised in sa"
                                               , "annual tussock grass"
                                               , "*no id"
                                               , "spec\\."
+                                              , "aquatic grass"
                                               )
                             , remove_strings = c("\\s\\-\\-\\s.*" # blah -- abc xyz
                                                  , "\\ssp\\.$" # blah sp.END
                                                  , "\\sssp\\.$" # blah ssp.END
                                                  , "\\sspec\\.$" # blah spec.END
+                                                 , "\\ssp$"
+                                                 , "\\sssp$"
+                                                 , "\\ssp\\d$"
                                                  , "dead"
                                                  , "sp.\\s.*\\(NC\\)"
+                                                 , "\\sx\\s.*" # hybrids
+                                                 , "\\sX\\s.*" # hybrids
+                                                 , "unknown"
+                                                 , "\\scultivar$"
+                                                 , "\\scomplex$"
+                                                 , "\\(nc\\)"
+                                                 , "\\saff\\."
                                                  ) # blah not removed, everything else removed
                             , not_names = c("sp"
                                             , "ssp"
@@ -162,6 +173,8 @@
                                             , "nov"
                                             , "sensu"
                                             , "lato"
+                                            , "hybrid"
+                                            , "complex"
                                             )
                             , tri_strings = c("\\sssp\\s"
                                               ,"\\sssp\\.\\s"
@@ -180,6 +193,8 @@
                                              , "\\ssp\\s"
                                              ,"\\ssp\\.\\s"
                                              , "\\sspecies"
+                                             , "\\sspp\\.\\s"
+                                             , "\\sspp\\s"
                                              )
                             , atlas = c("Australia")
                             , tweak_species = TRUE
@@ -367,14 +382,29 @@
         dplyr::bind_rows(new) %>%
         dplyr::filter(!is.na(original_name)
                       , original_name != "blah"
-                      ) %>%
+        ) %>%
         dplyr::select(!matches("^issues$")) %>%
         clean_quotes() %>%
         dplyr::group_by(original_name) %>%
         dplyr::filter(stamp == base::suppressWarnings(base::max(stamp))) %>%
         dplyr::ungroup() %>%
         dplyr::distinct() %>%
-        make_subspecies_col()
+        make_subspecies_col() %>%
+        # fix uninomials returned as species
+        dplyr::mutate(species = dplyr::if_else(stringr::str_count(species, "\\w+") == 1
+                                               , NA
+                                               , species
+        )
+        , rank_adj = as.character(rank_adj)
+        , rank_adj = dplyr::if_else(is.na(species) & rank_adj %in% c("species", "subspecies")
+                                    , "genus"
+                                    , rank_adj
+        )
+        , rank_adj = factor(rank_adj
+                            , levels = levels(envClean::lurank$rank)
+                            , ordered = TRUE
+        )
+        )
 
       if(tweak_species) {
 
@@ -528,26 +558,31 @@
         dplyr::count(original_name, name = "words") %>%
         dplyr::right_join(new) %>%
         dplyr::mutate(original_is_tri = dplyr::case_when(
-          # a few cases referencing 'all subspecies"
-          base::grepl("all\\ssubspecies", search_term) ~ FALSE,
+          # no binomial strings indicating a species
+          base::grepl(paste0(bi_strings
+                             , collapse = "|"
+          )
+          , search_term
+          ) ~ FALSE,
           # the original name matches tri_strings
           base::grepl(paste0(tri_strings
                              , collapse = "|"
-                             )
-                      , search_term
-                      ) ~ TRUE,
+          )
+          , search_term
+          ) ~ TRUE,
           # more than 2 words (after cleaning up words in search_term)
           words > 2 ~ TRUE,
           # odd case where the matched name has tri_string but the search_term didn't
           base::grepl(paste0(tri_strings
                              , collapse = "|"
-                             )
-                      , scientific_name
-                      ) ~ TRUE,
+          )
+          , scientific_name
+          ) ~ TRUE,
+
           # anything else is not a trinomial
           TRUE ~ FALSE
-          )
-          ) %>%
+        )
+        ) %>%
         dplyr::mutate(original_is_bi = dplyr::case_when(
           # the original name matches tri_strings
           base::grepl(paste0(bi_strings
