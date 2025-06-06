@@ -17,7 +17,7 @@ make_unmatched_overrides(
     "\\\\ssp\\\\.", "\\\\sspec\\\\.", "\\\\ssp$", "\\\\ssp\\\\d", "\\\\ssp\\\\s",
     "\\\\sspp\\\\.", "\\\\sspp\\\\s", "\\\\sspp$", "dead", "unknown", "\\\\sgroup$",
     "\\\\sspecies$", "aquatic grass", "hybrid", "\\\\scultivar$", "\\\\scomplex$",
-    "\\\\ssect\\\\.", "\\\\ss\\\\.\\\\sstr\\\\."),
+    "\\\\ssect\\\\.", "\\\\ss\\\\.\\\\sstr\\\\.", "\\\\(includes\\\\s"),
   tri_strings = c("\\\\sssp\\\\s", "\\\\sssp\\\\.", "\\\\svar\\\\s", "\\\\svar\\\\.",
     "\\\\ssubsp\\\\.", "\\\\ssubspecies", "\\\\sform\\\\)", "\\\\sform\\\\s",
     "\\\\sf\\\\.", "\\\\srace\\\\s", "\\\\srace\\\\)", "\\\\sp\\\\.v\\\\.")
