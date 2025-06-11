@@ -227,6 +227,7 @@ make_unmatched_overrides <- function(df
         } |>
         dplyr::filter(stringr::str_count(use_species, "\\w+") == 2|grepl("-", use_species)|!is.na(note)
                       , !grepl(paste(tri_strings, collapse = "|"), use_species)
+                      , !grepl(paste(remove_taxa, collapse = "|"), use_species)
         ) |>
         dplyr::mutate(use_subspecies = dplyr::if_else(! is.na(taxa_to_search) & target_rank == "subspecies" & rank <= "subspecies"
                                                       , taxa_to_search
@@ -237,7 +238,7 @@ make_unmatched_overrides <- function(df
                                           , !!rlang::ensym(taxa_col)
         )
         ) %>%
-        dplyr::filter(! stringr::str_count(use_subspecies, "\\w+") <= 2|is.na(use_subspecies) & rank > "subspecies") |>
+        dplyr::filter(! stringr::str_count(use_subspecies, "\\w+") <= 2|(is.na(use_subspecies) & rank > "subspecies")) |>
         dplyr::mutate(across(c(use_species, use_subspecies)
                              , \(x) dplyr::if_else(is.na(note)
                                                    , stringr::str_squish(gsub("\\s*\\([^\\)]+\\)", "", x))
