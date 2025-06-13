@@ -492,7 +492,9 @@
             ) %>%
             dplyr::mutate(returned_rank = matched_rank) %>%
             dplyr::left_join(overrides_long) %>%
-            dplyr::mutate(change_taxa = (is.na(taxa) & !is.na(new_taxa))|taxa != new_taxa
+            dplyr::mutate(change_taxa = dplyr::case_when((is.na(taxa) & !is.na(new_taxa))|taxa != new_taxa ~ TRUE
+                                                         , .default = FALSE
+                                                         )
                           , taxa = dplyr::if_else(change_taxa, new_taxa, taxa)
                           , rank_adj = dplyr::if_else(change_taxa, returned_rank, rank_adj)
                           , rank_adj = factor(rank_adj, levels = levels(lurank$rank), ordered = TRUE)
