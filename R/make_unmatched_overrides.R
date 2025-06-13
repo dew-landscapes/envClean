@@ -17,6 +17,9 @@
 #' @param target_rank Character. Level within `envClean::lurank$rank` to target
 #' @param hybrids Logical. Create overrides for hybrids (e.g. original names with 'x')?
 #' @param include_unmatched Logical. Create overrides for taxa not matched via gbif using their original names?
+#' @param results_file File path to write results of searches. Previous results files are used to
+#' avoid redoing time consuming searches for taxa that are not matched via gbif and not written
+#' to the taxonomy file in make_taxonomy.
 #' @param remove_taxa Character. Taxa with regular expressions in `tolower(taxa_col)` that match `remove_taxa`
 #' will not be searched or have overrides constructed.
 #' @param tri_strings Character. Taxa names with these strings that indicate a trinomial will not be included
@@ -33,6 +36,7 @@ make_unmatched_overrides <- function(df
                                      , target_rank = "species"
                                      , hybrids = FALSE
                                      , include_unmatched = TRUE
+                                     , results_file = tempfile(fileext = ".parquet")
                                      , remove_taxa = c("bold:"
                                                        , "unverified"
                                                        , "undetermined"
@@ -116,7 +120,8 @@ make_unmatched_overrides <- function(df
     } %>%
     {if(!hybrids) dplyr::filter(., !grepl("\\sx\\s.*", !!rlang::ensym(taxa_col), ignore.case = TRUE)) else .} %>%
     #dplyr::sample_n(10) |> # TESTING
-    dplyr::select(!!rlang::ensym(taxa_col))
+    dplyr::select(!!rlang::ensym(taxa_col)) %>%
+    {if(file.exists(results_file)) dplyr::anti_join(., rio::import(results_file), by = taxa_col) else .}
 
   if(nrow(unmatched)) {
 
@@ -132,6 +137,8 @@ make_unmatched_overrides <- function(df
       )
       ) |>
       tidyr::unnest(cols = c(res))
+
+    res1 <- unmatched_via_gbif
 
     if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_via_gbif))
            , (target_rank == "subspecies" & ! "species" %in% names(unmatched_via_gbif))
@@ -159,6 +166,8 @@ make_unmatched_overrides <- function(df
         dplyr::mutate(res = purrr::map(searched_name, galah::search_taxa)) |>
         tidyr::unnest(cols = c(res))
 
+      res2 <- unmatched_hybrids
+
       if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_hybrids))
              , (target_rank == "subspecies" & ! "species" %in% names(unmatched_via_gbif))
              , ! "scientific_name" %in% names(unmatched_hybrids))
@@ -182,6 +191,12 @@ make_unmatched_overrides <- function(df
         dplyr::slice(0)
 
     }
+
+    # write results ----
+    mget(ls(pattern = "^res\\d$")) %>%
+      {if(file.exists(results_file)) dplyr::bind_rows(., rio::import(results_file)) else dplyr::bind_rows(.)} |>
+      dplyr::full_join(unmatched) |> # brings in taxa that were searched but return no results
+      rio::export(results_file, format = "parquet")
 
     # altogether ------
     if(any(nrow(unmatched_hybrids), nrow(unmatched_via_gbif), include_unmatched)) {
