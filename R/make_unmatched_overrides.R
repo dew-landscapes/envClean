@@ -192,7 +192,7 @@ make_unmatched_overrides <- function(df
         ) |>
           dplyr::filter(! is.na(!!rlang::ensym(taxa_col))) |>
           dplyr::select(!!rlang::ensym(taxa_col)
-                        , tidyr::any_of(tidyr::matches(target_rank))
+                        , tidyr::any_of(tidyr::matches(unique(c(target_rank, "species"))))
                         , rank
                         , scientific_name
                         , kingdom
@@ -206,7 +206,7 @@ make_unmatched_overrides <- function(df
         dplyr::select(!!rlang::ensym(taxa_col)
                       , taxa_to_search = scientific_name
                       , use_kingdom = kingdom
-                      , tidyr::any_of(tidyr::matches(target_rank))
+                      , tidyr::any_of(tidyr::matches(unique(c(target_rank, "species"))))
                       , rank
                       , note
         ) %>%
@@ -228,7 +228,8 @@ make_unmatched_overrides <- function(df
         dplyr::filter(stringr::str_count(use_species, "\\w+") == 2|grepl("-", use_species)|!is.na(note)
                       , !grepl(paste(tri_strings, collapse = "|"), use_species)
                       , !grepl(paste(remove_taxa, collapse = "|"), use_species)
-        ) |>
+        ) %>%
+        {if(!hybrids) dplyr::filter(., !grepl("\\sx\\s.*", use_species, ignore.case = TRUE)) else .} |>
         dplyr::mutate(use_subspecies = dplyr::if_else(! is.na(taxa_to_search) & target_rank == "subspecies" & rank <= "subspecies"
                                                       , taxa_to_search
                                                       , NA
