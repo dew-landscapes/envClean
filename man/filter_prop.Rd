@@ -2,28 +2,31 @@
 % Please edit documentation in R/filter_prop.R
 \name{filter_prop}
 \alias{filter_prop}
-\title{Filter taxa recorded at less than x percent of visits}
+\title{Filter taxa recorded in less than x percent of contexts}
 \usage{
-filter_prop(df, context = "cell", min_sites = 15, keep = NULL, default_per = 1)
+filter_prop(df, context = "cell", keep = NULL, default_per = 5, min_per = 1)
 }
 \arguments{
 \item{df}{Dataframe with taxa and context}
 
-\item{context}{Character. Column names that define context, usually a 'visit'
-to a 'cell'.}
+\item{context}{Character. Column names that define context.}
 
-\item{min_sites}{Absolute minimum sites at which a taxa should be recorded.}
+\item{keep}{Character. taxa that should not be dropped. Can be used to set x
+percent of sites to lower than \code{default_per} to ensure \code{keep} taxa appear in
+the filtered results. The lowest value of x required to keep any \code{keep} taxa
+then overrides \code{default_per} for the whole dataset.}
 
-\item{keep}{Character. taxa that should not be dropped. Used to set x
-percent of sites.}
+\item{default_per}{Numeric (percentage). If \code{keep} is NULL (or if no \code{keep}
+taxa occur within the \code{df}), filter any taxa recorded in less than
+\code{default_per}\% of contexts.}
 
-\item{default_per}{If keeptaxa is NULL, what is the minimum percent of sites
-at which a taxa should be recorded.}
+\item{min_per}{Numeric (percentage). If \code{keep} is not null, do not lower x
+below \code{min_per}.}
 }
 \value{
-df filtered to exclude taxa recorded at less than x percent of
-visits.
+df filtered of taxa that occur in less than x\% of contexts, taking
+into account \code{default_per}, \code{keep} and/or \code{min_per}.
 }
 \description{
-Filter taxa recorded at less than x percent of visits
+Filter taxa recorded in less than x percent of contexts
 }
