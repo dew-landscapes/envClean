@@ -1,38 +1,41 @@
 
 
-#' Filter taxa recorded at less than x percent of visits
+#' Filter taxa recorded in less than x percent of contexts
 #'
 #' @param df Dataframe with taxa and context
-#' @param context Character. Column names that define context, usually a 'visit'
-#' to a 'cell'.
-#' @param min_sites Absolute minimum sites at which a taxa should be recorded.
-#' @param keep Character. taxa that should not be dropped. Used to set x
-#' percent of sites.
-#' @param default_per If keeptaxa is NULL, what is the minimum percent of sites
-#' at which a taxa should be recorded.
+#' @param context Character. Column names that define context.
+#' @param keep Character. taxa that should not be dropped. Can be used to set x
+#' percent of sites to lower than `default_per` to ensure `keep` taxa appear in
+#' the filtered results. The lowest value of x required to keep any `keep` taxa
+#' then overrides `default_per` for the whole dataset.
+#' @param default_per Numeric (percentage). If `keep` is NULL (or if no `keep`
+#' taxa occur within the `df`), filter any taxa recorded in less than
+#' `default_per`% of contexts.
+#' @param min_per Numeric (percentage). If `keep` is not null, do not lower x
+#' below `min_per`.
 #'
-#' @return df filtered to exclude taxa recorded at less than x percent of
-#' visits.
+#' @return df filtered of taxa that occur in less than x% of contexts, taking
+#' into account `default_per`, `keep` and/or `min_per`.
 #' @export
 #'
 #' @examples
   filter_prop <- function(df
                           , context = "cell"
-                          , min_sites = 15
                           , keep = NULL
-                          , default_per = 1
+                          , default_per = 5
+                          , min_per = 1
                           ) {
 
     thresh <- if(isTRUE(!is.null(keep))) {
 
-      dont_drop_df <- df %>%
+      df %>%
         dplyr::mutate(visits = dplyr::n_distinct(dplyr::across(tidyselect::any_of(context)))) %>%
         dplyr::filter(taxa %in% keep) %>%
         dplyr::count(taxa, visits, name = "records") %>%
         dplyr::mutate(per = round(100 * records / visits, 2)) %>%
-        dplyr::filter(records > min_sites / 2) %>%
         dplyr::pull(per) %>%
-        min(c(., default_per))
+        min(c(., default_per)) %>%
+        max(c(., min_per))
 
     } else default_per
 
