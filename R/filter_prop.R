@@ -39,9 +39,15 @@ filter_prop <- function(df
 
     if(nrow(df_prep)) {
 
-      df_prep |>
+      low_prop <- df_prep |>
         dplyr::filter(prop > min_prop) |>
         dplyr::pull(prop)
+
+      if(length(low_prop)) {
+
+        low_prop <- if(low_prop > min_prop) low_prop else min_prop
+
+      } else default_prop
 
     } else default_prop
 
