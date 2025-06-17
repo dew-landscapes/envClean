@@ -150,7 +150,6 @@
                                                  , "\\scultivar$"
                                                  , "\\scomplex$"
                                                  , "\\(NC\\)"
-                                                 , "\\(nc\\)"
                                                  , "\\saff\\."
                                                  ) # blah not removed, everything else removed
                             , not_names = c("sp"
