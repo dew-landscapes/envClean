@@ -11,6 +11,7 @@ make_unmatched_overrides(
   target_rank = "species",
   hybrids = FALSE,
   include_unmatched = TRUE,
+  results_file = tempfile(fileext = ".parquet"),
   remove_taxa = c("bold:", "unverified", "undetermined", "unidentified", "annual herb",
     "annual grass", "incertae sedis", "\\\\?", "another\\\\s", "not naturalised in sa",
     "annual tussock grass", "*no id", "spec\\\\.", "\\\\s\\\\-\\\\-\\\\s.*",
@@ -36,6 +37,10 @@ entities for which a match is desired.}
 \item{hybrids}{Logical. Create overrides for hybrids (e.g. original names with 'x')?}
 
 \item{include_unmatched}{Logical. Create overrides for taxa not matched via gbif using their original names?}
+
+\item{results_file}{File path to write results of searches. Previous results files are used to
+avoid redoing time consuming searches for taxa that are not matched via gbif and not written
+to the taxonomy file in make_taxonomy.}
 
 \item{remove_taxa}{Character. Taxa with regular expressions in \code{tolower(taxa_col)} that match \code{remove_taxa}
 will not be searched or have overrides constructed.}
