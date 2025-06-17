@@ -2,31 +2,38 @@
 % Please edit documentation in R/filter_prop.R
 \name{filter_prop}
 \alias{filter_prop}
-\title{Filter taxa recorded in less than x percent of contexts}
+\title{Filter taxa recorded in less than x proportion of contexts}
 \usage{
-filter_prop(df, context = "cell", keep = NULL, default_per = 5, min_per = 1)
+filter_prop(
+  df,
+  context = "cell",
+  keep = NULL,
+  default_prop = 0.05,
+  min_prop = 0.01
+)
 }
 \arguments{
 \item{df}{Dataframe with taxa and context}
 
 \item{context}{Character. Column names that define context.}
 
-\item{keep}{Character. taxa that should not be dropped. Can be used to set x
-percent of sites to lower than \code{default_per} to ensure \code{keep} taxa appear in
+\item{keep}{Character. taxa that should not be dropped. Can be used to
+decrease x lower than \code{default_prop} to ensure \code{keep} taxa appear in
 the filtered results. The lowest value of x required to keep any \code{keep} taxa
-then overrides \code{default_per} for the whole dataset.}
+then overrides \code{default_prop} for the whole dataset, but only up to
+\code{min_prop}.}
 
-\item{default_per}{Numeric (percentage). If \code{keep} is NULL (or if no \code{keep}
+\item{default_prop}{Numeric (proportion). If \code{keep} is NULL (or if no \code{keep}
 taxa occur within the \code{df}), filter any taxa recorded in less than
-\code{default_per}\% of contexts.}
+\code{default_prop} proportion of contexts.}
 
-\item{min_per}{Numeric (percentage). If \code{keep} is not null, do not lower x
-below \code{min_per}.}
+\item{min_prop}{Numeric (proportion). If \code{keep} is not null, do not lower x
+below \code{min_prop}.}
 }
 \value{
 df filtered of taxa that occur in less than x\% of contexts, taking
-into account \code{default_per}, \code{keep} and/or \code{min_per}.
+into account \code{default_prop}, \code{keep} and/or \code{min_prop}.
 }
 \description{
-Filter taxa recorded in less than x percent of contexts
+Filter taxa recorded in less than x proportion of contexts
 }
