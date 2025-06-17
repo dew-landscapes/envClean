@@ -15,7 +15,7 @@ make_taxonomy(
   remove_strings = c("\\\\s\\\\-\\\\-\\\\s.*", "\\\\ssp\\\\.$", "\\\\sssp\\\\.$",
     "\\\\sspec\\\\.$", "\\\\ssp$", "\\\\sssp$", "\\\\ssp\\\\d$", "dead", "\\\\sx\\\\s.*",
     "\\\\sX\\\\s.*", "unknown", "\\\\scultivar$", "\\\\scomplex$", "\\\\(NC\\\\)",
-    "\\\\(nc\\\\)", "\\\\saff\\\\."),
+    "\\\\saff\\\\."),
   not_names = c("sp", "ssp", "var", "subsp", "subspecies", "form", "race", "nov", "aff",
     "cf", "lineage", "group", "et", "al", "and", "pl", "revised", "nov", "sensu", "lato",
     "hybrid", "complex"),
