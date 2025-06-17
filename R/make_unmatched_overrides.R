@@ -194,7 +194,11 @@ make_unmatched_overrides <- function(df
 
     # write results ----
     mget(ls(pattern = "^res\\d$")) %>%
-      {if(file.exists(results_file)) dplyr::bind_rows(., rio::import(results_file)) else dplyr::bind_rows(.)} |>
+      purrr::map(\(x) x |> dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE))) |>
+      dplyr::bind_rows() %>%
+      {if(file.exists(results_file)) dplyr::bind_rows(., rio::import(results_file) |>
+                                                        dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE))
+                                                        ) else .} |>
       dplyr::full_join(unmatched) |> # brings in taxa that were searched but return no results
       rio::export(results_file, format = "parquet")
 
