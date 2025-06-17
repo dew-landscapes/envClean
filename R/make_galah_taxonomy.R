@@ -144,12 +144,12 @@
                                                  , "\\sssp$"
                                                  , "\\ssp\\d$"
                                                  , "dead"
-                                                 , "sp.\\s.*\\(NC\\)"
                                                  , "\\sx\\s.*" # hybrids
                                                  , "\\sX\\s.*" # hybrids
                                                  , "unknown"
                                                  , "\\scultivar$"
                                                  , "\\scomplex$"
+                                                 , "\\(NC\\)"
                                                  , "\\(nc\\)"
                                                  , "\\saff\\."
                                                  ) # blah not removed, everything else removed
@@ -527,11 +527,15 @@
       }
 
       # original_is_bi or tri -------
-      authors <- new %>%
-        dplyr::select(original_name, scientific_name_authorship) %>%
-        tidytext::unnest_tokens(word, scientific_name_authorship) %>%
-        dplyr::filter(!is.na(word)) %>%
-        tidyr::nest(authors = c(word))
+      if("scientific_name_authorship" %in% names(new)) {
+
+        authors <- new %>%
+          dplyr::select(original_name, scientific_name_authorship) %>%
+          tidytext::unnest_tokens(word, scientific_name_authorship) %>%
+          dplyr::filter(!is.na(word)) %>%
+          tidyr::nest(authors = c(word))
+
+      }
 
       new <- new %>%
         # simple removals (digits then hyphens)
@@ -552,11 +556,11 @@
         # filter capitals (Authors) that are not the 'first' word
         dplyr::filter(! (row_n > 1 & grepl("[A-Z]", word))) %>%
         # filter rows that match 'authors'
-        dplyr::left_join(authors) %>%
+        {if(exists("authors")) dplyr::left_join(., authors) %>%
         dplyr::filter(purrr::map2_lgl(word, authors
                                       , \(x, y) ! base::tolower(x) %in% base::tolower(y)
                                       )
-                      ) %>%
+                      ) else .} %>%
         dplyr::count(original_name, name = "words") %>%
         dplyr::right_join(new) %>%
         dplyr::mutate(original_is_tri = dplyr::case_when(
