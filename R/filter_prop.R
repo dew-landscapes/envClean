@@ -45,7 +45,7 @@ filter_prop <- function(df
 
       if(length(low_prop)) {
 
-        low_prop <- if(low_prop > min_prop) low_prop else min_prop
+        low_prop <- if(min(low_prop) > min_prop) min(low_prop) else min_prop
 
       } else default_prop
 
@@ -61,8 +61,10 @@ filter_prop <- function(df
     dplyr::filter(prop < thresh) %>%
     dplyr::distinct(taxa)
 
-  df %>%
+  res <- df %>%
     dplyr::anti_join(drop_taxa)
+
+  return(res)
 
 }
 
