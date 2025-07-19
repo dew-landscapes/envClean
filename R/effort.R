@@ -165,10 +165,10 @@
                                   , cores = 4
                                   , response = "sr"
                                   , response_min_thresh = 2
-                                  , threshold_lo = 0.05/2
-                                  , threshold_hi = 0.05/2
+                                  , threshold_lo = 0.05 / 2
+                                  , threshold_hi = 0.05 / 2
                                   , effort_col = "qsize"
-                                  , effort_col_thresh = 3*3
+                                  , effort_col_thresh = 3 * 3
                                   , out_file = NULL
                                   , ...
                                   ) {
@@ -189,6 +189,7 @@
 
     effort_mod <- list()
 
+    # all the data. used later to determine which sites are in/out
     effort_mod$dat_all <- df %>%
       dplyr::distinct(taxa
                       , dplyr::across(tidyselect::any_of(context))
@@ -197,7 +198,14 @@
                    , name = response
                    )
 
-    effort_mod$dat_exp <- effort_mod$dat_all |>
+    # only the data for the model (taking into account effort_col/effort_col_thresh)
+    effort_mod$dat_exp <- df_for_mod |>
+      dplyr::distinct(taxa
+                      , dplyr::across(tidyselect::any_of(context))
+                      ) %>%
+      dplyr::count(dplyr::across(tidyselect::any_of(context))
+                   , name = response
+                   ) |>
       dplyr::filter(!!rlang::ensym(response) >= response_min_thresh) %>%
       dplyr::inner_join(env_prcomp$pca_res_cell_cut |> dplyr::distinct()) %>%
       dplyr::select(!!rlang::ensym(response)
