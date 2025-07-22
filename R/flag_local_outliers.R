@@ -65,6 +65,9 @@ flag_local_outliers <- function(df
                     , outlier_lof = lof > thresh_lof
                     )
 
+    attr(res$thresh_lof, "names") <- NULL
+    attr(res, "na.action") <- NULL
+
   } else res <- tibble::tibble()
 
   return(res)
