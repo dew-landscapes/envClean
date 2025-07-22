@@ -1,6 +1,4 @@
-
-#' Flag local outliers using `dbscan::lof()`
-#'
+#' Flag reverse jackknife outliers
 #'
 #' @param df Dataframe with `context` and all other columns defining the space
 #' in which to look for outliers (usually environmental variables such as
@@ -16,23 +14,21 @@
 #' but satellite variables (e.g. no point checking if a point is an outlier
 #' against satellite variables (with resolution of, say 30 m) if the geographic
 #' reliability of that point is 10 km). Ignored if `geo_rel_col` is `NULL`.
-#' @param iqrMult Used in `quantile(x, probs = 0.75) + iqrMult * IQR(x)` to set
-#' the threshold for an outlier. e.g. `ggplot2::geom_boxplot()` default value is
-#' `1.5`.
-#' @param ... Passed to `dbscan::lof()`. e.g. `minPts` argument
+#' @param prop_thresh Numeric. What proportion of variables (i.e.
+#' proportion of `vars`) need to be reverse jackknife outliers for a point to be
+#' flagged as an outlier?
 #'
-#' @return tibble
+#' @returns tibble
 #' @export
 #'
 #' @examples
-flag_local_outliers <- function(df
+flag_rjack_outliers <- function(df
                                 , context
                                 , vars = context
                                 , min_points = 30
                                 , geo_rel_col = "rel_metres_adj"
                                 , geo_rel_thresh = 100
-                                , iqrMult = 2
-                                , ...
+                                , prop_thresh = 1 / 3
                                 ) {
 
   collect_vars <- unique(c(context, vars))
@@ -49,19 +45,51 @@ flag_local_outliers <- function(df
     janitor::remove_empty(which = "cols") |>
     na.omit()
 
-  if(nrow(df_use) >= min_points) {
+  if(nrow(df_use) > min_points) {
 
-    lof <- dbscan::lof(df_use |>
-                         dplyr::select(! tidyselect::any_of(context))
-                       , ...
+    n <- nrow(df_use)
+
+    rev_jack <- matrix(ncol = length(vars), nrow = n)
+
+    for(i in vars) {
+
+      which_var <- which(vars == i)
+
+      xc <- df_use |>
+        data.frame() |>
+        dplyr::pull(which_var)
+
+      fe2 <- rjack(d = xc) # reverse jackknife
+
+      res <- rep(0, n)
+      res[fe2] <- 1
+
+      rev_jack[, which_var] <- res
+
+    }
+
+    colnames(rev_jack) <- paste0("jack___", vars)
+
+    jack <- df_use |>
+      dplyr::select(tidyselect::any_of(context)) |>
+      dplyr::bind_cols(tibble::as_tibble(rev_jack) |>
+                         dplyr::select(tidyselect::matches(paste0(vars, collapse = "|")))
                        )
 
-    res <- df_use |>
-      dplyr::select(tidyselect::any_of(context)) |>
-      dplyr::mutate(lof = lof
-                    , thresh_lof = quantile(lof, probs = 0.75, na.rm = TRUE) + iqrMult * IQR(lof)
-                    , outlier_lof = lof > thresh_lof
-                    )
+    if(any(grepl(paste0(vars, collapse = "|"), names(jack)))) {
+
+      res <- jack |>
+        tidyr::pivot_longer(tidyselect::any_of(paste0("jack___", names(df_use)))) |>
+        dplyr::group_by(dplyr::across(tidyselect::any_of(context))) |>
+        dplyr::summarise(vars_outliers = sum(value, na.rm = TRUE)
+                         , vars_n = dplyr::n()
+                         ) |>
+        dplyr::ungroup() |>
+        dplyr::mutate(outlier_prop = vars_outliers / vars_n
+                      , outlier = outlier_prop >= prop_thresh
+                      )
+
+    }
 
   } else res <- tibble::tibble()
 
