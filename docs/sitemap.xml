@@ -24,6 +24,7 @@
 <url><loc>/reference/find_outliers.html</loc></url>
 <url><loc>/reference/find_taxa.html</loc></url>
 <url><loc>/reference/flag_local_outliers.html</loc></url>
+<url><loc>/reference/flag_rjack_outliers.html</loc></url>
 <url><loc>/reference/flor_all.html</loc></url>
 <url><loc>/reference/get_taxonomy.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
@@ -44,6 +45,7 @@
 <url><loc>/reference/pipe.html</loc></url>
 <url><loc>/reference/rec_vis_sit_tax.html</loc></url>
 <url><loc>/reference/reduce_geo_rel.html</loc></url>
+<url><loc>/reference/rjack.html</loc></url>
 <url><loc>/reference/taxonomy_overrides.html</loc></url>
 <url><loc>/reference/try_name_via_gbif.html</loc></url>
 </urlset>
