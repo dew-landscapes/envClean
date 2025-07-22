@@ -49,7 +49,9 @@ flag_local_outliers <- function(df
     janitor::remove_empty(which = "cols") |>
     na.omit()
 
-  if(nrow(df_use) >= min_points) {
+  if(nrow(df_use) >= min_points &
+     any(grepl(paste0(vars, collapse = "|"), names(df_use)))
+     ) {
 
     lof <- dbscan::lof(df_use |>
                          dplyr::select(! tidyselect::any_of(context))
