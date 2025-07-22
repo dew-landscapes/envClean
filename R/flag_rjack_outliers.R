@@ -5,8 +5,8 @@
 #' climate or satellite variables)
 #' @param context  Character. Name of columns defining context.
 #' @param vars Character. Name of column(s) to investigate for outliers
-#' @param min_pts Numeric. Don't attempt reverse jackknife calculations unless
-#' there are at least this number of data points.
+#' @param min_points Numeric. Don't attempt reverse jackknife calculations
+#' unless there are at least this number of data points.
 #' @param geo_rel_col Character. Name of column containing geographic
 #' reliability information. Set to `NULL` to ignore.
 #' @param geo_rel_thresh Numeric. Threshold in `geo_rel_col` below which to
