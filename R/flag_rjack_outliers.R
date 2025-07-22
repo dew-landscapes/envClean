@@ -45,7 +45,9 @@ flag_rjack_outliers <- function(df
     janitor::remove_empty(which = "cols") |>
     na.omit()
 
-  if(nrow(df_use) > min_points) {
+  if(nrow(df_use) > min_points &
+     any(grepl(paste0(vars, collapse = "|"), names(df_use)))
+     ) {
 
     n <- nrow(df_use)
 
