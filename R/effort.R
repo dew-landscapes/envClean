@@ -38,6 +38,7 @@
     env_pca$pca_pca <- stats::prcomp(env_pca$pca_data[,-exclude_cols]
                                      , center = TRUE
                                      , scale. = TRUE
+                                     , rank. = axes
                                      )
 
     env_pca$pca_res_cell <- env_pca$pca_data %>%
