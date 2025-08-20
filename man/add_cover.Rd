@@ -2,18 +2,19 @@
 % Please edit documentation in R/add_cover.R
 \name{add_cover}
 \alias{add_cover}
-\title{Generate best guess of cover for each taxa*context}
+\title{Generate best guess of cover for each taxa * context}
 \usage{
 add_cover(
   df,
   context = "cell",
   env_prcomp,
   lucover,
+  cover_cut_col = "cover_max",
   lucover_col = "cover_mid",
   small_cov = 0.009,
   remove_all_small = TRUE,
   fix_1to100 = TRUE,
-  cov_func = median
+  cov_func = "max"
 )
 }
 \arguments{
@@ -25,8 +26,15 @@ add_cover(
 
 \item{lucover}{Dataframe. Lookup from \code{cover_code} to numeric cover values}
 
-\item{lucover_col}{Character. Name of column in lucover containing cover
-values to use for any \code{cover_code}}
+\item{cover_cut_col}{Character. Name of column in lucover containing values
+between 0 and 1 to use for assigning numeric cover values to a \code{cover_code}.
+This allows the values appearing in the resulting tibble column \code{cover_adj}
+to be continuous in 0 to 1.}
+
+\item{lucover_col}{Character. Name of column in lucover containing values
+to use for assigning numeric cover values to a \code{cover_code}. These do not
+have to be between 0 and 1. These values are reflected in the \code{use_cover}
+value in the resulting tibble.}
 
 \item{small_cov}{A small cover value assigned to any record for which there
 is no available site, pca or taxa cover value.}
@@ -35,7 +43,7 @@ is no available site, pca or taxa cover value.}
 taxa are assigned \code{small_cov} are removed.}
 
 \item{fix_1to100}{Logical. Any values found in \code{cover} field of \code{df} that are
-between above 1 and less than or equal to 100 are divided by 100.}
+above 1 and less than or equal to 100 are divided by 100.}
 
 \item{cov_func}{Function to summarise cover values for any context with more
 than one cover value.}
@@ -48,5 +56,8 @@ Dataframe with taxa, context and the following 'cover' columns:
 best guess value.
 }
 \description{
-Generate best guess of cover for each taxa*context
+Resulting 'best guess' cover values are generated from (in order): recorded
+in the field; taxa within environmental pca groups (defined within
+\code{env_prcomp}); and taxa across all its records. If more than one value is
+available, \code{cov_func} is used to summarise to a single value.
 }
