@@ -138,14 +138,17 @@ add_cover <- function(df
                     , cover_adj
                     )
 
+  use_breaks <- unique(c(0, lucover[[cover_cut_col]]))
+  use_breaks[which.max(use_breaks)] <- 1
+
   result <- result |>
     dplyr::mutate(cut_cover = cut(cover_adj
-                                  , breaks = unique(c(0, lucover[[cover_cut_col]], 1))
+                                  , breaks = use_breaks
                                   )
                   ) |>
     dplyr::left_join(lucover |>
                        dplyr::mutate(cut_cover = cut(lucover[[cover_cut_col]]
-                                                     , breaks = unique(c(0, lucover[[cover_cut_col]], 1))
+                                                     , breaks = use_breaks
                                                      )
                                      ) |>
                        dplyr::select(cover_code, cut_cover, !!rlang::ensym(lucover_col))
