@@ -193,6 +193,8 @@ make_unmatched_overrides <- function(df
     }
 
     # write results ----
+    lurank <- envClean::lurank
+
     mget(ls(pattern = "^res\\d$")) %>%
       purrr::map(\(x) x |> dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE))) |>
       dplyr::bind_rows() %>%
