@@ -48,8 +48,10 @@ flag_rjack_outliers <- function(df
 
   vars <- vars[vars %in% names(df_use)]
 
-  if(nrow(df_use) > min_points &
-     any(grepl(paste0(vars, collapse = "|"), names(df_use)))
+  if(all(nrow(df_use) > min_points
+         , any(grepl(paste0(vars, collapse = "|"), names(df_use)))
+         , length(vars)
+         )
      ) {
 
     n <- nrow(df_use)
