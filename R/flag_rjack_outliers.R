@@ -43,7 +43,10 @@ flag_rjack_outliers <- function(df
   df_use <- df_use |>
     dplyr::distinct(dplyr::across(tidyselect::any_of(collect_vars))) |>
     janitor::remove_empty(which = "cols") |>
+    janitor::remove_constant() |>
     na.omit()
+
+  vars <- vars[vars %in% names(df_use)]
 
   if(nrow(df_use) > min_points &
      any(grepl(paste0(vars, collapse = "|"), names(df_use)))
