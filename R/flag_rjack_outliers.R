@@ -58,18 +58,15 @@ flag_rjack_outliers <- function(df
 
     for(i in vars) {
 
-      which_var <- which(vars == i)
-
       xc <- df_use |>
-        data.frame() |>
-        dplyr::pull(which_var)
+        dplyr::pull(i)
 
       fe2 <- rjack(d = xc) # reverse jackknife
 
       res <- rep(0, n)
       res[fe2] <- 1
 
-      rev_jack[, which_var] <- res
+      rev_jack[, which(vars == i)] <- res
 
     }
 
