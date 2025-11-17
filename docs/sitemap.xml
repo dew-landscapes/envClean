@@ -1,11 +1,11 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/010_overview.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
 <url><loc>/reference/add_cover.html</loc></url>
 <url><loc>/reference/add_height.html</loc></url>
 <url><loc>/reference/add_lifeform.html</loc></url>
@@ -13,9 +13,9 @@
 <url><loc>/reference/bin_date.html</loc></url>
 <url><loc>/reference/bin_geo_rel.html</loc></url>
 <url><loc>/reference/bin_taxa.html</loc></url>
+<url><loc>/reference/clean_quotes.html</loc></url>
 <url><loc>/reference/cleaning_summary.html</loc></url>
 <url><loc>/reference/cleaning_text.html</loc></url>
-<url><loc>/reference/clean_quotes.html</loc></url>
 <url><loc>/reference/filter_counts.html</loc></url>
 <url><loc>/reference/filter_geo_range.html</loc></url>
 <url><loc>/reference/filter_prop.html</loc></url>

@@ -4,15 +4,7 @@
 \alias{find_outliers}
 \title{Find local outliers}
 \usage{
-find_outliers(
-  df,
-  context,
-  do_out = c("lof", "LOOP"),
-  lof_minPts = 5,
-  LOOP_k = 5,
-  LOOP_lambda = 3,
-  iqrMult = 2
-)
+find_outliers(df, context, lof_minPts = 5, iqrMult = 2)
 }
 \arguments{
 \item{df}{Dataframe with \code{context} and all other columns defining the space
@@ -20,13 +12,7 @@ in which to look for outliers.}
 
 \item{context}{Character. Name of columns defining context.}
 
-\item{do_out}{Character vector of methods to use.}
-
 \item{lof_minPts}{\code{\link[dbscan:lof]{dbscan::lof()}} \code{minPts} argument.}
-
-\item{LOOP_k}{\code{\link[DDoutlier:LOOP]{DDoutlier::LOOP()}} \code{k} argument.}
-
-\item{LOOP_lambda}{\code{\link[DDoutlier:LOOP]{DDoutlier::LOOP()}} \code{lambda} argument.}
 
 \item{iqrMult}{Used in \code{quantile(x, probs = 0.75) + iqrMult * IQR(x)}.
 \code{\link[ggplot2:geom_boxplot]{ggplot2::geom_boxplot()}} default value is \code{1.5}.}

@@ -119,9 +119,9 @@
 <p>The following functions and data sets are provided in <code>envClean</code>. See <a href="https://acanthiza.github.io/envClean/" class="external-link uri">https://acanthiza.github.io/envClean/</a> for more examples.</p>
 <table class="table">
 <colgroup>
-<col width="27%">
-<col width="19%">
-<col width="53%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
 <th align="left">object</th>
@@ -132,7 +132,7 @@
 <tr>
 <td align="left"><code><a href="reference/add_cover.html">envClean::add_cover()</a></code></td>
 <td align="left">function</td>
-<td align="left">Generate best guess of cover for each taxa*context</td>
+<td align="left">Generate best guess of cover for each taxa * context</td>
 </tr>
 <tr>
 <td align="left"><code><a href="reference/add_height.html">envClean::add_height()</a></code></td>
@@ -165,6 +165,11 @@
 <td align="left">Add code{taxa} column</td>
 </tr>
 <tr>
+<td align="left"><code><a href="reference/clean_quotes.html">envClean::clean_quotes()</a></code></td>
+<td align="left">function</td>
+<td align="left">Remove any ’ or ” from specified columns in a dataframe</td>
+</tr>
+<tr>
 <td align="left"><code><a href="reference/cleaning_summary.html">envClean::cleaning_summary()</a></code></td>
 <td align="left">function</td>
 <td align="left">Describte change in taxa, records, visits and sites between cleaning steps</td>
@@ -173,11 +178,6 @@
 <td align="left"><code><a href="reference/cleaning_text.html">envClean::cleaning_text()</a></code></td>
 <td align="left">function</td>
 <td align="left">Write a sentence describing change in taxa, records, visits and sites between</td>
-</tr>
-<tr>
-<td align="left"><code><a href="reference/clean_quotes.html">envClean::clean_quotes()</a></code></td>
-<td align="left">function</td>
-<td align="left">Remove any ’ or ” from specified columns in a dataframe</td>
 </tr>
 <tr>
 <td align="left"><code><a href="reference/filter_counts.html">envClean::filter_counts()</a></code></td>
@@ -363,8 +363,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Nigel Willoughby <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Joel Allan <br><small class="roles"> Author </small>  </li>
+<li>Nigel Willoughby <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Joel Allan <br><small class="roles"> Author </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -382,7 +382,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
