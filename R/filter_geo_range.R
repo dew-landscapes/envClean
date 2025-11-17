@@ -31,7 +31,7 @@
                                       , pts = points
                                       , keep = TRUE
                                       ) |>
-                         tibble::as_tibble() |>
+                         tibble::as_tibble(.name_repair = "unique_quiet") |>
                          dplyr::rename(x = 1, y = 2)
                        ) |>
       sf::st_as_sf(coords = c("x", "y")
