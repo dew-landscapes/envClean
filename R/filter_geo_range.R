@@ -20,19 +20,28 @@
                                , crs_df = 4326
                                ) {
 
-    df %>%
-      dplyr::distinct(dplyr::across(tidyselect::any_of(c(x,y)))) %>%
-      sf::st_as_sf(coords = c(x,y)
-                   , crs = crs_df
-                   , remove = FALSE
-                   ) %>%
-      sf::st_transform(crs = sf::st_crs(use_aoi)) %>%
+    points <- df |>
+      dplyr::distinct(dplyr::across(tidyselect::any_of(c(x,y))))
+
+    crs_aoi <- sf::st_crs(use_aoi)
+
+    points |>
+      dplyr::bind_cols(sf::sf_project(from = paste0("epsg:", crs_df)
+                                      , to = crs_aoi
+                                      , pts = points
+                                      , keep = TRUE
+                                      ) |>
+                         tibble::as_tibble() |>
+                         dplyr::rename(x = 1, y = 2)
+                       ) |>
+      sf::st_as_sf(coords = c("x", "y")
+                   , crs = crs_aoi
+                   ) |>
       sf::st_join(use_aoi
                   , left = FALSE
-                  ) %>%
-      sf::st_set_geometry(NULL) %>%
-      dplyr::inner_join(df) %>%
-      tibble::as_tibble()
+                  ) |>
+      sf::st_set_geometry(NULL) |>
+      dplyr::inner_join(df)
 
   }
 
