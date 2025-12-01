@@ -14,7 +14,7 @@ add_cover(
   small_cov = 0.009,
   remove_all_small = TRUE,
   fix_1to100 = TRUE,
-  cov_func = "max"
+  cov_func = "median"
 )
 }
 \arguments{
