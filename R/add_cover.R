@@ -45,7 +45,7 @@ add_cover <- function(df
                       , small_cov = 0.009
                       , remove_all_small = TRUE
                       , fix_1to100 = TRUE
-                      , cov_func = "max"
+                      , cov_func = "median"
                       ) {
 
   # this seems to be needed when lucover_col and cover_cut_col are coming from a (e.g. settings) list
