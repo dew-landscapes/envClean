@@ -1,5 +1,6 @@
 
-#' Flag local outliers using `dbscan::lof()`
+#' Flag local outliers using `dbscan` package
+#'
 #'
 #'
 #' @param df Dataframe with `context` and all other columns defining the space
@@ -16,12 +17,11 @@
 #' but satellite variables (e.g. no point checking if a point is an outlier
 #' against satellite variables (with resolution of, say 30 m) if the geographic
 #' reliability of that point is 10 km). Ignored if `geo_rel_col` is `NULL`.
-#' @param iqrMult Used in `quantile(x, probs = 0.75) + iqrMult * IQR(x)` to set
-#' the threshold for an outlier. e.g. `ggplot2::geom_boxplot()` default value is
-#' `1.5`.
 #' @param ... Passed to `dbscan::lof()`. e.g. `minPts` argument
 #'
-#' @return tibble
+#' @return tibble with `context` and two extra columns: `cluster` from
+#' `dbscan::dbscan()` (with `0` indicating an outlier) and `lo` (local outlier:
+#' `as.logical(cluster)`).
 #' @export
 #'
 #' @examples
@@ -31,7 +31,6 @@ flag_local_outliers <- function(df
                                 , min_points = 30
                                 , geo_rel_col = "rel_metres_adj"
                                 , geo_rel_thresh = 100
-                                , iqrMult = 2
                                 , ...
                                 ) {
 
@@ -53,20 +52,25 @@ flag_local_outliers <- function(df
      any(grepl(paste0(vars, collapse = "|"), names(df_use)))
      ) {
 
-    lof <- dbscan::lof(df_use |>
-                         dplyr::select(! tidyselect::any_of(context))
-                       , ...
-                       )
+    min_pts <- 2 * ncol(df_use)
+
+    knn_dist <- dbscan::kNNdist(df_use
+                                , k = min_pts
+                                )
+
+    lo <- dbscan::dbscan(df_use
+                         , minPts = min_pts
+                         , eps = quantile(knn_dist, probs = 0.9)
+                         )
+
+    lo$outlier <- as.logical(! lo$cluster)
 
     res <- df_use |>
       dplyr::select(tidyselect::any_of(context)) |>
-      dplyr::mutate(lof = lof
-                    , thresh_lof = quantile(lof, probs = 0.75, na.rm = TRUE) + iqrMult * IQR(lof)
-                    , outlier_lof = lof > thresh_lof
+      dplyr::mutate(clust = lo$cluster
+                    , lo = lo$outlier
                     )
 
-    attr(res$thresh_lof, "names") <- NULL
-    attr(res$outlier_lof, "names") <- NULL
     attr(res, "na.action") <- NULL
 
   } else res <- tibble::tibble()
