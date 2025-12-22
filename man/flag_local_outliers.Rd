@@ -8,9 +8,10 @@ flag_local_outliers(
   df,
   context,
   vars = context,
-  min_points = 30,
+  min_points = 2 * ncol(df),
   geo_rel_col = "rel_metres_adj",
   geo_rel_thresh = 100,
+  scale = TRUE,
   ...
 )
 }
@@ -35,12 +36,14 @@ but satellite variables (e.g. no point checking if a point is an outlier
 against satellite variables (with resolution of, say 30 m) if the geographic
 reliability of that point is 10 km). Ignored if \code{geo_rel_col} is \code{NULL}.}
 
+\item{scale}{Logical. Scale \code{df |> dplyr::select(vars)}.}
+
 \item{...}{Passed to \code{dbscan::lof()}. e.g. \code{minPts} argument}
 }
 \value{
-tibble with \code{context} and two extra columns: \code{cluster} from
+tibble with \code{context} and two extra columns: \code{clust} from
 \code{dbscan::dbscan()} (with \code{0} indicating an outlier) and \code{lo} (local outlier:
-\code{as.logical(cluster)}).
+\code{as.logical(clust)}).
 }
 \description{
 Flag local outliers using \code{dbscan} package

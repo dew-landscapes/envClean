@@ -64,9 +64,10 @@
 <span>  <span class="va">df</span>,</span>
 <span>  <span class="va">context</span>,</span>
 <span>  vars <span class="op">=</span> <span class="va">context</span>,</span>
-<span>  min_points <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  min_points <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>,</span>
 <span>  geo_rel_col <span class="op">=</span> <span class="st">"rel_metres_adj"</span>,</span>
 <span>  geo_rel_thresh <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -107,15 +108,19 @@ against satellite variables (with resolution of, say 30 m) if the geographic
 reliability of that point is 10 km). Ignored if <code>geo_rel_col</code> is <code>NULL</code>.</p></dd>
 
 
+<dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
+<dd><p>Logical. Scale <code>df |&gt; dplyr::select(vars)</code>.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Passed to <code><a href="https://rdrr.io/pkg/dbscan/man/lof.html" class="external-link">dbscan::lof()</a></code>. e.g. <code>minPts</code> argument</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>tibble with <code>context</code> and two extra columns: <code>cluster</code> from
+    <p>tibble with <code>context</code> and two extra columns: <code>clust</code> from
 <code><a href="https://rdrr.io/pkg/dbscan/man/dbscan.html" class="external-link">dbscan::dbscan()</a></code> (with <code>0</code> indicating an outlier) and <code>lo</code> (local outlier:
-<code>as.logical(cluster)</code>).</p>
+<code>as.logical(clust)</code>).</p>
     </div>
 
   </div>
