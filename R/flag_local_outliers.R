@@ -17,20 +17,22 @@
 #' but satellite variables (e.g. no point checking if a point is an outlier
 #' against satellite variables (with resolution of, say 30 m) if the geographic
 #' reliability of that point is 10 km). Ignored if `geo_rel_col` is `NULL`.
+#' @param scale Logical. Scale `df |> dplyr::select(vars)`.
 #' @param ... Passed to `dbscan::lof()`. e.g. `minPts` argument
 #'
-#' @return tibble with `context` and two extra columns: `cluster` from
+#' @return tibble with `context` and two extra columns: `clust` from
 #' `dbscan::dbscan()` (with `0` indicating an outlier) and `lo` (local outlier:
-#' `as.logical(cluster)`).
+#' `as.logical(clust)`).
 #' @export
 #'
 #' @examples
 flag_local_outliers <- function(df
                                 , context
                                 , vars = context
-                                , min_points = 30
+                                , min_points = 2 * ncol(df)
                                 , geo_rel_col = "rel_metres_adj"
                                 , geo_rel_thresh = 100
+                                , scale = TRUE
                                 , ...
                                 ) {
 
@@ -52,28 +54,35 @@ flag_local_outliers <- function(df
      any(grepl(paste0(vars, collapse = "|"), names(df_use)))
      ) {
 
-    min_pts <- 2 * ncol(df_use)
+    df_use_dbscan <- df_use |>
+      dplyr::select(tidyselect::any_of(vars)) |>
+      base::scale()
 
-    knn_dist <- dbscan::kNNdist(df_use
-                                , k = min_pts
+    knn_dist <- dbscan::kNNdist(df_use_dbscan
+                                , k = min_points
                                 )
 
-    lo <- dbscan::dbscan(df_use
-                         , minPts = min_pts
+    lo <- dbscan::dbscan(df_use_dbscan
+                         , minPts = min_points
                          , eps = quantile(knn_dist, probs = 0.9)
                          )
-
-    lo$outlier <- as.logical(! lo$cluster)
 
     res <- df_use |>
       dplyr::select(tidyselect::any_of(context)) |>
       dplyr::mutate(clust = lo$cluster
-                    , lo = lo$outlier
+                    , lo = as.logical(! lo$cluster)
                     )
 
     attr(res, "na.action") <- NULL
 
-  } else res <- tibble::tibble()
+  } else {
+
+    res <- df_use |>
+      dplyr::mutate(clust = NA
+                    , lo = NA
+                    )
+
+  }
 
   return(res)
 
