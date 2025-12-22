@@ -10,7 +10,7 @@ add_height(
   env_prcomp,
   lustr,
   lustr_col = "ht",
-  ht_func = max
+  ht_func = "median"
 )
 }
 \arguments{

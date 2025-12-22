@@ -80,7 +80,7 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::filter_text_col()` | function | Filter a dataframe column on character string(s) |
 | `envClean::find_outliers()` | function | Find local outliers |
 | `envClean::find_taxa()` | function | Find how taxa changed through the cleaning/filtering/tidying process |
-| `envClean::flag_local_outliers()` | function | Flag local outliers using code{dbscan::lof()} |
+| `envClean::flag_local_outliers()` | function | Flag local outliers using code{dbscan} package |
 | `envClean::flag_rjack_outliers()` | function | Flag reverse jackknife outliers |
 | `envClean::flor_all` | data.frame | Example of data combined from several data sources. |
 | `envClean::get_taxonomy()` | function | Get GBIF backbone taxonomy |

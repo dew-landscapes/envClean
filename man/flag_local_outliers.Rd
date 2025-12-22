@@ -2,7 +2,7 @@
 % Please edit documentation in R/flag_local_outliers.R
 \name{flag_local_outliers}
 \alias{flag_local_outliers}
-\title{Flag local outliers using \code{dbscan::lof()}}
+\title{Flag local outliers using \code{dbscan} package}
 \usage{
 flag_local_outliers(
   df,
@@ -11,7 +11,6 @@ flag_local_outliers(
   min_points = 30,
   geo_rel_col = "rel_metres_adj",
   geo_rel_thresh = 100,
-  iqrMult = 2,
   ...
 )
 }
@@ -36,15 +35,13 @@ but satellite variables (e.g. no point checking if a point is an outlier
 against satellite variables (with resolution of, say 30 m) if the geographic
 reliability of that point is 10 km). Ignored if \code{geo_rel_col} is \code{NULL}.}
 
-\item{iqrMult}{Used in \code{quantile(x, probs = 0.75) + iqrMult * IQR(x)} to set
-the threshold for an outlier. e.g. \code{ggplot2::geom_boxplot()} default value is
-\code{1.5}.}
-
 \item{...}{Passed to \code{dbscan::lof()}. e.g. \code{minPts} argument}
 }
 \value{
-tibble
+tibble with \code{context} and two extra columns: \code{cluster} from
+\code{dbscan::dbscan()} (with \code{0} indicating an outlier) and \code{lo} (local outlier:
+\code{as.logical(cluster)}).
 }
 \description{
-Flag local outliers using \code{dbscan::lof()}
+Flag local outliers using \code{dbscan} package
 }
