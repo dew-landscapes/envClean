@@ -64,7 +64,7 @@ make_effort_mod <- function(df
   # Remove category columns if they only have one value
   remove_cat_cols_levels <- effort_mod$dat_exp %>%
     dplyr::summarise(dplyr::across(tidyselect::any_of(cat_cols)
-                                   , .fns = ~ n_distinct(.x)
+                                   , .fns = ~ dplyr::n_distinct(.x)
                                    )
                      ) %>%
     tidyr::pivot_longer(1:ncol(.)
