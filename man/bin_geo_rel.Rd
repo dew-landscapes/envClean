@@ -35,19 +35,19 @@ will contain \code{dist_min} rather than \code{dist_col}. Only needed if
 \item{over_ride_na}{Named list. List names must be the same as column names.
 Any names in \code{over_ride_na} will be matched to column names in \code{df} and any
 values in that list element will be given the value \code{dist_min}. This is mainly
-used to prevent filtering data sources that do not have a concept equivalent
-to \code{rel_metres}.}
+used to prevent filtering data sources that do not have a spatial reliabciliy
+concept.}
 
 \item{over_ride_metres}{Named list. List names must be the same as column
 names. Any names in \code{over_ride_metres} will be matched to column names in \code{df}
 and any values in that list element will be given the value \code{dist_min}.}
 }
 \value{
-tibble with additional column \code{rel_metres_adj} containing the
-minimum \code{rel_metres} available within that context, potentially taking into
+tibble with additional column \verb{[dist_col]_adj} containing the
+minimum \verb{[dist_col]} available within that context, potentially taking into
 account any over rides. Unlike \code{reduce_geo_rel()} (which only returns a
 single row per context), with \code{bin_geo_rel()} the original \code{df} is only
-altered by the additional column \code{rel_metres_adj}.
+altered by the additional column \verb{[dist_col]_adj}.
 }
 \description{
 Add a spatial reliability column, binned to contexts

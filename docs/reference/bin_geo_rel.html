@@ -106,8 +106,8 @@ will contain <code>dist_min</code> rather than <code>dist_col</code>. Only neede
 <dd><p>Named list. List names must be the same as column names.
 Any names in <code>over_ride_na</code> will be matched to column names in <code>df</code> and any
 values in that list element will be given the value <code>dist_min</code>. This is mainly
-used to prevent filtering data sources that do not have a concept equivalent
-to <code>rel_metres</code>.</p></dd>
+used to prevent filtering data sources that do not have a spatial reliabciliy
+concept.</p></dd>
 
 
 <dt id="arg-over-ride-metres">over_ride_metres<a class="anchor" aria-label="anchor" href="#arg-over-ride-metres"></a></dt>
@@ -118,11 +118,11 @@ and any values in that list element will be given the value <code>dist_min</code
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>tibble with additional column <code>rel_metres_adj</code> containing the
-minimum <code>rel_metres</code> available within that context, potentially taking into
+    <p>tibble with additional column <code>[dist_col]_adj</code> containing the
+minimum <code>[dist_col]</code> available within that context, potentially taking into
 account any over rides. Unlike <code><a href="reduce_geo_rel.html">reduce_geo_rel()</a></code> (which only returns a
 single row per context), with <code>bin_geo_rel()</code> the original <code>df</code> is only
-altered by the additional column <code>rel_metres_adj</code>.</p>
+altered by the additional column <code>[dist_col]_adj</code>.</p>
     </div>
 
   </div>
