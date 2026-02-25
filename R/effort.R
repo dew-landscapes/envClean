@@ -48,7 +48,7 @@
                          stats::setNames(paste0("pc",1:ncol(.)))
                        )
 
-    env_pca$pca_res_var <- factoextra::get_pca_var(env_pca$pca_pca)$coord[,1:axes] %>%
+    env_pca$pca_res_var <- suppressWarnings(factoextra::get_pca_var(env_pca$pca_pca)$coord[,1:axes]) %>% # this generates a warning if axes is less than the number of env variables
       tibble::as_tibble(rownames = "name") %>%
       stats::setNames(gsub("Dim.","pc",names(.)))
 
