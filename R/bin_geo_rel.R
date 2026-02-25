@@ -19,17 +19,17 @@
 #' @param over_ride_na Named list. List names must be the same as column names.
 #' Any names in `over_ride_na` will be matched to column names in `df` and any
 #' values in that list element will be given the value `dist_min`. This is mainly
-#' used to prevent filtering data sources that do not have a concept equivalent
-#' to `rel_metres`.
+#' used to prevent filtering data sources that do not have a spatial reliabciliy
+#' concept.
 #' @param over_ride_metres Named list. List names must be the same as column
 #' names. Any names in `over_ride_metres` will be matched to column names in `df`
 #' and any values in that list element will be given the value `dist_min`.
 #'
-#' @return tibble with additional column `rel_metres_adj` containing the
-#' minimum `rel_metres` available within that context, potentially taking into
+#' @return tibble with additional column `[dist_col]_adj` containing the
+#' minimum `[dist_col]` available within that context, potentially taking into
 #' account any over rides. Unlike `reduce_geo_rel()` (which only returns a
 #' single row per context), with `bin_geo_rel()` the original `df` is only
-#' altered by the additional column `rel_metres_adj`.
+#' altered by the additional column `[dist_col]_adj`.
 #'
 #' @export
 #'
@@ -47,7 +47,7 @@
 
     adj_col <- paste0(dist_col, "_adj")
 
-    res[adj_col] <- res$rel_metres
+    res[adj_col] <- res[dist_col]
 
     if(!is.null(over_ride_na)) {
 
