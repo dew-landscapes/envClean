@@ -10,8 +10,7 @@ taxonomy_overrides <- tibble::tribble(
   "Sminthopsis fuliginosus aitkeni", "Sminthopsis fuliginosa aitkeni", "Sminthopsis fuliginosa", "Sminthopsis fuliginosa aitkeni", "KI Dunnart", # using "fuliginosus" not "fuliginosa" returns incorrect taxa
   "Sminthopsis fuliginosus", "Sminthopsis fuliginosa","Sminthopsis fuliginosa", NA, "EP/KI Dunnarts", # using "fuliginosus" not "fuliginosa" returns incorrect taxa
   "Gallirallus philippensis mellori", "Hypotaenidia philippensis mellori", "Hypotaenidia philippensis", "Hypotaenidia philippensis mellori", "Australian Buff-banded Rail", # from ALA: now regarded as Hypotaenidia philippensis. H.p.mellori is accepted, but galah::search_taxa reverts to species. original_name in
-  "Hypotaenidia philippensis macquariensis", "Hypotaenidia philippensis mellori", "Hypotaenidia philippensis", "Hypotaenidia philippensis mellori", "Australian Buff-banded Rail", # extinct Macquarie Island subsp, comes from obis
-  "Grus rubicunda", "Antigone rubicunda","Antigone rubicunda",NA, "Brolga",
+  "Grus rubicunda", "Antigone rubicunda", "Antigone rubicunda",NA, "Brolga",
   "Eucalyptus X paludicola", "Eucalyptus paludicola", "Eucalyptus paludicola", NA, "Marsh Gum/Mt Compass Swamp Gum",
   "Eucalyptus x paludicola", "Eucalyptus paludicola", "Eucalyptus paludicola", NA, "Marsh Gum/Mt Compass Swamp Gum",
   "Corybas X dentatus", "Corybas dentatus", "Corybas dentatus", NA, "Finniss/Toothed Helmet-orchid",
@@ -33,5 +32,6 @@ taxonomy_overrides <- tibble::tribble(
   "Sericornis frontalis ashbyi", "Sericornis maculatus ashbyi", "Sericornis maculatus", "Sericornis maculatus ashbyi", "Spotted Scrubwren",
   "Sericornis (Sericornis) frontalis ashbyi", "Sericornis maculatus ashbyi", "Sericornis maculatus", "Sericornis maculatus ashbyi", "Spotted Scrubwren",
   "Sericornis frontalis mellori", "Sericornis maculatus mellori", "Sericornis maculatus", "Sericornis maculatus mellori", "Spotted Scrubwren",
-  "Sericornis (Sericornis) frontalis mellori", "Sericornis maculatus mellori", "Sericornis maculatus", "Sericornis maculatus mellori", "Spotted Scrubwren"
+  "Sericornis (Sericornis) frontalis mellori", "Sericornis maculatus mellori", "Sericornis maculatus", "Sericornis maculatus mellori", "Spotted Scrubwren",
+  "Phascolarctos cinereus (combined populations of Qld, NSW and the ACT)", "Phascolarctos cinereus (combined populations of Qld", "Phascolarctos cinereus", "Phascolarctos cinereus (combined populations of Qld", "Qld, NSW, Vic Koala populations" # EPBC listing name is: Phascolarctos cinereus (combined populations of Qld, NSW and the ACT), which is the scientific name in the SNES (EPBC) distributions but matched to species by galah::search_taxa. ALA backbone recognises the combined populations as a subspecies with a strange incomplete version of that name (taxa_to_search/use_subspecies).
   )
