@@ -63,12 +63,20 @@ flag_rjack_outliers <- function(df
       xc <- df_use |>
         dplyr::pull(vars[i])
 
-      fe2 <- rjack(d = xc) # reverse jackknife
+      if(length(unique(xc)) > 1) {
 
-      res <- rep(0, n)
-      res[fe2] <- 1
+        fe2 <- rjack(d = xc) # reverse jackknife
 
-      rev_jack[, i] <- res
+        res <- rep(0, n)
+        res[fe2] <- 1
+
+        rev_jack[, i] <- res
+
+      } else {
+
+        rev_jack[, i] <- NA
+
+      }
 
     }
 
@@ -83,6 +91,7 @@ flag_rjack_outliers <- function(df
     if(any(grepl(paste0(vars, collapse = "|"), names(jack)))) {
 
       res <- jack |>
+        janitor::remove_empty(which = "cols") |>
         tidyr::pivot_longer(tidyselect::any_of(paste0("jack___", names(df_use)))) |>
         dplyr::group_by(dplyr::across(tidyselect::any_of(context))) |>
         dplyr::summarise(vars_outliers = sum(value, na.rm = TRUE)

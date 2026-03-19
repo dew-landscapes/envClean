@@ -56,7 +56,8 @@ flag_local_outliers <- function(df
 
     df_use_dbscan <- df_use |>
       dplyr::select(tidyselect::any_of(vars)) |>
-      base::scale()
+      base::scale() |>
+      janitor::remove_empty(which = "cols")
 
     knn_dist <- dbscan::kNNdist(df_use_dbscan
                                 , k = min_points
@@ -78,6 +79,7 @@ flag_local_outliers <- function(df
   } else {
 
     res <- df_use |>
+      dplyr::select(tidyselect::any_of(context)) |>
       dplyr::mutate(clust = NA
                     , lo = NA
                     )
