@@ -92,20 +92,11 @@ overrides argument of <code><a href="make_taxonomy.html">make_taxonomy()</a></co
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">galah</span><span class="fu">::</span><span class="fu"><a href="https://galah.ala.org.au/R/reference/search_all.html" class="external-link">search_taxa</a></span><span class="op">(</span><span class="st">"Peziza vesiculosa Bull.: Fr."</span><span class="op">)</span> <span class="co"># Homonym issue</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Search returned multiple taxa due to a homonym issue.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Please provide another rank in your search to clarify taxa.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Use a `tibble` to clarify taxa, see `?search_taxa`.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Homonym issue with "Peziza vesiculosa Bull.: Fr.".</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Matched <span style="font-weight: bold;">0 of 1</span> taxonomic search terms in selected atlas (Australia).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">1 unmatched search term:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> <span style="color: #BBBB00;">"Peziza vesiculosa Bull.: Fr."</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   search_term                  issues </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Peziza vesiculosa Bull.: Fr. homonym</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_pour_package(.pkg):</span> No data stored by `potions`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> try using `brew()</span>
 <span class="r-in"><span><span class="fu">try_name_via_gbif</span><span class="op">(</span><span class="st">"Peziza vesiculosa Bull.: Fr."</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in try_name_via_gbif("Peziza vesiculosa Bull.: Fr."):</span> argument "target_rank" is missing, with no default</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_pour_package(.pkg):</span> No data stored by `potions`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> try using `brew()</span>
 </code></pre></div>
     </div>
   </div>

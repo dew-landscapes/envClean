@@ -132,43 +132,31 @@ created at each step in the filtering process.</p></dd>
 <span class="r-in"><span><span class="co"># make_taxonomy</span></span></span>
 <span class="r-in"><span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_taxonomy.html">make_taxonomy</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">flor_recent</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Querying API <span style="color: #00BB00;">■■■■■                           </span>  13% |  ETA: 15s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Querying API <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  35% |  ETA: 10s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Querying API <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■              </span>  58% |  ETA:  6s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Querying API <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  82% |  ETA:  3s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> saving results to /tmp/RtmpwFG2ep/file20909876c1d23e.parquet</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_pour_interactive(.slot):</span> No data stored by `potions`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> try using `brew()</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># bin taxa</span></span></span>
 <span class="r-in"><span><span class="va">flor_taxa</span> <span class="op">&lt;-</span> <span class="va">flor_recent</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="bin_taxa.html">bin_taxa</a></span><span class="op">(</span>taxonomy <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">species</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(taxa)`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(original_name)`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'taxa' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># distinct over bins</span></span></span>
 <span class="r-in"><span><span class="va">flor_bin</span> <span class="op">&lt;-</span> <span class="va">flor_taxa</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">taxa</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">any_of</a></span><span class="op">(</span><span class="va">context</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'flor_taxa' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># How did records of 'taxa' change through the filtering?</span></span></span>
 <span class="r-in"><span><span class="co"># Eucalyptus gracilis</span></span></span>
 <span class="r-in"><span><span class="fu">find_taxa</span><span class="op">(</span><span class="st">"Eucalyptus gracilis"</span></span></span>
 <span class="r-in"><span>          , lutaxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">species</span><span class="op">$</span><span class="va">lutaxa</span></span></span>
 <span class="r-in"><span>          <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 9 variables: name &lt;chr&gt;, obj &lt;list&gt;, has_stamp &lt;lgl&gt;, nrow &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ctime &lt;???&gt;, founds &lt;list&gt;, taxa &lt;chr&gt;, records &lt;dbl&gt;, found &lt;chr&gt;</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'taxa' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Chenopodium nutans</span></span></span>
 <span class="r-in"><span><span class="fu">find_taxa</span><span class="op">(</span><span class="st">"Chenopodium nutans"</span></span></span>
 <span class="r-in"><span>          , lutaxa <span class="op">=</span> <span class="va">taxa</span><span class="op">$</span><span class="va">species</span><span class="op">$</span><span class="va">lutaxa</span></span></span>
 <span class="r-in"><span>          <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 9 variables: name &lt;chr&gt;, obj &lt;list&gt;, has_stamp &lt;lgl&gt;, nrow &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ctime &lt;???&gt;, founds &lt;list&gt;, taxa &lt;chr&gt;, records &lt;dbl&gt;, found &lt;chr&gt;</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'taxa' not found</span>
 </code></pre></div>
     </div>
   </div>
