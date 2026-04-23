@@ -36,7 +36,7 @@
                             , needed_ranks = c("kingdom", "genus", "species", "subspecies")
                             )
   taxonomy$raw
-  taxonomy$kingdom
+  taxonomy$kingdom # 2025-02-26 why does this have no records?
   taxonomy$genus
   taxonomy$species
   taxonomy$subspecies
@@ -91,6 +91,7 @@
 
 
   # tweak_species example
+  # 2025-02-26 ... Maybe this is fixed in the 'ALA system' as these both return the same result
   make_taxonomy(df = tibble::tibble(original_name = "Acacia sp. Small Red-leaved Wattle (J.B.Williams 95033)")
                 , tweak_species = FALSE
                 )$raw %>%
