@@ -31,12 +31,14 @@
 <url><loc>/reference/luclean.html</loc></url>
 <url><loc>/reference/lurank.html</loc></url>
 <url><loc>/reference/make_attribute.html</loc></url>
+<url><loc>/reference/make_common.html</loc></url>
 <url><loc>/reference/make_con_status.html</loc></url>
 <url><loc>/reference/make_cover.html</loc></url>
 <url><loc>/reference/make_effort_mod.html</loc></url>
 <url><loc>/reference/make_effort_mod_pca.html</loc></url>
 <url><loc>/reference/make_env_pca.html</loc></url>
 <url><loc>/reference/make_gbif_taxonomy.html</loc></url>
+<url><loc>/reference/make_ind.html</loc></url>
 <url><loc>/reference/make_ind_status.html</loc></url>
 <url><loc>/reference/make_lifeform.html</loc></url>
 <url><loc>/reference/make_subspecies_col.html</loc></url>

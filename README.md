@@ -87,12 +87,14 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::luclean` | tbl_df, tbl and data.frame | Dataframe of cleaning steps |
 | `envClean::lurank` | tbl_df, tbl and data.frame | Dataframe of taxonomic ranks |
 | `envClean::make_attribute()` | function | Title |
+| `envClean::make_common()` | function | Make common name lookup |
 | `envClean::make_con_status()` | function | Make conservation status from existing status codes |
 | `envClean::make_cover()` | function | Make a single (numeric, proportion) cover column from different sorts of |
 | `envClean::make_effort_mod()` | function | Distribution of credible values for taxa richness. |
 | `envClean::make_effort_mod_pca()` | function | Model the effect of principal components on taxa richness. |
 | `envClean::make_env_pca()` | function | Principal components analysis and various outputs from environmental data |
 | `envClean::make_gbif_taxonomy()` | function | Make taxonomy lookups |
+| `envClean::make_ind()` | function | Make indigenous status lookup |
 | `envClean::make_ind_status()` | function | Make indigenous status lookup |
 | `envClean::make_lifeform()` | function | Get unique lifeform across taxa, perhaps including further context |
 | `envClean::make_subspecies_col()` | function | Make a subspecies column |
