@@ -63,7 +63,8 @@ make_common <- function(df
     ) |>
     dplyr::filter(!is.na(returned_rank)
                   , returned_rank <= max_guess
-    )
+    ) |>
+    dplyr::rename(tidyr::all_of(c("common" = common_col))) # fix to overcome object common_col not found error in make_attribute below when running in targets
 
   # same ranks prep ----
   # nest data by returned rank to enable finding same rank common names in a map below
@@ -81,7 +82,7 @@ make_common <- function(df
 
                               envClean::make_attribute(df = x
                                                        , taxa_col = taxa_col
-                                                       , att_col = common_col
+                                                       , att_col = "common"
                                                        , taxonomy = taxonomy[[y]]
                                                        , max_guess = y
                                                        , context = context
@@ -103,7 +104,7 @@ make_common <- function(df
   other_ranks_aoi <-
     envClean::make_attribute(df = other_ranks_prep
                              , taxa_col = taxa_col
-                             , att_col = common_col
+                             , att_col = "common"
                              , taxonomy = taxonomy[[max_guess]]
                              , max_guess = max_guess
                              , context = context
