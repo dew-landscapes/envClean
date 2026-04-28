@@ -1,7 +1,7 @@
 #' Make common name lookup
 #'
-#' Finds common names for taxa based on highest frequency of occurrence in data using envClean::make_attribute.
-#' Compared to a straight run of envClean::make_attribute, this function first attempts to match a taxa to a
+#' Finds common names for taxa based on highest frequency of occurrence in data using `make_attribute`.
+#' Compared to a straight run of `make_attribute`, this function first attempts to match a taxa to a
 #' common name based on only common names belonging to taxa names of the same rank (i.e. species names will only
 #' be matched to species level common names if they occur in the data). Taxa that cannot be matched to a common
 #' name at their taxonomic rank will be given a common name from a lower level (e.g. a species without a species
@@ -91,8 +91,7 @@ make_common <- function(df
                             }
                             , .progress = TRUE
   ) |>
-    dplyr::bind_rows() |>
-    dplyr::filter(!is.na(!!rlang::ensym(common_col)))
+    dplyr::bind_rows()
 
   # other ranks prep ----
   other_ranks_prep <- prep |>
