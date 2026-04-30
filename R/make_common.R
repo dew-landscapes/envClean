@@ -34,7 +34,7 @@ make_common <- function(df
                         , taxonomy = taxonomy
                         , max_guess = "species"
                         , context = "kingdom"
-                        , remove_strings = c("n/a", "''", "NA", "^\\s*$")
+                        , remove_strings = c("n/a", "''", "NA", "N/A", "^\\s*$")
                         , use_aoi = NULL
                         , df_x = "long"
                         , df_y = "lat"
