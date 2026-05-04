@@ -121,7 +121,8 @@ make_ind <- function(df
     )
     ) else .} |>
     dplyr::arrange(taxa) |>
-    dplyr::select(taxa, ind, ind_vals, ind_from)
+    dplyr::distinct(taxa, ind, ind_vals, ind_from) |>
+    dplyr::mutate(ind = dplyr::if_else(grepl("\\?", ind), "U" , ind))
 
   return(res)
 
