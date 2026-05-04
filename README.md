@@ -95,7 +95,6 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::make_env_pca()` | function | Principal components analysis and various outputs from environmental data |
 | `envClean::make_gbif_taxonomy()` | function | Make taxonomy lookups |
 | `envClean::make_ind()` | function | Make indigenous status lookup |
-| `envClean::make_ind_status()` | function | Make indigenous status lookup |
 | `envClean::make_lifeform()` | function | Get unique lifeform across taxa, perhaps including further context |
 | `envClean::make_subspecies_col()` | function | Make a subspecies column |
 | `envClean::make_taxonomy()` | function | Get taxonomy via code{galah::taxa_search()} |

@@ -70,8 +70,8 @@ crs attribute of st_transform or st_as_sf.}
 Dataframe with one row for each taxa with best guess at a common name based on the values in \code{ind_col}.
 }
 \description{
-Finds indigenous status for taxa based on highest frequency of occurrence in data using envClean::make_attribute.
-Compared to a straight run of envClean::make_attribute, this function first attempts to find an indigenous status
+Finds indigenous status for taxa based on highest frequency of occurrence in data using \code{make_attribute}.
+Compared to a straight run of \code{make_attribute}, this function first attempts to find an indigenous status
 for a taxa based on values found in a primary data source (if supplied). Taxa with no indigenous values in the primary data
 source are then given an indigenous status based on all other data sources. In addition, flags and overrides indicating
 non-indigenous taxa can also be provided to overcome errors in the data, and the indigenous calculation can be

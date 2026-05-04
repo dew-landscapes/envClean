@@ -11,7 +11,7 @@ make_common(
   taxonomy = taxonomy,
   max_guess = "species",
   context = "kingdom",
-  remove_strings = c("n/a", "''", "NA", "^\\\\s*$"),
+  remove_strings = c("n/a", "''", "NA", "N/A", "^\\\\s*$"),
   use_aoi = NULL,
   df_x = "long",
   df_y = "lat",
@@ -48,8 +48,8 @@ crs attribute of st_transform or st_as_sf.}
 Dataframe with one row for each taxa with best guess at a common name based on the values in \code{common_col}.
 }
 \description{
-Finds common names for taxa based on highest frequency of occurrence in data using envClean::make_attribute.
-Compared to a straight run of envClean::make_attribute, this function first attempts to match a taxa to a
+Finds common names for taxa based on highest frequency of occurrence in data using \code{make_attribute}.
+Compared to a straight run of \code{make_attribute}, this function first attempts to match a taxa to a
 common name based on only common names belonging to taxa names of the same rank (i.e. species names will only
 be matched to species level common names if they occur in the data). Taxa that cannot be matched to a common
 name at their taxonomic rank will be given a common name from a lower level (e.g. a species without a species
