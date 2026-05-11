@@ -2,20 +2,21 @@
 
   luclean <- tibble::tribble(~clean, ~desc,
                              "all", "starting point",
-                             "tem_range", "within a date range",
-                             "tem_bin", "assigning dates to temporal bins",
-                             "tem_rel", "temporal reliability",
+                             "temp_range", "within a date (temporal) range",
+                             "temp_bin", "assigning dates to temporal bins",
+                             "temp_rel", "temporal reliability",
                              "geo_range", "within a geographic area",
                              "geo_bin", "assigning locations to spatial bins",
                              "geo_rel", "spatial reliability",
                              "context", "define context",
-                             "att", "select attributes",
+                             "att", "add non-spatial attributes",
                              "geo", "add geographic context (e.g. IBRA)",
                              "ann", "non-persistent taxa",
                              "taxa", "align taxonomy and resolve any taxonomic duplication within bins",
                              "single", "singletons",
                              "out", "outliers",
                              "NA", "NA values in important columns",
+                             "ll", "NA values in latitude/longitude columns",
                              "effort", "context effort",
                              "prop","proportion of sites",
                              "life", "as a byproduct of assigning all records of a taxa a lifeform",
@@ -30,7 +31,16 @@
                              "ind", "indigenous species",
                              "rm", "geographic reliability",
                              "include", "taxa with presences, reliable distributions, and/or mcp around presences",
-                             "bin", "reduce to distinct rows"
+                             "bin", "add temporal, geographic and/or taxonomic bins",
+                             "region_taxa", "taxa found within a geograpic area (but including their records outside that area)",
+                             "spt_att", "add spatially dependent attributes",
+                             "fr", "fix reliability",
+                             "clean", "final step in the overall cleaning process",
+                             "tax_level", "all records identified to at least a specific taxonomic level",
+                             "novagrant", "filter vagrant records",
+                             "noextinct", "filter records from an extinct part of a taxas range",
+                             "nohaven", "filter records from inside havens",
+                             "tg", "generate pseudo-absences based on 'target groups'"
                              ) %>%
     dplyr::mutate(order = dplyr::row_number() - 1) %>%
     dplyr::arrange(order)
