@@ -1,0 +1,3 @@
+### Taxa richness
+
+Any bin that did not have at least `r settings_clean$min_sr` taxa recorded were removed.

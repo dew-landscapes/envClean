@@ -1,0 +1,3 @@
+### Most recent visit
+
+The final filtering was to take the most recent 'visit' to a cell by filtering the maximum year in which a cell had records.

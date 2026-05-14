@@ -1,0 +1,31 @@
+### Percentage of sites
+
+```{r kept}
+
+kept <- bio_prop |>
+  dplyr::mutate(bins = n_distinct(across(all_of(context)))) |>
+  dplyr::count(taxa, bins) |>
+  dplyr::mutate(per = round(100 * n / bins, 2))
+
+min_per_kept <- min(kept$per)
+
+key_structural_present <- sort(unique(settings_clean$keep_taxa[settings_clean$keep_taxa %in% bio_prop$taxa]))
+
+```
+
+In order for a taxa to be retained, it needed to be present in more than `r min_per_kept`% of bins (or `r round(nrow(bio_prop %>% dplyr::distinct(across(any_of(context)))) * min_per_kept/100,0)` bins). This number was determined by looking for the minimum value required to include key structural species with few bins (e.g. `r vec_to_sentence(paste0("_", key_structural_present, "_"))`. See Table \@ref(tab:sitePerFilterTaxa)). If none of these key structural taxa occurred within the data set, a default value of `r settings_clean$default_prop_filt * 100`% of bins was used. However, if a key structural species was present in less than `r settings_clean$min_prop_filt * 100`% of bins, it was filtered anyway.
+
+Filtering was done with the `filter_prop` function in the `envClean` package `r cite_package("envClean")`.
+
+<br>
+
+```{r sitePerFilterTaxa}
+
+kept %>%
+  dplyr::filter(taxa %in% settings_clean$keep_taxa) |>
+  dplyr::select(Taxa = taxa,  bins = n, `_Percentage_ of sites` = per) |>
+  knitr::kable(caption = "Number and percentage of bins at which several key taxa were recorded")
+
+```
+
+<br>

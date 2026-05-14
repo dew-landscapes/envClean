@@ -1,0 +1,3 @@
+### Geographic density
+
+Sites were thinned so there was not more than one site per ha.

@@ -1,0 +1,3 @@
+### Taxonomic level is `r settings$grain$taxonomic`
+
+Any taxa not binnned at `r settings$grain$taxonomic` level was removed.

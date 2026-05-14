@@ -1,0 +1,13 @@
+
+### Geographic range
+
+Records were filtered by removing records that did not fall within an area of interest: `r report_name` (Figure \@ref(fig:geographicRangeFig)).
+
+```{r geographicRangeFig, fig.cap = paste0("Boundary of the area of interest: ", report_name)}
+
+m <- tm_shape(extent_sf) +
+  tm_borders()
+
+tmap::tmap_leaflet(m)
+
+```

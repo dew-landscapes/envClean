@@ -1,0 +1,28 @@
+#### Taxa of interest
+
+Only records specified 'taxa of interest' were used (Table \@ref(tab:toiTa)).
+
+`r paste0(clean_text$text[i], " ", clean_text$context_text[i])`
+
+```{r toiTab}
+
+  toi_tab <- settings$toi %>%
+    list2DF() %>%
+    tibble::as_tibble() %>%
+    dplyr::left_join(taxa$taxonomy) %>%
+    dplyr::select(kingdom, phylum, order, family, taxa) %>%
+    dplyr::arrange() %>%
+    dplyr::group_by(dplyr::across(-taxa)) %>%
+    dplyr::summarise(taxa = paste0("_"
+                                   , sort(taxa)
+                                   , collapse = ", "
+                                   , "_"
+                                   ) %>%
+                       stringi::stri_replace_last_regex("_, _", "_ and _")
+                     ) %>%
+    dplyr::ungroup()
+
+  toi_tab %>%
+    knitr::kable(caption = "Taxa of interest")
+
+```

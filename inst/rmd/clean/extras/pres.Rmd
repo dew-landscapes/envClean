@@ -1,0 +1,5 @@
+#### Presence/Occurrence
+
+Records were filtered to only 'presence'; i.e. absences (or non-detections) were removed.
+
+The cleaning step 'presence' took the number of taxa from `r clean_table$taxa[1] %>% format(big.mark=",")` to `r clean_table$taxa[2] %>% format(big.mark=",")`, took the number of records from `r clean_table$records[1] %>% format(big.mark=",")` to `r clean_table$records[2] %>% format(big.mark=",")`, took the number of visits from `r clean_table$visits[1] %>% format(big.mark=",")` to `r clean_table$visits[2] %>% format(big.mark=",")`, and took the number of sites from `r clean_table$sites[1] %>% format(big.mark=",")` to `r clean_table$sites[2] %>% format(big.mark=",")`. `r clean_text$context_text[i]`

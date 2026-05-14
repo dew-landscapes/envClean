@@ -1,0 +1,7 @@
+#### Spatial attributes of records
+
+Where available (i.e. taxa-specific spatial information was available) records of a taxa were flagged:
+
+* 'extinct' if the record was in a region where the taxa is considered extinct
+* 'indigenous' if the record was in a region where the taxa is considered indigenous (or, alternatively, the record was in a region where the taxa is known to be introduced and is now naturalised)
+* 'haven' - is the record was within a haven. Havens being defined as areas designed to shield endangered species from key threats, usually introduced predators

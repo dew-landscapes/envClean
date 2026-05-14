@@ -1,0 +1,3 @@
+#### Remove haven records
+
+Any record of a taxa known to have been released into a haven, where the record occurs within that haven, was filtered.

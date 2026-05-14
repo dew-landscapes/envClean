@@ -1,0 +1,3 @@
+#### Start of the cleaning process
+
+The start of the cleaning process was the `bio_all` object created in the `envOcc` project. In this case it contained `r format(clean_summary$records[[1]], big.mark = ",")` records.

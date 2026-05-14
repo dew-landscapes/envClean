@@ -1,0 +1,5 @@
+#### Remove vagrant records
+
+Any record of a taxa occurring in an area identified for that taxa as being vagrant was filtered. Areas identifying vagrant status for taxa were taken from:
+
+* [A Field List of the Birds of South Australia, 5th edition](https://resources.birdssa.au/wp-content/uploads/FieldList_5.1.pdf)

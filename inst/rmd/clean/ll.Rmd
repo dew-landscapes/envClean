@@ -1,0 +1,3 @@
+#### Remove data with missing spatial information
+
+Records without latitude or longitude were removed.

@@ -1,0 +1,3 @@
+#### Record attributes
+
+This step selected important attribute columns, other than those defining context. The data attributes selected from `bio_all` were: `data_name`, `observer` and `sensitivity`.
