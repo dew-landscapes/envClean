@@ -1,3 +1,0 @@
-#### Downgrade spatial reliability
-
-In some cases, analysis showed that certain surveys rated records as more spatially reliable than they likely were, at least for some taxa. In these cases the spatial reliability of the records were downgraded.

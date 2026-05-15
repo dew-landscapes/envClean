@@ -1,0 +1,3 @@
+# Prepare bio_all: `clean_start` {#clean-start}
+
+The first step of the cleaning process was to import `bio_all` and filter it to the records that have the minimum data requirements: records with 'NA' in any of the coordinate or `original_name` (i.e. taxa name) columns were removed. The data was also filtered to the required temporal extent (i.e. `r scale$extent$extent_time`).

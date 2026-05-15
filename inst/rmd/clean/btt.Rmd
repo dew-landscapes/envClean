@@ -1,4 +1,4 @@
-#### `bio_btt`: Binomial to trinomial
+# Binomial to trinomial: `bio_btt`
 
 Most taxa names are recorded only at species (binomial) level, but where the distributions of subspecies (trinomials) are geographically distinct, it is possible to assign trinomial names to the binomial records. Where a binomial record fell inside the known distribution (see [Filter by distribution](#fbd)) for a trinomial, and the distribution did not overlap with another trinomial's distribution, the record was updated to include the probable trinomial name. This step increases the number of records available for subspecies-level analysis. 
 

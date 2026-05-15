@@ -1,10 +1,10 @@
-#### Filter by distribution
+# Filter by distribution: `bio_fbd` {#fbd}
 
-Erroneous or vagrant records were filtered by comparing records to known distributions for taxa where distributions were available, using the `filter_by_distribution` function stored in `envPIA`. These distributions were sourced from:
+Erroneous or vagrant records were filtered by comparing records to known distributions for taxa where distributions were available, using the `filter_by_distribution` function. These distributions were sourced from:
 
 a)  [Environment Protection and Biodiversity Conservation (EPBC) Act listings](https://fed.dcceew.gov.au/datasets/d0107a2f33a64ef4b9ffd7195dfb1b89/about)
 b)  the Expert distributions layer for some South Australian taxa in EGIS (internal DEW dataset)
 c)  [Birds SA vetted distributions](https://birdssa.asn.au/distribution-maps/)
 d)  IUCN Red List maps - directly from the [IUCN Red List](https://www.iucnredlist.org/resources/spatial-data-download) for non-avian taxa; and [BirdLife International](https://datazone.birdlife.org/species/requestdis) for avian taxa.
 
-For cases where taxa had a distribution in more than one source (e.g. EPBC and Red List), distribution sources were ranked such that the most authoritative or fine-scaled were used over broader or less authoritative sources (i.e. EPBC \> Expert \> Birds SA \> Red List). Records were filtered if they were \> `r settings$fbd_dist` km from the relevant known distribution for all distribution sources except for EPBC, to allow for uncertainty around the edges of distributions. This buffer was not used for EPBC distributions, as these already included included a 'may occur' category that covered areas around known ranges.
+For cases where taxa had a distribution in more than one source (e.g. EPBC and Red List), distribution sources were ranked such that the most authoritative or fine-scaled were used over broader or less authoritative sources (i.e. EPBC \> Expert \> Birds SA \> Red List). Records were filtered if they were \> `r clean_settings$fbd_dist` km from the relevant known distribution for all distribution sources except for EPBC, to allow for uncertainty around the edges of distributions. This buffer was not used for EPBC distributions, as these already included included a 'may occur' category that covered areas around known ranges.
