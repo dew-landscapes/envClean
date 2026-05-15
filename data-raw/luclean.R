@@ -35,12 +35,12 @@
                              "region_taxa", "taxa found within a geograpic area (but including their records outside that area)",
                              "spt_att", "add spatially dependent attributes",
                              "fr", "fix reliability",
-                             "clean", "final step in the overall cleaning process",
+                             "clean", "final step in the generic cleaning process",
                              "tax_level", "all records identified to at least a specific taxonomic level",
                              "novagrant", "filter vagrant records",
                              "noextinct", "filter records from an extinct part of a taxas range",
                              "nohaven", "filter records from inside havens",
-                             "tg", "generate pseudo-absences based on 'target groups'"
+                             "tg", "was the list long enough to imply good survey effort (and therefore absence may be implied for taxa not recorded here)"
                              ) %>%
     dplyr::mutate(order = dplyr::row_number() - 1) %>%
     dplyr::arrange(order)
