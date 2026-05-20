@@ -100,24 +100,23 @@ make_unmatched_overrides <- function(df
   unmatched <- df |>
     dplyr::distinct(!!rlang::ensym(taxa_col)) |>
     envClean::clean_quotes() |>
-    dplyr::left_join(taxonomy[[target_rank]]$lutaxa) |>
-    dplyr::filter(is.na(taxa)
-                  |((original_is_bi|original_is_tri) & returned_rank > "species" & target_rank %in% c("species", "subspecies"))
-                  |(original_is_tri & returned_rank > "subspecies" & target_rank == "subspecies")
-    ) |>
+    dplyr::left_join(taxonomy$raw) |>
+    dplyr::filter(is.na(scientific_name)
+                  |((original_is_bi|original_is_tri) & rank_adj > "species" & target_rank %in% c("species", "subspecies"))
+                  |(original_is_tri & rank_adj > "subspecies" & target_rank == "subspecies")
+                  ) |>
     dplyr::filter(!!rlang::ensym(taxa_col) != ""
                   , !grepl(paste0(remove_taxa, collapse = "|"), tolower(!!rlang::ensym(taxa_col)))
                   , grepl(".*\\s.*", !!rlang::ensym(taxa_col))
-    ) %>%
+                  ) %>%
     # remove taxa with tri_strings that provide no trinomial detail after, e.g. 'Acacia aneura var. (NC)' and should not be returned as subspecies
     {if(target_rank == "subspecies") dplyr::filter(.
                                                    , !grepl(paste(paste0(tri_strings, "\\s\\(NC\\)$"), collapse = "|"), !!rlang::ensym(taxa_col))
                                                    , !grepl(paste(paste0(tri_strings, "\\(NC\\)$"), collapse = "|"), !!rlang::ensym(taxa_col))
                                                    , !grepl(paste(paste0(tri_strings, "$"), collapse = "|"), !!rlang::ensym(taxa_col))
                                                    , !grepl("\\.$", !!rlang::ensym(taxa_col))
-    )
-      else .
-    } %>%
+                                                   ) else .
+      } %>%
     {if(!hybrids) dplyr::filter(., !grepl("\\sx\\s.*", !!rlang::ensym(taxa_col), ignore.case = TRUE)) else .} %>%
     #dplyr::sample_n(10) |> # TESTING
     dplyr::select(!!rlang::ensym(taxa_col)) %>%
@@ -128,14 +127,13 @@ make_unmatched_overrides <- function(df
     # non in ALA --------
     # try gbif to fix taxa just not found in ALA
     unmatched_via_gbif <- unmatched |>
-      dplyr::select(!!rlang::ensym(taxa_col)) |>
       dplyr::mutate(res = purrr::map(!!rlang::ensym(taxa_col)
                                      , \(x) try_name_via_gbif(x
                                                               , target_rank = target_rank
-                                     )
+                                                              )
                                      , .progress = TRUE
-      )
-      ) |>
+                                     )
+                    ) |>
       tidyr::unnest(cols = c(res))
 
     res1 <- unmatched_via_gbif
@@ -143,7 +141,7 @@ make_unmatched_overrides <- function(df
     if(any((target_rank != "subspecies" & ! target_rank %in% names(unmatched_via_gbif))
            , (target_rank == "subspecies" & ! "species" %in% names(unmatched_via_gbif))
            , ! "scientific_name" %in% names(unmatched_via_gbif))
-    ) {
+       ) {
 
       unmatched_via_gbif <- unmatched_via_gbif |>
         dplyr::slice(0)
@@ -210,20 +208,20 @@ make_unmatched_overrides <- function(df
       overrides_unmatched <- unmatched |>
         dplyr::left_join(dplyr::bind_rows(mget(ls(pattern = "^unmatched_"))
                                           , .id = "note"
-        ) |>
-          dplyr::filter(! is.na(!!rlang::ensym(taxa_col))) |>
-          dplyr::select(!!rlang::ensym(taxa_col)
-                        , tidyr::any_of(tidyr::matches(unique(c(target_rank, "species"))))
-                        , rank
-                        , scientific_name
-                        , kingdom
-                        , note
-          ) |>
-          dplyr::distinct() |>
-          dplyr::mutate(note = gsub("unmatched_", "", note)
-                        , note = gsub("_", " ", note)
-          )
-        ) |>
+                                          ) |>
+                           dplyr::filter(! is.na(!!rlang::ensym(taxa_col))) |>
+                           dplyr::select(!!rlang::ensym(taxa_col)
+                                         , tidyr::any_of(tidyr::matches(unique(c(target_rank, "species"))))
+                                         , rank
+                                         , scientific_name
+                                         , kingdom
+                                         , note
+                                         ) |>
+                           dplyr::distinct() |>
+                           dplyr::mutate(note = gsub("unmatched_", "", note)
+                                         , note = gsub("_", " ", note)
+                                         )
+                         ) |>
         dplyr::select(!!rlang::ensym(taxa_col)
                       , taxa_to_search = scientific_name
                       , use_kingdom = kingdom
