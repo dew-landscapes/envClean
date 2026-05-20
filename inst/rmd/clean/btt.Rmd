@@ -2,6 +2,6 @@
 
 Most taxa names are recorded only at species (binomial) level, but where the distributions of subspecies (trinomials) are geographically distinct, it is possible to assign trinomial names to the binomial records. Where a binomial record fell inside the known distribution (see [Filter by distribution](#fbd)) for a trinomial, and the distribution did not overlap with another trinomial's distribution, the record was updated to include the probable trinomial name. This step increases the number of records available for subspecies-level analysis. 
 
-Records with a binomial `taxa` value had the value updated to the relevant trinomial using the `bi_to_tri` function from `envDistribution` `r cite_package("envDistribution")`.
+Records with a binomial `taxa` value had the value updated to the relevant trinomial using the `bi_to_tri` function from *envDistribution* `r cite_package("envDistribution")`.
 
 Trinomial distributions that overlapped were never used to update any records, and records that were not within a distribution were not updated.

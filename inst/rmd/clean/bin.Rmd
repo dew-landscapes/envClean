@@ -6,4 +6,4 @@ Taxonomic, geographic and temporal bins were added to the data as:
 
 where: spatial grain is in metres ('res' for resolution); and temporal grain is a period of time described using the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) standard.
 
-Geographic bins were added using the `add_raster_bin` function from `envRaster`, which realigns every record's location to the centroid of the raster cell (with a resolution of the spatial grain) into which it falls.
+Geographic bins were added using the `add_raster_bin` function from *envRaster*, which realigns every record's location to the centroid of the raster cell (with a resolution of the spatial grain) into which it falls.
