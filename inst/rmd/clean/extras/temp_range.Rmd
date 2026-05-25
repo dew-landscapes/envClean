@@ -1,3 +1,3 @@
-headingtextheadingtextheadingtextheadingtext Date range of interest
+# Date range of interest
 
 Records were limited to those with observation dates within the temporal extent (`r settings$extent$extent_time`), i.e. `r readr::parse_number(settings$extent$extent_time)` `r envTargets::extract_temporal_grain(settings$extent$extent_time)`s prior to the current year. This corresponds to the timeframe for which a species would be regarded as extinct if it had no new records. This restriction also minimised the risk of comparing old records to contemporary environmental variables that may not reflect the conditions around the time an old record was collected.

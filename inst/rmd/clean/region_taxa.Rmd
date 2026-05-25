@@ -1,4 +1,4 @@
-headingtext Region taxa: `bio_region_taxa`
+# Region taxa: `bio_region_taxa`
 
 The list of taxa were reduced to only those found within a particular area. For example, the original data may contain records of all taxa across Australia. If 'region taxa' were limited to, say, South Australian taxa, taxa without a record in South Australia were removed, while records outside of South Australia for taxa any records inside South Australia remain.
 

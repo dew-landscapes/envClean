@@ -1,4 +1,4 @@
-headingtextheadingtextheadingtext Percentage of sites
+# Percentage of sites
 
 ```{r kept}
 

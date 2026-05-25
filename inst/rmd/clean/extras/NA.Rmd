@@ -1,3 +1,3 @@
-headingtextheadingtextheadingtext Remove data with missing information
+# Remove data with missing information
 
 Some contextual information was considered too important to be missing. If any record had a value of `NA` in any of the latitude or longitude columns it was removed.

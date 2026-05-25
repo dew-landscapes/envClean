@@ -1,4 +1,4 @@
-headingtextheadingtextheadingtextheadingtext Remove extinct records
+# Remove extinct records
 
 Any record of a taxa occurring in an area from which that taxa was identified as being extinct was filtered. Areas identifying extinct status for taxa were taken from:
 

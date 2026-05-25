@@ -1,4 +1,4 @@
-headingtext Record attributes: `bio_att`
+# Record attributes: `bio_att`
 
 This step selected and added important non-spatial attribute columns, other than those defining context. The data attributes gathered from `bio_all` were: 
 

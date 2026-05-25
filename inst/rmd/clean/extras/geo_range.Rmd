@@ -1,5 +1,4 @@
-
-headingtextheadingtextheadingtext Geographic range
+# Geographic range
 
 Records were filtered by removing records that did not fall within an area of interest: `r report_name` (Figure \@ref(fig:geographicRangeFig)).
 

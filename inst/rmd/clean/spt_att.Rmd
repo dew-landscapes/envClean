@@ -1,4 +1,4 @@
-headingtext Spatial attributes of records: `bio_spt_att`
+# Spatial attributes of records: `bio_spt_att`
 
 Where available, records of a taxa were flagged as:
 

@@ -1,3 +1,3 @@
-headingtext Remove data with missing spatial information: `bio_ll`
+# Remove data with missing spatial information: `bio_ll`
 
 Records without latitude or longitude, after the addition of cell bins from the `bio_bin` raster (which covers the data extent polygon), were removed.

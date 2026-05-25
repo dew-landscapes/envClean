@@ -1,4 +1,4 @@
-headingtextheadingtextheadingtextheadingtext Temporal bin
+# Temporal bin
 
 The year component of the date for each record became a temporal bin.
 

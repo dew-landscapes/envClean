@@ -1,3 +1,3 @@
-headingtextheadingtextheadingtext Result of cleaning
+# Result of cleaning
 
 A final check was run to ensure each bin had at least `r settings_clean$min_sr` taxa and that each record was unique.

@@ -1,15 +1,15 @@
 
-### Assign geographic, temporal and taxonomic bins {#bin}
+# Assign geographic, temporal and taxonomic bins {#bin}
 
-#### Geographic bins
+## Geographic bins
 
 Spatial bins were defined using `r scale$grain$grain_x` m raster cells. Cell latitude and longitude for each record was added using the function `add_raster_cell` from the `envRaster` package `r cite_package("envRaster")` (which relies on various functions of the `terra` package `r cite_package("terra")`). Records within each cell had their coordinates reassigned to the centroid coordinates.
 
-#### Temporal bins
+## Temporal bins
 
 Temporal bins were the `r bin[length(bin)]` in which a record was taken.
 
-#### Taxonomic bins {#taxonomy}
+## Taxonomic bins {#taxonomy}
 
 Taxonomic bins were `r scale$grain$taxonomic` taxonomic level (or higher). These bins were added using the `make_taxonomy` function from the `envClean` package `r cite_package("envClean")`.
 

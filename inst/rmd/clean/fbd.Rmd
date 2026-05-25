@@ -1,4 +1,4 @@
-headingtext Filter by distribution: `bio_fbd` {headingtextfbd}
+# Filter by distribution: `bio_fbd` {#fbd}
 
 Erroneous or vagrant records were filtered by comparing records to known distributions for taxa where distributions were available, using the `filter_by_distribution` function. These distributions (created in the **envVec** project) were sourced from:
 
