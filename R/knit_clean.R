@@ -13,8 +13,8 @@
 #' @returns
 #' @export
 #'
-report_clean <- function(clean_summary,
-                         heading_level = 2) {
+knit_clean <- function(clean_summary,
+                         heading_level = 3) {
 
   for(file in clean_summary$rmd) {
 
