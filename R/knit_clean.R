@@ -10,18 +10,16 @@
 #' @param heading_level What level of subheading to set the output sections. E.g. default 2 will use
 #'   "##" to separate sections
 #' @param scale List with elements `extent` and `grain` as expected by many of
-#' the clean Rmd files. If `NULL` (default) an attempt will be made to generate
-#' `scale` via `envFunc::extract_scale(element = basename(here::here()))`
+#' the clean Rmd files. Default is to extract `scale` via
+#' `envFunc::extract_scale(element = basename(here::here()))`
 #'
 #' @returns
 #' @export
 #'
 knit_clean <- function(clean_summary,
                          heading_level = 3
-                       , scale = NULL
+                       , scale = envFunc::extract_scale(element = basename(here::here()))
                        ) {
-
-  if(is.null(scale)) scale <- envFunc::extract_scale(element = basename(here::here()))
 
   text <- NULL
 
@@ -35,9 +33,9 @@ knit_clean <- function(clean_summary,
 
   }
 
-  rep_str <- paste0("\\1", strrep("#", heading_level))
+  rep_str <- paste0("\\1", strrep("#", heading_level - 1))
 
-  text <- gsub("(?<![({])#", rep_str, text, perl = TRUE)
+  text <- gsub("(?<![({])(#+)", rep_str, text, perl = TRUE)
 
   cat(text
       , sep = "\n\n"
