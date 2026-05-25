@@ -84,6 +84,7 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::flag_rjack_outliers()` | function | Flag reverse jackknife outliers |
 | `envClean::flor_all` | data.frame | Example of data combined from several data sources. |
 | `envClean::get_taxonomy()` | function | Get GBIF backbone taxonomy |
+| `envClean::knit_clean()` | function | Knit child documents to report the standard envCleaned process |
 | `envClean::luclean` | tbl_df, tbl and data.frame | Dataframe of cleaning steps |
 | `envClean::lurank` | tbl_df, tbl and data.frame | Dataframe of taxonomic ranks |
 | `envClean::make_attribute()` | function | Title |
@@ -101,7 +102,6 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::make_unmatched_overrides()` | function | Attempt to find a taxa for names with no match in code{galah::search_taxa()} |
 | `envClean::rec_vis_sit_tax()` | function | How many records, visits, sites and taxa in a dataframe |
 | `envClean::reduce_geo_rel()` | function | Reduce data frame to a single spatial reliability within a context |
-| `envClean::report_clean()` | function | Knit child documents to report the standard envCleaned process |
 | `envClean::rjack()` | function | Reverse jackknife |
 | `envClean::taxonomy_overrides` | tbl_df, tbl and data.frame | Manual taxonomic overrides |
 | `envClean::try_name_via_gbif()` | function | Attempt to find an unmatched scientific name using GBIF Backbone Taxonomy |

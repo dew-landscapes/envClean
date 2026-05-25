@@ -28,6 +28,7 @@
 <url><loc>/reference/flor_all.html</loc></url>
 <url><loc>/reference/get_taxonomy.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/knit_clean.html</loc></url>
 <url><loc>/reference/luclean.html</loc></url>
 <url><loc>/reference/lurank.html</loc></url>
 <url><loc>/reference/make_attribute.html</loc></url>
@@ -46,7 +47,6 @@
 <url><loc>/reference/pipe.html</loc></url>
 <url><loc>/reference/rec_vis_sit_tax.html</loc></url>
 <url><loc>/reference/reduce_geo_rel.html</loc></url>
-<url><loc>/reference/report_clean.html</loc></url>
 <url><loc>/reference/rjack.html</loc></url>
 <url><loc>/reference/taxonomy_overrides.html</loc></url>
 <url><loc>/reference/try_name_via_gbif.html</loc></url>

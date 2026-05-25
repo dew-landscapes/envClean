@@ -7,15 +7,22 @@
 knit_clean(clean_summary, heading_level = 3)
 }
 \arguments{
-\item{clean_summary}{Tibble containing names of clean process outputs (e.g. clean_start, bio_bin,
-bio_clean, etc), As output from envTargets::summarise_store_object}
+\item{clean_summary}{Tibble containing names of clean process outputs (e.g.
+clean_start, bio_bin, bio_clean, etc), As output from
+\code{envTargets::summarise_store_object()}}
 
-\item{heading_level}{What level of subheading to set the output sections. E.g. default 2 will use
-"##" to separate sections}
+\item{heading_level}{What level of subheading to set the output sections.
+e.g. default 3 will result in "###" heading level at the start of each clean
+Rmd}
+}
+\value{
+as for \code{knitr::knit_child()}
 }
 \description{
 Use with knitr chunk option \code{results="asis"}.
-Note: some files include named R objects to output the currently-used settings, and the knit will
-error if these are missing. For example, the 'core' clean files require \code{scale} to describe
-extent, and  \code{settings_clean} for the fbd_dist setting. Set these in the report environment before using \code{report_clean}.
+Note: some files include named R objects to output the currently-used
+settings, and the knit will error if these are missing. For example, the
+'core' clean files require the list \code{settings} with elements \code{extent} and
+\code{grain}, and  \code{settings_clean} for the fbd_dist setting. Set these in the
+report environment before using \code{report_clean}.
 }
