@@ -16,12 +16,15 @@
 knit_clean <- function(clean_summary,
                          heading_level = 3) {
 
-  text <- for(file in clean_summary$rmd) {
+  text <- NULL
 
-    child <- knitr::knit_child(
-      fs::path(system.file("rmd", package = "envClean"), file),
-      quiet = TRUE
-    )
+  for(file in clean_summary$rmd) {
+
+    text <- c(text
+              , knitr::knit_child(fs::path(system.file("rmd", package = "envClean"), file)
+                                  , quiet = TRUE
+                                  )
+              )
 
   }
 
