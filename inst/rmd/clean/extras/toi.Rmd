@@ -1,4 +1,4 @@
-#### Taxa of interest
+headingtextheadingtextheadingtextheadingtext Taxa of interest
 
 Only records specified 'taxa of interest' were used (Table \@ref(tab:toiTa)).
 

@@ -1,4 +1,4 @@
-#### Remove vagrant records
+headingtextheadingtextheadingtextheadingtext Remove vagrant records
 
 Any record of a taxa occurring in an area identified for that taxa as being vagrant was filtered. Areas identifying vagrant status for taxa were taken from:
 

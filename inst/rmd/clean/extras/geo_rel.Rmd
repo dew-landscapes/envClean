@@ -1,4 +1,4 @@
-### Spatial reliability
+headingtextheadingtextheadingtext Spatial reliability
 
 Any record with a spatial reliability greater than `r settings_clean$max_geo_rel` metres. 
 
@@ -9,6 +9,6 @@ In preparing for the analysis of South Australian ecosystems, spatial areas that
 * relevant satellite data
 * and, in some cases, the original mud-map from the survey
 
-These relocated records had their [BDBSA](#bdbsa) location and spatial reliability adjusted so that they passed the spatial reliability filtering.
+These relocated records had their [BDBSA](headingtextbdbsa) location and spatial reliability adjusted so that they passed the spatial reliability filtering.
 
 <br>

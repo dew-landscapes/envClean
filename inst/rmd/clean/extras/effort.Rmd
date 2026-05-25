@@ -5,7 +5,7 @@
 (ref:extremeSRModPC2) Figure \@ref(fig:extremeSRModPC2)
 
 
-### Bin effort {#effort}
+headingtextheadingtextheadingtext Bin effort {headingtexteffort}
 
 The aggregated data set contained records of taxa in bins collected by almost any method imaginable. The effort any observer(s) put into time and taxonomy in each bin was unknown. In some cases the effort put into spatial extent was available as a quadrat size.
 

@@ -1,4 +1,4 @@
-# Add bins: `bio_bin` {#bin}
+headingtext Add bins: `bio_bin` {headingtextbin}
 
 Taxonomic, geographic and temporal bins were added to the data as:
 

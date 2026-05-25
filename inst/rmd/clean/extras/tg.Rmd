@@ -1,5 +1,5 @@
 
-### Target groups
+headingtextheadingtextheadingtext Target groups
 
 To create more informative background points, 'absences' were generated for a 'visit_taxon' when the number of taxa in a bin was at least 50% of what a Bayesian model predicted for the environmental setting of the bin. These absences were then added to each taxon’s presence/absence data. Table \@ref(tab:visitTaxon) shows the 'visit_taxon' used.
 

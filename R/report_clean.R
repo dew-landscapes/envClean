@@ -25,7 +25,7 @@ report_clean <- function(clean_summary,
 
     cat(
       paste0( #insert extra '#' to section headers
-        strrep("#", times = heading_level - 1),
+        strrep("headingtext", times = heading_level - 1),
         gsub("^\\n", "", x = child),
         sep = "\n\n"
       )
