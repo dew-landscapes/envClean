@@ -28,17 +28,12 @@ knit_clean <- function(clean_summary,
 
   }
 
-  # Creates the replacement string: "\\1###"
   rep_str <- paste0("\\1", strrep("#", heading_level))
 
-  text <- gsub("(#+)", rep_str, text)
-  # Output: "Count: ####, #####, or ######"
+  text <- gsub("(?<!\\()#", rep_str, text, perl = TRUE)
 
-  cat(
-    paste0(text
-           , gsub("^\\n", "", x = child)
-           , sep = "\n\n"
-           )
-    )
+  cat(text
+      , sep = "\n\n"
+      )
 
 }
