@@ -9,12 +9,19 @@
 #'   bio_clean, etc), As output from envTargets::summarise_store_object
 #' @param heading_level What level of subheading to set the output sections. E.g. default 2 will use
 #'   "##" to separate sections
+#' @param scale List with elements `extent` and `grain` as expected by many of
+#' the clean Rmd files. If `NULL` (default) an attempt will be made to generate
+#' `scale` via `envFunc::extract_scale(element = basename(here::here()))`
 #'
 #' @returns
 #' @export
 #'
 knit_clean <- function(clean_summary,
-                         heading_level = 3) {
+                         heading_level = 3
+                       , scale = NULL
+                       ) {
+
+  if(is.null(scale)) scale <- envFunc::extract_scale(element = basename(here::here()))
 
   text <- NULL
 
