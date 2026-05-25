@@ -16,22 +16,26 @@
 knit_clean <- function(clean_summary,
                          heading_level = 3) {
 
-  for(file in clean_summary$rmd) {
+  text <- for(file in clean_summary$rmd) {
 
     child <- knitr::knit_child(
       fs::path(system.file("rmd", package = "envClean"), file),
       quiet = TRUE
     )
 
-    child <- gsub("headingtext", "#", child)
-
-    cat(
-      paste0(
-        gsub("^\\n", "", x = child),
-        sep = "\n\n"
-      )
-    )
-
   }
+
+  # Creates the replacement string: "\\1###"
+  rep_str <- paste0("\\1", strrep("#", heading_level))
+
+  text <- gsub("(#+)", rep_str, text)
+  # Output: "Count: ####, #####, or ######"
+
+  cat(
+    paste0(text
+           , gsub("^\\n", "", x = child)
+           , sep = "\n\n"
+           )
+    )
 
 }
