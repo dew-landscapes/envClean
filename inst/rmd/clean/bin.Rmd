@@ -3,7 +3,7 @@
 
 ## Geographic bins
 
-Spatial bins were defined using `r scale$grain$grain_x` m raster cells. Cell latitude and longitude for each record was added using the function `add_raster_cell` from the `envRaster` package `r cite_package("envRaster")` (which relies on various functions of the `terra` package `r cite_package("terra")`). Records within each cell had their coordinates reassigned to the centroid coordinates.
+Spatial bins were defined using `r settings$grain$grain_x` m raster cells. Cell latitude and longitude for each record was added using the function `add_raster_cell` from the `envRaster` package `r cite_package("envRaster")` (which relies on various functions of the `terra` package `r cite_package("terra")`). Records within each cell had their coordinates reassigned to the centroid coordinates.
 
 ## Temporal bins
 
@@ -11,7 +11,7 @@ Temporal bins were the `r bin[length(bin)]` in which a record was taken.
 
 ## Taxonomic bins {#taxonomy}
 
-Taxonomic bins were `r scale$grain$taxonomic` taxonomic level (or higher). These bins were added using the `make_taxonomy` function from the `envClean` package `r cite_package("envClean")`.
+Taxonomic bins were `r settings$grain$taxonomic` taxonomic level (or higher). These bins were added using the `make_taxonomy` function from the `envClean` package `r cite_package("envClean")`.
 
 Taxa were queried against the taxonomic backbone used by the Atlas of Living Australia (ALA; https://support.ala.org.au/support/solutions/articles/6000261677-taxonomy-in-the-ala) using the `make_taxonomy` function in the `envClean` package `r cite_package("envClean")`, which uses the ALA's `galah` package `r cite_package("galah")`. This taxonomic backbone is built from a number of taxonomy authorities such as the Australian Plant Census and Australian Faunal Directory. The resulting taxonomy lookup table was joined to the occurrence data to align the various taxonomies used by original data sources.
 
@@ -23,7 +23,7 @@ Prior to querying against ALA the following cleaning steps were undertaken:
     -   `r paste0(formals(make_taxonomy)$remove_strings, collapse = "\n    + ")`
 -   any text including and after ' x ' or ' X ', in a taxon name, was removed from the name (thus any hybrids were most likely assigned to the first taxon recorded within the hybrid)
 
-The taxa used in analyses were always resolved to `r scale$grain$taxonomic` level (taxa recorded at taxonomic level below `r scale$grain$taxonomic` were binned at `r scale$grain$taxonomic` level (e.g. with species level binning *Acanthiza iredalei rosinae* would be binned to *Acanthiza iredalei*). Any record that could not be matched to a bin at `r scale$grain$taxonomic` level was removed. 
+The taxa used in analyses were always resolved to `r settings$grain$taxonomic` level (taxa recorded at taxonomic level below `r settings$grain$taxonomic` were binned at `r settings$grain$taxonomic` level (e.g. with species level binning *Acanthiza iredalei rosinae* would be binned to *Acanthiza iredalei*). Any record that could not be matched to a bin at `r settings$grain$taxonomic` level was removed. 
 
 Occasionally duplicate accepted taxon names exist within the ALA taxonomy for the same entity due to taxonomic updates that are in progress, unresolved taxonomies, or recording errors (e.g. recording an international related species instead of the Australian species). Where duplicate accepted taxon names were identified, these were manually combined to the most recently accepted binomial.  For example, the Brolga is accepted in ALA as both *Grus rubicunda* and *Antigone rubicunda*. Both genera have been used in the past, and the original but then superseded *Antigone* has recently been revived following DNA analysis. To avoid Brolga records being separated and treated as two separate species, when in reality all records come from only one species, a manual fix was added to assign both binomials to the more recently-accepted *Antigone rubicunda*. When issues like the Brolga were identified, manual fixes were applied.
 
