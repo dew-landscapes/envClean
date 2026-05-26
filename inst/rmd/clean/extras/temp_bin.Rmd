@@ -1,0 +1,3 @@
+# Temporal bin
+
+The `r envTargets::extract_temporal_grain(settings$grain)` component of the date for each record became a temporal bin.

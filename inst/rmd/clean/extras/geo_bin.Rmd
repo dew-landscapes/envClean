@@ -1,5 +1,0 @@
-# Spatial bin
-
-Spatial bins were defined using `r settings$res`-m raster cells. A raster covering the geographic range of the data was created, and the latitude and longitude coordinates at centroid of each cell became a cell ID, using the function `add_raster_cell` from the `envRaster` package `r cite_package("envRaster")` (which calls the `cellFromXY` function in the `terra` package `r cite_package("terra")`). Records within each cell had their coordinates reassigned to these centroid coordinates. Any records that were not within a raster cell were removed.
-
-`r paste0(clean_text$text[i], " ", clean_text$context_text[i])`
