@@ -9,7 +9,7 @@ kept <- bio_prop |>
 
 min_per_kept <- min(kept$per)
 
-key_structural_present <- sort(unique(settings_clean$keep_taxa[settings_clean$keep_taxa[[settings$grain$taxonomic]] %in% bio_prop$taxa]))
+key_structural_present <- sort(unique(settings_clean$keep_taxa[[settings$grain$taxonomic]][settings_clean$keep_taxa[[settings$grain$taxonomic]] %in% bio_prop$taxa]))
 
 ```
 
@@ -22,9 +22,9 @@ Filtering was done with the `filter_prop` function in the `envClean` package `r 
 ```{r sitePerFilterTaxa}
 
 kept %>%
-  dplyr::filter(taxa %in% settings_clean$keep_taxa) |>
+  dplyr::filter(taxa %in% settings_clean$keep_taxa[[settings$grain$taxonomic]] | per == min_per_kept & taxa != "na") |>
   dplyr::select(Taxa = taxa,  bins = n, `_Percentage_ of sites` = per) |>
-  knitr::kable(caption = "Number and percentage of bins at which several key taxa were recorded")
+  envReport::env_kable_extra(caption = "Number and percentage of bins at which several key taxa were recorded")
 
 ```
 
