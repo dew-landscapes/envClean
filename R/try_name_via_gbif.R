@@ -26,6 +26,8 @@ try_name_via_gbif <- function(name
   # Direct galah::search_taxa on any returned gbif scientific name
   if(all(qry$matchType != "NONE", qry$scientificName != name)) {
 
+    library(galah)
+
     result1 <- galah::search_taxa(qry$scientificName)
 
     if(all(c("scientific_name", "kingdom") %in% names(result1))) {
@@ -77,6 +79,8 @@ try_name_via_gbif <- function(name
         gsub("\\,.*", "", x = _)
 
       if(length(result2)) {
+
+        library(galah)
 
         result2 <- galah::search_taxa(result2)
 
