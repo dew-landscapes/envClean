@@ -136,7 +136,7 @@ make_unmatched_overrides <- function(df
                                      , .progress = TRUE
       )
       ) |>
-      tidyr::unnest(cols = c(res))
+      tidyr::unnest(cols = c(res), keep_empty = TRUE)
 
     res1 <- unmatched_via_gbif
 
@@ -196,12 +196,14 @@ make_unmatched_overrides <- function(df
     lurank <- envClean::lurank
 
     mget(ls(pattern = "^res\\d$")) %>%
-      purrr::map(\(x) x |> dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE))) |>
+      purrr::map(\(x) x %>% {if("rank" %in% names(.)) dplyr::mutate(., rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE))
+        else dplyr::mutate(., rank = NA)}) |>
       dplyr::bind_rows() %>%
       {if(file.exists(results_file)) dplyr::bind_rows(., rio::import(results_file) |>
                                                         dplyr::mutate(rank = factor(rank, levels = levels(lurank$rank), ordered = TRUE))
                                                         ) else .} |>
       dplyr::full_join(unmatched) |> # brings in taxa that were searched but return no results
+      dplyr::distinct() |>
       rio::export(results_file, format = "parquet")
 
     # altogether ------
