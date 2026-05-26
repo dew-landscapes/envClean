@@ -11,7 +11,7 @@ The aggregated data set contained records of taxa in bins collected by almost an
 
 Given that effort matters when documenting ecology [e.g. @RN2377], in an attempt to remove the most seriously under- and over-sampled bins the following process was implemented via the `make_effort_mod` function in the `envClean` package `r cite_package("envClean")`.
 
-Taxa richness was modelled as a function of `r vec_to_sentence(attr(effort_mod$mod$terms, "term.labels"))`. Data exploration, model and model diagnostics are provided in the [appendix][taxa richness analysis]. The model was then used to predict credible upper and lower bounds for taxa richness within each level of `r vec_to_sentence(attr(effort_mod$mod$terms, "term.labels"))`. Any bin with taxa richness outside those bounds was removed. Lower and upper bounds were set at the `r 100 * settings_clean$extreme_sr_lo` and `r 100 * settings_clean$extreme_sr_hi` percentiles. Bins with a quadrat size were not removed, irrespective of their taxa richness. Table \@ref(tab:effortModTab) and Figure \@ref(fig:srBinPlot) show the results of this analysis for each bin.
+Taxa richness was modelled as a function of `r envFunc::vec_to_sentence(attr(effort_mod$mod$terms, "term.labels"))`. Data exploration, model and model diagnostics are provided in the [appendix][taxa richness analysis]. The model was then used to predict credible upper and lower bounds for taxa richness within each level of `r envFunc::vec_to_sentence(attr(effort_mod$mod$terms, "term.labels"))`. Any bin with taxa richness outside those bounds was removed. Lower and upper bounds were set at the `r 100 * settings_clean$extreme_sr_lo` and `r 100 * settings_clean$extreme_sr_hi` percentiles. Bins with a quadrat size were not removed, irrespective of their taxa richness. Table \@ref(tab:effortModTab) and Figure \@ref(fig:srBinPlot) show the results of this analysis for each bin.
 
 Figure \@ref(fig:extremeSRModPC1) shows the thresholds for groups based only on the __first__ principal component. Note that these are theoretical, as the distribution and thresholds ignore the other principal components used. Figure \@ref(fig:extremeSRModPC2) shows the same information but for the __second__ principal component. Figure \@ref(fig:extremeSRMap) maps where sites with taxa richness too high or too low were removed.
 
@@ -19,9 +19,9 @@ Figure \@ref(fig:extremeSRModPC1) shows the thresholds for groups based only on 
 
 ```{r effortModTab}
 
-knitr::kable(effort_mod$mod_cell_tab
-             , caption = "Tally of bins kept or removed as a result of the combination of taxa richness analysis and quadrat size"
-             )
+env_kable_extra(effort_mod$mod_cell_tab
+                , caption = "Tally of bins kept or removed as a result of the combination of taxa richness analysis and quadrat size"
+                )
 
 ```
 
@@ -35,7 +35,7 @@ effort_mod$mod_cell_plot
 
 <br>
 
-```{r extremeSRModPC1, fig.height = 8, fig.cap = paste0("Taxa richness as a function of the first principal component (PC1), showing the probability (shading) of obtaining a taxa richness at each grouping along PC1 and the thresholds (dotted lines and boxed labels) of taxa richness for removal of that bin. Note that within the analysis, the first ",numbers2words(settings_clean$pca_axes)," pca groups were used (not just the first PC displayed here). The x-axis shows the full range of taxa richness in the original data")}
+```{r extremeSRModPC1, fig.height = 8, fig.cap = paste0("Taxa richness as a function of the first principal component (PC1), showing the probability (shading) of obtaining a taxa richness at each grouping along PC1 and the thresholds (dotted lines and boxed labels) of taxa richness for removal of that bin. Note that within the analysis, the first ",envFunc::numbers2words(settings_clean$pca_axes)," pca groups were used (not just the first PC displayed here). The x-axis shows the full range of taxa richness in the original data")}
 
 p <- ggplot(effort_mod$mod_pred, aes(sr, cut_pc1, fill = 0.5 - abs(0.5 - after_stat(ecdf)))) +
   ggridges::stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
@@ -184,22 +184,17 @@ p +
 
 remove_effort <- effort_mod$mod_cell_result %>%
   dplyr::filter(!keep) %>%
-  dplyr::mutate(Removed = if_else(keep_hi,"Too low","Too high")) %>%
+  dplyr::mutate(Removed = dplyr::if_else(keep_hi,"Too low","Too high")) %>%
   sf::st_as_sf(coords = c("cell_long","cell_lat")
                , crs = 4283
                )
-
-tmap_mode("plot")
 
 tm_shape(extent_sf) +
   tm_borders() +
   tm_shape(remove_effort) +
   tm_dots(fill = "Removed"
           , id = "sr"
-          ) +
-  tm_scalebar()
-
-tmap_mode("view")
+          )
 
 ```
 

@@ -1,0 +1,6 @@
+
+### Bin has too many outlier taxa
+
+Bins with more than `r settings_clean$outliers_thresh` taxa that were local outliers in environmental space were removed.
+
+Taxa with identified as outliers via the `find_outliers` function in the package `envClean` `r cite_package("envClean")`. `find_outliers` is reliant on the `lof()` function in the package `dbscan` `r cite_package("dbscan")` to assess the likelihood of a record of a taxa being an outlier relative to the rest of that taxas distribution against the [environmental data](#envdata).
