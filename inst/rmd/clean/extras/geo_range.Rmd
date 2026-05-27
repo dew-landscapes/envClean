@@ -2,7 +2,9 @@
 
 Records were filtered by removing records that did not fall within an area of interest: `r report_name` (Figure \@ref(fig:geographicRangeFig)).
 
-```{r geographicRangeFig, fig.cap = paste0("Boundary of the area of interest: ", report_name)}
+```{r geographicRangeFig, fig.cap = paste0("Boundary of the area of interest: ", report_full_name)}
+
+extent_sf <- if(exists("extent_sf")) extent_sf else aoi_sf
 
 m <- tm_shape(extent_sf) +
   tm_borders()
