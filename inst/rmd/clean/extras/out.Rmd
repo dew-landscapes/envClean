@@ -1,5 +1,5 @@
 
-### Bin has too many outlier taxa
+# Bin has too many outlier taxa
 
 Bins with more than `r settings_clean$outliers_thresh` taxa that were local outliers in environmental space were removed.
 
