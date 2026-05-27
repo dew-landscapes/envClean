@@ -35,7 +35,7 @@ knit_clean <- function(clean_summary,
 
   rep_str <- paste0("\\1", strrep("#", heading_level - 1))
 
-  text <- gsub("(?<![({])(#+)", rep_str, text, perl = TRUE)
+  text <- gsub("(\n#)", rep_str, text, perl = TRUE)
 
   cat(text
       , sep = "\n\n"
