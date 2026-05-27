@@ -8,6 +8,8 @@
 #'
 #' @param name Character. Taxa name to search.
 #' @param target_rank Character. Level within `envClean::lurank$rank` to target.
+#' @param use_vernacular Logical. Use vernacular name to search ALA backbone?
+#' Use with caution, as vernacular name matching can potentially return completely different taxa.
 #'
 #' @return If no match, NULL. If matched, a tibble ready for input to the
 #' overrides argument of `make_taxonomy()`.
@@ -15,9 +17,10 @@
 #'
 #' @examples
 #' galah::search_taxa("Peziza vesiculosa Bull.: Fr.") # Homonym issue
-#' try_name_via_gbif("Peziza vesiculosa Bull.: Fr.")
+#' try_name_via_gbif("Peziza vesiculosa Bull.: Fr.", target_rank = "species")
 try_name_via_gbif <- function(name
                               , target_rank
+                              , use_vernacular = FALSE
 ) {
 
   qry <- rgbif::name_backbone(name = name)
@@ -60,7 +63,7 @@ try_name_via_gbif <- function(name
 
   # attempt 2 -------
   # Try searching using gbif common name
-  if(all(qry$matchType != "NONE", ! all(c("scientific_name", target_rank) %in% names(result1)))) {
+  if(all(qry$matchType != "NONE", ! all(c("scientific_name", target_rank) %in% names(result1)), use_vernacular)) {
 
     qry <- qry |>
       dplyr::pull(usageKey) |>
