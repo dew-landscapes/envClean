@@ -9,6 +9,8 @@ extent_sf <- if(exists("extent_sf")) extent_sf else aoi_sf
 m <- tm_shape(extent_sf) +
   tm_borders()
 
-tmap::tmap_leaflet(m)
+m <- tmap::tmap_leaflet(m)
+
+m
 
 ```
