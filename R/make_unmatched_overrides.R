@@ -17,6 +17,8 @@
 #' @param target_rank Character. Level within `envClean::lurank$rank` to target
 #' @param hybrids Logical. Create overrides for hybrids (e.g. original names with 'x')?
 #' @param include_unmatched Logical. Create overrides for taxa not matched via gbif using their original names?
+#' @param use_vernacular Logical. Use vernacular name to search ALA backbone?
+#' Use with caution, as vernacular name matching can potentially return completely different taxa.
 #' @param results_file File path to write results of searches. Previous results files are used to
 #' avoid redoing time consuming searches for taxa that are not matched via gbif and not written
 #' to the taxonomy file in make_taxonomy.
@@ -36,6 +38,7 @@ make_unmatched_overrides <- function(df
                                      , target_rank = "species"
                                      , hybrids = FALSE
                                      , include_unmatched = TRUE
+                                     , use_vernacular = FALSE
                                      , results_file = tempfile(fileext = ".parquet")
                                      , remove_taxa = c("bold:"
                                                        , "unverified"
@@ -132,6 +135,7 @@ make_unmatched_overrides <- function(df
       dplyr::mutate(res = purrr::map(!!rlang::ensym(taxa_col)
                                      , \(x) try_name_via_gbif(x
                                                               , target_rank = target_rank
+                                                              , use_vernacular = use_vernacular
                                      )
                                      , .progress = TRUE
       )
