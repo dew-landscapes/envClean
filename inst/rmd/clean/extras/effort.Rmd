@@ -194,8 +194,7 @@ m <- tm_shape(remove_effort) +
           , id = "sr"
           ) +
   tm_shape(extent_sf) +
-  tm_borders() +
-  
+  tm_borders()
 
 m <- tmap::tmap_leaflet(m)
 
