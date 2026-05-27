@@ -189,12 +189,14 @@ remove_effort <- effort_mod$mod_cell_result %>%
                , crs = 4283
                )
 
-tm_shape(extent_sf) +
+m <- tm_shape(extent_sf) +
   tm_borders() +
   tm_shape(remove_effort) +
   tm_dots(fill = "Removed"
           , id = "sr"
           )
+
+tmap::tmap_leaflet(m)
 
 ```
 
