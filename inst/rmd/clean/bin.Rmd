@@ -27,27 +27,23 @@ See Appendix [Manual fixes & overrides](#overrides) for a list of the fixes appl
 
 ```{r removes}
 
-remove_taxa <- paste0("<code>"
-                      , tail(gsub("^c\\("
-                                  , ""
-                                  , formals(make_taxonomy)$remove_taxa
-                                  )
-                             , -1
-                             )
-                      ,"</code>"
-                      ) |>
+remove_taxa <- tail(gsub("^c\\("
+                         , ""
+                         , formals(make_taxonomy)$remove_taxa
+                         )
+                    , -1
+                    ) |>
+  gsub("\\\\", "\\\\\\\\", x = _) |>
   tibble::enframe(name = NULL, value = "value") |>
   dplyr::mutate(action = "remove row")
 
-remove_strings <- paste0("<code>"
-                         , tail(gsub("^c\\("
-                                     , ""
-                                     , formals(make_taxonomy)$remove_strings
-                                     )
-                                , -1
-                                )
-                         ,"</code>"
-                         ) |>
+remove_strings <- tail(gsub("^c\\("
+                            , ""
+                            , formals(make_taxonomy)$remove_strings
+                            )
+                       , -1
+                       ) |>
+  gsub("\\\\", "\\\\\\\\", x = _) |>
   tibble::enframe(name = NULL, value = "value") |>
   dplyr::mutate(action = "remove text")
 
