@@ -1,4 +1,4 @@
-# Spatial attributes of records: `bio_spt_att`
+# Spatial attributes of records: `bio_spt_att` {#sptatt}
 
 Where available, records of a taxa were flagged as:
 
@@ -6,4 +6,4 @@ Where available, records of a taxa were flagged as:
 * 'indigenous' - if the record was in a region where the taxa is considered indigenous (or, alternatively, the record was in a region where the taxa is known to be introduced and is now naturalised)
 * 'haven' - if the record was within a haven. Havens were defined as areas designed to shield endangered species from key threats (usually introduced predators), especially in fenced sanctuaries (e.g. Arid Recovery) or on islands (e.g. Thistle Island)
 
-Attributes were spatially joined to records by matching their locations to polygon vector data (see the **envVec** project) attributed per taxa.
+Attributes were spatially joined to records by matching their locations to polygon vector data (see the `envVec` project) attributed per taxa.

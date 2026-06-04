@@ -1,10 +1,5 @@
 # Target groups
 
-To create more informative background points, 'absences' were generated for a 'visit_taxon' when the number of taxa in a bin was at least 50% of what a Bayesian model predicted for the environmental setting of the bin. These absences were then added to each taxon’s presence/absence data. Table \@ref(tab:visitTaxon) shows the 'visit_taxon' used.
+To create more informative [background points](#bgpoints), 'absences' were generated for a 'visit_taxon' when the richness of taxa in a bin reached at least 50% of the richness predicted for: the environmental setting of the bin; and the `visit_taxon`. These implied absences were then added to each taxa’s presence/absence data. Table \@ref(tab:visitTaxon) shows the `visit_taxon` used.
 
-```{r visitTaxon}
-
-
-
-
-```
+This step in the cleaning simply flagged if a visit had a list-length long enough to imply good survey effort (and therefore absence could be implied for taxa in the same `visit_taxon` but not recorded here).

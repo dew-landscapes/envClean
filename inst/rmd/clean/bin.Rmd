@@ -1,29 +1,25 @@
 
-# Assign geographic, temporal and taxonomic bins {#bin}
+# Assign geographic, temporal and taxonomic bins: `bio_bin` {#bin}
 
 The use of bins here directly follows the [grain](#grain).
 
 ## Geographic bins
 
-Spatial bins were defined using `r settings$grain$grain_x` m raster cells. Cell latitude and longitude for each record was added using the function `add_raster_cell` from the `envRaster` package `r cite_package("envRaster")` (which relies on various functions of the `terra` package `r cite_package("terra")`). Records within each cell had their coordinates reassigned to the centroid coordinates.
+Spatial bins were defined using `r settings$grain$grain_x` m raster cells. Cell latitude and longitude for each record was added using the function `add_raster_bin` from the `envRaster` package `r cite_package("envRaster")`, which relies heavily on functions of the `terra` package `r cite_package("terra")`. Records within each cell had their coordinates reassigned to the centroid coordinates.
 
 ## Temporal bins
 
-Temporal bins were the `r bin[length(bin)]` in which a record was taken.
+Temporal bins were the `r envTargets::extract_temporal_grain(settings = settings$grain)` in which a record was taken.
 
 ## Taxonomic bins {#taxonomy}
 
-Taxonomic bins were `r settings$grain$taxonomic` taxonomic level (or higher). These bins were added using the `make_taxonomy` function from the `envClean` package `r cite_package("envClean")`.
+Taxonomic bins were `r settings$grain$taxonomic` taxonomic level (or higher). Taxa recorded at taxonomic level below `r settings$grain$taxonomic` were binned at `r settings$grain$taxonomic` level (e.g. *Acanthiza iredalei rosinae* would be binned to, say: *Acanthiza iredalei* with species level binning; *Acanthiza* with genus level binning; or Acanthizidae with family level binning). These bins were added by joining to the results of feeding any original name encountered in the data to the `make_taxonomy` function from the `envClean` package `r cite_package("envClean")`. This function queried against the [backbone taxonomy](https://support.ala.org.au/support/solutions/articles/6000261677-taxonomy-in-the-ala) used by the Atlas of Living Australia ([ALA](https://www.ala.org.au/)) via the ALA's `galah` package `r cite_package("galah")`. The backbone taxonomy is built from a number of taxonomy authorities such as the Australian Plant Census ([APC](https://biodiversity.org.au/)) and Australian Faunal Directory ([AFD](https://biodiversity.org.au/afd/home)). This process enabled aligning all taxa encountered in the original data sources to a single 'best guess' taxa to use at any specified taxonomic level.
 
-Taxa were queried against the [backbone taxonomy](https://support.ala.org.au/support/solutions/articles/6000261677-taxonomy-in-the-ala) used by the Atlas of Living Australia ([ALA](https://www.ala.org.au/)) using the `make_taxonomy` function in the `envClean` package `r cite_package("envClean")`, which itself relies on the ALA's `galah` package `r cite_package("galah")`. The backbone taxonomy is built from a number of taxonomy authorities such as the Australian Plant Census ([APC](https://biodiversity.org.au/)) and Australian Faunal Directory ([AFD](https://biodiversity.org.au/afd/home)). The resulting taxonomy lookup table was joined to the occurrence data to align the various taxonomies used by original data sources.
+In some cases, the original names encountered in the data were adjusted before being passed to `make_taxonomy`. Table \@ref(tab:removes) shows any cleaning steps taken prior to querying against ALA. Any quotes (`'` or `"`) in names were also removed.
 
-Table \@ref(tab:removes) shows any cleaning steps taken prior to querying against ALA. Any quotes (`'` or `"`) in names were also removed.
+Occasionally duplicate accepted taxon names exist within the ALA taxonomy for the same entity due to taxonomic updates that are in progress, unresolved taxonomies, or recording errors (e.g. recording an international related species instead of the Australian species). Where duplicate accepted taxon names were identified, these were manually combined to the most recently accepted binomial.  For example, the Brolga is accepted in ALA as both *Grus rubicunda* and *Antigone rubicunda*. Both genera have been used in the past, and the original but then superseded *Antigone* has recently been revived following DNA analysis. To avoid Brolga records being separated and treated as two separate species, when in reality all records come from only one species, a manual fix was added to assign both binomials to the more recently-accepted *Antigone rubicunda*.
 
-The taxa used in analyses were always resolved to `r settings$grain$taxonomic` level (taxa recorded at taxonomic level below `r settings$grain$taxonomic` were binned at `r settings$grain$taxonomic` level (e.g. with species level binning *Acanthiza iredalei rosinae* would be binned to *Acanthiza iredalei*). Any record that could not be matched to a bin at `r settings$grain$taxonomic` level was removed. 
-
-Occasionally duplicate accepted taxon names exist within the ALA taxonomy for the same entity due to taxonomic updates that are in progress, unresolved taxonomies, or recording errors (e.g. recording an international related species instead of the Australian species). Where duplicate accepted taxon names were identified, these were manually combined to the most recently accepted binomial.  For example, the Brolga is accepted in ALA as both *Grus rubicunda* and *Antigone rubicunda*. Both genera have been used in the past, and the original but then superseded *Antigone* has recently been revived following DNA analysis. To avoid Brolga records being separated and treated as two separate species, when in reality all records come from only one species, a manual fix was added to assign both binomials to the more recently-accepted *Antigone rubicunda*. When issues like the Brolga were identified, manual fixes were applied.
-
-See Appendix [Manual fixes & overrides](#overrides) for a list of the fixes applied.
+Occasionally other issues were identified with taxonomy and other manual changes were applied. See Appendix [Taxonomy changes](#overrides) for a table listing any changes applied to taxonomy.
 
 ```{r removes}
 
