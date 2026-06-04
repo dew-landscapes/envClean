@@ -101,14 +101,10 @@ be an ordered factor.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Acacia lanigera"</span>, <span class="st">"Acacia lanigera var. gracilipes"</span>, <span class="st">"Spyridium glabrisepalum"</span>, <span class="st">"Spyridium eriocephalum var. glabrisepalum"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">taxonomy_result</span> <span class="op">&lt;-</span> <span class="fu">galah</span><span class="fu">::</span><span class="fu"><a href="https://galah.ala.org.au/R/reference/search_all.html" class="external-link">search_taxa</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_pour_package(.pkg):</span> No data stored by `potions`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> try using `brew()</span>
 <span class="r-in"><span><span class="fu">make_subspecies_col</span><span class="op">(</span><span class="va">taxonomy_result</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">search_term</span>, <span class="va">species</span>, <span class="va">subspecies</span>, <span class="va">rank</span>, <span class="va">rank_adj</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   search_term                               species    subspecies rank  rank_adj</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Acacia lanigera                           Acacia la… <span style="color: #BB0000;">NA</span>         spec… species </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Acacia lanigera var. gracilipes           Acacia la… Acacia la… vari… subspec…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Spyridium glabrisepalum                   Spyridium… Spyridium… vari… subspec…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Spyridium eriocephalum var. glabrisepalum Spyridium… Spyridium… vari… subspec…</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'taxonomy_result' not found</span>
 </code></pre></div>
     </div>
   </div>
