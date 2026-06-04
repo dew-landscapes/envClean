@@ -5,7 +5,7 @@ The use of bins here directly follows the [grain](#grain).
 
 ## Geographic bins
 
-Spatial bins were defined using `r settings$grain$grain_x` m raster cells. Cell latitude and longitude for each record was added using the function `add_raster_bin` from the `envRaster` package `r cite_package("envRaster")`, which relies heavily on functions of the `terra` package `r cite_package("terra")`. Records within each cell had their coordinates reassigned to the centroid coordinates.
+Spatial bins were defined using `r settings$grain$res_x` m raster cells. Cell latitude and longitude for each record was added using the function `add_raster_bin` from the `envRaster` package `r cite_package("envRaster")`, which relies heavily on functions of the `terra` package `r cite_package("terra")`. Records within each cell had their coordinates reassigned to the centroid coordinates.
 
 ## Temporal bins
 
