@@ -1,0 +1,3 @@
+# BDBSA taxa: `bio_bdbsa_taxa`
+
+If a taxa was not recognised by the Biological Databases of South Australia ([BDBSA](https://www.environment.sa.gov.au/topics/science/information-and-data/biological-databases-of-south-australia)) (after [taxonomic alignment](#taxonomy)) all records of that taxa were filtered.
