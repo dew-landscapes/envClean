@@ -4,12 +4,15 @@
 \alias{try_name_via_gbif}
 \title{Attempt to find an unmatched scientific name using GBIF Backbone Taxonomy}
 \usage{
-try_name_via_gbif(name, target_rank)
+try_name_via_gbif(name, target_rank, use_vernacular = FALSE)
 }
 \arguments{
 \item{name}{Character. Taxa name to search.}
 
 \item{target_rank}{Character. Level within \code{envClean::lurank$rank} to target.}
+
+\item{use_vernacular}{Logical. Use vernacular name to search ALA backbone?
+Use with caution, as vernacular name matching can potentially return completely different taxa.}
 }
 \value{
 If no match, NULL. If matched, a tibble ready for input to the
@@ -24,5 +27,5 @@ name from any successful match is then queried against
 }
 \examples{
 galah::search_taxa("Peziza vesiculosa Bull.: Fr.") # Homonym issue
-try_name_via_gbif("Peziza vesiculosa Bull.: Fr.")
+try_name_via_gbif("Peziza vesiculosa Bull.: Fr.", target_rank = "species")
 }

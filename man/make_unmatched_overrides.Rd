@@ -11,6 +11,7 @@ make_unmatched_overrides(
   target_rank = "species",
   hybrids = FALSE,
   include_unmatched = TRUE,
+  use_vernacular = FALSE,
   results_file = tempfile(fileext = ".parquet"),
   remove_taxa = c("bold:", "unverified", "undetermined", "unidentified", "annual herb",
     "annual grass", "incertae sedis", "\\\\?", "another\\\\s", "not naturalised in sa",
@@ -37,6 +38,9 @@ entities for which a match is desired.}
 \item{hybrids}{Logical. Create overrides for hybrids (e.g. original names with 'x')?}
 
 \item{include_unmatched}{Logical. Create overrides for taxa not matched via gbif using their original names?}
+
+\item{use_vernacular}{Logical. Use vernacular name to search ALA backbone?
+Use with caution, as vernacular name matching can potentially return completely different taxa.}
 
 \item{results_file}{File path to write results of searches. Previous results files are used to
 avoid redoing time consuming searches for taxa that are not matched via gbif and not written
