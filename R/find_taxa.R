@@ -43,22 +43,16 @@ find_taxa <- function(taxa_to_find
     dplyr::mutate(obj = purrr::map(name
                                    , get
                                    )
-                  , has_stamp = purrr::map_lgl(obj
-                                               , ~"ctime" %in% names(attributes(.))
-                                               )
+                  , is_df = purrr::map_lgl(obj
+                                           , \(x) "data.frame" %in% class(x)
+                                           )
                   ) %>%
-    dplyr::filter(has_stamp) %>%
+    dplyr::filter(is_df) %>%
     dplyr::filter(purrr::map_lgl(obj, \(x) ! "sf" %in% class(x))) %>%
     dplyr::mutate(nrow = purrr::map_dbl(obj
                                         , nrow
                                         )
                   ) %>%
-    dplyr::mutate(ctime = purrr::map(obj
-                                     , attr
-                                     , "ctime"
-                                     )
-                  ) %>%
-    tidyr::unnest(cols = c(ctime)) %>%
     dplyr::mutate(founds = purrr::map(obj
                                       , \(x) x %>%
                                         dplyr::select(tidyselect::any_of(taxa_cols)) %>%
@@ -74,6 +68,6 @@ find_taxa <- function(taxa_to_find
                                              envFunc::vec_to_sentence()
                                            )
                   ) %>%
-    dplyr::arrange(desc(nrow), ctime)
+    dplyr::arrange(desc(nrow))
 
 }
