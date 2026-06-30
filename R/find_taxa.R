@@ -56,7 +56,7 @@ find_taxa <- function(taxa_to_find
       dplyr::select(name) |>
       dplyr::mutate(obj = purrr::map(name
                                      , \(x) arrow::open_dataset(fs::path(store, "objects", x)) |>
-                                       dplyr::select(tidyselect::any_of(c(taxa_cols, bin))) |>
+                                       dplyr::select(tidyselect::any_of(c(taxa_cols, context))) |>
                                        dplyr::collect()
                                      )
                     )
