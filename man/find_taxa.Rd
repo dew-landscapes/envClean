@@ -7,8 +7,10 @@
 find_taxa(
   taxa_to_find,
   taxa_cols = c("original_name", "taxa"),
+  context = NULL,
   lutaxa,
-  filt_df_prefix = "flor_"
+  filt_df_prefix = "^flor_|^bio_",
+  store = NULL
 )
 }
 \arguments{
@@ -22,11 +24,14 @@ say, \code{taxonomy$species$lutaxa} as a result of \code{make_taxonomy()}.}
 
 \item{filt_df_prefix}{Character. Prefix used in each of the data frames
 created at each step in the filtering process.}
+
+\item{store}{Character. Path to a targets store. If available, use this as an
+alternative to ensuring the objects to be found using \code{filt_df_prefix} are in
+the global environment. Other than finding by \code{filt_df_prefix} objects in the
+store are also filtered by \code{type == "stem"} and \code{format == "parquet"}}
 }
 \description{
-\code{find_taxa} does not work hierarchically. For example \emph{Eucalyptus} will only
-match genus level records, not species records, such as
-\emph{Eucalyptus leucoxylon}.
+Find how taxa changed through the cleaning/filtering/tidying process
 }
 \examples{
 
