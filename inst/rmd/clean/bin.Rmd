@@ -9,7 +9,7 @@ Spatial bins were defined using `r settings$grain$res_x` m raster cells. Cell la
 
 ## Temporal bins
 
-Temporal bins were the `r envTargets::extract_temporal_grain(settings = settings$grain)` in which a record was taken.
+Temporal bins were the `r envFunc::extract_temporal_grain(settings = settings$grain)` in which a record was taken.
 
 ## Taxonomic bins {#taxonomy}
 
