@@ -1,3 +1,3 @@
 # Geographic density
 
-Sites were thinned so there was not more than one site per ha.
+Sites were thinned using the `thin_points` function from the `GeoThinneR` package `r cite_package("GeoThinneR")`. The `distance` method was used in `thin_points` with a minimum distance of `settings_clean$thin_dist * 1000` m.
