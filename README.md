@@ -69,6 +69,7 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::aoi` | sf and data.frame | Simple feature to define a geographic area of interest. |
 | `envClean::bin_date()` | function | Add temporal bins to a dataframe |
 | `envClean::bin_geo_rel()` | function | Add a spatial reliability column, binned to contexts |
+| `envClean::bin_method()` | function | Add standardised code{method} column |
 | `envClean::bin_taxa()` | function | Add code{taxa} column |
 | `envClean::clean_quotes()` | function | Remove any ’ or ” from specified columns in a dataframe |
 | `envClean::cleaning_summary()` | function | Describte change in taxa, records, visits and sites between cleaning steps |
@@ -97,6 +98,7 @@ The following functions and data sets are provided in `envClean`. See
 | `envClean::make_gbif_taxonomy()` | function | Make taxonomy lookups |
 | `envClean::make_ind()` | function | Make indigenous status lookup |
 | `envClean::make_lifeform()` | function | Get unique lifeform across taxa, perhaps including further context |
+| `envClean::make_methods_lu()` | function | Make standardised collection methods lookup |
 | `envClean::make_subspecies_col()` | function | Make a subspecies column |
 | `envClean::make_taxonomy()` | function | Get taxonomy via code{galah::taxa_search()} |
 | `envClean::make_unmatched_overrides()` | function | Attempt to find a taxa for names with no match in code{galah::search_taxa()} |
