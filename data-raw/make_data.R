@@ -4,7 +4,7 @@
   make_new_flor <- FALSE
 
   codes <- grep("make_data"
-                , list.files(path = "data-raw",pattern = "\\.R$", full.names = TRUE)
+                , list.files(path = "data-raw", pattern = "\\.R$", full.names = TRUE)
                 , value = TRUE
                 , invert = TRUE
                 )
@@ -13,7 +13,7 @@
 
   lapply(codes,source)
 
-  datas <- ls(pattern = "lu|flor_all|aoi|overrides$")
+  datas <- ls(pattern = "lu|flor_all|aoi|overrides$|key")
 
   do.call(save, c(lapply(datas,as.name), file = "data/data.rda"))
 
