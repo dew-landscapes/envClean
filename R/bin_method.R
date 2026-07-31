@@ -26,7 +26,7 @@ bin_method <- function(df
     ) |>
     dplyr::select(-method) |>
     dplyr::rename(method = method_gp) |>
-    dplyr::mutate(method = dplyr::if_else(is.na(method), unassigned))
+    dplyr::mutate(method = dplyr::if_else(is.na(method), unassigned, method))
 
   return(res)
 
