@@ -28,7 +28,7 @@ methods_key <-
                   , "hair tube", c("hair tube"), 0
                   , "spotlighting", c("spotlight"), 0
                   , "aerial survey", c("aerial.*(survey|obs|transect)", "-air:", "helicopter"), 1 # ranked over general structured survey
-                  , "noose", c("noose"), 0
+                  , "noose", c("noose"), 1 # ranked over hook & line (as noose often with fishing line)
                   , "tile", c("tile"), 0
                   , "fyke net", c("fyke"), 0
                   , "seine net", c("seine"), 0
@@ -70,9 +70,9 @@ methods_key <-
                   , "core", c("core"), 1 # ranked over hand
                   , "cathedral net", c("cathedral net"), 0
                   , "pan trap", c("pan trap"), 0
-                  , "malaise trap", c("malaise"), 1 # ranked over general flight intercept trap
-                  , "flight intercept trap", c("flight intercept"), 0
-                  , "micro pitfall", c("flight intercept.*pitfall", "pitfall.*flight intercept", "(invert|micro|ant).*pit", "pit.*(ml|1L|dung)"), 1 # ranked over general pitfall
+                  , "malaise trap", c("malaise"), 2 # ranked over general flight intercept trap
+                  , "flight intercept trap", c("flight intercept"), 1 # ranked the same as micro pitfall to capture when both are used simultaneously
+                  , "micro pitfall", c("flight intercept.*pitfall", "pitfall.*flight intercept", "(invert|micro|ant|glycol|ethylene).*pit", "pit.*(ml|1L|dung)"), 1 # ranked over general pitfall
                   , "roadkill", c("roadkill", "road kill"), 0
                   , "skeleton/feathers", c("skelet", "feather"), 0
                   , "scat", c("scat"), 0
