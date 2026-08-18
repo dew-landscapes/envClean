@@ -43,8 +43,7 @@ flag_rjack_outliers <- function(df
   df_use <- df_use |>
     dplyr::distinct(dplyr::across(tidyselect::any_of(collect_vars))) |>
     janitor::remove_empty(which = "cols") |>
-    janitor::remove_constant() |>
-    na.omit()
+    janitor::remove_constant()
 
   vars <- vars[vars %in% names(df_use)]
 
@@ -63,12 +62,14 @@ flag_rjack_outliers <- function(df
       xc <- df_use |>
         dplyr::pull(vars[i])
 
-      if(length(unique(xc)) > 1) {
+      use_xc <- which(!is.na(xc))
 
-        fe2 <- rjack(d = xc) # reverse jackknife
+      if(all(length(unique(xc[use_xc])) > 1, length(use_xc) > min_points)) {
 
-        res <- rep(0, n)
-        res[fe2] <- 1
+        fe2 <- rjack(d = xc[use_xc]) # reverse jackknife
+
+        res <- rep(NA, n)
+        res[use_xc][fe2] <- 1
 
         rev_jack[, i] <- res
 
@@ -88,24 +89,8 @@ flag_rjack_outliers <- function(df
                          dplyr::select(tidyselect::matches(paste0(vars, collapse = "|")))
                        )
 
-    if(any(grepl(paste0(vars, collapse = "|"), names(jack)))) {
+  } else jack <- tibble::tibble()
 
-      res <- jack |>
-        janitor::remove_empty(which = "cols") |>
-        tidyr::pivot_longer(tidyselect::any_of(paste0("jack___", names(df_use)))) |>
-        dplyr::group_by(dplyr::across(tidyselect::any_of(context))) |>
-        dplyr::summarise(vars_outliers = sum(value, na.rm = TRUE)
-                         , vars_n = dplyr::n()
-                         ) |>
-        dplyr::ungroup() |>
-        dplyr::mutate(outlier_prop = vars_outliers / vars_n
-                      , outlier = outlier_prop >= prop_thresh
-                      )
-
-    }
-
-  } else res <- tibble::tibble()
-
-  return(res)
+  return(jack)
 
 }
