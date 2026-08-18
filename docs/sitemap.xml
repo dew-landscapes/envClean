@@ -12,6 +12,7 @@
 <url><loc>/reference/aoi.html</loc></url>
 <url><loc>/reference/bin_date.html</loc></url>
 <url><loc>/reference/bin_geo_rel.html</loc></url>
+<url><loc>/reference/bin_method.html</loc></url>
 <url><loc>/reference/bin_taxa.html</loc></url>
 <url><loc>/reference/clean_quotes.html</loc></url>
 <url><loc>/reference/cleaning_summary.html</loc></url>
@@ -41,6 +42,7 @@
 <url><loc>/reference/make_gbif_taxonomy.html</loc></url>
 <url><loc>/reference/make_ind.html</loc></url>
 <url><loc>/reference/make_lifeform.html</loc></url>
+<url><loc>/reference/make_methods_lu.html</loc></url>
 <url><loc>/reference/make_subspecies_col.html</loc></url>
 <url><loc>/reference/make_taxonomy.html</loc></url>
 <url><loc>/reference/make_unmatched_overrides.html</loc></url>
