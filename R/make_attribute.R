@@ -104,7 +104,19 @@
                           , dplyr::across(tidyselect::any_of(context))
                           ) %>%
           dplyr::summarise(!!rlang::ensym(this_att_name) := att_col[which.max(n)]
-                           , !!rlang::ensym(this_att_vals) := envFunc::vec_to_sentence(unique(att_col))
+                           , !!rlang::ensym(this_att_vals) := envFunc::vec_to_sentence(
+                             !!!if (att_col == "common") {
+                               list(
+                                 x = rlang::expr(reduce_common_vals(att_col))
+                                 , sep = "; "
+                                 , end = ""
+                                 , add_spaces = FALSE
+                                 , final_sep = TRUE
+                               )
+                             } else {
+                               list(x = rlang::expr(unique(att_col)))
+                             }
+                           )
                            , !!rlang::ensym(this_att_from) := this_level
                            ) %>%
           dplyr::ungroup() %>%
