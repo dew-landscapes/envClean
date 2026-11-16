@@ -4,7 +4,14 @@
 \alias{filter_geo_range}
 \title{Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)}
 \usage{
-filter_geo_range(df, use_aoi, x = "long", y = "lat", crs_df = 4326)
+filter_geo_range(
+  df,
+  use_aoi,
+  x = "long",
+  y = "lat",
+  crs_df = 4326,
+  bbox_only = FALSE
+)
 }
 \arguments{
 \item{df}{Dataframe. Needs coordinate columns}
@@ -17,6 +24,8 @@ filter_geo_range(df, use_aoi, x = "long", y = "lat", crs_df = 4326)
 
 \item{crs_df}{Anything that will return a legitimate crs when passed to the
 crs attribute of st_transform or st_as_sf}
+
+\item{bbox_only}{Logical. Filter to just a bbox around \code{use_aoi}?}
 }
 \value{
 Dataframe filtered to area of interest
