@@ -14,7 +14,7 @@ filter_geo_range(
 )
 }
 \arguments{
-\item{df}{Dataframe. Needs coordinate columns}
+\item{df}{Dataframe (or ArrowObject). Needs coordinate columns}
 
 \item{use_aoi}{sf. Name of sf object defining the area of interest}
 
@@ -32,4 +32,9 @@ Dataframe filtered to area of interest
 }
 \description{
 Filter a dataframe with e/n or lat/long to an area of interest polygon (sf)
+}
+\details{
+An \code{ArrowObject} can be passed as \code{df}. In that case the
+filter will be bounding box only and the returned object will also be an
+\code{ArrowObject.}
 }

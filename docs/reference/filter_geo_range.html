@@ -75,7 +75,7 @@
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>Dataframe. Needs coordinate columns</p></dd>
+<dd><p>Dataframe (or ArrowObject). Needs coordinate columns</p></dd>
 
 
 <dt id="arg-use-aoi">use_aoi<a class="anchor" aria-label="anchor" href="#arg-use-aoi"></a></dt>
@@ -102,6 +102,12 @@ crs attribute of st_transform or st_as_sf</p></dd>
     <div id="value">
     <h2>Value</h2>
     <p>Dataframe filtered to area of interest</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>An <code>ArrowObject</code> can be passed as <code>df</code>. In that case the
+filter will be bounding box only and the returned object will also be an
+<code>ArrowObject.</code></p>
     </div>
 
   </div>
