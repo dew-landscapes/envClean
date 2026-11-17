@@ -30,7 +30,7 @@ filter_geo_range <- function(df
 
   collect_cols <- names(df)
 
-  if(grepl("arrow", tolower(class(df)))) bbox_only = TRUE
+  if(any(grepl("arrow", tolower(class(df))))) bbox_only = TRUE
 
   points <- df |>
     dplyr::distinct(dplyr::across(tidyselect::any_of(c(x,y))))
@@ -63,7 +63,7 @@ filter_geo_range <- function(df
 
   if(bbox_only) {
 
-    if(grepl("arrow", tolower(class(df)))) {
+    if(any(grepl("arrow", tolower(class(df))))) {
 
       use_bbox <- use_aoi |>
         sf::st_segmentize(dfMaxLength = 50000) |>
